@@ -1,0 +1,12 @@
+export const SUCCESS = 200;
+export const FAILED = 400;
+export const TOKEN_EXPIRED = 500;
+export const PHONE_AND_EMAIL_EMPTY = 402;
+export const NAME_EMPTY = 403;
+export const NOT_FOUND = 404;
+export const PASSWORD_NOT_MATCH = 405;
+export const ACCOUNT_ALREADY_EXISTS = 406;
+export const PASSWORD_EMPTY = 407;
+export const USERNAME_EMPTY = 408;
+export const ACCESS_TOKEN_INVALID = 409;
+export const EMAIL_EMPTY = 410;
