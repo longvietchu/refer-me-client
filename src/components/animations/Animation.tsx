@@ -10,7 +10,7 @@ const styles = makeStyles(() => ({
   },
 }));
 
-const Animation = () => {
+const Animation = (src: any) => {
   const classes = styles();
 
   const element = useRef<HTMLDivElement>(null);
@@ -22,12 +22,13 @@ const Animation = () => {
         renderer: "svg",
         loop: true,
         autoplay: true,
-        animationData: require("../../assets/images/relaxing.json"),
+        // animationData: require("../../assets/images/relaxing.json"),
+        animationData: src.src,
       });
       console.log("element--", element.current);
-      // console.log("src+++", src);
+      console.log("src+++", src);
     }
-  }, [element]);
+  }, [src, element]);
 
   return <div className={classes.root} ref={element}></div>;
 };

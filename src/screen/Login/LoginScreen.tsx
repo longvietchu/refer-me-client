@@ -1,6 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 import LoginCard from "./LoginCard/LoginCard";
 import Animation from "../../components/animations/Animation";
+import LottieRelaxing from "../../assets/images/relaxing.json";
 
 const Style = makeStyles((theme: any) => ({
   login: {
@@ -43,7 +44,7 @@ const LoginScreen = () => {
   return (
     <div className={classes.login}>
       <div className={classes.banner}>
-        <Animation />
+        <Animation src={LottieRelaxing} />
       </div>
       <div className={classes.loginCard}>
         <LoginCard />
