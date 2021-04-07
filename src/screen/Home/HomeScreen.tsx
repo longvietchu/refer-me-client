@@ -1,6 +1,10 @@
 import Header from "../../components/header/Header";
 import { Grid, Hidden } from "@material-ui/core";
 import Styles from "./Style";
+import Sidebar from "../../components/sidebar/Sidebar";
+import Form from "../../components/form/Form";
+import Widgets from "../../components/widgets/Widgets";
+import Posts from "../../components/posts/Posts";
 
 const HomeScreen = () => {
   const classes = Styles();
@@ -26,22 +30,22 @@ const HomeScreen = () => {
         <Hidden smDown>
           <Grid item className={classes.body__sidebar} md={2}>
             {/* Sidebar */}
-            {/* <Sidebar /> */}
+            <Sidebar />
           </Grid>
         </Hidden>
         <Grid item className={classes.body__feed} xs={12} sm={8} md={5}>
           {/* Feed */}
           <Grid item className={classes.feed__form}>
-            {/* <Form /> */}
+            <Form />
           </Grid>
           <Grid item className={classes.feed__posts}>
-            {/* <Posts /> */}
+            <Posts />
           </Grid>
         </Grid>
         <Hidden smDown>
           <Grid item className={classes.body__widgets} md={3}>
             {/* Widgets */}
-            {/* <Widgets /> */}
+            <Widgets />
           </Grid>
         </Hidden>
       </Grid>

@@ -1,7 +1,9 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles((theme) => ({
-  app: {},
+  app: {
+    backgroundColor: "rgb(243, 242, 239)",
+  },
 
   app__header: {
     position: "sticky",

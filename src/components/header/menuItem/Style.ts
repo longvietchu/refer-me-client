@@ -24,6 +24,7 @@ export default makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
     padding: "0 2px",
+    whiteSpace: "nowrap",
     "& > p": {
       fontSize: 12,
       fontWeight: 400,

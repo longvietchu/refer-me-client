@@ -29,7 +29,10 @@ const Header = () => {
     {
       Icon: (
         <Tooltip title="Sign-Out" arrow>
-          <Avatar className={classes.avatar}>TN</Avatar>
+          <Avatar
+            className={classes.avatar}
+            src="https://scontent.fhan4-1.fna.fbcdn.net/v/t1.6435-9/121083834_1699921320175513_6807580545774400741_n.jpg?_nc_cat=105&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=hfVRPKiVyaAAX-_QYhQ&_nc_ht=scontent.fhan4-1.fna&oh=fb6798aedb06700257a6b62a9815e721&oe=608BA140"
+          />
         </Tooltip>
       ),
       title: "Me",
@@ -37,6 +40,19 @@ const Header = () => {
       onClick: () => console.log("you are log out"),
     },
     { Icon: <AppsIcon />, title: "Works", arrow: true },
+  ];
+
+  const bottomItems = [
+    { Icon: <HomeIcon />, title: "Home", arrow: false },
+    { Icon: <GroupIcon />, title: "My Network", arrow: false },
+    { Icon: <AddBoxIcon />, title: "Add Post", arrow: false },
+    {
+      Icon: <NotificationsIcon />,
+      title: "Notifications",
+      arrow: false,
+      onClick: () => console.log("you are log out"),
+    },
+    { Icon: <WorkIcon />, title: "Jobs", arrow: false },
   ];
 
   return (
@@ -48,7 +64,10 @@ const Header = () => {
             <SearchIcon />
             <input placeholder="Search" />
           </div>
-          <Avatar className={classes.avatar}>TN</Avatar>
+          <Avatar
+            className={classes.avatar}
+            src="https://scontent.fhan4-1.fna.fbcdn.net/v/t1.6435-9/121083834_1699921320175513_6807580545774400741_n.jpg?_nc_cat=105&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=hfVRPKiVyaAAX-_QYhQ&_nc_ht=scontent.fhan4-1.fna&oh=fb6798aedb06700257a6b62a9815e721&oe=608BA140"
+          />
         </div>
         <div className={classes.header__nav}>
           {items.map(({ Icon, title, arrow, onClick }, i) => (
@@ -68,11 +87,15 @@ const Header = () => {
           />
         </div>
         <Paper className={classes.header__bottom__nav}>
-          <HomeIcon />
-          <GroupIcon />
-          <AddBoxIcon />
-          <BrightnessHighIcon onClick={() => console.log("Change theme")} />
-          <ExitToAppIcon onClick={() => console.log("You are log out")} />
+          {bottomItems.map(({ Icon, title, arrow, onClick }, i) => (
+            <MenuItem
+              key={i}
+              Icon={Icon}
+              title={title}
+              arrow={arrow}
+              onClick={onClick}
+            />
+          ))}
         </Paper>
       </div>
     </Paper>

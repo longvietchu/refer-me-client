@@ -7,7 +7,7 @@ interface props {
   Icon: any;
   title: string;
   arrow?: boolean;
-  onClick: any;
+  onClick?: any;
 }
 
 const MenuItem = (props: props) => {
@@ -19,6 +19,11 @@ const MenuItem = (props: props) => {
         <div className={classes.title}>
           <p>{props.title}</p>
           {props.arrow && <ArrowDropDownIcon />}
+        </div>
+      </Hidden>
+      <Hidden smUp>
+        <div className={classes.title}>
+          <p>{props.title}</p>
         </div>
       </Hidden>
     </div>
