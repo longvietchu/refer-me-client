@@ -15,15 +15,15 @@ import {
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import {
-  Lock,
-  KeyboardBackspace,
+  Edit,
+  FiberManualRecordOutlined,
   CalendarToday,
   NavigateBefore,
   NavigateNext,
 } from "@material-ui/icons";
 // import TweetCard from "../HomePage/TweetsCard/TweetsCard";
 // import Media from "./Media";
-// import EditProfile from "./EditProfile/EditProfile";
+import EditProfile from "./EditProfile/EditProfile";
 // import "roboto-fontface";
 import Widgets from "../../components/widgets/Widgets";
 import Styles from "./Style";
@@ -85,7 +85,8 @@ const ProfileScreen = () => {
               >
                 <div></div>
                 <Button onClick={openProfileEditor} className={classes.btn}>
-                  <span>Edit profile</span>
+                  {/* <span>Edit profile</span> */}
+                  <Edit />
                 </Button>
               </div>
               <div style={{ marginBottom: "1rem" }}>
@@ -109,9 +110,40 @@ const ProfileScreen = () => {
               </div>
               <div style={{ marginBottom: "1rem" }}>
                 <span>
-                  <Typography id="status">My status</Typography>
+                  <Typography id="status" style={{ fontSize: "1.2rem" }}>
+                    Student at Hanoi University of Science and Technology
+                  </Typography>
                 </span>
               </div>
+              <Grid
+                container
+                direction="row"
+                justify="flex-start"
+                alignItems="center"
+                spacing={1}
+              >
+                <Grid item>
+                  <span>
+                    <Typography id="location">Hanoi, Hanoi, Vietnam</Typography>
+                  </span>
+                </Grid>
+                <FiberManualRecordOutlined style={{ fontSize: "0.5rem" }} />
+                <Grid item>
+                  <span>
+                    <Typography id="location" style={{ color: "#0a66c2" }}>
+                      1 connection
+                    </Typography>
+                  </span>
+                </Grid>
+                <FiberManualRecordOutlined style={{ fontSize: "0.5rem" }} />
+                <Grid item>
+                  <span>
+                    <Typography id="location" style={{ color: "#0a66c2" }}>
+                      Contact info
+                    </Typography>
+                  </span>
+                </Grid>
+              </Grid>
             </Grid>
             <Grid item xs={12}>
               <Grid style={{ flexGrow: 1 }} item xs={12}>
@@ -182,11 +214,11 @@ const ProfileScreen = () => {
             <Widgets />
           </Grid>
         </Hidden>
-        {/* <EditProfile
+        <EditProfile
           open={editProfile}
           onClose={() => setEditProfile(false)}
           closeModal={() => setEditProfile(false)}
-        /> */}
+        />
       </Grid>
     </Grid>
   );
