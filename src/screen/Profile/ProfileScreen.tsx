@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Link } from "react-router-dom";
 import {
   Tab,
   Tabs,
@@ -11,13 +10,14 @@ import {
   Hidden,
   Divider,
   Card,
+  Link,
 } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import {
   Edit,
   FiberManualRecordOutlined,
-  CalendarToday,
+  Add,
   NavigateBefore,
   NavigateNext,
 } from "@material-ui/icons";
@@ -85,11 +85,10 @@ const ProfileScreen = () => {
               >
                 <div></div>
                 <Button onClick={openProfileEditor} className={classes.btn}>
-                  {/* <span>Edit profile</span> */}
                   <Edit />
                 </Button>
               </div>
-              <div style={{ marginBottom: "1rem" }}>
+              <div>
                 <div
                   style={{ marginTop: "1rem" }}
                   className={classes.horizontalDiv}
@@ -108,7 +107,7 @@ const ProfileScreen = () => {
                   </Typography>
                 </span>
               </div>
-              <div style={{ marginBottom: "1rem" }}>
+              <div>
                 <span>
                   <Typography id="status" style={{ fontSize: "1.2rem" }}>
                     Student at Hanoi University of Science and Technology
@@ -206,6 +205,88 @@ const ProfileScreen = () => {
               </Typography>
             )}
           </Grid>
+
+          <Card style={{ marginTop: "16px" }}>
+            <Grid
+              container
+              direction="row"
+              justify="space-between"
+              alignItems="center"
+            >
+              <Grid item style={{ margin: "24px 24px 0" }}>
+                <Typography id="status" style={{ fontSize: "1.2rem" }}>
+                  Experience
+                </Typography>
+              </Grid>
+              <Grid item style={{ margin: "24px 10px 0" }}>
+                <Button onClick={openProfileEditor}>
+                  <Add style={{ color: "#0a66c2" }} />
+                </Button>
+              </Grid>
+            </Grid>
+            <Grid
+              container
+              direction="row"
+              justify="space-between"
+              alignItems="center"
+              style={{ padding: "0 0 24px" }}
+            >
+              <Link
+                href="#"
+                color="inherit"
+                style={{ padding: "20px 5px 0px 24px" }}
+              >
+                <Grid
+                  container
+                  direction="row"
+                  justify="space-between"
+                  alignItems="flex-start"
+                  style={{ marginRight: "14px" }}
+                >
+                  <div>
+                    <img
+                      style={{ height: "56px", width: "56px" }}
+                      src="https://media-exp1.licdn.com/dms/image/C510BAQGVaXAZYQ2QwA/company-logo_100_100/0/1519908097940?e=1626912000&v=beta&t=BDOR_4ZLvK8VlPVH7oZhPAvZaKadju4eytvOOVie8AA"
+                    />
+                  </div>
+                  <div>
+                    <h3>Student</h3>
+                    <p style={{ fontSize: "14px", margin: "2px 0px" }}>
+                      Hanoi University of Science and Technology
+                    </p>
+                    <div
+                      style={{
+                        color: "#00000099",
+                        fontSize: "14px",
+                        margin: "2px 0px",
+                      }}
+                    >
+                      <span>Sep 2017 - Present</span>
+                      <FiberManualRecordOutlined
+                        style={{ fontSize: "0.5rem", margin: "0px 4px" }}
+                      />
+                      <span>3 yrs 8 mos</span>
+                    </div>
+                    <div
+                      style={{
+                        color: "#00000099",
+                        fontSize: "14px",
+                        margin: "2px 0px",
+                      }}
+                    >
+                      <span>Vietnam</span>
+                    </div>
+                  </div>
+                </Grid>
+              </Link>
+
+              <Grid item style={{ margin: "20px 10px 0" }}>
+                <Button onClick={openProfileEditor}>
+                  <Edit style={{ color: "#0a66c2" }} />
+                </Button>
+              </Grid>
+            </Grid>
+          </Card>
         </Grid>
 
         <Hidden smDown>
@@ -214,6 +295,7 @@ const ProfileScreen = () => {
             <Widgets />
           </Grid>
         </Hidden>
+
         <EditProfile
           open={editProfile}
           onClose={() => setEditProfile(false)}

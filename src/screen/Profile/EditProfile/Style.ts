@@ -32,7 +32,7 @@ export default makeStyles((theme) => ({
     marginLeft: "0.7rem",
   },
   avatar: {
-    border: "4x solid white",
+    border: "4px solid white",
     height: "8rem",
     width: "8rem",
     marginTop: "0rem",
