@@ -206,7 +206,7 @@ const ProfileScreen = () => {
             )}
           </Grid>
 
-          <Card style={{ marginTop: "16px" }}>
+          <Card style={{ marginTop: "20px" }}>
             <Grid
               container
               direction="row"
@@ -216,6 +216,153 @@ const ProfileScreen = () => {
               <Grid item style={{ margin: "24px 24px 0" }}>
                 <Typography id="status" style={{ fontSize: "1.2rem" }}>
                   Experience
+                </Typography>
+              </Grid>
+              <Grid item style={{ margin: "24px 10px 0" }}>
+                <Button onClick={openProfileEditor}>
+                  <Add style={{ color: "#0a66c2" }} />
+                </Button>
+              </Grid>
+              <Grid
+                container
+                direction="row"
+                justify="space-between"
+                alignItems="center"
+                style={{ padding: "0 0 24px" }}
+              >
+                <Link
+                  href="#"
+                  color="inherit"
+                  style={{ padding: "20px 5px 0px 24px" }}
+                >
+                  <Grid
+                    container
+                    direction="row"
+                    justify="space-between"
+                    alignItems="flex-start"
+                    style={{ marginRight: "14px" }}
+                  >
+                    <div>
+                      <img
+                        style={{ height: "56px", width: "56px" }}
+                        src="https://dcv.vn/wp-content/uploads/2021/01/logo-dcv-2021-1.png"
+                      />
+                    </div>
+                    <div>
+                      <h3>Iternship trainee</h3>
+                      <p style={{ fontSize: "14px", margin: "2px 0px" }}>
+                        Data Communication of Vietnam
+                      </p>
+                      <div
+                        style={{
+                          color: "#00000099",
+                          fontSize: "14px",
+                          margin: "2px 0px",
+                        }}
+                      >
+                        <span>Dec 2020 - Mar 2021</span>
+                        <FiberManualRecordOutlined
+                          style={{ fontSize: "0.5rem", margin: "0px 4px" }}
+                        />
+                        <span>4 mos</span>
+                      </div>
+                      <div
+                        style={{
+                          color: "#00000099",
+                          fontSize: "14px",
+                          margin: "2px 0px",
+                        }}
+                      >
+                        <span>Hanoi, Hanoi, Vietnam</span>
+                      </div>
+                    </div>
+                  </Grid>
+                </Link>
+
+                <Grid item style={{ margin: "20px 10px 0" }}>
+                  <Button onClick={openProfileEditor}>
+                    <Edit style={{ color: "#0a66c2" }} />
+                  </Button>
+                </Grid>
+              </Grid>
+            </Grid>
+
+            <Divider style={{ marginLeft: "94px" }} />
+
+            <Grid
+              container
+              direction="row"
+              justify="space-between"
+              alignItems="center"
+              style={{ padding: "0 0 24px" }}
+            >
+              <Link
+                href="#"
+                color="inherit"
+                style={{ padding: "20px 5px 0px 24px" }}
+              >
+                <Grid
+                  container
+                  direction="row"
+                  justify="space-between"
+                  alignItems="flex-start"
+                  style={{ marginRight: "14px" }}
+                >
+                  <div>
+                    <img
+                      style={{ height: "56px", width: "56px" }}
+                      src="https://dcv.vn/wp-content/uploads/2021/01/logo-dcv-2021-1.png"
+                    />
+                  </div>
+                  <div>
+                    <h3>Iternship trainee</h3>
+                    <p style={{ fontSize: "14px", margin: "2px 0px" }}>
+                      Data Communication of Vietnam
+                    </p>
+                    <div
+                      style={{
+                        color: "#00000099",
+                        fontSize: "14px",
+                        margin: "2px 0px",
+                      }}
+                    >
+                      <span>Dec 2020 - Mar 2021</span>
+                      <FiberManualRecordOutlined
+                        style={{ fontSize: "0.5rem", margin: "0px 4px" }}
+                      />
+                      <span>4 mos</span>
+                    </div>
+                    <div
+                      style={{
+                        color: "#00000099",
+                        fontSize: "14px",
+                        margin: "2px 0px",
+                      }}
+                    >
+                      <span>Hanoi, Hanoi, Vietnam</span>
+                    </div>
+                  </div>
+                </Grid>
+              </Link>
+
+              <Grid item style={{ margin: "20px 10px 0" }}>
+                <Button onClick={openProfileEditor}>
+                  <Edit style={{ color: "#0a66c2" }} />
+                </Button>
+              </Grid>
+            </Grid>
+
+            <Divider />
+
+            <Grid
+              container
+              direction="row"
+              justify="space-between"
+              alignItems="center"
+            >
+              <Grid item style={{ margin: "24px 24px 0" }}>
+                <Typography id="status" style={{ fontSize: "1.2rem" }}>
+                  Education
                 </Typography>
               </Grid>
               <Grid item style={{ margin: "24px 10px 0" }}>
@@ -250,9 +397,9 @@ const ProfileScreen = () => {
                     />
                   </div>
                   <div>
-                    <h3>Student</h3>
+                    <h3>Hanoi University of Science and Technology</h3>
                     <p style={{ fontSize: "14px", margin: "2px 0px" }}>
-                      Hanoi University of Science and Technology
+                      Bachelor's degree, Electronics and Telecommunications
                     </p>
                     <div
                       style={{
@@ -261,20 +408,7 @@ const ProfileScreen = () => {
                         margin: "2px 0px",
                       }}
                     >
-                      <span>Sep 2017 - Present</span>
-                      <FiberManualRecordOutlined
-                        style={{ fontSize: "0.5rem", margin: "0px 4px" }}
-                      />
-                      <span>3 yrs 8 mos</span>
-                    </div>
-                    <div
-                      style={{
-                        color: "#00000099",
-                        fontSize: "14px",
-                        margin: "2px 0px",
-                      }}
-                    >
-                      <span>Vietnam</span>
+                      <span>2017 - 2021</span>
                     </div>
                   </div>
                 </Grid>
@@ -284,6 +418,94 @@ const ProfileScreen = () => {
                 <Button onClick={openProfileEditor}>
                   <Edit style={{ color: "#0a66c2" }} />
                 </Button>
+              </Grid>
+            </Grid>
+          </Card>
+
+          <Card style={{ marginTop: "20px" }}>
+            <Grid item style={{ margin: "24px 24px 0" }}>
+              <Typography id="status" style={{ fontSize: "1.2rem" }}>
+                Interests
+              </Typography>
+            </Grid>
+
+            <Grid container style={{ padding: "0 0 24px" }}>
+              <Grid container spacing={2}>
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  style={{ padding: "20px 5px 0px 24px" }}
+                >
+                  <Link href="#" color="inherit">
+                    <Grid container justify="flex-start">
+                      <div>
+                        <img
+                          style={{ height: "56px", width: "56px" }}
+                          src="https://media-exp1.licdn.com/dms/image/C510BAQGVaXAZYQ2QwA/company-logo_100_100/0/1519908097940?e=1626912000&v=beta&t=BDOR_4ZLvK8VlPVH7oZhPAvZaKadju4eytvOOVie8AA"
+                        />
+                      </div>
+                      <div
+                        style={{
+                          overflow: "hidden",
+                          whiteSpace: "nowrap",
+                          textOverflow: "ellipsis",
+                          width: "250px",
+                          marginLeft: "14px",
+                        }}
+                      >
+                        <Typography>
+                          Hanoi University of Science and Technology
+                        </Typography>
+                        <Typography
+                          style={{
+                            color: "#00000099",
+                            fontSize: "14px",
+                          }}
+                        >
+                          99,999 folowers
+                        </Typography>
+                      </div>
+                    </Grid>
+                  </Link>
+                </Grid>
+
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  style={{ padding: "20px 5px 0px 24px" }}
+                >
+                  <Link href="#" color="inherit">
+                    <Grid container justify="flex-start">
+                      <img
+                        style={{ height: "56px", width: "56px" }}
+                        src="https://media-exp1.licdn.com/dms/image/C510BAQGVaXAZYQ2QwA/company-logo_100_100/0/1519908097940?e=1626912000&v=beta&t=BDOR_4ZLvK8VlPVH7oZhPAvZaKadju4eytvOOVie8AA"
+                      />
+                      <div
+                        style={{
+                          overflow: "hidden",
+                          whiteSpace: "nowrap",
+                          textOverflow: "ellipsis",
+                          width: "250px",
+                          marginLeft: "14px",
+                        }}
+                      >
+                        <Typography>
+                          Hanoi University of Science and Technology
+                        </Typography>
+                        <Typography
+                          style={{
+                            color: "#00000099",
+                            fontSize: "14px",
+                          }}
+                        >
+                          99,999 folowers
+                        </Typography>
+                      </div>
+                    </Grid>
+                  </Link>
+                </Grid>
               </Grid>
             </Grid>
           </Card>
