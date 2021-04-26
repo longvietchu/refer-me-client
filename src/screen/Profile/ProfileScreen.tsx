@@ -454,7 +454,7 @@ const ProfileScreen = () => {
                           marginLeft: "14px",
                         }}
                       >
-                        <Typography>
+                        <Typography noWrap={true}>
                           Hanoi University of Science and Technology
                         </Typography>
                         <Typography
@@ -491,7 +491,7 @@ const ProfileScreen = () => {
                           marginLeft: "14px",
                         }}
                       >
-                        <Typography>
+                        <Typography noWrap={true}>
                           Hanoi University of Science and Technology
                         </Typography>
                         <Typography
