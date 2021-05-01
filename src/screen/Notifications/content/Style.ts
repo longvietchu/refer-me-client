@@ -60,7 +60,7 @@ export default makeStyles((theme) => ({
   typo: {
     overflow: "hidden",
     textOverflow: "ellipsis",
-    width: "430px",
+    width: "95%",
     display: "-webkit-box",
     WebkitBoxOrient: "vertical",
     WebkitLineClamp: 3,
@@ -73,7 +73,7 @@ export default makeStyles((theme) => ({
     color: "#0a66c2",
     fontWeight: "bold",
     borderRadius: "1.5rem",
-    marginTop: "0.7rem",
+    marginTop: "0.5rem",
     marginRight: "1rem",
     marginBottom: "1rem",
     textTransform: "capitalize",
