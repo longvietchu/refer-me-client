@@ -1,11 +1,18 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { LinkedInBlue, LinkedInLightBlue, darkSecondary, darkPrimary } from "../../assets/Colors";
+import {
+  LinkedInBlue,
+  LinkedInLightBlue,
+  darkSecondary,
+  darkPrimary,
+} from "../../assets/Colors";
 
 export default makeStyles((theme) => ({
   widgets: {
-    height: "100%",
+    // height: "100%",
     display: "flex",
     flexDirection: "column",
+    position: "sticky",
+    top: "10vh",
   },
   widgets__top: {
     overflow: "hidden",
@@ -41,7 +48,8 @@ export default makeStyles((theme) => ({
       fontWeight: 600,
     },
     "&:hover": {
-      backgroundColor: theme.palette.type === "dark" ? darkSecondary : "lightgrey",
+      backgroundColor:
+        theme.palette.type === "dark" ? darkSecondary : "lightgrey",
     },
   },
   widgets__bottom: {

@@ -2,7 +2,8 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles((theme) => ({
   sidebar: {
-    width: "100%",
+    position: "sticky",
+    top: "10vh",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",

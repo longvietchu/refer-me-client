@@ -11,6 +11,7 @@ import TwitterIcon from "@material-ui/icons/Twitter";
 import HeaderInfo from "../../components/util/HeadLine";
 import { LinkedInLightBlue } from "../../assets/Colors";
 import { LinkedInJobAdd } from "../../assets/images/images";
+import Footer from "../../components/footer/Footer";
 import Style from "./Style";
 
 const Widgets = () => {
@@ -81,6 +82,7 @@ const Widgets = () => {
             ))}
           </div>
         </div> */}
+        <Footer />
       </div>
     </div>
   );

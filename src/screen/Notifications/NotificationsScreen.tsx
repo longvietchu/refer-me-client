@@ -3,12 +3,15 @@ import { Grid, Card, Hidden } from "@material-ui/core";
 import Sidebar from "./sidebar/Sidebar";
 import Content from "./content/Content";
 import Styles from "./Style";
+import Widgets from "../../components/widgets/Widgets";
+import Header from "../../components/header/Header";
+import Footer from "../../components/footer/Footer";
 
 const NotificationsScreen = () => {
   const classes = Styles();
   return (
     <Grid container className={classes.app}>
-      {/* <Grid
+      <Grid
         item
         container
         className={classes.app__header}
@@ -17,7 +20,7 @@ const NotificationsScreen = () => {
         // }}
       >
         <Header />
-      </Grid> */}
+      </Grid>
       <Grid item container className={classes.app__body}>
         <Hidden smDown>
           <Grid item className={classes.body__sidebar} md={2}>
@@ -37,7 +40,7 @@ const NotificationsScreen = () => {
         <Hidden smDown>
           <Grid item className={classes.body__widgets} md={3}>
             {/* Widgets */}
-            {/* <Widgets /> */}
+            <Widgets />
           </Grid>
         </Hidden>
       </Grid>
