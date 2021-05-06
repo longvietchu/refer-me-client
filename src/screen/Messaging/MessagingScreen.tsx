@@ -4,6 +4,7 @@ import Widgets from "../../components/widgets/Widgets";
 
 import Form from "../../components/form/Form";
 import Posts from "../../components/posts/Posts";
+import MessagesList from "./MessagesList/MessagesList";
 import Header from "../../components/header/Header";
 import Room from "./room/Room";
 
@@ -26,11 +27,14 @@ const MessagingScreen = () => {
         </Hidden>
 
         <Grid item className={classes.body__feed} xs={12} sm={8} md={5}>
-          <Grid item className={classes.feed__form}>
+          {/* <Grid item className={classes.feed__form}>
             <Form />
-          </Grid>
-          <Grid item className={classes.feed__posts}>
+          </Grid> */}
+          {/* <Grid item className={classes.feed__posts}>
             <Posts />
+          </Grid> */}
+          <Grid item className={classes.feed__posts}>
+            <MessagesList />
           </Grid>
         </Grid>
 
