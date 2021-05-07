@@ -10,8 +10,21 @@ import Room from "./room/Room";
 
 import Styles from "./Style";
 
+interface MessageData {
+  text: string;
+  user: string;
+}
+
+interface MessageListData {
+  id: string;
+  data: MessageData;
+}
+
 const MessagingScreen = () => {
   const classes = Styles();
+
+  // const [sender, setSender] = React.useState<string>("");
+  // const [messages, setMessages] = React.useState<MessageListData[]>([]);
 
   return (
     <Grid className={classes.app}>
@@ -27,12 +40,6 @@ const MessagingScreen = () => {
         </Hidden>
 
         <Grid item className={classes.body__feed} xs={12} sm={8} md={5}>
-          {/* <Grid item className={classes.feed__form}>
-            <Form />
-          </Grid> */}
-          {/* <Grid item className={classes.feed__posts}>
-            <Posts />
-          </Grid> */}
           <Grid item className={classes.feed__posts}>
             <MessagesList />
           </Grid>

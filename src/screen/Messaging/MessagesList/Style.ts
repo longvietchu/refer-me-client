@@ -4,6 +4,7 @@ export default makeStyles((theme) => ({
   root: {
     width: "100%",
     padding: "0",
+    marginLeft: "auto",
   },
   chatFooter: {
     padding: "0.5em 1em",
@@ -28,8 +29,37 @@ export default makeStyles((theme) => ({
   chatButtonIcon: {
     color: "rgb(1, 150, 199)",
     transition: "all 80ms ease-out",
-    // "&:hover": {
-    //   color: "rgb(1, 150, 199)",
-    // },
+  },
+
+  flipMove: { height: "400px", overflowY: "scroll" },
+
+  cardUser: {
+    backgroundColor: "#0b81ff",
+    textAlign: "right",
+    maxWidth: "80%",
+    borderRadius: "20",
+  },
+
+  cardGuest: {
+    backgroundColor: "#cccccc",
+    maxWidth: "80%",
+    borderRadius: "20",
+  },
+
+  timeRight: {
+    fontSize: "10px",
+    lineHeight: "12px",
+    textAlign: "right",
+    marginRight: "18px",
+  },
+  timeLeft: {
+    fontSize: "10px",
+    lineHeight: "12px",
+    marginTop: " 5px",
+    marginRight: "18px",
+  },
+  tick: {
+    marginRight: "10px",
+    alignSelf: "flex-end",
   },
 }));

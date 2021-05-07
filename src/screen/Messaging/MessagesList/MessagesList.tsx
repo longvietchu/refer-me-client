@@ -12,6 +12,9 @@ import {
   Divider,
   Avatar,
   Input,
+  Card,
+  CardContent,
+  Grid,
 } from "@material-ui/core";
 
 import FlipMove from "react-flip-move";
@@ -20,16 +23,31 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 
 import Styles from "./Style";
 import { SendRounded } from "@material-ui/icons";
+import CheckIcon from "@material-ui/icons/Check";
+
+// interface Message {
+//   text: string;
+//   user: string;
+// }
+
+// interface Sender {
+//   name: string;
+// }
+
+// interface MessageProps {
+//   message: Message;
+//   sender: Sender;
+// }
 
 const Messages = () => {
   const classes = Styles();
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
   const [input, setInput] = React.useState("");
+  // const isUser = message.user === sender.name;
 
   return (
     <div>
       <Paper>
-        <List dense={true} style={{ padding: "0" }}>
+        <List dense={true} style={{ padding: 0 }}>
           <ListItem>
             <ListItemText
               style={{ margin: "0" }}
@@ -69,197 +87,70 @@ const Messages = () => {
         <Divider />
 
         <div>
-          <FlipMove
-            style={{
-              height: "400px",
-              overflowY: "scroll",
-            }}
-          >
+          <FlipMove className={classes.flipMove}>
             <List component="nav" className={classes.root}>
               <ListItem alignItems="flex-start">
-                <ListItemAvatar>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                </ListItemAvatar>
-                <ListItemText
-                  primary={
-                    <Link variant="body2" href="#" color="inherit">
-                      Long Chu
-                    </Link>
-                  }
-                  secondary={
-                    <React.Fragment>
-                      <Typography>
-                        Hello Long chill Hello Long chill Hello Long chill Hello
-                        Long chill Hello Long chill Hello Long chill Hello Long
-                        chill Hello Long chill Hello Long chill Hello Long chill
-                        Hello Long chill Hello Long chill Hello Long chillHello
-                        Long chillHello Long chillvHello Long chillHello Long
-                        chillv
-                      </Typography>
-                    </React.Fragment>
-                  }
-                  style={{ margin: "0" }}
-                />
+                <Grid
+                  container
+                  direction="row-reverse"
+                  justify="flex-start"
+                  alignItems="center"
+                >
+                  <Card className={classes.cardUser}>
+                    <ListItemText
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            style={{ color: "white", textAlign: "left" }}
+                          >
+                            Hello Long chill Hello Long chill Hello Long chill
+                            Hello Long chill Hello Long chill Hello Long chill
+                            Hello Long chill Hello Long chill Hello Long chill
+                            Hello Long chill Hello Long chill Hello Long chill
+                            Hello Long chill Hello Long chill Hello Long chill
+                            Hello Long chill Hello Long chill Hello Long chill
+                            Hello Long chill
+                          </Typography>
+                        </React.Fragment>
+                      }
+                      style={{ padding: 5 }}
+                    />
+                  </Card>
+
+                  <CheckIcon className={classes.tick} />
+                </Grid>
               </ListItem>
+              <div className={classes.timeRight}>15:10</div>
             </List>
 
             <List component="nav" className={classes.root}>
               <ListItem alignItems="flex-start">
-                <ListItemAvatar>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                <ListItemAvatar style={{ alignSelf: "flex-start" }}>
+                  <Link href="#">
+                    <Avatar />
+                  </Link>
                 </ListItemAvatar>
-                <ListItemText
-                  primary={
-                    <Link variant="body2" href="#" color="inherit">
-                      Tùng Nguyễn
-                    </Link>
-                  }
-                  secondary={
-                    <React.Fragment>
-                      <Typography>Hello Long chill</Typography>
-                    </React.Fragment>
-                  }
-                />
-              </ListItem>
-            </List>
-
-            <List component="nav" className={classes.root}>
-              <ListItem alignItems="flex-start">
-                <ListItemAvatar>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                </ListItemAvatar>
-                <ListItemText
-                  primary={
-                    <Link variant="body2" href="#" color="inherit">
-                      Long Chu
-                    </Link>
-                  }
-                  secondary={
-                    <React.Fragment>
-                      <Typography>
-                        Hello Long chill Hello Long chill Hello Long chill Hello
-                        Long chill Hello Long chill Hello Long chill Hello Long
-                        chill Hello Long chill Hello Long chill Hello Long chill
-                        Hello Long chill Hello Long chill Hello Long chillHello
-                        Long chillHello Long chillvHello Long chillHello Long
-                        chillv
-                      </Typography>
-                    </React.Fragment>
-                  }
-                  style={{ margin: "0" }}
-                />
-              </ListItem>
-            </List>
-
-            <List component="nav" className={classes.root}>
-              <ListItem alignItems="flex-start">
-                <ListItemAvatar>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                </ListItemAvatar>
-                <ListItemText
-                  primary={
-                    <Link variant="body2" href="#" color="inherit">
-                      Long Chu
-                    </Link>
-                  }
-                  secondary={
-                    <React.Fragment>
-                      <Typography>
-                        Hello Long chill Hello Long chill Hello Long chill Hello
-                        Long chill Hello Long chill Hello Long chill Hello Long
-                        chill Hello Long chill Hello Long chill Hello Long chill
-                        Hello Long chill Hello Long chill Hello Long chillHello
-                        Long chillHello Long chillvHello Long chillHello Long
-                        chillv
-                      </Typography>
-                    </React.Fragment>
-                  }
-                  style={{ margin: "0" }}
-                />
-              </ListItem>
-            </List>
-
-            <List component="nav" className={classes.root}>
-              <ListItem alignItems="flex-start">
-                <ListItemAvatar>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                </ListItemAvatar>
-                <ListItemText
-                  primary={
-                    <Link variant="body2" href="#" color="inherit">
-                      Long Chu
-                    </Link>
-                  }
-                  secondary={
-                    <React.Fragment>
-                      <Typography>
-                        Hello Long chill Hello Long chill Hello Long chill Hello
-                        Long chill Hello Long chill Hello Long chill Hello Long
-                        chill Hello Long chill Hello Long chill Hello Long chill
-                        Hello Long chill Hello Long chill Hello Long chillHello
-                        Long chillHello Long chillvHello Long chillHello Long
-                        chillv
-                      </Typography>
-                    </React.Fragment>
-                  }
-                  style={{ margin: "0" }}
-                />
-              </ListItem>
-            </List>
-
-            <List component="nav" className={classes.root}>
-              <ListItem alignItems="flex-start">
-                <ListItemAvatar>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                </ListItemAvatar>
-                <ListItemText
-                  primary={
-                    <Link variant="body2" href="#" color="inherit">
-                      Long Chu
-                    </Link>
-                  }
-                  secondary={
-                    <React.Fragment>
-                      <Typography>
-                        Hello Long chill Hello Long chill Hello Long chill Hello
-                        Long chill Hello Long chill Hello Long chill Hello Long
-                        chill Hello Long chill Hello Long chill Hello Long chill
-                        Hello Long chill Hello Long chill Hello Long chillHello
-                        Long chillHello Long chillvHello Long chillHello Long
-                        chillv
-                      </Typography>
-                    </React.Fragment>
-                  }
-                  style={{ margin: "0" }}
-                />
-              </ListItem>
-            </List>
-
-            <List component="nav" className={classes.root}>
-              <ListItem alignItems="flex-start">
-                <ListItemAvatar>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                </ListItemAvatar>
-                <ListItemText
-                  primary={
-                    <Link variant="body2" href="#" color="inherit">
-                      Long Chu
-                    </Link>
-                  }
-                  secondary={
-                    <React.Fragment>
-                      <Typography>
-                        Hello Long chill Hello Long chill Hello Long chill Hello
-                        Long chill Hello Long chill Hello Long chill Hello Long
-                        chill Hello Long chill Hello Long chill Hello Long chill
-                        Hello Long chill Hello Long chill Hello Long chillHello
-                        Long chillHello Long chillvHello Long chillHello Long
-                        chillv
-                      </Typography>
-                    </React.Fragment>
-                  }
-                  style={{ margin: "0" }}
-                />
+                <Grid container direction="column">
+                  <Card className={classes.cardGuest}>
+                    <ListItemText
+                      secondary={
+                        <React.Fragment>
+                          <Typography style={{ color: "#000" }}>
+                            Hello Long chill Hello Long chill Hello Long chill
+                            Hello Long chill Hello Long chill Hello Long chill
+                            Hello Long chill Hello Long chill Hello Long chill
+                            Hello Long chill Hello Long chill Hello Long chill
+                            Hello Long chill Hello Long chill Hello Long chill
+                            Hello Long chill Hello Long chill Hello Long chill
+                            Hello Long chill
+                          </Typography>
+                        </React.Fragment>
+                      }
+                      style={{ padding: 5 }}
+                    />
+                  </Card>
+                  <div className={classes.timeLeft}>15:15</div>
+                </Grid>
               </ListItem>
             </List>
           </FlipMove>
@@ -268,22 +159,21 @@ const Messages = () => {
         <Divider />
 
         <div className={classes.chatFooter}>
-          <form className={classes.form} onSubmit={(e) => console.log(e)}>
-            <Input
-              className={classes.input}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Type a message..."
-            />
-            <IconButton
-              className={classes.chatButtonIcon}
-              type="submit"
-              disabled={!input}
-              color="primary"
-            >
-              <SendRounded />
-            </IconButton>
-          </form>
+          <Input
+            className={classes.input}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Type a message..."
+          />
+          <IconButton
+            className={classes.chatButtonIcon}
+            type="submit"
+            disabled={!input}
+            color="primary"
+            onClick={(e) => console.log("hello")}
+          >
+            <SendRounded />
+          </IconButton>
         </div>
       </Paper>
     </div>
