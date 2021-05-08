@@ -13,17 +13,17 @@ import {
   Avatar,
   Input,
   Card,
-  CardContent,
   Grid,
 } from "@material-ui/core";
 
 import FlipMove from "react-flip-move";
 
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import CheckIcon from "@material-ui/icons/Check";
+import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 
 import Styles from "./Style";
 import { SendRounded } from "@material-ui/icons";
-import CheckIcon from "@material-ui/icons/Check";
 
 // interface Message {
 //   text: string;
@@ -42,6 +42,8 @@ import CheckIcon from "@material-ui/icons/Check";
 const Messages = () => {
   const classes = Styles();
   const [input, setInput] = React.useState("");
+  const [isActive, setIsActive] = React.useState(true);
+  const [isSeen, setIsSeen] = React.useState(true);
   // const isUser = message.user === sender.name;
 
   return (
@@ -49,33 +51,72 @@ const Messages = () => {
       <Paper>
         <List dense={true} style={{ padding: 0 }}>
           <ListItem>
-            <ListItemText
-              style={{ margin: "0" }}
-              primary={
-                <div
-                  style={{
-                    width: "95%",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  <Typography>Long Chu</Typography>
-                </div>
-              }
-              secondary={
-                <div
-                  style={{
-                    width: "95%",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  <Typography variant="caption">Student at HUST</Typography>
-                </div>
-              }
-            />
+            {!isActive ? (
+              <ListItemText
+                style={{ margin: "0" }}
+                primary={
+                  <div
+                    style={{
+                      width: "95%",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    <Typography>Long Chu</Typography>
+                  </div>
+                }
+                secondary={
+                  <div
+                    style={{
+                      width: "95%",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    <Typography variant="caption">Student at HUST</Typography>
+                  </div>
+                }
+              />
+            ) : (
+              <ListItemText
+                style={{ margin: "0" }}
+                primary={
+                  <div
+                    style={{
+                      width: "95%",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    <Typography>Long Chu</Typography>
+                  </div>
+                }
+                secondary={
+                  <div
+                    style={{
+                      width: "95%",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    <FiberManualRecordIcon
+                      style={{
+                        color: "green",
+                        fontSize: "10px",
+                      }}
+                    />
+                    <Typography variant="caption" style={{ paddingLeft: 5 }}>
+                      Active
+                    </Typography>
+                  </div>
+                }
+              />
+            )}
+
             <ListItemSecondaryAction>
               <IconButton>
                 <MoreHorizIcon />
@@ -117,7 +158,7 @@ const Messages = () => {
                     />
                   </Card>
 
-                  <CheckIcon className={classes.tick} />
+                  {isSeen ? <CheckIcon className={classes.tick} /> : null}
                 </Grid>
               </ListItem>
               <div className={classes.timeRight}>15:10</div>

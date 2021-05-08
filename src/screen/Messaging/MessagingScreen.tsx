@@ -32,6 +32,7 @@ const MessagingScreen = () => {
         {/* Header */}
         <Header />
       </Grid>
+
       <Grid item container className={classes.app__body}>
         <Hidden smDown>
           <Grid item className={classes.body__sidebar} xs>
@@ -39,7 +40,7 @@ const MessagingScreen = () => {
           </Grid>
         </Hidden>
 
-        <Grid item className={classes.body__feed} xs={12} sm={8} md={5}>
+        <Grid item className={classes.body__feed} xs={12} md={5}>
           <Grid item className={classes.feed__posts}>
             <MessagesList />
           </Grid>
