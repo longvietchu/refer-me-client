@@ -62,4 +62,7 @@ export default makeStyles((theme) => ({
     marginRight: "10px",
     alignSelf: "flex-end",
   },
+  menu: {
+    marginTop: 10,
+  },
 }));
