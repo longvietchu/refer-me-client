@@ -31,7 +31,11 @@ export default makeStyles((theme) => ({
     transition: "all 80ms ease-out",
   },
 
-  flipMove: { height: "400px", overflowY: "scroll" },
+  flipMove: {
+    minHeight: "500px",
+    maxHeight: "500px",
+    overflowY: "scroll",
+  },
 
   cardUser: {
     backgroundColor: "#0b81ff",

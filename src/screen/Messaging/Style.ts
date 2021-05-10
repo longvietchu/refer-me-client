@@ -25,7 +25,7 @@ export default makeStyles((theme: Theme) => ({
     minHeight: "calc(100vh - 50px)",
     justifyContent: "center",
     paddingTop: 50,
-    paddingBottom: 50,
+    // paddingBottom: 50,
     [theme.breakpoints.down("xs")]: {
       paddingTop: 10,
       paddingBottom: 55,
@@ -58,7 +58,7 @@ export default makeStyles((theme: Theme) => ({
 
   feed__posts: {
     width: "100%",
-    height: "auto",
+    height: "100%",
   },
 
   body__widgets: {

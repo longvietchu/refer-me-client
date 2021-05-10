@@ -207,6 +207,38 @@ const Messages = () => {
                     </Grid>
                   </ListItem>
                 </List>
+
+                <List component="nav" className={classes.root}>
+                  <ListItem alignItems="flex-start">
+                    <ListItemAvatar style={{ alignSelf: "flex-start" }}>
+                      <Link href="#">
+                        <Avatar />
+                      </Link>
+                    </ListItemAvatar>
+                    <Grid container direction="column">
+                      <Card className={classes.cardGuest}>
+                        <ListItemText
+                          secondary={
+                            <React.Fragment>
+                              <Typography style={{ color: "#000" }}>
+                                Hello Long chill Hello Long chill Hello Long
+                                chill Hello Long chill Hello Long chill Hello
+                                Long chill Hello Long chill Hello Long chill
+                                Hello Long chill Hello Long chill Hello Long
+                                chill Hello Long chill Hello Long chill Hello
+                                Long chill Hello Long chill Hello Long chill
+                                Hello Long chill Hello Long chill Hello Long
+                                chill
+                              </Typography>
+                            </React.Fragment>
+                          }
+                          style={{ padding: 5 }}
+                        />
+                      </Card>
+                      <div className={classes.timeLeft}>15:15</div>
+                    </Grid>
+                  </ListItem>
+                </List>
               </FlipMove>
             </div>
 

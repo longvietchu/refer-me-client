@@ -110,7 +110,7 @@ export default makeStyles((theme) => ({
     boxShadow: "0px -3px 5px -5px rgba(0,0,0,0.75)",
     [theme.breakpoints.down("xs")]: {
       position: "fixed",
-      bottom: 0,
+      bottom: 1,
       width: "100%",
       height: 50,
       display: "flex",
