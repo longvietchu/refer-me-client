@@ -4,13 +4,35 @@ export default makeStyles((theme: Theme) => ({
   app: {
     backgroundColor: "rgb(243, 242, 239)",
   },
-  paperHeader: {
+
+  app_body: {
+    padding: "10px 100px",
+    display: "flex",
+    flexDirection: "column",
+  },
+
+  paper_post: {
+    margin: "20px 25px",
+    borderRadius: 10,
+  },
+
+  paper_search: {
     backgroundColor: "#dce6f1",
     margin: "20px 25px",
     borderRadius: 10,
   },
 
-  box: { backgroundColor: "background.default", minHeight: "100%" },
+  paper_suggest: {
+    borderRadius: 10,
+    margin: "20px 25px 0",
+  },
+
+  paper_job: {
+    borderRadius: 10,
+    margin: "20px 25px 0",
+  },
+
+  box: { minHeight: "100%" },
 
   root: {
     padding: "2px 4px",
@@ -34,5 +56,13 @@ export default makeStyles((theme: Theme) => ({
     fontWeight: "bold",
     borderRadius: "1.5rem",
     textTransform: "capitalize",
+  },
+
+  btn_post: {
+    border: "2px solid #0a66c2",
+    color: "#0a66c2",
+    borderRadius: "1.5rem",
+    height: "34px",
+    margin: 10,
   },
 }));
