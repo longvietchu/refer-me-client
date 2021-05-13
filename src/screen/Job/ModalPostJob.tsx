@@ -7,6 +7,8 @@ import {
   TextField,
   Divider,
   InputAdornment,
+  Button,
+  IconButton,
 } from "@material-ui/core";
 
 import Modal from "react-modal";
@@ -15,6 +17,29 @@ import MUIRichTextEditor from "mui-rte";
 import WorkIcon from "@material-ui/icons/Work";
 import BusinessIcon from "@material-ui/icons/Business";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
+import CloseIcon from "@material-ui/icons/Close";
+
+import Styles from "./Style";
+
+const defaultTheme = createMuiTheme();
+
+Object.assign(defaultTheme, {
+  overrides: {
+    MUIRichTextEditor: {
+      root: {
+        border: "1px solid gray",
+      },
+      editor: {
+        padding: 8,
+      },
+      placeHolder: {
+        padding: 8,
+        position: "static",
+      },
+      toolbar: { borderBottom: "1px solid gray" },
+    },
+  },
+});
 
 const customStyles = {
   content: {
@@ -64,6 +89,8 @@ const employments = [
 ];
 
 const ModalPostJob = (props: props) => {
+  const classes = Styles();
+
   const { modalIsOpen, closeModal } = props;
   const [employmentType, setEmploymentType] = React.useState("initial");
 
@@ -81,7 +108,12 @@ const ModalPostJob = (props: props) => {
       >
         <Grid container direction="column" spacing={3}>
           <Grid item>
-            <Typography variant="h6">Post a new job</Typography>
+            <Grid container justify="space-between" alignItems="center">
+              <Typography variant="h6">Post a new job</Typography>
+              <IconButton onClick={closeModal}>
+                <CloseIcon />
+              </IconButton>
+            </Grid>
           </Grid>
 
           <Divider />
@@ -154,20 +186,6 @@ const ModalPostJob = (props: props) => {
           </Grid>
 
           <Grid item>
-            {/* <MUIRichTextEditor
-              label="Type something here..."
-              inlineToolbar={true}
-              inlineToolbarControls={["bold", "italic", "my-style", "link"]}
-              controls={[
-                "bold",
-                "italic",
-                "underline",
-                "strikethrough",
-                "numberList",
-                "bulletList",
-              ]}
-            /> */}
-
             <MuiThemeProvider theme={defaultTheme}>
               <Typography variant="subtitle1" style={{ paddingLeft: 2 }}>
                 Add a job description
@@ -188,30 +206,19 @@ const ModalPostJob = (props: props) => {
               />
             </MuiThemeProvider>
           </Grid>
+
+          <Grid style={{ alignSelf: "center" }}>
+            <Button
+              className={classes.btn_post}
+              onClick={(e) => console.log("click")}
+            >
+              Post job
+            </Button>
+          </Grid>
         </Grid>
       </Modal>
     </div>
   );
 };
-
-const defaultTheme = createMuiTheme();
-
-Object.assign(defaultTheme, {
-  overrides: {
-    MUIRichTextEditor: {
-      root: {
-        border: "1px solid gray",
-      },
-      editor: {
-        padding: 8,
-      },
-      placeHolder: {
-        padding: 8,
-        position: "static",
-      },
-      toolbar: { borderBottom: "1px solid gray" },
-    },
-  },
-});
 
 export default ModalPostJob;

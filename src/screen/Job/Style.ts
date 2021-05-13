@@ -62,7 +62,7 @@ export default makeStyles((theme: Theme) => ({
     border: "2px solid #0a66c2",
     color: "#0a66c2",
     borderRadius: "1.5rem",
-    height: "34px",
+    height: "35px",
     margin: 10,
   },
 }));
