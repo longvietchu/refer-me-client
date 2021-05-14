@@ -7,11 +7,12 @@ import ProfileContainer from "./screen/Profile/ProfileContainer";
 import NotificationsContainer from "./screen/Notifications/NotificationsContainer";
 import MessagingContainer from "./screen/Messaging/MessagingContainer";
 import JobContainer from "./screen/Job/JobContainer";
+import NetworkContainer from "./screen/Network/NetworkContainer";
 
 function App() {
   return (
     <div>
-      <JobContainer />
+      <NetworkContainer />
     </div>
   );
 }
