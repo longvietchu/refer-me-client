@@ -12,7 +12,7 @@ import NetworkContainer from "./screen/Network/NetworkContainer";
 function App() {
   return (
     <div>
-      <NetworkContainer />
+      <JobContainer />
     </div>
   );
 }
