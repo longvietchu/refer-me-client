@@ -1,11 +1,20 @@
 import React from "react";
-import { Grid, Hidden, IconButton, Paper, Typography } from "@material-ui/core";
+import {
+  Grid,
+  Hidden,
+  Container,
+  Box,
+  Paper,
+  Typography,
+} from "@material-ui/core";
 
 import Header from "../../components/header/Header";
 import SideBar from "./SideBar/SideBar";
 import Styles from "./Style";
 import Invitation from "./Invitation/Invitation";
 import ConnectCard from "./ConnectCard/ConnectCard";
+
+import connects from "./connect";
 
 const NetworkScreen = () => {
   const classes = Styles();
@@ -30,7 +39,26 @@ const NetworkScreen = () => {
             <Invitation />
           </Grid>
           <Grid item className={classes.feed__posts}>
-            <ConnectCard />
+            <Paper className={classes.paper}>
+              <div style={{ padding: "20px 24px 0" }}>
+                <Typography style={{ fontSize: "20px", fontWeight: "bold" }}>
+                  Recommended for you
+                </Typography>
+              </div>
+              <Box className={classes.box}>
+                <Container maxWidth={false}>
+                  <Box pt={1}>
+                    <Grid container spacing={3}>
+                      {connects.map((connect) => (
+                        <Grid item key={connect.id} lg={3} md={6} xs={12}>
+                          <ConnectCard connect={connect} />
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </Box>
+                </Container>
+              </Box>
+            </Paper>
           </Grid>
         </Grid>
       </Grid>

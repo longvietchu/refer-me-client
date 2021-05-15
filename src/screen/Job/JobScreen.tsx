@@ -39,7 +39,7 @@ const JobScreen = () => {
       <Helmet>
         <title>Jobs | RefMe</title>
       </Helmet>
-      <div className={classes.app_body}>
+      <Grid container className={classes.app_body}>
         <Paper className={classes.paper_post}>
           <Grid container justify="space-between">
             <IconButton href="#">
@@ -175,7 +175,7 @@ const JobScreen = () => {
             </Container>
           </Box>
         </Paper>
-      </div>
+      </Grid>
       <ModalPostJob modalIsOpen={modalIsOpen} closeModal={closeModal} />
     </div>
   );

@@ -30,6 +30,7 @@ export default makeStyles((theme: Theme) => ({
   paper_job: {
     borderRadius: 10,
     margin: "20px 25px 0",
+    height: "auto",
   },
 
   box: { minHeight: "100%" },

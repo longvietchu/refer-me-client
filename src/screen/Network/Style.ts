@@ -55,8 +55,14 @@ export default makeStyles((theme) => ({
     height: "auto",
   },
 
+  paper: {
+    marginTop: 16,
+    borderRadius: 10,
+  },
+
   body__widgets: {
     minWidth: 225,
     maxWidth: 300,
   },
+  box: { minHeight: "100%" },
 }));
