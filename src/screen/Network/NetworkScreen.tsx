@@ -1,9 +1,11 @@
 import React from "react";
-import { Grid, Hidden, Paper } from "@material-ui/core";
+import { Grid, Hidden, IconButton, Paper, Typography } from "@material-ui/core";
 
 import Header from "../../components/header/Header";
 import SideBar from "./SideBar/SideBar";
 import Styles from "./Style";
+import Invitation from "./Invitation/Invitation";
+import ConnectCard from "./ConnectCard/ConnectCard";
 
 const NetworkScreen = () => {
   const classes = Styles();
@@ -25,10 +27,10 @@ const NetworkScreen = () => {
         </Hidden>
         <Grid item className={classes.body__feed} xs={7}>
           <Grid item className={classes.feed__form}>
-            <Paper>a</Paper>
+            <Invitation />
           </Grid>
           <Grid item className={classes.feed__posts}>
-            <Paper>c</Paper>
+            <ConnectCard />
           </Grid>
         </Grid>
       </Grid>
