@@ -30,11 +30,11 @@ const NetworkScreen = () => {
       </Grid>
       <Grid item container className={classes.app__body}>
         <Hidden smDown>
-          <Grid item className={classes.body__sidebar} xs={5}>
+          <Grid item className={classes.body__sidebar} xs>
             <SideBar />
           </Grid>
         </Hidden>
-        <Grid item className={classes.body__feed} xs={7}>
+        <Grid item className={classes.body__feed} xs={12} md={7}>
           <Grid item className={classes.feed__form}>
             <Invitation />
           </Grid>

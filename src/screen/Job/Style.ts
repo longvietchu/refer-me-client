@@ -5,32 +5,51 @@ export default makeStyles((theme: Theme) => ({
     backgroundColor: "rgb(243, 242, 239)",
   },
 
-  app_body: {
-    padding: "10px 100px",
+  app__header: {
+    position: "sticky",
+    top: 0,
+    zIndex: 100,
+    height: 50,
     display: "flex",
-    flexDirection: "column",
+    justifyContent: "center",
   },
 
-  paper_post: {
-    margin: "20px 25px",
+  app_body: {
+    display: "flex",
+    minHeight: "calc(100vh - 50px)",
+    justifyContent: "center",
+    padding: "20px 0",
+    [theme.breakpoints.down("xs")]: {
+      paddingTop: 10,
+      paddingBottom: 55,
+    },
+  },
+
+  body__feed: {
+    minWidth: 500,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: "0 150px",
+    paddingBottom: 25,
+    [theme.breakpoints.down("xs")]: {
+      minWidth: 0,
+      padding: 10,
+    },
+  },
+
+  feed__form: {
+    width: "100%",
+    height: "auto",
+  },
+
+  paper: {
     borderRadius: 10,
   },
 
   paper_search: {
     backgroundColor: "#dce6f1",
-    margin: "20px 25px",
     borderRadius: 10,
-  },
-
-  paper_suggest: {
-    borderRadius: 10,
-    margin: "20px 25px 0",
-  },
-
-  paper_job: {
-    borderRadius: 10,
-    margin: "20px 25px 0",
-    height: "auto",
   },
 
   box: { minHeight: "100%" },
