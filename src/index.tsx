@@ -3,14 +3,27 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { IconButton } from "@material-ui/core";
+import { Close as IconClose } from "@material-ui/icons";
 
-import { SnackbarProvider } from "notistack";
+import { SnackbarProvider, VariantType, useSnackbar } from "notistack";
+
+function SnackbarCloseButton({ key }: any) {
+  const { closeSnackbar } = useSnackbar();
+
+  return (
+    <IconButton onClick={() => closeSnackbar(key)}>
+      <IconClose />
+    </IconButton>
+  );
+}
 
 ReactDOM.render(
   <React.StrictMode>
     <SnackbarProvider
       anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
       maxSnack={3}
+      action={(key) => <SnackbarCloseButton key={key} />}
     >
       <App />
     </SnackbarProvider>

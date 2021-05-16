@@ -20,12 +20,23 @@ import BookmarkIcon from "@material-ui/icons/Bookmark";
 import CreateIcon from "@material-ui/icons/Create";
 
 import ModalPostJob from "./ModalPostJob";
-import jobs from "./jobs";
+// import jobs from "./jobs";
 import JobCard from "../../components/jobs/JobCard";
 import Styles from "./Style";
 
-const JobScreen = () => {
+import { IJob } from "./JobContainer";
+
+interface IProps {
+  onSave: any;
+  job: IJob[];
+}
+
+const JobScreen = (props: IProps) => {
   const classes = Styles();
+
+  const { onSave, job } = props;
+
+  console.log("onSave", onSave);
 
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
 
@@ -137,48 +148,6 @@ const JobScreen = () => {
         <Grid item className={classes.body__feed} xs={12}>
           <Grid item className={classes.feed__form}>
             <Paper className={classes.paper}>
-              <Typography variant="h5" style={{ padding: "14px" }}>
-                Suggested job searches
-              </Typography>
-              <Grid container spacing={1} style={{ padding: "0 14px 14px" }}>
-                <Grid item>
-                  <Button variant="contained" className={classes.btn}>
-                    marketing manager
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button variant="contained" className={classes.btn}>
-                    hr
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button variant="contained" className={classes.btn}>
-                    sales
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button variant="contained" className={classes.btn}>
-                    hust
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button variant="contained" className={classes.btn}>
-                    programming
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button variant="contained" className={classes.btn}>
-                    business
-                  </Button>
-                </Grid>
-              </Grid>
-            </Paper>
-          </Grid>
-        </Grid>
-
-        <Grid item className={classes.body__feed} xs={12}>
-          <Grid item className={classes.feed__form}>
-            <Paper className={classes.paper}>
               <div style={{ padding: "20px 24px 0" }}>
                 <Typography style={{ fontSize: "20px", fontWeight: "bold" }}>
                   Recommended for you
@@ -191,9 +160,9 @@ const JobScreen = () => {
                 <Container maxWidth={false}>
                   <Box pt={3}>
                     <Grid container spacing={5}>
-                      {jobs.map((job) => (
-                        <Grid item key={job.id} lg={3} md={6} xs={12}>
-                          <JobCard job={job} />
+                      {job.map((item: IJob) => (
+                        <Grid item key={item.id} lg={3} md={6} xs={12}>
+                          <JobCard job={item} onSave={onSave} />
                         </Grid>
                       ))}
                     </Grid>

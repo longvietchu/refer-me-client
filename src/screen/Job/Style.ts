@@ -84,5 +84,6 @@ export default makeStyles((theme: Theme) => ({
     borderRadius: "1.5rem",
     height: "35px",
     margin: 10,
+    // width: "100%",
   },
 }));

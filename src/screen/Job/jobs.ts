@@ -1,6 +1,7 @@
 export default [
   {
     id: "1",
+    isSave: false,
     src: "https://media-exp1.licdn.com/dms/image/C560BAQE78wud6uJMVA/company-logo_100_100/0/1609240983675?e=1628726400&v=beta&t=kjZribvjmh97zqvy9bkwwX4BVMAo3_5evzCCachLhG8",
     title: "Business Development Intern",
     company: "Shopee",
@@ -9,6 +10,7 @@ export default [
   },
   {
     id: "2",
+    isSave: false,
     src: "https://media-exp1.licdn.com/dms/image/C4D0BAQEOtX4PVy_uYg/company-logo_100_100/0/1519897099971?e=1628726400&v=beta&t=peA0y3Esve51wg-tcxm-w2nPv9Z3YkyKMcm-zA_asQU",
     title: "Recruitment Consultant - (Open for Fresh Graduate)",
     company: "EMPLOYMENT VIETNAM",
@@ -17,6 +19,7 @@ export default [
   },
   {
     id: "3",
+    isSave: false,
     src: "https://media-exp1.licdn.com/dms/image/C510BAQGDlPEJILPXbw/company-logo_100_100/0/1586755776220?e=1628726400&v=beta&t=gZNo7SqaOleLuyHuxwIRK5yyGr9gb1pI_SqZd4k7ADc",
     title: "Operations Assistant Manager",
     company: "Grab",
@@ -25,6 +28,7 @@ export default [
   },
   {
     id: "4",
+    isSave: false,
     src: "https://media-exp1.licdn.com/dms/image/C510BAQHAngw_AdTG8g/company-logo_100_100/0/1569213148697?e=1628726400&v=beta&t=fkrHDus-b2NodSkh45BiV5fef0rJ_MR6X0x-4R6iW8s",
     title: "Garena Strategic Operations Program 2021",
     company: "Garena",
@@ -33,6 +37,7 @@ export default [
   },
   {
     id: "5",
+    isSave: false,
     src: "",
     title: "Business Development Intern",
     company: "Shopee",
