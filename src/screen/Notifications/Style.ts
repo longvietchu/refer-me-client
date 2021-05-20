@@ -18,7 +18,7 @@ export default makeStyles((theme) => ({
     display: "flex",
     minHeight: "calc(100vh - 50px)",
     justifyContent: "center",
-    paddingTop: 40,
+    paddingTop: 50,
     paddingBottom: 50,
     [theme.breakpoints.down("xs")]: {
       paddingTop: 10,

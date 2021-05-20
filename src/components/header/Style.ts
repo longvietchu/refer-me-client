@@ -3,6 +3,10 @@ import { darkSecondary, darkPrimary } from "../../assets/Colors";
 import { deepOrange } from "@material-ui/core/colors";
 
 export default makeStyles((theme) => ({
+  root: {
+    width: "100%",
+    height: "100%",
+  },
   header: {
     width: "100%",
     height: "100%",
@@ -127,5 +131,41 @@ export default makeStyles((theme) => ({
   avatar: {
     color: theme.palette.getContrastText(deepOrange[500]),
     backgroundColor: deepOrange[500],
+    height: 25,
+    width: 25,
+  },
+
+  menu: {
+    marginTop: 10,
+    borderRadius: 10,
+  },
+
+  name: {
+    fontWeight: "bold",
+    width: "100%",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+  },
+
+  headline: {
+    fontSize: "14px",
+    width: "100%",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    display: "-webkit-box",
+    WebkitBoxOrient: "vertical",
+    WebkitLineClamp: 3,
+  },
+
+  btn: {
+    height: "30px",
+    border: "1.5px solid #0a66c2",
+    color: "#0a66c2",
+    fontWeight: "bold",
+    borderRadius: "1.5rem",
+    textTransform: "capitalize",
+    width: "100%",
+    margin: "0 10px",
   },
 }));
