@@ -5,12 +5,16 @@ import Content from "./content/Content";
 import Styles from "./Style";
 import Widgets from "../../components/widgets/Widgets";
 import Header from "../../components/header/Header";
-import Footer from "../../components/footer/Footer";
+
+import { Helmet } from "react-helmet";
 
 const NotificationsScreen = () => {
   const classes = Styles();
   return (
     <Grid container className={classes.app}>
+      <Helmet>
+        <title>Notifications | RefMe</title>
+      </Helmet>
       <Grid
         item
         container

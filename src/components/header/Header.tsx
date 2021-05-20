@@ -1,5 +1,5 @@
 import Logo from "../../assets/images/logo.png";
-import { Paper, Avatar, Tooltip } from "@material-ui/core";
+import { Paper, Avatar, Tooltip, Link } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import HomeIcon from "@material-ui/icons/Home";
 import GroupIcon from "@material-ui/icons/Group";
@@ -15,17 +15,46 @@ import AppsIcon from "@material-ui/icons/Apps";
 import Style from "./Style";
 import MenuItem from "./menuItem/MenuItem";
 
+import { useHistory } from "react-router-dom";
+
 const Header = () => {
   const classes = Style();
+
+  let history = useHistory();
 
   //   const { photoURL } = useSelector((state) => state.user); this code to pick photo user from redux
 
   const items = [
-    { Icon: <HomeIcon />, title: "Home", arrow: false },
-    { Icon: <GroupIcon />, title: "My Network", arrow: false },
-    { Icon: <WorkIcon />, title: "Jobs", arrow: false },
-    { Icon: <TelegramIcon />, title: "Messaging", arrow: false },
-    { Icon: <NotificationsIcon />, title: "Notifications", arrow: false },
+    {
+      Icon: <HomeIcon />,
+      title: "Home",
+      arrow: false,
+      onClick: () => history.push("/home"),
+    },
+    {
+      Icon: <GroupIcon />,
+      title: "My Network",
+      arrow: false,
+      onClick: () => history.push("/mynetwork"),
+    },
+    {
+      Icon: <WorkIcon />,
+      title: "Jobs",
+      arrow: false,
+      onClick: () => history.push("/jobs"),
+    },
+    {
+      Icon: <TelegramIcon />,
+      title: "Messaging",
+      arrow: false,
+      onClick: () => history.push("/messaging"),
+    },
+    {
+      Icon: <NotificationsIcon />,
+      title: "Notifications",
+      arrow: false,
+      onClick: () => history.push("/notifications"),
+    },
     {
       Icon: (
         <Tooltip title="Sign-Out" arrow>
@@ -50,7 +79,7 @@ const Header = () => {
       Icon: <NotificationsIcon />,
       title: "Notifications",
       arrow: false,
-      onClick: () => console.log("you are log out"),
+      onClick: () => history.push("/notifications"),
     },
     { Icon: <WorkIcon />, title: "Jobs", arrow: false },
   ];
@@ -59,7 +88,7 @@ const Header = () => {
     <Paper elevation={0} className={classes.header}>
       <div className={classes.header__container}>
         <div className={classes.header__logo}>
-          <img src={Logo} alt="logo" />
+          <img src={Logo} alt="logo" onClick={() => history.push("/home")} />
           <div className={classes.search}>
             <SearchIcon />
             <input placeholder="Search" />

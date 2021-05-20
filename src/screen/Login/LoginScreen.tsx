@@ -3,6 +3,7 @@ import LoginCard from "./LoginCard/LoginCard";
 import Animation from "../../components/animations/Animation";
 import LottieRelaxing from "../../assets/images/relaxing.json";
 
+
 const Style = makeStyles((theme: any) => ({
   login: {
     width: "100vw",

@@ -8,6 +8,8 @@ import { Close as IconClose } from "@material-ui/icons";
 
 import { SnackbarProvider, VariantType, useSnackbar } from "notistack";
 
+import { BrowserRouter as Router } from "react-router-dom";
+
 function SnackbarCloseButton({ key }: any) {
   const { closeSnackbar } = useSnackbar();
 
@@ -20,13 +22,15 @@ function SnackbarCloseButton({ key }: any) {
 
 ReactDOM.render(
   <React.StrictMode>
-    <SnackbarProvider
-      anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-      maxSnack={3}
-      action={(key) => <SnackbarCloseButton key={key} />}
-    >
-      <App />
-    </SnackbarProvider>
+    <Router>
+      <SnackbarProvider
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        maxSnack={3}
+        action={(key) => <SnackbarCloseButton key={key} />}
+      >
+        <App />
+      </SnackbarProvider>
+    </Router>
   </React.StrictMode>,
   document.getElementById("root")
 );

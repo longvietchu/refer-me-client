@@ -9,11 +9,28 @@ import MessagingContainer from "./screen/Messaging/MessagingContainer";
 import JobContainer from "./screen/Job/JobContainer";
 import NetworkContainer from "./screen/Network/NetworkContainer";
 
+import RootView from "./screen/RootView";
+
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux";
+
+import rootReducer from "./reducers/index";
+
+//redux saga
+import createSagaMiddleware from "redux-saga";
+import rootSaga from "./saga/rootSaga";
+
+const sagaMiddleware = createSagaMiddleware();
+
+let store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
+
+sagaMiddleware.run(rootSaga);
+
 function App() {
   return (
-    <div>
-      <JobContainer />
-    </div>
+    <Provider store={store}>
+      <RootView />
+    </Provider>
   );
 }
 

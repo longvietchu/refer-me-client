@@ -6,6 +6,8 @@ import Form from "../../components/form/Form";
 import Posts from "../../components/posts/Posts";
 import Widgets from "../../components/widgets/Widgets";
 
+import { Helmet } from "react-helmet";
+
 const HomeScreen = () => {
   const classes = Styles();
 
@@ -15,6 +17,9 @@ const HomeScreen = () => {
       className={classes.app}
       // style={{ backgroundColor: mode ? darkPrimary : LinkedInBgColor }}
     >
+      <Helmet>
+        <title>Feed | RefMe</title>
+      </Helmet>
       <Grid
         item
         container

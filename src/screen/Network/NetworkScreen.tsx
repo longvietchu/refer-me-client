@@ -16,6 +16,8 @@ import ConnectCard from "./ConnectCard/ConnectCard";
 
 import connects from "./connect";
 
+import { Helmet } from "react-helmet";
+
 const NetworkScreen = () => {
   const classes = Styles();
   return (
@@ -24,6 +26,9 @@ const NetworkScreen = () => {
       className={classes.app}
       // style={{ backgroundColor: mode ? darkPrimary : LinkedInBgColor }}
     >
+      <Helmet>
+        <title>RefMe</title>
+      </Helmet>
       <Grid item container className={classes.app__header}>
         {/* Header */}
         <Header />

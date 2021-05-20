@@ -8,6 +8,8 @@ import MessagesList from "./MessagesList/MessagesList";
 import Header from "../../components/header/Header";
 import Room from "./room/Room";
 
+import { Helmet } from "react-helmet";
+
 import Styles from "./Style";
 
 interface MessageData {
@@ -28,6 +30,9 @@ const MessagingScreen = () => {
 
   return (
     <Grid className={classes.app}>
+      <Helmet>
+        <title>Messaging | RefMe</title>
+      </Helmet>
       <Grid item container className={classes.app__header}>
         {/* Header */}
         <Header />
