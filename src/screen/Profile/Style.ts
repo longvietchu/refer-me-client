@@ -4,6 +4,14 @@ export default makeStyles((theme) => ({
   app: {
     backgroundColor: "rgb(243, 242, 239)",
   },
+  app__header: {
+    position: "sticky",
+    top: 0,
+    zIndex: 100,
+    height: 50,
+    display: "flex",
+    justifyContent: "center",
+  },
   app__body: {
     display: "flex",
     minHeight: "calc(100vh - 50px)",

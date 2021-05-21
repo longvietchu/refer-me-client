@@ -41,15 +41,13 @@ export default makeStyles((theme) => ({
       borderRadius: 2,
       padding: "0 10px",
     },
-    "& > button": {
-      height: 30,
-      border: "1px solid lightgrey",
-      borderRadius: 4,
-      color: "white",
-      fontSize: 14,
-      fontWeight: 600,
-      backgroundColor: "#5d98d4",
-    },
+  },
+
+  btn: {
+    height: 30,
+    borderRadius: 4,
+    fontSize: 14,
+    fontWeight: 600,
   },
 
   google: {

@@ -2,6 +2,12 @@ import { makeStyles } from "@material-ui/core";
 import { darkSecondary } from "../../../assets/Colors";
 
 export default makeStyles((theme) => ({
+  sidebar: {
+    display: "flex",
+    flexDirection: "column",
+    position: "sticky",
+    top: "10vh",
+  },
   root: {
     borderRadius: 10,
   },

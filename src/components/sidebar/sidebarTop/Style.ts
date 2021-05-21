@@ -6,6 +6,7 @@ import {
   darkPrimary,
 } from "../../../assets/Colors";
 import { deepOrange } from "@material-ui/core/colors";
+import { height } from "@material-ui/system";
 
 export default makeStyles((theme) => ({
   sidebar: {
@@ -81,5 +82,9 @@ export default makeStyles((theme) => ({
   avatar: {
     color: theme.palette.getContrastText(deepOrange[500]),
     backgroundColor: deepOrange[500],
+    margin: "-50px auto 12px",
+    border: "2px solid white",
+    width: "72px",
+    height: "72px",
   },
 }));

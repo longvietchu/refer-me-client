@@ -62,7 +62,7 @@ const SideBar = () => {
   const [expand, setExpand] = React.useState(true);
 
   return (
-    <div>
+    <div className={classes.sidebar}>
       <Paper className={classes.root}>
         <List
           component="nav"

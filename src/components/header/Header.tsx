@@ -49,6 +49,10 @@ const Header = () => {
     history.push("./");
   };
 
+  const onClickProfile = () => {
+    history.push("./profile");
+  };
+
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
@@ -175,7 +179,7 @@ const Header = () => {
         }}
       >
         <List style={{ padding: 0 }}>
-          <ListItem alignItems="flex-start" button>
+          <ListItem alignItems="flex-start" button onClick={onClickProfile}>
             <ListItemAvatar style={{ minWidth: "50px" }}>
               <Avatar />
             </ListItemAvatar>
@@ -193,7 +197,9 @@ const Header = () => {
         </List>
 
         <Grid container justify="center">
-          <Button className={classes.btn}>View Profile</Button>
+          <Button className={classes.btn} onClick={onClickProfile}>
+            View Profile
+          </Button>
         </Grid>
 
         <Divider style={{ marginTop: "10px" }} />

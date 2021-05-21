@@ -50,6 +50,7 @@ const LoginCard = () => {
 
       <form className={classes.form}>
         <TextField
+          label="username"
           color="primary"
           margin="normal"
           required
@@ -71,6 +72,7 @@ const LoginCard = () => {
           }}
         />
         <TextField
+          label="password"
           color="primary"
           margin="normal"
           required
@@ -100,7 +102,14 @@ const LoginCard = () => {
           </FormHelperText>
         </div>
 
-        <Button onClick={Login}>Log In</Button>
+        <Button
+          onClick={Login}
+          color="primary"
+          variant="contained"
+          className={classes.btn}
+        >
+          Log In
+        </Button>
       </form>
 
       <div className={classes.google}>

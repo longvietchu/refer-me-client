@@ -26,6 +26,7 @@ import {
 import EditProfile from "./EditProfile/EditProfile";
 // import "roboto-fontface";
 import Widgets from "../../components/widgets/Widgets";
+import Header from "../../components/header/Header";
 import Styles from "./Style";
 
 const ProfileScreen = () => {
@@ -62,6 +63,17 @@ const ProfileScreen = () => {
 
   return (
     <Grid container className={classes.app}>
+      <Grid
+        item
+        container
+        className={classes.app__header}
+        // style={{
+        //   boxShadow: mode && "0px 5px 10px -10px rgba(0,0,0,0.75)",
+        // }}
+      >
+        {/* Header */}
+        <Header />
+      </Grid>
       <Grid item container className={classes.app__body}>
         <Grid item className={classes.body__feed} xs={12} md={7}>
           <Card>

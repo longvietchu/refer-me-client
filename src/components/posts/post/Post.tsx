@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Avatar, Paper } from "@material-ui/core";
+import { Avatar, Paper, TextField } from "@material-ui/core";
 import MoreHorizOutlinedIcon from "@material-ui/icons/MoreHorizOutlined";
 import ThumbUpAltOutlinedIcon from "@material-ui/icons/ThumbUpAltOutlined";
 import ReplyOutlinedIcon from "@material-ui/icons/ReplyOutlined";
@@ -10,6 +10,8 @@ import CommentOutlinedIcon from "@material-ui/icons/CommentOutlined";
 import ReactPlayer from "react-player";
 
 import * as images from "../../../assets/images/images";
+
+import Comments from "./components/Comments";
 import Style from "./Style";
 
 interface props {
@@ -24,14 +26,8 @@ interface props {
 const Post = (props: props) => {
   const classes = Style();
 
-  const {
-    profile,
-    username,
-    timestamp,
-    description,
-    fileType,
-    fileData,
-  } = props;
+  const { profile, username, timestamp, description, fileType, fileData } =
+    props;
 
   const capitalize = (_string: string) => {
     return _string.charAt(0).toUpperCase() + _string.slice(1);
@@ -42,6 +38,8 @@ const Post = (props: props) => {
   const [heartIcontOrder, setHeartIcontOrder] = useState(1);
   const [smileIconOrder, setSmileIconOrder] = useState(1);
   const [thumsUpIconOrder, setThumsUpIconOrder] = useState(1);
+
+  const [showComment, setShowComment] = useState(false);
 
   const Reactions = () => {
     return (
@@ -111,10 +109,14 @@ const Post = (props: props) => {
             <ThumbUpAltOutlinedIcon style={{ transform: "scaleX(-1)" }} />
             <h4>Like</h4>
           </div>
-          <div className={classes.action__icons}>
+          <div
+            className={classes.action__icons}
+            onClick={() => setShowComment(!showComment)}
+          >
             <CommentOutlinedIcon />
             <h4>Comment</h4>
           </div>
+
           <div className={classes.action__icons}>
             <ReplyOutlinedIcon style={{ transform: "scaleX(-1)" }} />
             <h4>Share</h4>
@@ -124,6 +126,7 @@ const Post = (props: props) => {
             <h4>Send</h4>
           </div>
         </div>
+        {showComment && <Comments />}
       </div>
     </Paper>
   );
