@@ -68,7 +68,7 @@ export default makeStyles((theme) => ({
 
   comment_container: {
     display: "flex",
-    margin: "0 12px",
+    margin: "0 14px 0 8px",
     overflow: "hidden",
     "& > span": {
       padding: "0px 10px",
@@ -102,6 +102,12 @@ export default makeStyles((theme) => ({
 
   comment: {
     fontSize: "14px",
+    width: "100%",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    display: "-webkit-box",
+    WebkitBoxOrient: "vertical",
+    WebkitLineClamp: 5,
   },
 
   created_at: {
@@ -109,5 +115,12 @@ export default makeStyles((theme) => ({
     lineHeight: "12px",
     marginLeft: 60,
     marginBottom: 10,
+  },
+
+  hidden: {
+    display: "-webkit-box",
+    WebkitLineClamp: 4,
+    overflow: "hidden",
+    WebkitBoxOrient: "vertical",
   },
 }));
