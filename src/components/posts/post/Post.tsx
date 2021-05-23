@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 
-import { Avatar, Paper, TextField } from "@material-ui/core";
+import {
+  Avatar,
+  ButtonBase,
+  Paper,
+  Menu,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+} from "@material-ui/core";
 import MoreHorizOutlinedIcon from "@material-ui/icons/MoreHorizOutlined";
 import ThumbUpAltOutlinedIcon from "@material-ui/icons/ThumbUpAltOutlined";
 import ReplyOutlinedIcon from "@material-ui/icons/ReplyOutlined";
@@ -8,16 +16,19 @@ import FiberManualRecordRoundedIcon from "@material-ui/icons/FiberManualRecordRo
 import SendIcon from "@material-ui/icons/Send";
 import CommentOutlinedIcon from "@material-ui/icons/CommentOutlined";
 import ReactPlayer from "react-player";
+import TimeAgo from "react-timeago";
+import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
 
 import * as images from "../../../assets/images/images";
 
 import Comments from "./components/Comments";
 import Style from "./Style";
+import { Delete, Edit } from "@material-ui/icons";
 
 interface props {
   profile: string;
   username: string;
-  timestamp: string;
+  timestamp: any;
   description: string;
   fileType: string;
   fileData: string;
@@ -70,65 +81,96 @@ const Post = (props: props) => {
     );
   };
   return (
-    <Paper className={classes.post}>
-      <div className={classes.post__header}>
-        <Avatar src={profile} />
-        <div className={classes.header__info}>
-          <h4>{capitalize(username)}</h4>
-          {/* <p>
-            <ReactTimeago
-              date={new Date(timestamp?.toDate()).toUTCString()}
-              units="minute"
-            />
-          </p> */}
-        </div>
-        <MoreHorizOutlinedIcon />
-      </div>
-      <div className={classes.post__body}>
-        <div className={classes.body__description}>
-          <p>{description}</p>
-        </div>
-        {fileData && (
-          <div className={classes.body__image}>
-            {fileType === "image" ? (
-              <img src={fileData} alt="post" />
-            ) : (
-              <ReactPlayer
-                url={fileData}
-                controls={true}
-                style={{ height: "auto !important" }}
-              />
-            )}
-          </div>
-        )}
-      </div>
-      <div className={classes.post__footer}>
-        <Reactions />
-        <div className={classes.footer__actions}>
-          <div className={classes.action__icons}>
-            <ThumbUpAltOutlinedIcon style={{ transform: "scaleX(-1)" }} />
-            <h4>Like</h4>
-          </div>
-          <div
-            className={classes.action__icons}
-            onClick={() => setShowComment(!showComment)}
-          >
-            <CommentOutlinedIcon />
-            <h4>Comment</h4>
-          </div>
+    <PopupState variant="popover" popupId="demoMenu">
+      {(popupState) => (
+        <div>
+          <Paper className={classes.post}>
+            <div className={classes.post__header}>
+              <Avatar src={profile} />
+              <div className={classes.header__info}>
+                <h4>{capitalize(username)}</h4>
+                <p>
+                  <TimeAgo
+                    // date={new Date(timestamp?.toDate()).toUTCString()}
+                    date={new Date()}
+                    // units="minute"
+                    // formatter={(value, unit, suffix) => `${value} ${unit} ${suffix}`}
+                    formatter={() => "5 minute ago"}
+                  />
+                </p>
+              </div>
+              <ButtonBase {...bindTrigger(popupState)}>
+                <MoreHorizOutlinedIcon />
+              </ButtonBase>
+            </div>
+            <div className={classes.post__body}>
+              <div className={classes.body__description}>
+                <p>{description}</p>
+              </div>
+              {fileData && (
+                <div className={classes.body__image}>
+                  {fileType === "image" ? (
+                    <img src={fileData} alt="post" />
+                  ) : (
+                    <ReactPlayer
+                      url={fileData}
+                      controls={true}
+                      style={{ height: "auto !important" }}
+                    />
+                  )}
+                </div>
+              )}
+            </div>
+            <div className={classes.post__footer}>
+              <Reactions />
+              <div className={classes.footer__actions}>
+                <div className={classes.action__icons}>
+                  <ThumbUpAltOutlinedIcon style={{ transform: "scaleX(-1)" }} />
+                  <h4>Like</h4>
+                </div>
+                <div
+                  className={classes.action__icons}
+                  onClick={() => setShowComment(!showComment)}
+                >
+                  <CommentOutlinedIcon />
+                  <h4>Comment</h4>
+                </div>
 
-          <div className={classes.action__icons}>
-            <ReplyOutlinedIcon style={{ transform: "scaleX(-1)" }} />
-            <h4>Share</h4>
-          </div>
-          <div className={classes.action__icons}>
-            <SendIcon style={{ transform: "rotate(-45deg)" }} />
-            <h4>Send</h4>
-          </div>
+                <div className={classes.action__icons}>
+                  <ReplyOutlinedIcon style={{ transform: "scaleX(-1)" }} />
+                  <h4>Share</h4>
+                </div>
+                <div className={classes.action__icons}>
+                  <SendIcon style={{ transform: "rotate(-45deg)" }} />
+                  <h4>Send</h4>
+                </div>
+              </div>
+              {showComment && <Comments />}
+            </div>
+          </Paper>
+          <Menu
+            {...bindMenu(popupState)}
+            getContentAnchorEl={null}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            transformOrigin={{ vertical: "top", horizontal: "right" }}
+            // className={classes.menu}
+          >
+            <ListItem button onClick={popupState.close}>
+              <ListItemIcon>
+                <Edit />
+              </ListItemIcon>
+              <ListItemText>Edit</ListItemText>
+            </ListItem>
+            <ListItem button onClick={popupState.close}>
+              <ListItemIcon>
+                <Delete />
+              </ListItemIcon>
+              <ListItemText>Delete</ListItemText>
+            </ListItem>
+          </Menu>
         </div>
-        {showComment && <Comments />}
-      </div>
-    </Paper>
+      )}
+    </PopupState>
   );
 };
 

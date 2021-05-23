@@ -15,7 +15,7 @@ const postData: any = [
       fileType: "",
       profile:
         "https://scontent.fhan4-1.fna.fbcdn.net/v/t1.6435-9/121083834_1699921320175513_6807580545774400741_n.jpg?_nc_cat=105&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=hfVRPKiVyaAAX-_QYhQ&_nc_ht=scontent.fhan4-1.fna&oh=fb6798aedb06700257a6b62a9815e721&oe=608BA140",
-      timestamp: null,
+      timestamp: "",
       username: "tung nguyen",
     },
   },
@@ -28,7 +28,7 @@ const postData: any = [
       fileType: "",
       profile:
         "https://scontent.fhan4-1.fna.fbcdn.net/v/t1.6435-9/121083834_1699921320175513_6807580545774400741_n.jpg?_nc_cat=105&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=hfVRPKiVyaAAX-_QYhQ&_nc_ht=scontent.fhan4-1.fna&oh=fb6798aedb06700257a6b62a9815e721&oe=608BA140",
-      timestamp: null,
+      timestamp: "",
       username: "tung nguyen",
     },
   },
@@ -41,7 +41,7 @@ const postData: any = [
       fileType: "",
       profile:
         "https://scontent.fhan4-1.fna.fbcdn.net/v/t1.6435-9/121083834_1699921320175513_6807580545774400741_n.jpg?_nc_cat=105&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=hfVRPKiVyaAAX-_QYhQ&_nc_ht=scontent.fhan4-1.fna&oh=fb6798aedb06700257a6b62a9815e721&oe=608BA140",
-      timestamp: null,
+      timestamp: "",
       username: "tung nguyen",
     },
   },
@@ -54,7 +54,7 @@ const postData: any = [
       fileType: "",
       profile:
         "https://scontent.fhan4-1.fna.fbcdn.net/v/t1.6435-9/121083834_1699921320175513_6807580545774400741_n.jpg?_nc_cat=105&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=hfVRPKiVyaAAX-_QYhQ&_nc_ht=scontent.fhan4-1.fna&oh=fb6798aedb06700257a6b62a9815e721&oe=608BA140",
-      timestamp: null,
+      timestamp: "",
       username: "tung nguyen",
     },
   },

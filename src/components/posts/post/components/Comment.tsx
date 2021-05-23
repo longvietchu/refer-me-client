@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import {
   Avatar,
-  Paper,
-  TextField,
-  Grid,
   List,
   ListItem,
   ListItemText,
@@ -15,16 +12,16 @@ import {
   IconButton,
   Card,
   ButtonBase,
+  Menu,
 } from "@material-ui/core";
 
-import EditIcon from "@material-ui/icons/Edit";
-import BackspaceIcon from "@material-ui/icons/Backspace";
-import PlaylistAddCheckIcon from "@material-ui/icons/PlaylistAddCheck";
-import FiberManualRecordRoundedIcon from "@material-ui/icons/FiberManualRecordRounded";
-import DeleteIcon from "@material-ui/icons/Delete";
+import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
+
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 
 import { useHistory } from "react-router-dom";
+
+import { Delete, Edit } from "@material-ui/icons";
 
 import Styles from "./Style";
 
@@ -55,63 +52,93 @@ const Comment = () => {
   }
 
   return (
-    <div className={classes.all_comment}>
-      <List dense={true} style={{ padding: 0 }}>
-        <ListItem alignItems="flex-start">
-          <ListItemAvatar style={{ minWidth: 50, marginTop: 0 }}>
-            <Avatar />
-          </ListItemAvatar>
-          <ListItemText style={{ margin: "0" }}>
-            <div
-              style={{
-                fontWeight: "bold",
-                width: "90%",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-              }}
-            >
-              Username
-            </div>
-
-            <ReadMore>
-              <Typography variant="caption">
-                Comment Comment Comment Comment Comment Comment Comment Comment
-                Comment Comment Comment Comment Comment Comment Comment Comment
-                Comment Comment Comment Comment Comment Comment Comment Comment
-                Comment Comment Comment Comment CommentComment Comment Comment
-                Comment Comment Comment Comment Comment Comment Comment Comment
-                Comment Comment Comment Comment Comment Comment Comment Comment
-                Comment Comment Comment Comment Comment Comment Comment Comment
-                Comment Comment
-              </Typography>
-            </ReadMore>
-          </ListItemText>
-
-          <ListItemSecondaryAction
-            style={{ display: "flex", right: 10, top: "0%", marginTop: "14px" }}
-          >
-            <ListItemText
-              primary={
+    <PopupState variant="popover" popupId="demoMenu">
+      {(popupState) => (
+        <div className={classes.all_comment}>
+          <List dense={true} style={{ padding: 0 }}>
+            <ListItem alignItems="flex-start">
+              <ListItemAvatar style={{ minWidth: 50, marginTop: 0 }}>
+                <Avatar />
+              </ListItemAvatar>
+              <ListItemText style={{ margin: "0" }}>
                 <div
                   style={{
-                    fontSize: "12px",
-                    color: "#00000099",
-                    marginRight: 4,
-                    marginTop: 3,
+                    fontWeight: "bold",
+                    width: "90%",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
                   }}
                 >
-                  15h
+                  Username
                 </div>
-              }
-            />
-            <ButtonBase>
-              <MoreHorizIcon />
-            </ButtonBase>
-          </ListItemSecondaryAction>
-        </ListItem>
-      </List>
-    </div>
+
+                <ReadMore>
+                  <Typography variant="caption">
+                    Comment Comment Comment Comment Comment Comment Comment
+                    Comment Comment Comment Comment Comment Comment Comment
+                    Comment Comment Comment Comment Comment Comment Comment
+                    Comment Comment Comment Comment Comment Comment Comment
+                    CommentComment Comment Comment Comment Comment Comment
+                    Comment Comment Comment Comment Comment Comment Comment
+                    Comment Comment Comment Comment Comment Comment Comment
+                    Comment Comment Comment Comment Comment Comment Comment
+                    Comment Comment
+                  </Typography>
+                </ReadMore>
+              </ListItemText>
+
+              <ListItemSecondaryAction
+                style={{
+                  display: "flex",
+                  right: 10,
+                  top: "0%",
+                  marginTop: "14px",
+                }}
+              >
+                <ListItemText
+                  primary={
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        color: "#00000099",
+                        marginRight: 4,
+                        marginTop: 3,
+                      }}
+                    >
+                      15h
+                    </div>
+                  }
+                />
+                <ButtonBase {...bindTrigger(popupState)}>
+                  <MoreHorizIcon />
+                </ButtonBase>
+              </ListItemSecondaryAction>
+            </ListItem>
+          </List>
+          <Menu
+            {...bindMenu(popupState)}
+            getContentAnchorEl={null}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            transformOrigin={{ vertical: "top", horizontal: "right" }}
+            // className={classes.menu}
+          >
+            <ListItem button onClick={popupState.close}>
+              <ListItemIcon>
+                <Edit />
+              </ListItemIcon>
+              <ListItemText>Edit</ListItemText>
+            </ListItem>
+            <ListItem button onClick={popupState.close}>
+              <ListItemIcon>
+                <Delete />
+              </ListItemIcon>
+              <ListItemText>Delete</ListItemText>
+            </ListItem>
+          </Menu>
+        </div>
+      )}
+    </PopupState>
   );
 };
 

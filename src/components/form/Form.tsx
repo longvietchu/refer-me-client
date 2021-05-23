@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Styles from "./Style";
 
-import { Paper, useTheme, Chip, LinearProgress } from "@material-ui/core";
+import {
+  Paper,
+  useTheme,
+  Chip,
+  LinearProgress,
+  Avatar,
+  Link,
+} from "@material-ui/core";
 
 import VideocamRoundedIcon from "@material-ui/icons/VideocamRounded";
 import YouTubeIcon from "@material-ui/icons/YouTube";
@@ -42,6 +49,12 @@ const Form = () => {
   return (
     <Paper className={classes.upload}>
       <div className={classes.upload__header}>
+        <Link href="./profile">
+          <Avatar
+            className={classes.ava}
+            src="https://media-exp1.licdn.com/dms/image/C5603AQG3xo7I_i2GYw/profile-displayphoto-shrink_100_100/0/1618305141624?e=1626912000&v=beta&t=DBdZKbpM8bu6ldYtL-LyKFIoohQKChsjKkc2cANPKt4"
+          />
+        </Link>
         <form className={classes.header__form}>
           <CreateIcon />
           <input

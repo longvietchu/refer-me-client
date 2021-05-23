@@ -27,6 +27,12 @@ export default makeStyles((theme) => ({
     padding: "15px 0 5px 0",
   },
 
+  ava: {
+    height: 48,
+    width: 48,
+    marginRight: 10,
+  },
+
   header__form: {
     flex: 1,
     height: 47,
