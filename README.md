@@ -1,7 +1,5 @@
 # ReferMe
 
----
-
 ## Description
 
 A bachelor graduation's project about a social media for recruitment and work.
