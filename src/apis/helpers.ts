@@ -7,9 +7,9 @@ import axios from "axios";
 import KEY from "../assets/AsynStorage";
 axios.defaults.timeout = 10000;
 
-export async function GetData(url, data) {
+export async function GetData(url: string, data: any) {
   const token = localStorage.getItem(KEY.API_TOKEN);
-  let myRequest = {
+  let myRequest: object = {
     method: "get",
     url,
     headers: {
@@ -36,8 +36,8 @@ export async function GetData(url, data) {
       return err;
     });
 }
-export async function PostLogin(url, json, isAuth = true) {
-  let myRequest = {
+export async function PostLogin(url: string, json: string, isAuth = true) {
+  let myRequest: object = {
     method: "post",
     url,
     headers: {
@@ -61,9 +61,9 @@ export async function PostLogin(url, json, isAuth = true) {
     });
 }
 
-export async function PostData(url, json, isAuth = true) {
+export async function PostData(url: string, json: string, isAuth = true) {
   const token = localStorage.getItem(KEY.API_TOKEN);
-  let myRequest = {
+  let myRequest: object = {
     method: "post",
     url,
     headers: {
@@ -94,9 +94,9 @@ export async function PostData(url, json, isAuth = true) {
  * @param {*} json is input format json to request server
  * @param {*} isAuth is state auth
  */
-export async function PutData(url, json, isAuth = true) {
+export async function PutData(url: string, json: string, isAuth = true) {
   const token = localStorage.getItem(KEY.API_TOKEN);
-  let myRequest = {
+  let myRequest: object = {
     method: "put",
     url,
     headers: {

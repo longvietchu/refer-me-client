@@ -12,6 +12,8 @@ import Style from "./Style";
 
 import { AccountCircle, LockRounded } from "@material-ui/icons";
 
+import { login } from "../../../apis/Functions/users";
+
 import { useHistory } from "react-router-dom";
 import { useSnackbar } from "notistack";
 
@@ -19,6 +21,7 @@ const LoginCard = () => {
   const classes = Style();
 
   const [state, setState] = useState({
+    api_name: "v1/auth/login",
     username: "",
     password: "",
   });
@@ -27,6 +30,7 @@ const LoginCard = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   let history = useHistory();
+
   const Login = () => {
     if (state.username === "" || state.password === "") {
       sethelperText("");
@@ -37,6 +41,19 @@ const LoginCard = () => {
     } else {
       history.push("/home");
       enqueueSnackbar("Login success!", { variant: "success" });
+    }
+  };
+
+  const LoginEnter = async (e: any) => {
+    if (e.key === "Enter") {
+      let res: any;
+      if (state.username === "" || state.password === "") {
+        sethelperText("");
+        sethelperText("Please enter your email address and password");
+      } else {
+        res = await login(state);
+        console.log("res", res);
+      }
     }
   };
 
@@ -70,6 +87,7 @@ const LoginCard = () => {
               username: e.target.value,
             });
           }}
+          onKeyDown={LoginEnter}
         />
         <TextField
           label="password"
@@ -92,6 +110,7 @@ const LoginCard = () => {
               password: e.target.value,
             });
           }}
+          onKeyDown={LoginEnter}
         />
 
         <div style={{ width: "100%" }}>
