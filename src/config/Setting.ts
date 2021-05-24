@@ -10,5 +10,5 @@ export const NetworkSetting = {
   // ROOT_MOB: "http://222.252.22.174:8080/erp-service-mobile",
   // ROOT_WEB: "http://222.252.22.174:8080/erp-service",
   // ROOT_WEB: "http://api.meeting.dcv.vn/api/rest",
-  ROOT_WEB: "https://refer-me-api.herokuapp.com",
+  ROOT_WEB: "https://refer-me-api.herokuapp.com/",
 };

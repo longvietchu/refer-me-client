@@ -22,7 +22,7 @@ const LoginCard = () => {
 
   const [state, setState] = useState({
     api_name: "v1/auth/login",
-    username: "",
+    email: "",
     password: "",
   });
 
@@ -32,10 +32,10 @@ const LoginCard = () => {
   let history = useHistory();
 
   const Login = () => {
-    if (state.username === "" || state.password === "") {
+    if (state.email === "" || state.password === "") {
       sethelperText("");
       sethelperText("Please enter your email address and password");
-    } else if (state.username != "tungnh" || state.password != "123456") {
+    } else if (state.email != "tungnh" || state.password != "123456") {
       sethelperText("");
       sethelperText("that's not the right email or password");
     } else {
@@ -47,7 +47,7 @@ const LoginCard = () => {
   const LoginEnter = async (e: any) => {
     if (e.key === "Enter") {
       let res: any;
-      if (state.username === "" || state.password === "") {
+      if (state.email === "" || state.password === "") {
         sethelperText("");
         sethelperText("Please enter your email address and password");
       } else {
@@ -67,7 +67,7 @@ const LoginCard = () => {
 
       <form className={classes.form}>
         <TextField
-          label="username"
+          label="email"
           color="primary"
           margin="normal"
           required
@@ -79,12 +79,12 @@ const LoginCard = () => {
             ),
           }}
           type="email"
-          value={state.username}
-          placeholder="email or phone"
+          value={state.email}
+          placeholder="email"
           onChange={(e) => {
             setState({
               ...state,
-              username: e.target.value,
+              email: e.target.value,
             });
           }}
           onKeyDown={LoginEnter}
