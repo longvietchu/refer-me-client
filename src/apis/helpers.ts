@@ -27,15 +27,17 @@ export async function GetData(api_url: string, data: any) {
     console.log('My request----------', myRequest);
     return await axios(myRequest)
         .then((response) => response)
-        .then((response) => response)
-        .catch((error) => {
-            console.log(error.request);
-            const err = {
-                message: 'error',
-                status: error.request.status
-            };
-            return err;
-        });
+        .catch(
+            (error) => error
+            // {
+            //     console.log(error.request);
+            //     const err = {
+            //         message: 'error',
+            //         status: error.request.status
+            //     };
+            //     return err;
+            //}
+        );
 }
 export async function PostLogin(api_url: string, json: string, isAuth = true) {
     let myRequest: object = {
@@ -50,7 +52,6 @@ export async function PostLogin(api_url: string, json: string, isAuth = true) {
     };
     console.log('post data mobile', myRequest);
     return await axios(myRequest)
-        .then((response) => response)
         .then((response) => response)
         .catch((error) => {
             console.log(error.request);
@@ -70,7 +71,7 @@ export async function PostData(api_url: string, json: string, isAuth = true) {
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + token
+            Authorization: token
         },
         timeout: 60 * 1000,
         data: JSON.stringify(json)
@@ -78,14 +79,8 @@ export async function PostData(api_url: string, json: string, isAuth = true) {
     console.log('post data mobile', myRequest);
     return await axios(myRequest)
         .then((response) => response)
-        .then((response) => response)
         .catch((error) => {
-            console.log(error.request);
-            const err = {
-                message: 'error',
-                status: error.request.status
-            };
-            return err;
+            return error.response.data;
         });
 }
 
