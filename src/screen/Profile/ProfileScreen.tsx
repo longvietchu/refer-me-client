@@ -23,22 +23,62 @@ import {
 } from '@material-ui/icons';
 // import TweetCard from "../HomePage/TweetsCard/TweetsCard";
 // import Media from "./Media";
-import EditProfile from './EditProfile/EditProfile';
 import CreateExperience from './Experience/CreateExperience';
 // import "roboto-fontface";
 import Widgets from '../../components/widgets/Widgets';
 import Header from '../../components/header/Header';
 import Styles from './Style';
 
+import { IEmployments } from './ProfileContainer';
+import CreateEducation from './Education/CreateEducation';
+import ModalEdit from './EditProfile/ModalEdit';
+
 interface IProps {
     CreateExp: any;
+    modalProfile: boolean;
     modalExp: boolean;
+    modalEdu: boolean;
+    openModalProfile: VoidFunction;
+    closeModalProfile: VoidFunction;
     openModal: VoidFunction;
     closeModal: VoidFunction;
+    openModalEdu: VoidFunction;
+    closeModalEdu: VoidFunction;
+    startDate: any;
+    endDate: any;
+    setStartDate: any;
+    setEndDate: any;
+    setTitle: any;
+    setCompany: any;
+    setLocation: any;
+    setDescription: any;
+    setEmoloymentType: any;
+    employments: IEmployments[];
 }
 
 const ProfileScreen = (props: IProps) => {
-    const { CreateExp, modalExp, openModal, closeModal } = props;
+    const {
+        CreateExp,
+        modalProfile,
+        modalExp,
+        modalEdu,
+        openModalProfile,
+        closeModalProfile,
+        openModal,
+        closeModal,
+        openModalEdu,
+        closeModalEdu,
+        startDate,
+        endDate,
+        setStartDate,
+        setEndDate,
+        setTitle,
+        setCompany,
+        setLocation,
+        setDescription,
+        setEmoloymentType,
+        employments
+    } = props;
     const classes = Styles();
     const history = useHistory();
 
@@ -106,7 +146,7 @@ const ProfileScreen = (props: IProps) => {
                                 className={classes.horizontalDiv}>
                                 <div></div>
                                 <Button
-                                    onClick={openProfileEditor}
+                                    onClick={openModalProfile}
                                     className={classes.btn}>
                                     <Edit />
                                 </Button>
@@ -233,8 +273,8 @@ const ProfileScreen = (props: IProps) => {
                     </Card>
                     <Grid item xs={12}>
                         {/* {tab === "Tweets" && <TweetCard />}
-            {tab === "Tweets & replies" && <TweetCard />}
-            {tab === "Media" && <Media onClick={props.openTweet} />} */}
+                            {tab === "Tweets & replies" && <TweetCard />}
+                            {tab === "Media" && <Media onClick={props.openTweet} />} */}
                         {tab === 'Jobs' && (
                             <Typography
                                 style={{ textAlign: 'center' }}
@@ -418,7 +458,7 @@ const ProfileScreen = (props: IProps) => {
                                 </Typography>
                             </Grid>
                             <Grid item style={{ margin: '24px 10px 0' }}>
-                                <Button onClick={openProfileEditor}>
+                                <Button onClick={openModalEdu}>
                                     <Add style={{ color: '#0a66c2' }} />
                                 </Button>
                             </Grid>
@@ -581,15 +621,39 @@ const ProfileScreen = (props: IProps) => {
                     </Grid>
                 </Hidden>
 
-                <EditProfile
-                    open={editProfile}
-                    onClose={() => setEditProfile(false)}
-                    closeModal={() => setEditProfile(false)}
+                <ModalEdit
+                    // open={editProfile}
+                    // onClose={() => setEditProfile(false)}
+                    // closeModal={() => setEditProfile(false)}
+                    modalProfile={modalProfile}
+                    closeModalProfile={closeModalProfile}
+                    startDate={startDate}
+                    endDate={endDate}
+                    setStartDate={setStartDate}
+                    setEndDate={setEndDate}
                 />
                 <CreateExperience
                     modalExp={modalExp}
                     closeModal={closeModal}
                     CreateExp={CreateExp}
+                    startDate={startDate}
+                    endDate={endDate}
+                    setStartDate={setStartDate}
+                    setEndDate={setEndDate}
+                    setTitle={setTitle}
+                    setCompany={setCompany}
+                    setLocation={setLocation}
+                    setDescription={setDescription}
+                    setEmoloymentType={setEmoloymentType}
+                    employments={employments}
+                />
+                <CreateEducation
+                    modalEdu={modalEdu}
+                    closeModalEdu={closeModalEdu}
+                    startDate={startDate}
+                    endDate={endDate}
+                    setStartDate={setStartDate}
+                    setEndDate={setEndDate}
                 />
             </Grid>
         </Grid>

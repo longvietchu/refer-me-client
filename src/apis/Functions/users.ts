@@ -21,3 +21,8 @@ export const createExp = async (body: any) =>
     PostData(url.CREATE_EXP, body)
         .then((res) => res)
         .catch((err) => err);
+
+export const createEdu = async (body: any) =>
+    PostData(url.CREATE_EDU, body)
+        .then((res) => res)
+        .catch((err) => err);

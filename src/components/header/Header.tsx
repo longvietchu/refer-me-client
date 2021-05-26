@@ -223,12 +223,12 @@ const Header = () => {
                         Account
                     </Typography>
                     <Link
-                        href="#"
+                        href="./change-password"
                         style={{ color: '#808080', lineHeight: '20px' }}>
                         Setting
                     </Link>
                     <Link
-                        href="#"
+                        href=""
                         style={{ color: '#808080', lineHeight: '20px' }}>
                         Help
                     </Link>

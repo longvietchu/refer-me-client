@@ -11,6 +11,7 @@ import JobContainer from './Job/JobContainer';
 import NetworkContainer from './Network/NetworkContainer';
 
 import KEY from '../assets/AsynStorage';
+import ChangePasswordScreen from './ChangePassword/ChangePasswordScreen';
 
 const RootView = () => {
     const PrivateRoute = ({ children, ...rest }: any) => {
@@ -74,6 +75,9 @@ const RootView = () => {
             </Route>
             <Route path="/mynetwork">
                 <NetworkContainer />
+            </Route>
+            <Route path="/change-password">
+                <ChangePasswordScreen />
             </Route>
 
             <Route path="/" exact={true}>
