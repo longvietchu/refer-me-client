@@ -10,7 +10,10 @@ import {
     Box,
     Avatar,
     TextField,
-    Button
+    Button,
+    FormControl,
+    InputLabel,
+    Select
 } from '@material-ui/core';
 
 import {
@@ -59,6 +62,21 @@ interface IProps {
     // employments: IEmployments[];
 }
 
+const genders = [
+    {
+        value: '0',
+        label: 'default'
+    },
+    {
+        value: '1',
+        label: 'Male'
+    },
+    {
+        value: '2',
+        label: 'Female'
+    }
+];
+
 const ModalEdit = (props: any) => {
     const classes = Styles();
     //   const ref = React.forwardRef()
@@ -77,6 +95,8 @@ const ModalEdit = (props: any) => {
         // setEmoloymentType,
         // employments
     } = props;
+
+    const [gender, setGender] = React.useState('0');
 
     return (
         <Modal
@@ -190,8 +210,36 @@ const ModalEdit = (props: any) => {
                                     onChange={(date: any) => setStartDate(date)}
                                     label="Birthday"
                                     fullWidth
-                                    className={classes.textField}
+                                    // className={classes.textField}
+                                    style={{
+                                        width: '40%',
+                                        marginLeft: '5%',
+                                        height: '15%'
+                                    }}
                                 />
+                                <TextField
+                                    id="outlined-select-currency-native"
+                                    select
+                                    label="Select gender"
+                                    value={gender}
+                                    onChange={(e) => setGender(e.target.value)}
+                                    SelectProps={{
+                                        native: true
+                                    }}
+                                    variant="outlined"
+                                    style={{
+                                        width: '40%',
+                                        marginRight: '5%',
+                                        height: '15%'
+                                    }}>
+                                    {genders.map((option: any) => (
+                                        <option
+                                            key={option.value}
+                                            value={option.value}>
+                                            {option.label}
+                                        </option>
+                                    ))}
+                                </TextField>
                             </Grid>
                         </MuiPickersUtilsProvider>
                     </Grid>

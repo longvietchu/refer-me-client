@@ -9,6 +9,8 @@ import NotificationsContainer from './Notifications/NotificationsContainer';
 import MessagingContainer from './Messaging/MessagingContainer';
 import JobContainer from './Job/JobContainer';
 import NetworkContainer from './Network/NetworkContainer';
+import CreateOrganizationContainer from './Organization/CreateOrganization/CreateOrganizationContainer';
+import ProfileOrgContainer from './Organization/ProfileOrganization/ProfileOrgContainer';
 
 import KEY from '../assets/AsynStorage';
 import ChangePasswordScreen from './ChangePassword/ChangePasswordScreen';
@@ -78,6 +80,12 @@ const RootView = () => {
             </Route>
             <Route path="/change-password">
                 <ChangePasswordScreen />
+            </Route>
+            <Route path="/organization/new">
+                <CreateOrganizationContainer />
+            </Route>
+            <Route path="/organization/profile">
+                <ProfileOrgContainer />
             </Route>
 
             <Route path="/" exact={true}>

@@ -56,6 +56,10 @@ const Header = () => {
         history.push('./profile');
     };
 
+    const onClickCreateOrg = () => {
+        history.push('./organization/new');
+    };
+
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
 
@@ -211,8 +215,8 @@ const Header = () => {
                 </List>
 
                 <Grid container justify="center">
-                    <Button className={classes.btn} onClick={onClickProfile}>
-                        View Profile
+                    <Button className={classes.btn} onClick={onClickCreateOrg}>
+                        Create an organization
                     </Button>
                 </Grid>
 
