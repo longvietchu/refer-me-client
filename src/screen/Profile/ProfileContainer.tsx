@@ -1,8 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ProfileScreen from './ProfileScreen';
 
-import { createExp, createEdu } from '../../apis/Functions/users';
+import {
+    getUser,
+    getExp,
+    createExp,
+    createEdu
+} from '../../apis/Functions/users';
 import { useSnackbar } from 'notistack';
+
+import { saveUserToRedux } from '../../actions/users';
+import { connect } from 'react-redux';
 
 import { formatDateYYYY, formatYear } from '../../config/Function';
 
@@ -38,8 +46,18 @@ export interface IEmployments {
     label: string;
 }
 
-const ProfileContainer = () => {
+const ProfileContainer = (props: any) => {
     const { enqueueSnackbar } = useSnackbar();
+
+    const { userInfo } = props.user;
+
+    const [currentUser, setCurrentUser] = useState({});
+    // const [newUser, setNewUser] = useState({});
+    const [listExp, setListExp] = useState([]);
+
+    console.log('currentUser', currentUser);
+
+    console.log('user in4--', props);
 
     const [modalProfile, setModalProfile] = useState(false);
     const [modalExp, setModalIsOpen] = useState(false);
@@ -81,6 +99,33 @@ const ProfileContainer = () => {
         new Date(date.getFullYear(), date.getMonth(), 1)
     );
     const [endDate, setEndDate] = useState(new Date());
+
+    // useEffect(() => {
+    //     const user = (' ' + currentUser).slice(1);
+    //     setNewUser(user);
+    // }, [currentUser]);
+
+    useEffect(() => {
+        GetCurrentUser();
+        // GetExp();
+    }, []);
+
+    const GetCurrentUser = async () => {
+        const res = await getUser();
+        if (res.data.data) {
+            setCurrentUser(res);
+        }
+    };
+
+    // const GetExp = async () => {
+    //     if (currentUser.d) {
+    //         const res = await getExp({
+    //             user_id: currentUser.data.data.id
+    //         });
+    //         console.log('resss', res);
+    //         console.log('currentUser-----', currentUser);
+    //     }
+    // };
 
     const CreateExp = async () => {
         const res = await createExp({
@@ -137,4 +182,10 @@ const ProfileContainer = () => {
     );
 };
 
-export default ProfileContainer;
+const mapStateToProps = (state: any) => {
+    return {
+        user: state.userReducer
+    };
+};
+
+export default connect(mapStateToProps, { saveUserToRedux })(ProfileContainer);

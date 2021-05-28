@@ -16,7 +16,7 @@ export async function GetData(api_url: string, data: any) {
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + token
+            Authorization: token
         },
         params: {
             ...data
@@ -27,17 +27,14 @@ export async function GetData(api_url: string, data: any) {
     console.log('My request----------', myRequest);
     return await axios(myRequest)
         .then((response) => response)
-        .catch(
-            (error) => error
-            // {
-            //     console.log(error.request);
-            //     const err = {
-            //         message: 'error',
-            //         status: error.request.status
-            //     };
-            //     return err;
-            //}
-        );
+        .catch((error) => {
+            console.log(error.request);
+            const err = {
+                message: 'error',
+                status: error.request.status
+            };
+            return err;
+        });
 }
 export async function PostLogin(api_url: string, json: string, isAuth = true) {
     let myRequest: object = {

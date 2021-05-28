@@ -17,6 +17,16 @@ export const signup = async (body: any) =>
         .then((res) => res)
         .catch((err) => err);
 
+export const getUser = async (body?: any) =>
+    GetData(url.USER, body)
+        .then((res) => res)
+        .catch((err) => err);
+
+export const getExp = async (body: any) =>
+    GetData(url.LIST_EXP, body)
+        .then((res) => res)
+        .catch((err) => err);
+
 export const createExp = async (body: any) =>
     PostData(url.CREATE_EXP, body)
         .then((res) => res)

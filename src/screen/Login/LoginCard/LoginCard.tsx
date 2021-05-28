@@ -19,7 +19,10 @@ import { login } from '../../../apis/Functions/users';
 import { useHistory } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 
-const LoginCard = () => {
+import { saveUserToRedux } from '../../../actions/users';
+import { connect } from 'react-redux';
+
+const LoginCard = (props: any) => {
     const classes = Style();
 
     const [state, setState] = useState({
@@ -45,6 +48,7 @@ const LoginCard = () => {
             const res = await login(state);
             console.log('res', res);
             if (res.data && res.data.success == true) {
+                props.saveUserToRedux(res.data.user);
                 localStorage.setItem(KEY.API_TOKEN, res.data.token);
                 history.push('/home');
                 sethelperText('');
@@ -69,6 +73,7 @@ const LoginCard = () => {
                 const res = await login(state);
                 console.log('res', res);
                 if (res.data && res.data.success == true) {
+                    props.saveUserToRedux(res.data.user);
                     localStorage.setItem(KEY.API_TOKEN, res.data.token);
                     history.push('/home');
                     sethelperText('');
@@ -173,4 +178,10 @@ const LoginCard = () => {
     );
 };
 
-export default LoginCard;
+const mapStateToProps = (state: any) => {
+    return {
+        user: state.userReducer
+    };
+};
+
+export default connect(mapStateToProps, { saveUserToRedux })(LoginCard);

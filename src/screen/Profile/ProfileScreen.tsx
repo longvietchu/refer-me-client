@@ -24,6 +24,7 @@ import {
 // import TweetCard from "../HomePage/TweetsCard/TweetsCard";
 // import Media from "./Media";
 import CreateExperience from './Experience/CreateExperience';
+import ListExperience from './Experience/ListExperience';
 // import "roboto-fontface";
 import Widgets from '../../components/widgets/Widgets';
 import Header from '../../components/header/Header';
@@ -301,149 +302,11 @@ const ProfileScreen = (props: IProps) => {
                                     <Add style={{ color: '#0a66c2' }} />
                                 </Button>
                             </Grid>
-                            <Grid
-                                container
-                                direction="row"
-                                justify="space-between"
-                                alignItems="center"
-                                style={{ padding: '0 0 24px' }}>
-                                <Link
-                                    href="#"
-                                    color="inherit"
-                                    style={{ padding: '20px 5px 0px 24px' }}>
-                                    <Grid
-                                        container
-                                        direction="row"
-                                        justify="space-between"
-                                        alignItems="flex-start"
-                                        style={{ marginRight: '14px' }}>
-                                        <div>
-                                            <img
-                                                style={{
-                                                    height: '56px',
-                                                    width: '56px'
-                                                }}
-                                                src="https://dcv.vn/wp-content/uploads/2021/01/logo-dcv-2021-1.png"
-                                            />
-                                        </div>
-                                        <div>
-                                            <h3>Iternship trainee</h3>
-                                            <p
-                                                style={{
-                                                    fontSize: '14px',
-                                                    margin: '2px 0px'
-                                                }}>
-                                                Data Communication of Vietnam
-                                            </p>
-                                            <div
-                                                style={{
-                                                    color: '#00000099',
-                                                    fontSize: '14px',
-                                                    margin: '2px 0px'
-                                                }}>
-                                                <span>Dec 2020 - Mar 2021</span>
-                                                <FiberManualRecordOutlined
-                                                    style={{
-                                                        fontSize: '0.5rem',
-                                                        margin: '0px 4px'
-                                                    }}
-                                                />
-                                                <span>4 mos</span>
-                                            </div>
-                                            <div
-                                                style={{
-                                                    color: '#00000099',
-                                                    fontSize: '14px',
-                                                    margin: '2px 0px'
-                                                }}>
-                                                <span>
-                                                    Hanoi, Hanoi, Vietnam
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </Grid>
-                                </Link>
-
-                                <Grid item style={{ margin: '20px 10px 0' }}>
-                                    <Button onClick={openProfileEditor}>
-                                        <Edit style={{ color: '#0a66c2' }} />
-                                    </Button>
-                                </Grid>
-                            </Grid>
                         </Grid>
+                        <ListExperience />
+                    </Card>
 
-                        <Divider style={{ marginLeft: '94px' }} />
-
-                        <Grid
-                            container
-                            direction="row"
-                            justify="space-between"
-                            alignItems="center"
-                            style={{ padding: '0 0 24px' }}>
-                            <Link
-                                href="#"
-                                color="inherit"
-                                style={{ padding: '20px 5px 0px 24px' }}>
-                                <Grid
-                                    container
-                                    direction="row"
-                                    justify="space-between"
-                                    alignItems="flex-start"
-                                    style={{ marginRight: '14px' }}>
-                                    <div>
-                                        <img
-                                            style={{
-                                                height: '56px',
-                                                width: '56px'
-                                            }}
-                                            src="https://dcv.vn/wp-content/uploads/2021/01/logo-dcv-2021-1.png"
-                                        />
-                                    </div>
-                                    <div>
-                                        <h3>Iternship trainee</h3>
-                                        <p
-                                            style={{
-                                                fontSize: '14px',
-                                                margin: '2px 0px'
-                                            }}>
-                                            Data Communication of Vietnam
-                                        </p>
-                                        <div
-                                            style={{
-                                                color: '#00000099',
-                                                fontSize: '14px',
-                                                margin: '2px 0px'
-                                            }}>
-                                            <span>Dec 2020 - Mar 2021</span>
-                                            <FiberManualRecordOutlined
-                                                style={{
-                                                    fontSize: '0.5rem',
-                                                    margin: '0px 4px'
-                                                }}
-                                            />
-                                            <span>4 mos</span>
-                                        </div>
-                                        <div
-                                            style={{
-                                                color: '#00000099',
-                                                fontSize: '14px',
-                                                margin: '2px 0px'
-                                            }}>
-                                            <span>Hanoi, Hanoi, Vietnam</span>
-                                        </div>
-                                    </div>
-                                </Grid>
-                            </Link>
-
-                            <Grid item style={{ margin: '20px 10px 0' }}>
-                                <Button onClick={openProfileEditor}>
-                                    <Edit style={{ color: '#0a66c2' }} />
-                                </Button>
-                            </Grid>
-                        </Grid>
-
-                        <Divider />
-
+                    <Card style={{ marginTop: '20px' }}>
                         <Grid
                             container
                             direction="row"
