@@ -92,6 +92,16 @@ export default makeStyles((theme) => ({
         textTransform: 'capitalize',
         width: '30%'
     },
+
+    btn_details: {
+        color: '#00000099',
+        fontWeight: 'bold',
+        fontSize: 18,
+        textTransform: 'capitalize',
+        width: '100%',
+        height: 50
+    },
+
     avatarBox: {
         position: 'relative',
         bottom: '1rem',
@@ -113,5 +123,11 @@ export default makeStyles((theme) => ({
     body__widgets: {
         minWidth: 225,
         maxWidth: 300
+    },
+    hidden: {
+        display: '-webkit-box',
+        WebkitLineClamp: 4,
+        overflow: 'hidden',
+        WebkitBoxOrient: 'vertical'
     }
 }));

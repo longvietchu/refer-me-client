@@ -1,7 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-    Tab,
-    Tabs,
     Button,
     Paper,
     Avatar,
@@ -11,7 +9,8 @@ import {
     Card,
     Link,
     Grid,
-    Typography
+    Typography,
+    ButtonBase
 } from '@material-ui/core';
 import {
     Edit,
@@ -34,7 +33,29 @@ import { Helmet } from 'react-helmet';
 
 const ProfileOrgScreen = () => {
     const classes = Styles();
-    let history = useHistory();
+
+    const [isHidden, setIsHidden] = useState(true);
+
+    function ReadMore({ children }: any) {
+        if (children.props.length <= 258)
+            return (
+                <>
+                    <div>{children}</div>
+                </>
+            );
+        else {
+            return (
+                <>
+                    <div className={isHidden ? classes.hidden : undefined}>
+                        {children}
+                    </div>
+                    {/* <ButtonBase onClick={() => setIsHidden(!isHidden)}>
+                        {isHidden ? '...see more' : 'see less'}
+                    </ButtonBase> */}
+                </>
+            );
+        }
+    }
 
     return (
         <Grid container className={classes.app}>
@@ -147,247 +168,198 @@ const ProfileOrgScreen = () => {
                                         'https://thietbivesinhonline.vn/',
                                         '_blank'
                                     )
-                                }
-                                // href="https://thietbivesinhonline.vn/"
-                            >
+                                }>
                                 Visit website
                             </Button>
                         </Grid>
                     </Card>
 
-                    <Card style={{ marginTop: '20px' }}>
-                        <Grid
-                            container
-                            direction="row"
-                            justify="space-between"
-                            alignItems="center">
-                            <Grid item style={{ margin: '24px 24px 0' }}>
-                                <Typography
-                                    id="status"
-                                    style={{ fontSize: '1.2rem' }}>
-                                    Experience
-                                </Typography>
-                            </Grid>
-                            <Grid item style={{ margin: '24px 10px 0' }}>
-                                <Button>
-                                    <Add style={{ color: '#0a66c2' }} />
+                    <Card style={{ marginTop: '20px', borderRadius: 10 }}>
+                        <Typography
+                            style={{
+                                padding: '24px 24px 0px',
+                                fontSize: '20px',
+                                fontWeight: 600
+                            }}>
+                            About
+                        </Typography>
+                        <ReadMore>
+                            <Typography
+                                style={{
+                                    color: '#00000099',
+                                    padding: '24px 24px'
+                                }}>
+                                YEN TUNG Trading and Service Co., Ltd was
+                                established on September 25, 2014. Business
+                                code: 0106650294 Business areas : Bathroom
+                                equipment: with genuine products, famous brands
+                                by domestic manufacturers as well as imported
+                                products: 1 / Toilet: Inax toilet, ToTo toilet,
+                                American Standard toilet, Thai Cotto toilet,
+                                Caesar toilet, Vigracera toilet... 2 / Lavabo –
+                                washbasin: wall-mounted lavabo, table-mounted
+                                lavabo, under-table lavabo 3/ Bathroom mirror
+                                cabinet set: Senli mirror basin set, Bross
+                                mirror basin set, glass basin cabinet set,
+                                Caesar PVC basin cabinet set .. 4/ Shower: Inax
+                                shower, Selta shower, American Standard shower,
+                                Toto temperature shower 5/ Hot and cold standing
+                                shower, temperature shower: Toto shower, Korean
+                                shower: Hado shower, Kosco shower, Samwon
+                                shower... 6/ Hot and cold wash basin faucet,
+                                induction lavabo faucet vòi 7 / Bathroom heating
+                                lights: Hans bathroom heating lights, Kottmann
+                                bathroom heating lights, Duraqua bathroom
+                                heating lights, Braun bathroom heating lights...
+                                8/ Mirrors and bathroom accessories. 9/ Standing
+                                bathroom, massager sauna room Kitchen equipment:
+                                304 stainless steel sink made by domestic
+                                manufacturers, imported stainless steel sink Hot
+                                and cold sink faucet, single dish faucet, Heater
+                                : Ariston water heater. Ferroli water heater,
+                                Picenza water heater, Inax water heater… With
+                                nearly 20 years in the market - formerly Duc
+                                Hien Sanitary ware store - flexible in business
+                                method: traditional sales combined with online
+                                sales (online sales) with 2 websites main:
+                                Vietnam High-class Sanitary Equipment
+                                http://sencaytam.com YEN TUNG Trading and
+                                Service Co., Ltd. is committed to bringing you
+                                genuine products, long-term warranty to ensure
+                                satisfaction for customers when buying our
+                                products.
+                            </Typography>
+                        </ReadMore>
+                        {isHidden ? (
+                            <div>
+                                <Divider />
+                                <Button
+                                    className={classes.btn_details}
+                                    onClick={() => setIsHidden(!isHidden)}>
+                                    See all details
                                 </Button>
+                            </div>
+                        ) : null}
+                    </Card>
+
+                    <Card style={{ marginTop: '20px', borderRadius: 10 }}>
+                        <Typography
+                            style={{
+                                padding: '24px 24px 0px',
+                                fontSize: '20px',
+                                fontWeight: 600
+                            }}>
+                            Contact information
+                        </Typography>
+                        <Grid container>
+                            <Grid
+                                item
+                                container
+                                direction="column"
+                                xs={4}
+                                style={{ margin: 10 }}
+                                spacing={3}>
+                                <Grid item>
+                                    <Typography
+                                        style={{
+                                            fontWeight: 600,
+                                            lineHeight: 1.5
+                                        }}>
+                                        Website
+                                    </Typography>
+                                </Grid>
+                                <Grid item>
+                                    <Typography
+                                        style={{
+                                            fontWeight: 600,
+                                            lineHeight: 1.5
+                                        }}>
+                                        Phone
+                                    </Typography>
+                                </Grid>
+                                <Grid item>
+                                    <Typography
+                                        style={{
+                                            fontWeight: 600,
+                                            lineHeight: 1.5
+                                        }}>
+                                        Industry
+                                    </Typography>
+                                </Grid>
+                                <Grid item>
+                                    <Typography
+                                        style={{
+                                            fontWeight: 600,
+                                            lineHeight: 1.5
+                                        }}>
+                                        Organization size
+                                    </Typography>
+                                </Grid>
+                                <Grid item>
+                                    <Typography
+                                        style={{
+                                            fontWeight: 600,
+                                            lineHeight: 1.5
+                                        }}>
+                                        Type
+                                    </Typography>
+                                </Grid>
                             </Grid>
                             <Grid
+                                item
                                 container
-                                direction="row"
-                                justify="space-between"
-                                alignItems="center"
-                                style={{ padding: '0 0 24px' }}>
-                                <Link
-                                    href="#"
-                                    color="inherit"
-                                    style={{ padding: '20px 5px 0px 24px' }}>
-                                    <Grid
-                                        container
-                                        direction="row"
-                                        justify="space-between"
-                                        alignItems="flex-start"
-                                        style={{ marginRight: '14px' }}>
-                                        <div>
-                                            <img
-                                                style={{
-                                                    height: '56px',
-                                                    width: '56px'
-                                                }}
-                                                src="https://dcv.vn/wp-content/uploads/2021/01/logo-dcv-2021-1.png"
-                                            />
-                                        </div>
-                                        <div>
-                                            <h3>Iternship trainee</h3>
-                                            <p
-                                                style={{
-                                                    fontSize: '14px',
-                                                    margin: '2px 0px'
-                                                }}>
-                                                Data Communication of Vietnam
-                                            </p>
-                                            <div
-                                                style={{
-                                                    color: '#00000099',
-                                                    fontSize: '14px',
-                                                    margin: '2px 0px'
-                                                }}>
-                                                <span>Dec 2020 - Mar 2021</span>
-                                                <FiberManualRecordOutlined
-                                                    style={{
-                                                        fontSize: '0.5rem',
-                                                        margin: '0px 4px'
-                                                    }}
-                                                />
-                                                <span>4 mos</span>
-                                            </div>
-                                            <div
-                                                style={{
-                                                    color: '#00000099',
-                                                    fontSize: '14px',
-                                                    margin: '2px 0px'
-                                                }}>
-                                                <span>
-                                                    Hanoi, Hanoi, Vietnam
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </Grid>
-                                </Link>
-
-                                <Grid item style={{ margin: '20px 10px 0' }}>
-                                    <Button>
-                                        <Edit style={{ color: '#0a66c2' }} />
-                                    </Button>
+                                direction="column"
+                                xs={7}
+                                style={{ margin: 10 }}
+                                spacing={3}>
+                                <Grid item>
+                                    <Link
+                                        onClick={() =>
+                                            window.open(
+                                                'https://thietbivesinhonline.vn/',
+                                                '_blank'
+                                            )
+                                        }
+                                        component="button"
+                                        style={{
+                                            lineHeight: 1.5,
+                                            fontSize: 16
+                                        }}>
+                                        https://thietbivesinhonline.vn
+                                    </Link>
                                 </Grid>
-                            </Grid>
-                        </Grid>
-
-                        <Divider style={{ marginLeft: '94px' }} />
-
-                        <Grid
-                            container
-                            direction="row"
-                            justify="space-between"
-                            alignItems="center"
-                            style={{ padding: '0 0 24px' }}>
-                            <Link
-                                href="#"
-                                color="inherit"
-                                style={{ padding: '20px 5px 0px 24px' }}>
+                                <Grid item>
+                                    <Typography
+                                        style={{
+                                            lineHeight: 1.5,
+                                            fontSize: 16
+                                        }}>
+                                        0123456789
+                                    </Typography>
+                                </Grid>
                                 <Grid
-                                    container
-                                    direction="row"
-                                    justify="space-between"
-                                    alignItems="flex-start"
-                                    style={{ marginRight: '14px' }}>
-                                    <div>
-                                        <img
-                                            style={{
-                                                height: '56px',
-                                                width: '56px'
-                                            }}
-                                            src="https://dcv.vn/wp-content/uploads/2021/01/logo-dcv-2021-1.png"
-                                        />
-                                    </div>
-                                    <div>
-                                        <h3>Iternship trainee</h3>
-                                        <p
-                                            style={{
-                                                fontSize: '14px',
-                                                margin: '2px 0px'
-                                            }}>
-                                            Data Communication of Vietnam
-                                        </p>
-                                        <div
-                                            style={{
-                                                color: '#00000099',
-                                                fontSize: '14px',
-                                                margin: '2px 0px'
-                                            }}>
-                                            <span>Dec 2020 - Mar 2021</span>
-                                            <FiberManualRecordOutlined
-                                                style={{
-                                                    fontSize: '0.5rem',
-                                                    margin: '0px 4px'
-                                                }}
-                                            />
-                                            <span>4 mos</span>
-                                        </div>
-                                        <div
-                                            style={{
-                                                color: '#00000099',
-                                                fontSize: '14px',
-                                                margin: '2px 0px'
-                                            }}>
-                                            <span>Hanoi, Hanoi, Vietnam</span>
-                                        </div>
-                                    </div>
+                                    item
+                                    style={{ lineHeight: 1.5, fontSize: 16 }}>
+                                    <Typography>Building Materials</Typography>
                                 </Grid>
-                            </Link>
-
-                            <Grid item style={{ margin: '20px 10px 0' }}>
-                                <Button>
-                                    <Edit style={{ color: '#0a66c2' }} />
-                                </Button>
-                            </Grid>
-                        </Grid>
-
-                        <Divider />
-
-                        <Grid
-                            container
-                            direction="row"
-                            justify="space-between"
-                            alignItems="center">
-                            <Grid item style={{ margin: '24px 24px 0' }}>
-                                <Typography
-                                    id="status"
-                                    style={{ fontSize: '1.2rem' }}>
-                                    Education
-                                </Typography>
-                            </Grid>
-                            <Grid item style={{ margin: '24px 10px 0' }}>
-                                <Button>
-                                    <Add style={{ color: '#0a66c2' }} />
-                                </Button>
-                            </Grid>
-                        </Grid>
-                        <Grid
-                            container
-                            direction="row"
-                            justify="space-between"
-                            alignItems="center"
-                            style={{ padding: '0 0 24px' }}>
-                            <Link
-                                href="#"
-                                color="inherit"
-                                style={{ padding: '20px 5px 0px 24px' }}>
-                                <Grid
-                                    container
-                                    direction="row"
-                                    justify="space-between"
-                                    alignItems="flex-start"
-                                    style={{ marginRight: '14px' }}>
-                                    <div>
-                                        <img
-                                            style={{
-                                                height: '56px',
-                                                width: '56px'
-                                            }}
-                                            src="https://media-exp1.licdn.com/dms/image/C510BAQGVaXAZYQ2QwA/company-logo_100_100/0/1519908097940?e=1626912000&v=beta&t=BDOR_4ZLvK8VlPVH7oZhPAvZaKadju4eytvOOVie8AA"
-                                        />
-                                    </div>
-                                    <div>
-                                        <h3>
-                                            Hanoi University of Science and
-                                            Technology
-                                        </h3>
-                                        <p
-                                            style={{
-                                                fontSize: '14px',
-                                                margin: '2px 0px'
-                                            }}>
-                                            Bachelor's degree, Electronics and
-                                            Telecommunications
-                                        </p>
-                                        <div
-                                            style={{
-                                                color: '#00000099',
-                                                fontSize: '14px',
-                                                margin: '2px 0px'
-                                            }}>
-                                            <span>2017 - 2021</span>
-                                        </div>
-                                    </div>
+                                <Grid item>
+                                    <Typography
+                                        style={{
+                                            lineHeight: 1.5,
+                                            fontSize: 16
+                                        }}>
+                                        2-10 employees
+                                    </Typography>
                                 </Grid>
-                            </Link>
-
-                            <Grid item style={{ margin: '20px 10px 0' }}>
-                                <Button>
-                                    <Edit style={{ color: '#0a66c2' }} />
-                                </Button>
+                                <Grid item>
+                                    <Typography
+                                        style={{
+                                            lineHeight: 1.5,
+                                            fontSize: 16
+                                        }}>
+                                        Self-Employed
+                                    </Typography>
+                                </Grid>
                             </Grid>
                         </Grid>
                     </Card>
