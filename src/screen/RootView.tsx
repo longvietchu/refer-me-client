@@ -1,5 +1,5 @@
 import { Switch, Route, Redirect } from 'react-router-dom';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import LoginScreen from './Login/LoginScreen';
 import SignUpScreen from './SignUp/SignUpScreen';
@@ -15,7 +15,21 @@ import ProfileOrgContainer from './Organization/ProfileOrganization/ProfileOrgCo
 import KEY from '../assets/AsynStorage';
 import ChangePasswordScreen from './ChangePassword/ChangePasswordScreen';
 
-const RootView = () => {
+import { getUser } from '../apis/Functions/users';
+
+import { getUserInfor } from '../actions/users';
+
+import { connect } from 'react-redux';
+
+const RootView = (props: any) => {
+    // useEffect(() => {
+    //     const res = getUser();
+    //     res.then((result: any) => {
+    //         console.log('result---', result.data.data);
+    //         props.getUserInfor(result.data.data);
+    //     });
+    // }, []);
+
     const PrivateRoute = ({ children, ...rest }: any) => {
         let accessToken = localStorage.getItem(KEY.API_TOKEN);
         return (
@@ -101,4 +115,10 @@ const RootView = () => {
     );
 };
 
-export default RootView;
+const mapStateToProps = (state: any) => {
+    return {
+        user: state.userReducer
+    };
+};
+
+export default connect(mapStateToProps, { getUserInfor })(RootView);

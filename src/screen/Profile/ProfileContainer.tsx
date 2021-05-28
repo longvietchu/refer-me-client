@@ -9,7 +9,7 @@ import {
 } from '../../apis/Functions/users';
 import { useSnackbar } from 'notistack';
 
-import { saveUserToRedux } from '../../actions/users';
+import { saveUserToRedux, getUserInfor } from '../../actions/users';
 import { connect } from 'react-redux';
 
 import { formatDateYYYY, formatYear } from '../../config/Function';
@@ -46,18 +46,29 @@ export interface IEmployments {
     label: string;
 }
 
+export interface IExperience {
+    _id: string;
+    job_title: string;
+    job_description: string;
+    company: string;
+    location: string;
+    employment_type: string;
+    joined_at: string;
+    left_at: string;
+    user_id: string;
+    organization_id: string;
+    created_at: string;
+    updated_at: string;
+}
+
 const ProfileContainer = (props: any) => {
     const { enqueueSnackbar } = useSnackbar();
 
-    const { userInfo } = props.user;
+    // const { userInfo } = props.userReducer;
 
-    const [currentUser, setCurrentUser] = useState({});
+    const [currentUser, setCurrentUser] = useState<any>();
     // const [newUser, setNewUser] = useState({});
     const [listExp, setListExp] = useState([]);
-
-    console.log('currentUser', currentUser);
-
-    console.log('user in4--', props);
 
     const [modalProfile, setModalProfile] = useState(false);
     const [modalExp, setModalIsOpen] = useState(false);
@@ -107,25 +118,29 @@ const ProfileContainer = (props: any) => {
 
     useEffect(() => {
         GetCurrentUser();
-        // GetExp();
     }, []);
+
+    useEffect(() => {
+        GetExp();
+    }, [currentUser]);
 
     const GetCurrentUser = async () => {
         const res = await getUser();
         if (res.data.data) {
-            setCurrentUser(res);
+            setCurrentUser(res.data.data);
         }
     };
 
-    // const GetExp = async () => {
-    //     if (currentUser.d) {
-    //         const res = await getExp({
-    //             user_id: currentUser.data.data.id
-    //         });
-    //         console.log('resss', res);
-    //         console.log('currentUser-----', currentUser);
-    //     }
-    // };
+    const GetExp = async () => {
+        console.log('----', currentUser);
+        if (currentUser) {
+            const res = await getExp({
+                user_id: currentUser.id
+            });
+            console.log('resss', res);
+            setListExp(res.data.data);
+        }
+    };
 
     const CreateExp = async () => {
         const res = await createExp({
@@ -178,6 +193,7 @@ const ProfileContainer = (props: any) => {
             setDescription={setDescription}
             setEmoloymentType={setEmoloymentType}
             employments={employments}
+            listExp={listExp}
         />
     );
 };
@@ -188,4 +204,4 @@ const mapStateToProps = (state: any) => {
     };
 };
 
-export default connect(mapStateToProps, { saveUserToRedux })(ProfileContainer);
+export default connect(mapStateToProps, { getUserInfor })(ProfileContainer);

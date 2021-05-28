@@ -30,7 +30,7 @@ import Widgets from '../../components/widgets/Widgets';
 import Header from '../../components/header/Header';
 import Styles from './Style';
 
-import { IEmployments } from './ProfileContainer';
+import { IEmployments, IExperience } from './ProfileContainer';
 import CreateEducation from './Education/CreateEducation';
 import ModalEdit from './EditProfile/ModalEdit';
 
@@ -55,6 +55,7 @@ interface IProps {
     setDescription: any;
     setEmoloymentType: any;
     employments: IEmployments[];
+    listExp: IExperience[];
 }
 
 const ProfileScreen = (props: IProps) => {
@@ -78,7 +79,8 @@ const ProfileScreen = (props: IProps) => {
         setLocation,
         setDescription,
         setEmoloymentType,
-        employments
+        employments,
+        listExp
     } = props;
     const classes = Styles();
     const history = useHistory();
@@ -303,7 +305,7 @@ const ProfileScreen = (props: IProps) => {
                                 </Button>
                             </Grid>
                         </Grid>
-                        <ListExperience />
+                        <ListExperience listExp={listExp} />
                     </Card>
 
                     <Card style={{ marginTop: '20px' }}>

@@ -13,8 +13,6 @@ import rootReducer from './reducers/index';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './saga/rootSaga';
 
-import { getUser } from './apis/Functions/users';
-import { getUserInfor } from './actions/users';
 
 const sagaMiddleware = createSagaMiddleware();
 

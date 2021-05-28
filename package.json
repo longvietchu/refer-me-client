@@ -26,6 +26,7 @@
     "lottie-web": "^5.7.7",
     "material-ui-popup-state": "^1.8.3",
     "moment": "^2.29.1",
+    "moment-range": "^4.0.2",
     "mui-rte": "^1.29.0",
     "notistack": "^1.0.7",
     "react": "^17.0.1",

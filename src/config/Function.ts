@@ -122,6 +122,10 @@ export const formatYear = (time: any) => {
     let str = moment(time).locale('vi').format('YYYY');
     return str;
 };
+export const formatMonthMMM = (time: any) => {
+    let str = moment(time).locale('vi').format('MMM-YYYY');
+    return str;
+};
 
 export const formatDateYYYY = (time: any) => {
     let str = moment(time).locale('vi').format('YYYY-MM-DD');
