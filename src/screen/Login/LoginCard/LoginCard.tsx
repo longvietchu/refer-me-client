@@ -5,10 +5,12 @@ import {
     TextField,
     InputAdornment,
     Typography,
-    FormHelperText
+    FormHelperText,
+    Link
 } from '@material-ui/core';
 import Logo from '../../../assets/images/text_logo.png';
 import Style from './Style';
+import KEY from '../../../assets/AsynStorage';
 
 import { AccountCircle, LockRounded } from '@material-ui/icons';
 
@@ -17,7 +19,10 @@ import { login } from '../../../apis/Functions/users';
 import { useHistory } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 
-const LoginCard = () => {
+import { saveUserToRedux } from '../../../actions/users';
+import { connect } from 'react-redux';
+
+const LoginCard = (props: any) => {
     const classes = Style();
 
     const [state, setState] = useState({
@@ -30,7 +35,7 @@ const LoginCard = () => {
 
     let history = useHistory();
 
-    const Login = () => {
+    const Login = async () => {
         setState({
             ...state,
             email: state.email.trim(),
@@ -40,8 +45,17 @@ const LoginCard = () => {
             sethelperText('');
             sethelperText('Please enter your email address and password');
         } else {
-            history.push('/home');
-            enqueueSnackbar('Login success!', { variant: 'success' });
+            const res = await login(state);
+            console.log('res', res);
+            if (res.data && res.data.success == true) {
+                props.saveUserToRedux(res.data.user);
+                localStorage.setItem(KEY.API_TOKEN, res.data.token);
+                history.push('/home');
+                sethelperText('');
+                enqueueSnackbar('Login success!', { variant: 'success' });
+            } else {
+                sethelperText("That's not the right email or password");
+            }
         }
     };
 
@@ -58,6 +72,15 @@ const LoginCard = () => {
             } else {
                 const res = await login(state);
                 console.log('res', res);
+                if (res.data && res.data.success == true) {
+                    props.saveUserToRedux(res.data.user);
+                    localStorage.setItem(KEY.API_TOKEN, res.data.token);
+                    history.push('/home');
+                    sethelperText('');
+                    enqueueSnackbar('Login success!', { variant: 'success' });
+                } else {
+                    sethelperText("That's not the right email or password");
+                }
             }
         }
     };
@@ -139,15 +162,26 @@ const LoginCard = () => {
             </form>
 
             <div className={classes.google}>
-                <section>
+                {/* <section>
                     <div></div>
                     <p>OR</p>
                     <div></div>
-                </section>
+                </section> */}
+                <div style={{ marginBottom: 10 }}>
+                    New to RefMe? {''}
+                    <Link href="/signup">Join now</Link>
+                </div>
+
                 {/* <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} /> */}
             </div>
         </Paper>
     );
 };
 
-export default LoginCard;
+const mapStateToProps = (state: any) => {
+    return {
+        user: state.userReducer
+    };
+};
+
+export default connect(mapStateToProps, { saveUserToRedux })(LoginCard);

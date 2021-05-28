@@ -1,11 +1,11 @@
 import { makeStyles } from '@material-ui/core/styles';
-import LoginCard from './LoginCard/LoginCard';
+import SignupCard from './SignupCard/SignupCard';
 import Animation from '../../components/animations/Animation';
 import LottieRelaxing from '../../assets/images/relaxing.json';
 import { Helmet } from 'react-helmet';
 
 const Style = makeStyles((theme: any) => ({
-    login: {
+    signup: {
         width: '100vw',
         height: '100vh',
         display: 'flex',
@@ -25,7 +25,7 @@ const Style = makeStyles((theme: any) => ({
             height: 550
         }
     },
-    loginCard: {
+    signupCard: {
         height: '100%',
         display: 'flex',
         justifyContent: 'center',
@@ -40,21 +40,21 @@ const Style = makeStyles((theme: any) => ({
     }
 }));
 
-const LoginScreen = () => {
+const SignUpScreen = () => {
     const classes = Style();
     return (
-        <div className={classes.login}>
+        <div className={classes.signup}>
             <Helmet>
-                <title>RefMe Login, Sign in | RefMe</title>
+                <title>Sign up | RefMe</title>
             </Helmet>
             <div className={classes.banner}>
                 <Animation src={LottieRelaxing} />
             </div>
-            <div className={classes.loginCard}>
-                <LoginCard />
+            <div className={classes.signupCard}>
+                <SignupCard />
             </div>
         </div>
     );
 };
 
-export default LoginScreen;
+export default SignUpScreen;
