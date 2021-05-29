@@ -1,39 +1,13 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
-import RootView from './screen/RootView';
-
-import { Provider, connect } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-
-import rootReducer from './reducers/index';
-
-//redux saga
-import createSagaMiddleware from 'redux-saga';
-import rootSaga from './saga/rootSaga';
-
-import { getUser } from './apis/Functions/users';
-import { getUserInfor } from './actions/users';
-
-const sagaMiddleware = createSagaMiddleware();
-
-let store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
-
-sagaMiddleware.run(rootSaga);
-
-function App() {
-    return (
-        <Provider store={store}>
-            <RootView />
-        </Provider>
-    );
-}
-
-const mapStateToProps = (state: any) => {
-    return {
-        user: state.userReducer
-    };
-};
-
+import React, { useEffect } from 'react';
+import RootView from './modules/RootView';
+import { configure } from 'mobx';
+import { observer } from 'mobx-react-lite';
+import { loginStore } from './modules/Login/loginStore';
+configure({ useProxies: 'never', enforceActions: 'never' });
+const App = observer(() => {
+    useEffect(() => {
+        loginStore.getUserInfo();
+    }, []);
+    return <RootView />;
+});
 export default App;
