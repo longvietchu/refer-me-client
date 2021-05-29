@@ -38,7 +38,6 @@ class ProfileStore {
     async getProfile(user_id: string) {
         const result = await profileService.getProfile(user_id);
         if (result.status === HttpStatusCode.OK) {
-            console.log(result.body.data);
             this.profile = result.body.data;
         }
     }
@@ -64,7 +63,7 @@ class ProfileStore {
         formData.append('file', file);
         const result = await profileService.uploadCoverImage(formData);
         if (result.status < HttpStatusCode.CODE_300) {
-            // this.profile.background_image = result.body.url;
+            this.profile.background_image = result.body.url;
         }
         console.log(result);
     }

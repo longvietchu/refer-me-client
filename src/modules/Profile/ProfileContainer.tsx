@@ -4,6 +4,7 @@ import ProfileScreen from './ProfileScreen';
 import { useSnackbar } from 'notistack';
 
 import { formatDateYYYY, formatYear } from '../../common/config/Function';
+import { profileStore } from './profileStore';
 
 const employments = [
     {

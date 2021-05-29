@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
     Tab,
@@ -34,6 +34,7 @@ import { observer } from 'mobx-react-lite';
 import { loginStore } from '../Login/loginStore';
 import { stringUtil } from '../../common/utils/StringUtils';
 import { profileStore } from './profileStore';
+import { experienceStore } from './Experience/experienceStore';
 
 interface IProps {
     CreateExp: any;
@@ -59,6 +60,12 @@ interface IProps {
 }
 
 const ProfileScreen = observer((props: IProps) => {
+    // console.log('loginStore', loginStore);
+
+    useEffect(() => {
+        experienceStore.getExperienceOfUser(profileStore.profile.user_id);
+    }, []);
+
     const {
         CreateExp,
         modalProfile,
@@ -177,7 +184,9 @@ const ProfileScreen = observer((props: IProps) => {
                                     <span>
                                         <Typography
                                             id="status"
-                                            style={{ fontSize: '1.2rem' }}>
+                                            style={{
+                                                fontSize: '1.2rem'
+                                            }}>
                                             {profileStore.profile.headline}
                                         </Typography>
                                     </span>
@@ -187,7 +196,8 @@ const ProfileScreen = observer((props: IProps) => {
                                     direction="row"
                                     justify="flex-start"
                                     alignItems="center"
-                                    spacing={1}>
+                                    spacing={1}
+                                    style={{ padding: '5px 0 8px' }}>
                                     <Grid item>
                                         <span>
                                             <Typography id="location">
@@ -221,76 +231,7 @@ const ProfileScreen = observer((props: IProps) => {
                                     </Grid>
                                 </Grid>
                             </Grid>
-                            <Grid item xs={12}>
-                                <Grid style={{ flexGrow: 1 }} item xs={12}>
-                                    <div>
-                                        <Hidden smUp>
-                                            <Button onClick={handleBackTab}>
-                                                <NavigateBefore
-                                                    className={
-                                                        classes.backArrow
-                                                    }
-                                                />
-                                            </Button>
-                                        </Hidden>
-                                        <Tabs
-                                            variant="fullWidth"
-                                            component="nav"
-                                            className={classes.tabs}
-                                            value={value}
-                                            indicatorColor="primary"
-                                            onChange={handleChange}>
-                                            <Tab
-                                                tabIndex={0}
-                                                label="Home"
-                                                onClick={() => setTab('Homes')}
-                                                className={classes.tab}
-                                            />
-                                            <Tab
-                                                tabIndex={1}
-                                                label="About"
-                                                onClick={() => setTab('About')}
-                                                className={classes.tab}
-                                            />
-                                            <Tab
-                                                tabIndex={2}
-                                                label="Posts"
-                                                onClick={() => setTab('Posts')}
-                                                className={classes.tab}
-                                            />
-                                            <Tab
-                                                tabIndex={3}
-                                                label="Jobs"
-                                                onClick={() => setTab('Jobs')}
-                                                className={classes.tab}
-                                            />
-                                        </Tabs>
-                                        <Divider />
-                                        <Hidden smUp>
-                                            <Button onClick={handleNextTab}>
-                                                <NavigateNext
-                                                    className={
-                                                        classes.backArrow
-                                                    }
-                                                />
-                                            </Button>
-                                        </Hidden>
-                                    </div>
-                                </Grid>
-                            </Grid>
                         </Card>
-                        <Grid item xs={12}>
-                            {/* {tab === "Tweets" && <TweetCard />}
-                                {tab === "Tweets & replies" && <TweetCard />}
-                                {tab === "Media" && <Media onClick={props.openTweet} />} */}
-                            {tab === 'Jobs' && (
-                                <Typography
-                                    style={{ textAlign: 'center' }}
-                                    variant="subtitle1">
-                                    Jobs
-                                </Typography>
-                            )}
-                        </Grid>
 
                         <Card style={{ marginTop: '20px' }}>
                             <Grid
