@@ -59,7 +59,7 @@ const ListExperience = observer(() => {
                                             }}>
                                             <span>
                                                 {formatMMMYYYY(item.joined_at)}{' '}
-                                                {'-'}
+                                                {'-'}{' '}
                                                 {formatMMMYYYY(item.left_at)}
                                             </span>
                                             <FiberManualRecordOutlined

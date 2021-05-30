@@ -17,7 +17,7 @@ import 'date-fns';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
 import Modal from 'react-modal';
-import { profileService } from '../profileService';
+
 import { Gender, profileStore } from '../profileStore';
 import Styles from './Style';
 
@@ -94,13 +94,17 @@ const ModalEdit = observer((props: any) => {
     };
     return (
         <Modal
-            isOpen={modalProfile}
-            onRequestClose={closeModalProfile}
+            // isOpen={modalProfile}
+            // onRequestClose={closeModalProfile}
+            isOpen={profileStore.modalEditProfile}
+            onRequestClose={profileStore.closeModalEditProfile}
             style={customStyles}
             contentLabel="Example Modal">
             <Grid component="nav" className={classes.header} item>
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
-                    <IconButton onClick={closeModalProfile}>
+                    <IconButton
+                        // onClick={closeModalProfile}
+                        onClick={() => profileStore.closeModalEditProfile()}>
                         <Close className={classes.icon} />{' '}
                     </IconButton>
                     <Typography className={classes.typo} variant="h4">

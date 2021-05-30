@@ -33,7 +33,18 @@ class ProfileStore {
         gender: 0,
         user_id: ''
     };
+
     isLoading: boolean = false;
+
+    modalEditProfile: boolean = false;
+
+    openModalEditProfile() {
+        this.modalEditProfile = true;
+    }
+
+    closeModalEditProfile() {
+        this.modalEditProfile = false;
+    }
 
     async getProfile(user_id: string) {
         const result = await profileService.getProfile(user_id);
@@ -56,6 +67,7 @@ class ProfileStore {
             console.log(result.body);
         }
         this.isLoading = false;
+        this.closeModalEditProfile();
     }
 
     async uploadCoverImage(file: any) {
