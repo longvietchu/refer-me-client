@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction } from 'mobx';
+import { makeAutoObservable, runInAction, observable } from 'mobx';
 
 import { experienceService } from './experienceService';
 
@@ -21,13 +21,15 @@ class ExperienceStore {
     constructor() {
         makeAutoObservable(this);
     }
-    userExp?: IExperience
+
+    userExp?: Array<IExperience>;
 
     async getExperienceOfUser(user_id: string) {
         const result = await experienceService.getExperienceOfUser(user_id);
         if (result.status === HttpStatusCode.OK) {
             console.log('aaaa', result.body.data);
             this.userExp = result.body.data;
+            console.log('bbb', this.userExp);
         }
     }
 }

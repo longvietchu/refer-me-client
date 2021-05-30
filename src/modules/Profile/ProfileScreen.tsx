@@ -33,6 +33,7 @@ import ModalEdit from './EditProfile/ModalEdit';
 import { observer } from 'mobx-react-lite';
 import { loginStore } from '../Login/loginStore';
 import { stringUtil } from '../../common/utils/StringUtils';
+
 import { profileStore } from './profileStore';
 import { experienceStore } from './Experience/experienceStore';
 
@@ -60,8 +61,6 @@ interface IProps {
 }
 
 const ProfileScreen = observer((props: IProps) => {
-    // console.log('loginStore', loginStore);
-
     useEffect(() => {
         experienceStore.getExperienceOfUser(profileStore.profile.user_id);
     }, []);
@@ -246,11 +245,17 @@ const ProfileScreen = observer((props: IProps) => {
                                         Experience
                                     </Typography>
                                 </Grid>
-                                <Grid item style={{ margin: '24px 10px 0' }}>
-                                    <Button onClick={openModal}>
-                                        <Add style={{ color: '#0a66c2' }} />
-                                    </Button>
-                                </Grid>
+
+                                {loginStore.userInfo.id ===
+                                profileStore.profile.user_id ? (
+                                    <Grid
+                                        item
+                                        style={{ margin: '24px 10px 0' }}>
+                                        <Button onClick={openModal}>
+                                            <Add style={{ color: '#0a66c2' }} />
+                                        </Button>
+                                    </Grid>
+                                ) : null}
                             </Grid>
                             <ListExperience />
                         </Card>

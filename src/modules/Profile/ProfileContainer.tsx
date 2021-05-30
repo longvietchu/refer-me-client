@@ -3,8 +3,9 @@ import ProfileScreen from './ProfileScreen';
 
 import { useSnackbar } from 'notistack';
 
-import { formatDateYYYY, formatYear } from '../../common/config/Function';
+import { formatYear } from '../../common/config/Function';
 import { profileStore } from './profileStore';
+import { experienceStore } from './Experience/experienceStore';
 
 const employments = [
     {
@@ -83,13 +84,8 @@ const ProfileContainer = (props: any) => {
     );
     const [endDate, setEndDate] = useState(new Date());
 
-    useEffect(() => {
-        // GetExp();
-    }, []);
-
     const CreateExp = async () => {};
 
-    const CreateEdu = async () => {};
     return (
         <ProfileScreen
             CreateExp={CreateExp}
