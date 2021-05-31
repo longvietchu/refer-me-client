@@ -10,11 +10,43 @@ import { loginStore } from '../../Login/loginStore';
 import { formatMMMYYYY } from '../../../common/config/Function';
 
 const ListExperience = observer(() => {
+    const renderPeriod = (joined_at: string, left_at: string) => {
+        if (left_at) {
+            return (
+                <span>
+                    {formatMMMYYYY(joined_at)} {'-'} {formatMMMYYYY(left_at)}
+                </span>
+            );
+        } else {
+            return (
+                <span>
+                    {formatMMMYYYY(joined_at)} {'-'} present
+                </span>
+            );
+        }
+    };
+    const renderDistance = (joined_at: string, left_at: string) => {
+        let join = new Date(joined_at);
+        let left;
+        let months;
+        if (left_at) {
+            left = new Date(left_at);
+        } else {
+            left = new Date();
+        }
+        months = (left.getFullYear() - join.getFullYear()) * 12;
+        months -= join.getMonth();
+        months += left.getMonth();
+        if (months === 0) {
+            months = 1;
+        }
+        return months + ' mos';
+    };
+
     if (experienceStore.userExp) {
-        const data = experienceStore.userExp.slice();
         return (
             <div>
-                {data.map((item, index) => (
+                {experienceStore.userExp.map((item, index) => (
                     <div>
                         <Grid
                             container
@@ -57,18 +89,22 @@ const ListExperience = observer(() => {
                                                 fontSize: '14px',
                                                 margin: '2px 0px'
                                             }}>
-                                            <span>
-                                                {formatMMMYYYY(item.joined_at)}{' '}
-                                                {'-'}{' '}
-                                                {formatMMMYYYY(item.left_at)}
-                                            </span>
+                                            {renderPeriod(
+                                                item.joined_at,
+                                                item.left_at
+                                            )}
                                             <FiberManualRecordOutlined
                                                 style={{
                                                     fontSize: '0.5rem',
                                                     margin: '0px 4px'
                                                 }}
                                             />
-                                            <span>4 mos</span>
+                                            <span>
+                                                {renderDistance(
+                                                    item.joined_at,
+                                                    item.left_at
+                                                )}
+                                            </span>
                                         </div>
                                         <div
                                             style={{
@@ -82,18 +118,21 @@ const ListExperience = observer(() => {
                                 </Grid>
                             </Link>
 
-                            {item.user_id === profileStore.profile.user_id ? (
+                            {profileStore.profile && item.user_id === profileStore.profile.user_id ? (
                                 <Grid item style={{ margin: '20px 10px 0' }}>
-                                    <Button>
+                                    <Button
+                                        onClick={() => {
+                                            experienceStore.modalEditExperience =
+                                            true
+                                            experienceStore.selectedExperience = item
+                                        }
+                                        }>
                                         <Edit style={{ color: '#0a66c2' }} />
                                     </Button>
                                 </Grid>
                             ) : null}
                         </Grid>
-
-                        {data.length > 1 && index != data.length - 1 ? (
-                            <Divider style={{ marginLeft: '94px' }} />
-                        ) : null}
+                        <Divider style={{ marginLeft: '94px' }} />
                     </div>
                 ))}
             </div>

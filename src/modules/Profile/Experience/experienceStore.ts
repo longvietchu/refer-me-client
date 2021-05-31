@@ -22,7 +22,19 @@ class ExperienceStore {
         makeAutoObservable(this);
     }
 
-    userExp?: Array<IExperience>;
+    // userExp?: Array<IExperience>;
+    userExp?: IExperience[];
+
+    modalEditExperience: boolean = false;
+    selectedExperience?: IExperience;
+
+    openModalEditExperience = () => {
+        this.modalEditExperience = true;
+    };
+
+    closeModalEditExperience = () => {
+        this.modalEditExperience = false;
+    };
 
     async getExperienceOfUser(user_id: string) {
         const result = await experienceService.getExperienceOfUser(user_id);
@@ -31,6 +43,21 @@ class ExperienceStore {
             this.userExp = result.body.data;
             console.log('bbb', this.userExp);
         }
+    }
+
+    async updateExperienceOfUser(_id: string) {
+        if (this.selectedExperience) {
+            const result = await experienceService.updateExperienceOfUser(
+                this.selectedExperience._id,
+                this.selectedExperience
+            );
+            if (result.status < HttpStatusCode.CODE_300) {
+                console.log(result.body);
+                this.closeModalEditExperience();
+                return true;
+            }
+        }
+        return false;
     }
 }
 

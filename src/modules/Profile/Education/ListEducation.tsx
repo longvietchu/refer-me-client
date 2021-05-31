@@ -86,7 +86,7 @@ const ListEducation = () => {
                                 </Grid>
                             </Link>
 
-                            {item.user_id === profileStore.profile.user_id ? (
+                            {profileStore.profile && item.user_id === profileStore.profile.user_id ? (
                                 <Grid item style={{ margin: '20px 10px 0' }}>
                                     <Button>
                                         <Edit style={{ color: '#0a66c2' }} />

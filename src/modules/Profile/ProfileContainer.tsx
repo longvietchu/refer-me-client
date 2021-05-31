@@ -9,27 +9,27 @@ import { experienceStore } from './Experience/experienceStore';
 
 const employments = [
     {
-        value: 'initial',
+        value: '',
         label: 'Choose one...'
     },
     {
-        value: 'full',
+        value: 'Full-time',
         label: 'Full-time'
     },
     {
-        value: 'part',
+        value: 'Part-time',
         label: 'Part-time'
     },
     {
-        value: 'contract',
+        value:'Contract',
         label: 'Contract'
     },
     {
-        value: 'temporary',
+        value: 'Temporary',
         label: 'Temporary'
     },
     {
-        value: 'internship',
+        value: 'Internship',
         label: 'Internship'
     }
 ];

@@ -92,169 +92,183 @@ const ModalEdit = observer((props: any) => {
         reader.readAsDataURL(file);
         profileStore.uploadCoverImage(file);
     };
-    return (
-        <Modal
-            // isOpen={modalProfile}
-            // onRequestClose={closeModalProfile}
-            isOpen={profileStore.modalEditProfile}
-            onRequestClose={profileStore.closeModalEditProfile}
-            style={customStyles}
-            contentLabel="Example Modal">
-            <Grid component="nav" className={classes.header} item>
-                <div style={{ display: 'flex', flexDirection: 'row' }}>
-                    <IconButton
-                        // onClick={closeModalProfile}
-                        onClick={() => profileStore.closeModalEditProfile()}>
-                        <Close className={classes.icon} />{' '}
-                    </IconButton>
-                    <Typography className={classes.typo} variant="h4">
-                        Edit profile
-                    </Typography>
-                </div>
-                <Fab
-                    variant="extended"
-                    size="small"
-                    className={classes.btn}
-                    type="submit"
-                    onClick={() => profileStore.updateProfile()}>
-                    <div className={classes.btnDiv}>
-                        <span>
-                            {profileStore.isLoading ? 'Saving...' : 'Save'}
-                        </span>
-                    </div>
-                </Fab>
-            </Grid>
-            <Grid className={classes.darkArea} item>
-                <input
-                    accept="image/*"
-                    className={classes.input}
-                    id="contained-button-file"
-                    multiple
-                    type="file"
-                    onChange={(e) => {
-                        onChangeFile(e);
-                    }}
-                />
-                <label htmlFor="contained-button-file">
-                    <IconButton
-                        className={classes.camera}
-                        aria-label="upload picture"
-                        component="span">
-                        <CameraAlt className={classes.icon} />
-                    </IconButton>
-                </label>
-                <div className={classes.avatarBox}>
-                    <Box>
-                        <Avatar className={classes.avatar}>
-                            <input
-                                accept="image/*"
-                                className={classes.input}
-                                id="contained-button-file"
-                                multiple
-                                type="file"
-                            />
-                            <label htmlFor="contained-button-file">
-                                <IconButton
-                                    aria-label="upload picture"
-                                    component="span">
-                                    <CameraAlt className={classes.icon} />
-                                </IconButton>
-                            </label>
-                        </Avatar>
-                    </Box>
-                </div>
-            </Grid>
-            <form className={classes.form} noValidate>
-                <Grid container spacing={3}>
-                    <Grid item xs={12}>
-                        <TextField
-                            className={classes.textField}
-                            name="About"
-                            variant="filled"
-                            fullWidth
-                            id="About"
-                            label="About"
-                            autoFocus
-                            required
-                            value={profileStore.profile.about}
-                            onChange={(e) =>
-                                (profileStore.profile.about = e.target.value)
-                            }
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                            className={classes.textField}
-                            name="Headline"
-                            variant="filled"
-                            multiline
-                            fullWidth
-                            id="Headline"
-                            label="Headline"
-                            autoFocus
-                            required
-                            value={profileStore.profile.headline}
-                            onChange={(e) =>
-                                (profileStore.profile.headline = e.target.value)
-                            }
-                        />
-                    </Grid>
+    if(profileStore.profile) {
 
-                    <Grid item xs={12}>
-                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                            <Grid container justify="space-between">
-                                <KeyboardDatePicker
-                                    variant="dialog"
-                                    format="dd/MM/yyyy"
-                                    value={
-                                        profileStore.profile.dob || startDate
-                                    }
-                                    onChange={(date: any) =>
-                                        (profileStore.profile.dob = date)
-                                    }
-                                    label="Birthday"
-                                    fullWidth
-                                    // className={classes.textField}
-                                    style={{
-                                        width: '40%',
-                                        marginLeft: '5%',
-                                        height: '15%'
-                                    }}
-                                />
-                                <TextField
-                                    id="outlined-select-currency-native"
-                                    select
-                                    label="Select gender"
-                                    value={profileStore.profile.gender}
-                                    onChange={(e) => {
-                                        profileStore.profile.gender = parseInt(
-                                            e.target.value
-                                        );
-                                    }}
-                                    SelectProps={{
-                                        native: true
-                                    }}
-                                    variant="outlined"
-                                    style={{
-                                        width: '40%',
-                                        marginRight: '5%',
-                                        height: '15%'
-                                    }}>
-                                    {genders.map((option: any) => (
-                                        <option
-                                            key={option.value}
-                                            value={option.value}>
-                                            {option.label}
-                                        </option>
-                                    ))}
-                                </TextField>
-                            </Grid>
-                        </MuiPickersUtilsProvider>
-                    </Grid>
+        return (
+            <Modal
+                // isOpen={modalProfile}
+                // onRequestClose={closeModalProfile}
+                isOpen={profileStore.modalEditProfile}
+                onRequestClose={profileStore.closeModalEditProfile}
+                style={customStyles}
+                contentLabel="Example Modal">
+                <Grid component="nav" className={classes.header} item>
+                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                        <IconButton
+                            // onClick={closeModalProfile}
+                            onClick={() => profileStore.closeModalEditProfile()}>
+                            <Close className={classes.icon} />{' '}
+                        </IconButton>
+                        <Typography className={classes.typo} variant="h4">
+                            Edit profile
+                        </Typography>
+                    </div>
+                    <Fab
+                        variant="extended"
+                        size="small"
+                        className={classes.btn}
+                        type="submit"
+                        onClick={() => profileStore.updateProfile()}>
+                        <div className={classes.btnDiv}>
+                            <span>
+                                {profileStore.isLoading ? 'Saving...' : 'Save'}
+                            </span>
+                        </div>
+                    </Fab>
                 </Grid>
-            </form>
-        </Modal>
-    );
+                <Grid className={classes.darkArea} item>
+                    <input
+                        accept="image/*"
+                        className={classes.input}
+                        id="contained-button-file"
+                        multiple
+                        type="file"
+                        onChange={(e) => {
+                            onChangeFile(e);
+                        }}
+                    />
+                    <label htmlFor="contained-button-file">
+                        <IconButton
+                            className={classes.camera}
+                            aria-label="upload picture"
+                            component="span">
+                            <CameraAlt className={classes.icon} />
+                        </IconButton>
+                    </label>
+                    <div className={classes.avatarBox}>
+                        <Box>
+                            <Avatar className={classes.avatar}>
+                                <input
+                                    accept="image/*"
+                                    className={classes.input}
+                                    id="contained-button-file"
+                                    multiple
+                                    type="file"
+                                />
+                                <label htmlFor="contained-button-file">
+                                    <IconButton
+                                        aria-label="upload picture"
+                                        component="span">
+                                        <CameraAlt className={classes.icon} />
+                                    </IconButton>
+                                </label>
+                            </Avatar>
+                        </Box>
+                    </div>
+                </Grid>
+                <form className={classes.form} noValidate>
+                    <Grid container spacing={3}>
+                        <Grid item xs={12}>
+                            <TextField
+                                className={classes.textField}
+                                name="About"
+                                variant="filled"
+                                fullWidth
+                                id="About"
+                                label="About"
+                                autoFocus
+                                required
+                                value={profileStore.profile.about}
+                                onChange={(e) => {
+                                    if(profileStore.profile) {
+                                        profileStore.profile.about = e.target.value
+                                    }
+                                }
+                                }
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                className={classes.textField}
+                                name="Headline"
+                                variant="filled"
+                                multiline
+                                fullWidth
+                                id="Headline"
+                                label="Headline"
+                                autoFocus
+                                required
+                                value={profileStore.profile.headline}
+                                onChange={(e) =>
+                                    {
+                                        if(profileStore.profile) {
+                                            profileStore.profile.headline = e.target.value
+                                        }
+                                    }
+                                }
+                            />
+                        </Grid>
+    
+                        <Grid item xs={12}>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <Grid container justify="space-between">
+                                    <KeyboardDatePicker
+                                        variant="dialog"
+                                        format="dd/MM/yyyy"
+                                        value={
+                                            profileStore.profile.dob || startDate
+                                        }
+                                        onChange={(date: any) =>
+                                            {
+                                                if(profileStore.profile) {
+                                                    profileStore.profile.dob = date
+                                                }
+                                            }
+                                        }
+                                        label="Birthday"
+                                        fullWidth
+                                        // className={classes.textField}
+                                        style={{
+                                            width: '40%',
+                                            marginLeft: '5%',
+                                            height: '15%'
+                                        }}
+                                    />
+                                    <TextField
+                                        id="outlined-select-currency-native"
+                                        select
+                                        label="Select gender"
+                                        value={profileStore.profile.gender}
+                                        onChange={(e) => {
+                                            if(profileStore.profile) {
+                                                profileStore.profile.gender = parseInt(e.target.value)
+                                            }
+                                        }}
+                                        SelectProps={{
+                                            native: true
+                                        }}
+                                        variant="outlined"
+                                        style={{
+                                            width: '40%',
+                                            marginRight: '5%',
+                                            height: '15%'
+                                        }}>
+                                        {genders.map((option: any) => (
+                                            <option
+                                                key={option.value}
+                                                value={option.value}>
+                                                {option.label}
+                                            </option>
+                                        ))}
+                                    </TextField>
+                                </Grid>
+                            </MuiPickersUtilsProvider>
+                        </Grid>
+                    </Grid>
+                </form>
+            </Modal>
+        );
+    } else return null
 });
 
 export default ModalEdit;

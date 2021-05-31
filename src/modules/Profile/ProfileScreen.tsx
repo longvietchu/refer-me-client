@@ -21,6 +21,7 @@ import { profileStore } from './profileStore';
 import { experienceStore } from './Experience/experienceStore';
 import { educationStore } from './Education/educationStore';
 import ListEducation from './Education/ListEducation';
+import EditExperience from './Experience/EditExperience';
 
 interface IProps {
     CreateExp: any;
@@ -47,9 +48,11 @@ interface IProps {
 
 const ProfileScreen = observer((props: IProps) => {
     useEffect(() => {
-        experienceStore.getExperienceOfUser(profileStore.profile.user_id);
-        educationStore.getEducationOfUser(profileStore.profile.user_id);
-    }, []);
+        if(profileStore.profile) {
+            experienceStore.getExperienceOfUser(profileStore.profile.user_id);
+            educationStore.getEducationOfUser(profileStore.profile.user_id);
+        }
+    }, [profileStore.profile]);
 
     const {
         CreateExp,
@@ -76,7 +79,7 @@ const ProfileScreen = observer((props: IProps) => {
     const classes = Styles();
     const history = useHistory();
 
-    if (loginStore.userInfo) {
+    if (loginStore.userInfo && profileStore.profile) {
         return (
             <Grid container className={classes.app}>
                 <Grid
@@ -261,14 +264,29 @@ const ProfileScreen = observer((props: IProps) => {
                         // open={editProfile}
                         // onClose={() => setEditProfile(false)}
                         // closeModal={() => setEditProfile(false)}
-                        modalProfile={modalProfile}
-                        closeModalProfile={closeModalProfile}
+                        // modalProfile={modalProfile}
+                        // closeModalProfile={closeModalProfile}
                         startDate={startDate}
                         endDate={endDate}
                         setStartDate={setStartDate}
                         setEndDate={setEndDate}
                     />
                     <CreateExperience
+                        modalExp={modalExp}
+                        closeModal={closeModal}
+                        CreateExp={CreateExp}
+                        startDate={startDate}
+                        endDate={endDate}
+                        setStartDate={setStartDate}
+                        setEndDate={setEndDate}
+                        setTitle={setTitle}
+                        setCompany={setCompany}
+                        setLocation={setLocation}
+                        setDescription={setDescription}
+                        setEmoloymentType={setEmoloymentType}
+                        employments={employments}
+                    />
+                    <EditExperience
                         modalExp={modalExp}
                         closeModal={closeModal}
                         CreateExp={CreateExp}

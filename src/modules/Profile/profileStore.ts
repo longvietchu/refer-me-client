@@ -24,15 +24,7 @@ class ProfileStore {
         makeAutoObservable(this);
     }
 
-    profile: IProfile = {
-        _id: '',
-        dob: '',
-        background_image: '',
-        about: '',
-        headline: '',
-        gender: 0,
-        user_id: ''
-    };
+    profile?: IProfile
 
     isLoading: boolean = false;
 
@@ -54,30 +46,34 @@ class ProfileStore {
     }
 
     async updateProfile() {
-        const data = {
-            dob: this.profile.dob,
-            about: this.profile.about.trim(),
-            gender: this.profile.gender,
-            headline: this.profile.headline.trim(),
-            background_image: this.profile.background_image
-        };
-        this.isLoading = true;
-        const result = await profileService.updateProfile(data);
-        if (result.status === HttpStatusCode.OK) {
-            console.log(result.body);
+        if(this.profile) {
+            const data = {
+                dob: this.profile.dob,
+                about: this.profile.about.trim(),
+                gender: this.profile.gender,
+                headline: this.profile.headline.trim(),
+                background_image: this.profile.background_image
+            };
+            this.isLoading = true;
+            const result = await profileService.updateProfile(data);
+            if (result.status === HttpStatusCode.OK) {
+                console.log(result.body);
+            }
+            this.isLoading = false;
+            this.closeModalEditProfile();
         }
-        this.isLoading = false;
-        this.closeModalEditProfile();
     }
 
     async uploadCoverImage(file: any) {
         var formData = new FormData();
         formData.append('file', file);
-        const result = await profileService.uploadCoverImage(formData);
-        if (result.status < HttpStatusCode.CODE_300) {
-            this.profile.background_image = result.body.url;
+        if(this.profile) {
+            const result = await profileService.uploadCoverImage(formData);
+            if (result.status < HttpStatusCode.CODE_300) {
+                this.profile.background_image = result.body.url;
+            }
+            console.log(result);
         }
-        console.log(result);
     }
 }
 
