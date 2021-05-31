@@ -23,7 +23,6 @@ class LoginStore {
     email: string = '';
     password: string = '';
     validateError: string = '';
-    loginState: boolean = false;
     isLoading: boolean = false;
 
     async getUserInfo() {
@@ -56,12 +55,12 @@ class LoginStore {
             // console.log(result.body);
             StorageService.setToken(result.body.token);
             this.getUserInfo();
-            this.loginState = true;
+            return true;
         } else {
-            this.loginState = false;
             this.validateError = result.body.message;
         }
         this.isLoading = false;
+        return false;
     }
 }
 

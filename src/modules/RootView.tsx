@@ -16,18 +16,17 @@ import StorageService from '../common/service/StorageService';
 
 const RootView = () => {
     const PrivateRoute = ({ children, ...rest }: any) => {
-        let accessToken = StorageService.getToken();
+        let accessToken = StorageService.isTokenExits();
         return (
             <Route
                 {...rest}
-                render={(location: any) =>
+                render={() =>
                     accessToken ? (
                         children
                     ) : (
                         <Redirect
                             to={{
-                                pathname: '/',
-                                state: { from: location }
+                                pathname: '/'
                             }}
                         />
                     )
@@ -37,7 +36,7 @@ const RootView = () => {
     };
 
     const PublicRoute = ({ children, ...rest }: any) => {
-        let accessToken = StorageService.getToken();
+        let accessToken = StorageService.isTokenExits();
         return (
             <Route
                 {...rest}
@@ -59,9 +58,9 @@ const RootView = () => {
 
     return (
         <Switch>
-            <Route path="/home" exact>
+            <PrivateRoute path="/home" exact>
                 <HomeContainer />
-            </Route>
+            </PrivateRoute>
             <Route path="/profile/:user_id">
                 <ProfileContainer />
             </Route>

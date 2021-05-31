@@ -1,40 +1,34 @@
-import React from 'react';
-import Logo from '../../assets/images/logo.png';
 import {
-    Paper,
     Avatar,
-    Popover,
-    Typography,
+    Button,
+    Divider,
+    Grid,
+    Link,
     List,
     ListItem,
     ListItemAvatar,
     ListItemText,
-    Divider,
-    Button,
-    Grid,
-    Link
+    Paper,
+    Popover,
+    Typography
 } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
-import HomeIcon from '@material-ui/icons/Home';
-import GroupIcon from '@material-ui/icons/Group';
-import WorkIcon from '@material-ui/icons/Work';
-import TelegramIcon from '@material-ui/icons/Telegram';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import Brightness4Icon from '@material-ui/icons/Brightness4';
-import BrightnessHighIcon from '@material-ui/icons/BrightnessHigh';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import AppsIcon from '@material-ui/icons/Apps';
-
-import Style from './Style';
-import MenuItems from './menuItem/MenuItem';
-
-import KEY from '../../assets/AsyncStorage';
-
-import { useHistory } from 'react-router-dom';
+import BrightnessHighIcon from '@material-ui/icons/BrightnessHigh';
+import GroupIcon from '@material-ui/icons/Group';
+import HomeIcon from '@material-ui/icons/Home';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import SearchIcon from '@material-ui/icons/Search';
+import TelegramIcon from '@material-ui/icons/Telegram';
+import WorkIcon from '@material-ui/icons/Work';
 import { observer } from 'mobx-react-lite';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { loginStore } from '../../../modules/Login/loginStore';
 import { profileStore } from '../../../modules/Profile/profileStore';
+import StorageService from '../../service/StorageService';
+import MenuItems from './menuItem/MenuItem';
+import Style from './Style';
 
 const Header = observer(() => {
     const classes = Style();
@@ -51,7 +45,7 @@ const Header = observer(() => {
     };
 
     const SignOut = () => {
-        localStorage.removeItem(KEY.API_TOKEN);
+        StorageService.removeToken();
         history.push('/');
     };
 
@@ -68,8 +62,6 @@ const Header = observer(() => {
 
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
-
-    //   const { photoURL } = useSelector((state) => state.user); this code to pick photo user from redux
 
     const items = [
         {
@@ -135,7 +127,7 @@ const Header = observer(() => {
                 <div className={classes.header__container}>
                     <div className={classes.header__logo}>
                         <img
-                            src={Logo}
+                            src="/rfm-icon.png"
                             alt="logo"
                             onClick={() => history.push('/home')}
                         />

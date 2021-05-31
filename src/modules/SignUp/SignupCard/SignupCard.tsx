@@ -5,13 +5,12 @@ import {
     TextField,
     InputAdornment,
     Typography,
-    FormHelperText,
-    Link
+    FormHelperText
 } from '@material-ui/core';
 import Logo from '../../../common/assets/images/text_logo.png';
 import Style from './Style';
 import { AccountCircle, LockRounded, Person } from '@material-ui/icons';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import { signupStore } from '../sigupStore';
 
@@ -38,7 +37,7 @@ const SignupCard = () => {
     return (
         <Paper elevation={3} className={classes.card}>
             <header className={classes.header}>
-                <img src={Logo} alt="logo" />
+                <img src="/rfm-icon.png" alt="Refer Me" />
                 <Typography variant="h4">Sign up</Typography>
             </header>
 
@@ -123,7 +122,7 @@ const SignupCard = () => {
                 </section>
                 <div>
                     Already on Refer Me? {''}
-                    <Link href="/">Sign in</Link>
+                    <Link to="/">Sign in</Link>
                 </div>
             </div>
         </Paper>
