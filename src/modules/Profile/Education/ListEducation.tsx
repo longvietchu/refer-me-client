@@ -9,7 +9,7 @@ import { loginStore } from '../../Login/loginStore';
 
 import { formatYear } from '../../../common/config/Function';
 
-const ListEducation = () => {
+const ListEducation = observer(() => {
     const distance = (a: any, b: any) => {
         if (b - a < 1) {
             return b - a + ' year';
@@ -86,16 +86,23 @@ const ListEducation = () => {
                                 </Grid>
                             </Link>
 
-                            {profileStore.profile && item.user_id === profileStore.profile.user_id ? (
+                            {profileStore.profile &&
+                            item.user_id === profileStore.profile.user_id ? (
                                 <Grid item style={{ margin: '20px 10px 0' }}>
-                                    <Button>
+                                    <Button
+                                        onClick={() => {
+                                            educationStore.modalEditEducation =
+                                                true;
+                                            educationStore.selectedEducation =
+                                                item;
+                                        }}>
                                         <Edit style={{ color: '#0a66c2' }} />
                                     </Button>
                                 </Grid>
                             ) : null}
                         </Grid>
 
-                        {data.length > 1 && index != data.length - 1 ? (
+                        {data && data.length > 1 && index != data.length - 1 ? (
                             <Divider style={{ marginLeft: '94px' }} />
                         ) : null}
                     </div>
@@ -103,6 +110,6 @@ const ListEducation = () => {
             </div>
         );
     } else return null;
-};
+});
 
 export default ListEducation;

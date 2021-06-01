@@ -8,28 +8,31 @@ import {
     Divider,
     InputAdornment,
     Button,
-    IconButton
+    IconButton,
+    ButtonBase
 } from '@material-ui/core';
 
 import {
     MuiPickersUtilsProvider,
     KeyboardTimePicker,
-    KeyboardDatePicker
+    KeyboardDatePicker,
+    DatePicker
 } from '@material-ui/pickers';
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 
 import Modal from 'react-modal';
 
+import SchoolIcon from '@material-ui/icons/School';
 import WorkIcon from '@material-ui/icons/Work';
-import BusinessIcon from '@material-ui/icons/Business';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import CloseIcon from '@material-ui/icons/Close';
 
 import Styles from './Style';
 
-import { IEmployments } from '../ProfileContainer';
-import { experienceStore } from './experienceStore';
+import { educationStore } from './educationStore';
+
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
@@ -60,7 +63,7 @@ const customStyles = {
         right: 'auto',
         bottom: 'auto',
         transform: 'translate(-50%, -50%)',
-        height: '80%',
+        height: '70%',
         width: '30%',
         paddingBottom: 5,
         paddingTop: 10,
@@ -68,46 +71,16 @@ const customStyles = {
     }
 };
 
-interface IProps {
-    CreateExp: any;
-    modalExp: boolean;
-    closeModal: VoidFunction;
-    startDate: any;
-    endDate: any;
-    setStartDate: any;
-    setEndDate: any;
-    setTitle: any;
-    setCompany: any;
-    setLocation: any;
-    setDescription: any;
-    setEmoloymentType: any;
-    employments: IEmployments[];
-}
-
-const EditExperience = observer((props: IProps) => {
+const EditEducation = observer(() => {
     const classes = Styles();
     const { enqueueSnackbar } = useSnackbar();
-    const {
-        modalExp,
-        closeModal,
-        CreateExp,
-        startDate,
-        endDate,
-        setStartDate,
-        setEndDate,
-        setTitle,
-        setCompany,
-        setLocation,
-        setDescription,
-        setEmoloymentType,
-        employments
-    } = props;
-    if (experienceStore.selectedExperience) {
+
+    if (educationStore.selectedEducation) {
         return (
             <div>
                 <Modal
-                    isOpen={experienceStore.modalEditExperience}
-                    onRequestClose={experienceStore.closeModalEditExperience}
+                    isOpen={educationStore.modalEditEducation}
+                    onRequestClose={educationStore.closeModalEditEducation}
                     style={customStyles}
                     contentLabel="Example Modal">
                     <Grid container direction="column" spacing={3}>
@@ -117,11 +90,11 @@ const EditExperience = observer((props: IProps) => {
                                 justify="space-between"
                                 alignItems="center">
                                 <Typography variant="h6">
-                                    Edit experience
+                                    Edit education
                                 </Typography>
                                 <IconButton
                                     onClick={() =>
-                                        experienceStore.closeModalEditExperience()
+                                        educationStore.closeModalEditEducation()
                                     }>
                                     <CloseIcon />
                                 </IconButton>
@@ -132,55 +105,7 @@ const EditExperience = observer((props: IProps) => {
 
                         <Grid item>
                             <TextField
-                                label="Job title"
-                                required
-                                variant="outlined"
-                                fullWidth
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <WorkIcon />
-                                        </InputAdornment>
-                                    )
-                                }}
-                                onChange={(e) => {
-                                    if (experienceStore.selectedExperience) {
-                                        experienceStore.selectedExperience.job_title =
-                                            e.target.value;
-                                    }
-                                }}
-                                value={
-                                    experienceStore.selectedExperience.job_title
-                                }
-                            />
-                        </Grid>
-                        <Grid item>
-                            <TextField
-                                label="Company"
-                                required
-                                variant="outlined"
-                                fullWidth
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <BusinessIcon />
-                                        </InputAdornment>
-                                    )
-                                }}
-                                onChange={(e) => {
-                                    if (experienceStore.selectedExperience) {
-                                        experienceStore.selectedExperience.company =
-                                            e.target.value;
-                                    }
-                                }}
-                                value={
-                                    experienceStore.selectedExperience.company
-                                }
-                            />
-                        </Grid>
-                        <Grid item>
-                            <TextField
-                                label="Job location"
+                                label="School"
                                 required
                                 variant="outlined"
                                 fullWidth
@@ -191,15 +116,51 @@ const EditExperience = observer((props: IProps) => {
                                         </InputAdornment>
                                     )
                                 }}
+                                value={educationStore.selectedEducation.title}
                                 onChange={(e) => {
-                                    if (experienceStore.selectedExperience) {
-                                        experienceStore.selectedExperience.location =
+                                    if (educationStore.selectedEducation) {
+                                        educationStore.selectedEducation.title =
                                             e.target.value;
                                     }
                                 }}
+                            />
+                        </Grid>
+                        {/* <Grid item>
+                            <TextField
+                                label="Degree"
+                                variant="outlined"
+                                fullWidth
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <SchoolIcon />
+                                        </InputAdornment>
+                                    )
+                                }}
                                 value={
-                                    experienceStore.selectedExperience.location
+                                    educationStore.selectedEducation.description
                                 }
+                                onChange={(e) => {
+                                    if (educationStore.selectedEducation) {
+                                        educationStore.selectedEducation.description =
+                                            e.target.value;
+                                    }
+                                }}
+                            />
+                        </Grid> */}
+                        <Grid item>
+                            <TextField
+                                label="Field of study"
+                                variant="outlined"
+                                fullWidth
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <WorkIcon />
+                                        </InputAdornment>
+                                    )
+                                }}
+                                // onChange={(e) => setLocation(e.target.value)}
                             />
                         </Grid>
 
@@ -207,85 +168,47 @@ const EditExperience = observer((props: IProps) => {
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <Grid container justify="space-between">
                                     <KeyboardDatePicker
-                                        disableToolbar
                                         variant="inline"
-                                        format="MM/dd/yyyy"
-                                        margin="normal"
-                                        id="date-picker-inline"
-                                        label="Start Date"
-                                        onChange={(date: any) => {
-                                            if (
-                                                experienceStore.selectedExperience
-                                            ) {
-                                                experienceStore.selectedExperience.joined_at =
-                                                    date;
-                                            }
-                                        }}
+                                        openTo="year"
+                                        views={['year']}
+                                        label="Start Year"
+                                        keyboardIcon={<KeyboardArrowDownIcon />}
+                                        style={{ width: '45%' }}
                                         value={
-                                            experienceStore.selectedExperience
+                                            educationStore.selectedEducation
                                                 .joined_at
                                         }
-                                        KeyboardButtonProps={{
-                                            'aria-label': 'change date'
-                                        }}
-                                        style={{ width: '45%' }}
-                                    />
-                                    <KeyboardDatePicker
-                                        disableToolbar
-                                        variant="inline"
-                                        format="MM/dd/yyyy"
-                                        margin="normal"
-                                        id="date-picker-inline"
-                                        label="End Date"
                                         onChange={(date: any) => {
                                             if (
-                                                experienceStore.selectedExperience
+                                                educationStore.selectedEducation
                                             ) {
-                                                experienceStore.selectedExperience.left_at =
+                                                educationStore.selectedEducation.joined_at =
                                                     date;
                                             }
                                         }}
-                                        value={
-                                            experienceStore.selectedExperience
-                                                .left_at
-                                        }
-                                        KeyboardButtonProps={{
-                                            'aria-label': 'change date'
-                                        }}
+                                    />
+                                    <KeyboardDatePicker
+                                        variant="inline"
+                                        openTo="year"
+                                        views={['year']}
+                                        label="End Year (or expected)"
+                                        keyboardIcon={<KeyboardArrowDownIcon />}
                                         style={{ width: '45%' }}
+                                        value={
+                                            educationStore.selectedEducation
+                                                .graduated_at
+                                        }
+                                        onChange={(date: any) => {
+                                            if (
+                                                educationStore.selectedEducation
+                                            ) {
+                                                educationStore.selectedEducation.graduated_at =
+                                                    date;
+                                            }
+                                        }}
                                     />
                                 </Grid>
                             </MuiPickersUtilsProvider>
-                        </Grid>
-                        <Grid item>
-                            <TextField
-                                id="outlined-select-currency-native"
-                                label="Employment type"
-                                required
-                                variant="outlined"
-                                fullWidth
-                                select
-                                onChange={(e) => {
-                                    if (experienceStore.selectedExperience) {
-                                        experienceStore.selectedExperience.employment_type =
-                                            e.target.value;
-                                    }
-                                }}
-                                value={
-                                    experienceStore.selectedExperience
-                                        .employment_type
-                                }
-                                SelectProps={{
-                                    native: true
-                                }}>
-                                {employments.map((option) => (
-                                    <option
-                                        key={option.value}
-                                        value={option.value}>
-                                        {option.value}
-                                    </option>
-                                ))}
-                            </TextField>
                         </Grid>
 
                         <Grid item>
@@ -295,16 +218,15 @@ const EditExperience = observer((props: IProps) => {
                                 variant="outlined"
                                 fullWidth
                                 multiline
+                                value={
+                                    educationStore.selectedEducation.description
+                                }
                                 onChange={(e) => {
-                                    if (experienceStore.selectedExperience) {
-                                        experienceStore.selectedExperience.job_description =
+                                    if (educationStore.selectedEducation) {
+                                        educationStore.selectedEducation.description =
                                             e.target.value;
                                     }
                                 }}
-                                value={
-                                    experienceStore.selectedExperience
-                                        .job_description
-                                }
                             />
                         </Grid>
 
@@ -313,7 +235,7 @@ const EditExperience = observer((props: IProps) => {
                                 className={classes.btn_post}
                                 onClick={(_id: any) => {
                                     let editSuccess =
-                                        experienceStore.updateExperienceOfUser(
+                                        educationStore.updateEducationOfUser(
                                             _id
                                         );
                                     if (editSuccess) {
@@ -333,4 +255,4 @@ const EditExperience = observer((props: IProps) => {
     } else return null;
 });
 
-export default EditExperience;
+export default EditEducation;

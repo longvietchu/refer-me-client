@@ -12,6 +12,8 @@ import {
     ButtonBase
 } from '@material-ui/core';
 
+import Autocomplete from '@material-ui/lab/Autocomplete';
+
 import {
     MuiPickersUtilsProvider,
     KeyboardTimePicker,
@@ -32,6 +34,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import Styles from './Style';
 
 import { IEmployments } from '../ProfileContainer';
+import { educationStore } from './educationStore';
+import { observer } from 'mobx-react-lite';
 
 const defaultTheme = createMuiTheme();
 
@@ -84,7 +88,7 @@ interface IProps {
     // employments: IEmployments[];
 }
 
-const CreateEducation = (props: IProps) => {
+const CreateEducation = observer((props: IProps) => {
     const classes = Styles();
 
     const {
@@ -126,7 +130,7 @@ const CreateEducation = (props: IProps) => {
                     <Divider />
 
                     <Grid item>
-                        <TextField
+                        {/* <TextField
                             label="School"
                             required
                             variant="outlined"
@@ -138,24 +142,54 @@ const CreateEducation = (props: IProps) => {
                                     </InputAdornment>
                                 )
                             }}
-                            // onChange={(e) => setTitle(e.target.value)}
+                            onChange={(e) => {
+                                educationStore.title = e.target.value
+                                educationStore.searchOrganization(e.target.value);
+                            }
+                            }
+                            value={educationStore.title}
+                        /> */}
+                        <Autocomplete
+                            id="combo-box-demo"
+                            options={educationStore.searchResult}
+                            getOptionLabel={(option: any) => option.name}
+                            style={{ width: 300 }}
+                            getOptionSelected={(option, value) =>
+                                option.name === value.name
+                            }
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label="Combo box"
+                                    variant="outlined"
+                                    // onChange={(e) => {
+                                    //     educationStore.title = e.target.value;
+                                    //     educationStore.searchOrganization(
+                                    //         e.target.value
+                                    //     );
+                                    //     // educationStore.organization_id =
+                                    //     console.log('11', e);
+                                    // }}
+                                    // value={educationStore.title}
+                                />
+                            )}
                         />
                     </Grid>
-                    <Grid item>
-                        <TextField
-                            label="Degree"
-                            variant="outlined"
-                            fullWidth
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <SchoolIcon />
-                                    </InputAdornment>
-                                )
-                            }}
-                            // onChange={(e) => setCompany(e.target.value)}
-                        />
-                    </Grid>
+                    {/* <Grid item>
+                            <TextField
+                                label="Degree"
+                                variant="outlined"
+                                fullWidth
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <SchoolIcon />
+                                        </InputAdornment>
+                                    )
+                                }}
+                                // onChange={(e) => setCompany(e.target.value)}
+                            />
+                        </Grid> */}
                     <Grid item>
                         <TextField
                             label="Field of study"
@@ -175,49 +209,31 @@ const CreateEducation = (props: IProps) => {
                     <Grid item>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                             <Grid container justify="space-between">
-                                <KeyboardDatePicker
+                                <DatePicker
                                     variant="inline"
                                     openTo="year"
                                     views={['year']}
-                                    value={startDate}
-                                    onChange={(date: any) => setStartDate(date)}
+                                    onChange={(date: any) =>
+                                        (educationStore.joined_at = date)
+                                    }
+                                    value={educationStore.joined_at}
                                     label="Start Year"
-                                    keyboardIcon={<KeyboardArrowDownIcon />}
                                     style={{ width: '45%' }}
                                 />
-                                <KeyboardDatePicker
+                                <DatePicker
                                     variant="inline"
                                     openTo="year"
                                     views={['year']}
-                                    value={endDate}
-                                    onChange={(date: any) => setEndDate(date)}
+                                    onChange={(date: any) =>
+                                        (educationStore.graduated_at = date)
+                                    }
+                                    value={educationStore.graduated_at}
                                     label="End Year (or expected)"
-                                    keyboardIcon={<KeyboardArrowDownIcon />}
                                     style={{ width: '45%' }}
                                 />
                             </Grid>
                         </MuiPickersUtilsProvider>
                     </Grid>
-                    {/* <Grid item>
-                        <TextField
-                            id="outlined-select-currency-native"
-                            label="Employment type"
-                            required
-                            variant="outlined"
-                            fullWidth
-                            select
-                            // value={employmentType}
-                            // onChange={(e) => setEmoloymentType(e.target.value)}
-                            SelectProps={{
-                                native: true
-                            }}>
-                            {employments.map((option) => (
-                                <option key={option.value} value={option.value}>
-                                    {option.label}
-                                </option>
-                            ))}
-                        </TextField>
-                    </Grid> */}
 
                     <Grid item>
                         <TextField
@@ -226,15 +242,19 @@ const CreateEducation = (props: IProps) => {
                             variant="outlined"
                             fullWidth
                             multiline
-                            // onChange={(e) => setDescription(e.target.value)}
+                            onChange={(e) =>
+                                (educationStore.description = e.target.value)
+                            }
+                            value={educationStore.description}
                         />
                     </Grid>
 
                     <Grid style={{ alignSelf: 'center' }}>
                         <Button
                             className={classes.btn_post}
-                            // onClick={CreateExp}
-                        >
+                            onClick={() =>
+                                educationStore.createEducationOfuser()
+                            }>
                             Save
                         </Button>
                     </Grid>
@@ -242,6 +262,6 @@ const CreateEducation = (props: IProps) => {
             </Modal>
         </div>
     );
-};
+});
 
 export default CreateEducation;

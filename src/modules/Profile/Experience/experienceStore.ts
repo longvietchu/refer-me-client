@@ -22,7 +22,6 @@ class ExperienceStore {
         makeAutoObservable(this);
     }
 
-    // userExp?: Array<IExperience>;
     userExp?: IExperience[];
 
     modalEditExperience: boolean = false;

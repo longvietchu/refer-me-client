@@ -118,21 +118,26 @@ const ListExperience = observer(() => {
                                 </Grid>
                             </Link>
 
-                            {profileStore.profile && item.user_id === profileStore.profile.user_id ? (
+                            {profileStore.profile &&
+                            item.user_id === profileStore.profile.user_id ? (
                                 <Grid item style={{ margin: '20px 10px 0' }}>
                                     <Button
                                         onClick={() => {
                                             experienceStore.modalEditExperience =
-                                            true
-                                            experienceStore.selectedExperience = item
-                                        }
-                                        }>
+                                                true;
+                                            experienceStore.selectedExperience =
+                                                item;
+                                        }}>
                                         <Edit style={{ color: '#0a66c2' }} />
                                     </Button>
                                 </Grid>
                             ) : null}
                         </Grid>
-                        <Divider style={{ marginLeft: '94px' }} />
+                        {experienceStore.userExp &&
+                        experienceStore.userExp.slice().length > 1 &&
+                        index != experienceStore.userExp.slice().length - 1 ? (
+                            <Divider style={{ marginLeft: '94px' }} />
+                        ) : null}
                     </div>
                 ))}
             </div>

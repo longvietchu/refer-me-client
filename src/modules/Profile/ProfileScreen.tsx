@@ -22,6 +22,7 @@ import { experienceStore } from './Experience/experienceStore';
 import { educationStore } from './Education/educationStore';
 import ListEducation from './Education/ListEducation';
 import EditExperience from './Experience/EditExperience';
+import EditEducation from './Education/EditEducation';
 
 interface IProps {
     CreateExp: any;
@@ -48,7 +49,7 @@ interface IProps {
 
 const ProfileScreen = observer((props: IProps) => {
     useEffect(() => {
-        if(profileStore.profile) {
+        if (profileStore.profile) {
             experienceStore.getExperienceOfUser(profileStore.profile.user_id);
             educationStore.getEducationOfUser(profileStore.profile.user_id);
         }
@@ -114,7 +115,6 @@ const ProfileScreen = observer((props: IProps) => {
                                     className={classes.horizontalDiv}>
                                     <div></div>
                                     <Button
-                                        // onClick={openModalProfile}
                                         onClick={() =>
                                             profileStore.openModalEditProfile()
                                         }
@@ -243,7 +243,7 @@ const ProfileScreen = observer((props: IProps) => {
                                     <Grid
                                         item
                                         style={{ margin: '24px 10px 0' }}>
-                                        <Button onClick={openModalEdu}>
+                                        <Button onClick={() => openModalEdu()}>
                                             <Add style={{ color: '#0a66c2' }} />
                                         </Button>
                                     </Grid>
@@ -309,6 +309,7 @@ const ProfileScreen = observer((props: IProps) => {
                         setStartDate={setStartDate}
                         setEndDate={setEndDate}
                     />
+                    <EditEducation />
                 </Grid>
             </Grid>
         );

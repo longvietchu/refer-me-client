@@ -218,7 +218,7 @@ const CreateExperience = (props: IProps) => {
                                 <KeyboardDatePicker
                                     disableToolbar
                                     variant="inline"
-                                    format="MM/dd/yyyy"
+                                    views={['month', 'year']}
                                     margin="normal"
                                     id="date-picker-inline"
                                     label="Start Date"
@@ -232,7 +232,7 @@ const CreateExperience = (props: IProps) => {
                                 <KeyboardDatePicker
                                     disableToolbar
                                     variant="inline"
-                                    format="MM/dd/yyyy"
+                                    views={['month', 'year']}
                                     margin="normal"
                                     id="date-picker-inline"
                                     label="End Date"
