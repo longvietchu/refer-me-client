@@ -110,8 +110,8 @@ const CreateEducation = observer((props: IProps) => {
     return (
         <div>
             <Modal
-                isOpen={modalEdu}
-                onRequestClose={closeModalEdu}
+                isOpen={educationStore.modalCreateEducation}
+                onRequestClose={educationStore.closeModalCreateEducation}
                 style={customStyles}
                 contentLabel="Example Modal">
                 <Grid container direction="column" spacing={3}>
@@ -121,7 +121,10 @@ const CreateEducation = observer((props: IProps) => {
                             justify="space-between"
                             alignItems="center">
                             <Typography variant="h6">Add education</Typography>
-                            <IconButton onClick={closeModalEdu}>
+                            <IconButton
+                                onClick={() =>
+                                    educationStore.closeModalCreateEducation()
+                                }>
                                 <CloseIcon />
                             </IconButton>
                         </Grid>
@@ -143,37 +146,68 @@ const CreateEducation = observer((props: IProps) => {
                                 )
                             }}
                             onChange={(e) => {
-                                educationStore.title = e.target.value
-                                educationStore.searchOrganization(e.target.value);
-                            }
-                            }
+                                educationStore.title = e.target.value;
+                                educationStore.searchOrganization(
+                                    e.target.value
+                                );
+                            }}
                             value={educationStore.title}
                         /> */}
-                        <Autocomplete
-                            id="combo-box-demo"
-                            options={educationStore.searchResult}
-                            getOptionLabel={(option: any) => option.name}
-                            style={{ width: 300 }}
-                            getOptionSelected={(option, value) =>
-                                option.name === value.name
-                            }
-                            renderInput={(params) => (
-                                <TextField
-                                    {...params}
-                                    label="Combo box"
-                                    variant="outlined"
-                                    // onChange={(e) => {
-                                    //     educationStore.title = e.target.value;
-                                    //     educationStore.searchOrganization(
-                                    //         e.target.value
+
+                        {educationStore.organization && (
+                            <Autocomplete
+                                id="combo-box-demo"
+                                value={educationStore.title}
+                                options={educationStore.organization}
+                                getOptionLabel={(option: any) => option.name}
+                                // getOptionSelected={(option, value) =>
+                                //     option.name === value.name
+                                // }
+                                fullWidth
+                                onChange={(event, value: any) => {
+                                    // if (value) {
+                                    //     return (
+                                    //         // educationStore.organization_id ==
+                                    //         // value._id;
+                                    //         educationStore.title == value.name
+                                    //         // console.log('value', value)
                                     //     );
-                                    //     // educationStore.organization_id =
-                                    //     console.log('11', e);
-                                    // }}
-                                    // value={educationStore.title}
-                                />
-                            )}
-                        />
+                                    //     console.log('---', value);
+                                    // }
+                                    if (value) {
+                                        return (
+                                            educationStore.title == value.name
+                                        );
+                                    }
+                                }}
+                                onInputChange={(event, value) => {
+                                    if (value) {
+                                        console.log('----', value);
+                                        return educationStore.title == value;
+                                    }
+                                }}
+                                // onSelect={(value: any, item: any) => {
+                                //     console.log('value', value);
+                                //     console.log('item', item);
+                                // }}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="School"
+                                        variant="outlined"
+                                        // onChange={(e: any) => {
+                                        //     educationStore.title =
+                                        //         e.target.value;
+                                        //     educationStore.searchOrganization(
+                                        //         e.target.value
+                                        //     );
+                                        //     console.log('eee', e.target.value);
+                                        // }}
+                                        value={educationStore.title}
+                                    />
+                                )}
+                            />
+                        )}
                     </Grid>
                     {/* <Grid item>
                             <TextField
@@ -252,9 +286,10 @@ const CreateEducation = observer((props: IProps) => {
                     <Grid style={{ alignSelf: 'center' }}>
                         <Button
                             className={classes.btn_post}
-                            onClick={() =>
-                                educationStore.createEducationOfuser()
-                            }>
+                            onClick={() => {
+                                educationStore.createEducationOfuser();
+                                console.log('aaaa');
+                            }}>
                             Save
                         </Button>
                     </Grid>

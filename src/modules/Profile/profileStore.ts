@@ -1,6 +1,8 @@
 import { makeAutoObservable } from 'mobx';
 import HttpStatusCode from '../../common/constants/HttpErrorCode';
 import { loginStore } from '../Login/loginStore';
+import { educationStore } from './Education/educationStore';
+import { experienceStore } from './Experience/experienceStore';
 import { profileService } from './profileService';
 
 export interface IProfile {
@@ -42,6 +44,9 @@ class ProfileStore {
         const result = await profileService.getProfile(user_id);
         if (result.status === HttpStatusCode.OK) {
             this.profile = result.body.data;
+            let userId = result.body.data.user_id;
+            await educationStore.getEducationOfUser(userId);
+            await experienceStore.getExperienceOfUser(userId);
         }
     }
 

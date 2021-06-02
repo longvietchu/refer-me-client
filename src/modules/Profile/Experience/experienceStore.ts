@@ -38,9 +38,7 @@ class ExperienceStore {
     async getExperienceOfUser(user_id: string) {
         const result = await experienceService.getExperienceOfUser(user_id);
         if (result.status === HttpStatusCode.OK) {
-            console.log('aaaa', result.body.data);
             this.userExp = result.body.data;
-            console.log('bbb', this.userExp);
         }
     }
 

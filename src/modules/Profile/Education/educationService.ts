@@ -21,8 +21,12 @@ class EducationService {
         return putRequest(`/v1/education/${_id}`, data);
     }
 
-    public searchOrganization (keyword: string): Promise<IApiResponse> {
+    public searchOrganization(keyword: string): Promise<IApiResponse> {
         return getRequest(`/v1/organization/search?keyword=${keyword}`);
+    }
+
+    public getOrganization(): Promise<IApiResponse> {
+        return getRequest(`/v1/organization/search`);
     }
 }
 export const educationService = new EducationService();

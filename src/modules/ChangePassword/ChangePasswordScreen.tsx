@@ -64,6 +64,16 @@ const ChangePasswordScreen = () => {
                                 direction="column"
                                 spacing={3}
                                 style={{ padding: '10px 50px' }}>
+                                {/* <Grid item>
+                                    <TextField
+                                        style={{ width: 0, height: 0 }}
+                                        type="password"
+                                        name=""
+                                        value=""
+                                        aria-readonly={true}
+                                        variant="outlined"
+                                    />
+                                </Grid> */}
                                 <Grid item>
                                     <TextField
                                         variant="outlined"
@@ -77,6 +87,12 @@ const ChangePasswordScreen = () => {
                                             })
                                         }
                                         type="password"
+                                        inputProps={{
+                                            autocomplete: 'new-password',
+                                            form: {
+                                                autocomplete: 'off'
+                                            }
+                                        }}
                                     />
                                 </Grid>
                                 <Grid item>

@@ -48,12 +48,16 @@ interface IProps {
 }
 
 const ProfileScreen = observer((props: IProps) => {
+    // useEffect(() => {
+    //     if (profileStore.profile) {
+    //         experienceStore.getExperienceOfUser(profileStore.profile.user_id);
+    //         educationStore.getEducationOfUser(profileStore.profile.user_id);
+    //     }
+    // }, []);
+
     useEffect(() => {
-        if (profileStore.profile) {
-            experienceStore.getExperienceOfUser(profileStore.profile.user_id);
-            educationStore.getEducationOfUser(profileStore.profile.user_id);
-        }
-    }, [profileStore.profile]);
+        educationStore.getOrganization();
+    }, []);
 
     const {
         CreateExp,
@@ -243,7 +247,10 @@ const ProfileScreen = observer((props: IProps) => {
                                     <Grid
                                         item
                                         style={{ margin: '24px 10px 0' }}>
-                                        <Button onClick={() => openModalEdu()}>
+                                        <Button
+                                            onClick={() =>
+                                                educationStore.openModalCreateEducation()
+                                            }>
                                             <Add style={{ color: '#0a66c2' }} />
                                         </Button>
                                     </Grid>

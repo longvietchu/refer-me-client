@@ -31,6 +31,8 @@ class EducationStore {
     organization_id: string = '';
     selectedEducation?: IEducation;
     searchResult: any;
+
+    organization: any;
     modalEditEducation: boolean = false;
 
     modalCreateEducation: boolean = false;
@@ -44,7 +46,7 @@ class EducationStore {
     };
 
     openModalCreateEducation = () => {
-        this.modalEditEducation = true;
+        this.modalCreateEducation = true;
     };
 
     closeModalCreateEducation = () => {
@@ -54,21 +56,20 @@ class EducationStore {
     async getEducationOfUser(user_id: string) {
         const result = await educationService.getEducationOfUser(user_id);
         if (result.status === HttpStatusCode.OK) {
-            console.log('edu', result.body.data);
             this.userEdu = result.body.data;
         }
     }
 
     async createEducationOfuser() {
         let data;
-        if(this.organization_id !== "") {
+        if (this.organization && this.organization_id !== '') {
             data = {
-               title: this.title,
-               description: this.description,
-               joined_at: formatYear(this.joined_at),
-               graduated_at: formatYear(this.graduated_at),
-               organization_id: this.organization_id
-           };
+                title: this.title,
+                description: this.description,
+                joined_at: formatYear(this.joined_at),
+                graduated_at: formatYear(this.graduated_at),
+                organization_id: this.organization_id
+            };
         } else {
             data = {
                 title: this.title,
@@ -81,14 +82,10 @@ class EducationStore {
         console.log('result', result);
         console.log('data', data);
 
-        // if (result.status < HttpStatusCode.CODE_300) {
-        //     console.log('create', result.body);
-        //     this.closeModalEducation;
-        //     return true;
-        // }
+        if (result.status < HttpStatusCode.CODE_300) {
+            return this.closeModalCreateEducation
+        }
     }
-
-    // mo mic t bao cai nay
 
     async updateEducationOfUser(_id: string) {
         if (this.selectedEducation) {
@@ -105,9 +102,17 @@ class EducationStore {
         return false;
     }
 
+    async getOrganization() {
+        const result = await educationService.getOrganization();
+        if (result.status < HttpStatusCode.CODE_300) {
+            console.log('result++++', result);
+            this.organization = result.body.data;
+        }
+    }
+
     async searchOrganization(keyword: string) {
         const result = await educationService.searchOrganization(keyword);
-        if(result.status < HttpStatusCode.CODE_300) {
+        if (result.status < HttpStatusCode.CODE_300) {
             console.log(result.body.data);
             this.searchResult = result.body.data;
         }
