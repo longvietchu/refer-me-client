@@ -34,6 +34,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Styles from './Style';
 
 import { IEmployments } from '../ProfileContainer';
+import { loginStore } from '../../Login/loginStore';
 import { educationStore } from './educationStore';
 import { observer } from 'mobx-react-lite';
 
@@ -154,56 +155,64 @@ const CreateEducation = observer((props: IProps) => {
                             value={educationStore.title}
                         /> */}
 
-                        {educationStore.organization && (
+                        {/* {educationStore.organization && (
                             <Autocomplete
                                 id="combo-box-demo"
-                                value={educationStore.title}
                                 options={educationStore.organization}
                                 getOptionLabel={(option: any) => option.name}
-                                // getOptionSelected={(option, value) =>
-                                //     option.name === value.name
-                                // }
-                                fullWidth
-                                onChange={(event, value: any) => {
-                                    // if (value) {
-                                    //     return (
-                                    //         // educationStore.organization_id ==
-                                    //         // value._id;
-                                    //         educationStore.title == value.name
-                                    //         // console.log('value', value)
-                                    //     );
-                                    //     console.log('---', value);
-                                    // }
-                                    if (value) {
-                                        return (
-                                            educationStore.title == value.name
-                                        );
-                                    }
-                                }}
-                                onInputChange={(event, value) => {
-                                    if (value) {
-                                        console.log('----', value);
-                                        return educationStore.title == value;
-                                    }
-                                }}
-                                // onSelect={(value: any, item: any) => {
-                                //     console.log('value', value);
-                                //     console.log('item', item);
-                                // }}
+                                getOptionSelected={(option, value) =>
+                                    option.name === value.name
+                                }
                                 renderInput={(params) => (
                                     <TextField
                                         {...params}
                                         label="School"
                                         variant="outlined"
-                                        // onChange={(e: any) => {
-                                        //     educationStore.title =
-                                        //         e.target.value;
-                                        //     educationStore.searchOrganization(
-                                        //         e.target.value
-                                        //     );
-                                        //     console.log('eee', e.target.value);
-                                        // }}
+                                        onChange={(e: any) => {
+                                            educationStore.title =
+                                                e.target.value;
+                                            educationStore.searchOrganization(
+                                                e.target.value
+                                            );
+                                            console.log('eee', e.target.value);
+                                        }}
                                         value={educationStore.title}
+                                    />
+                                )}
+                            />
+                        )} */}
+
+                        {educationStore.organization && (
+                            <Autocomplete
+                                id="organization"
+                                options={educationStore.organization}
+                                getOptionLabel={(option: any) => option.name}
+                                onChange={(event: any, value: any) => {
+                                    if (value)
+                                        return (educationStore.title =
+                                            value.name);
+                                }}
+                                renderOption={(option) => {
+                                    return (
+                                        <React.Fragment>
+                                            <span>
+                                                <img
+                                                    src={option.avatar}
+                                                    style={{
+                                                        height: 20,
+                                                        width: 20
+                                                    }}
+                                                />{' '}
+                                                {option.name}
+                                            </span>
+                                        </React.Fragment>
+                                    );
+                                }}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="Organization"
+                                        variant="outlined"
                                     />
                                 )}
                             />
@@ -285,10 +294,14 @@ const CreateEducation = observer((props: IProps) => {
 
                     <Grid style={{ alignSelf: 'center' }}>
                         <Button
-                            className={classes.btn_post}
+                            className={classes.btn_save}
                             onClick={() => {
                                 educationStore.createEducationOfuser();
-                                console.log('aaaa');
+                                if (loginStore.userInfo) {
+                                    educationStore.getEducationOfUser(
+                                        loginStore.userInfo.id
+                                    );
+                                }
                             }}>
                             Save
                         </Button>

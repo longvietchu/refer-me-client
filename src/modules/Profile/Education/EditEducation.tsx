@@ -32,6 +32,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Styles from './Style';
 
 import { educationStore } from './educationStore';
+import { loginStore } from '../../Login/loginStore';
 
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
@@ -230,9 +231,31 @@ const EditEducation = observer(() => {
                             />
                         </Grid>
 
-                        <Grid style={{ alignSelf: 'center' }}>
+                        <Divider />
+
+                        <Grid item style={{ alignSelf: 'flex-end' }}>
                             <Button
-                                className={classes.btn_post}
+                                className={classes.btn_delete}
+                                onClick={(_id: any) => {
+                                    let deleteSuccess =
+                                        educationStore.deleteEducationOfUser(
+                                            _id
+                                        );
+                                    if (deleteSuccess) {
+                                        enqueueSnackbar(
+                                            'delete education success!',
+                                            { variant: 'success' }
+                                        );
+                                        loginStore.userInfo &&
+                                            educationStore.getEducationOfUser(
+                                                loginStore.userInfo.id
+                                            );
+                                    }
+                                }}>
+                                Delete
+                            </Button>
+                            <Button
+                                className={classes.btn_save}
                                 onClick={(_id: any) => {
                                     let editSuccess =
                                         educationStore.updateEducationOfUser(
@@ -240,9 +263,13 @@ const EditEducation = observer(() => {
                                         );
                                     if (editSuccess) {
                                         enqueueSnackbar(
-                                            'Edit experience success!',
+                                            'Edit education success!',
                                             { variant: 'success' }
                                         );
+                                        loginStore.userInfo &&
+                                            educationStore.getEducationOfUser(
+                                                loginStore.userInfo.id
+                                            );
                                     }
                                 }}>
                                 Save

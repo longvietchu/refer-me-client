@@ -83,7 +83,8 @@ class EducationStore {
         console.log('data', data);
 
         if (result.status < HttpStatusCode.CODE_300) {
-            return this.closeModalCreateEducation
+            // return this.closeModalCreateEducation;
+            await this.getEducationOfUser(result.body.data.user_id);
         }
     }
 
@@ -94,7 +95,20 @@ class EducationStore {
                 this.selectedEducation
             );
             if (result.status < HttpStatusCode.CODE_300) {
-                console.log(result.body);
+                this.closeModalEditEducation();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    async deleteEducationOfUser(_id: string) {
+        if (this.selectedEducation) {
+            const result = await educationService.deleteEducationOfUser(
+                this.selectedEducation._id
+            );
+            if (result.status < HttpStatusCode.CODE_300) {
+                console.log('delete', result);
                 this.closeModalEditEducation();
                 return true;
             }

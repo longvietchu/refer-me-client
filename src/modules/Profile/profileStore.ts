@@ -26,7 +26,7 @@ class ProfileStore {
         makeAutoObservable(this);
     }
 
-    profile?: IProfile
+    profile?: IProfile;
 
     isLoading: boolean = false;
 
@@ -51,7 +51,7 @@ class ProfileStore {
     }
 
     async updateProfile() {
-        if(this.profile) {
+        if (this.profile) {
             const data = {
                 dob: this.profile.dob,
                 about: this.profile.about.trim(),
@@ -72,7 +72,7 @@ class ProfileStore {
     async uploadCoverImage(file: any) {
         var formData = new FormData();
         formData.append('file', file);
-        if(this.profile) {
+        if (this.profile) {
             const result = await profileService.uploadCoverImage(formData);
             if (result.status < HttpStatusCode.CODE_300) {
                 this.profile.background_image = result.body.url;

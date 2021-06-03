@@ -12,7 +12,7 @@ import { formatYear } from '../../../common/config/Function';
 const ListEducation = observer(() => {
     const distance = (a: any, b: any) => {
         if (b - a < 1) {
-            return b - a + ' year';
+            return b - a + 1 + ' year';
         } else return b - a + ' years';
     };
     if (educationStore.userEdu) {

@@ -1,4 +1,5 @@
 import {
+    deleteRequest,
     getRequest,
     IApiResponse,
     postRequest,
@@ -19,6 +20,10 @@ class EducationService {
         data: any
     ): Promise<IApiResponse> {
         return putRequest(`/v1/education/${_id}`, data);
+    }
+
+    public deleteEducationOfUser(_id: string): Promise<IApiResponse> {
+        return deleteRequest(`/v1/education/${_id}`, {});
     }
 
     public searchOrganization(keyword: string): Promise<IApiResponse> {

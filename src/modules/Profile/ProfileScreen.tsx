@@ -48,12 +48,12 @@ interface IProps {
 }
 
 const ProfileScreen = observer((props: IProps) => {
-    // useEffect(() => {
-    //     if (profileStore.profile) {
-    //         experienceStore.getExperienceOfUser(profileStore.profile.user_id);
-    //         educationStore.getEducationOfUser(profileStore.profile.user_id);
-    //     }
-    // }, []);
+    useEffect(() => {
+        // if (profileStore.profile) {
+        //     experienceStore.getExperienceOfUser(profileStore.profile.user_id);
+        //     educationStore.getEducationOfUser(profileStore.profile.user_id);
+        // }
+    }, [educationStore.userEdu, experienceStore.userExp]);
 
     useEffect(() => {
         educationStore.getOrganization();
