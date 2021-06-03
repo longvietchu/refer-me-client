@@ -13,7 +13,7 @@ import {
 
 import {
     MuiPickersUtilsProvider,
-    KeyboardTimePicker,
+    DatePicker,
     KeyboardDatePicker
 } from '@material-ui/pickers';
 import 'date-fns';
@@ -29,7 +29,10 @@ import CloseIcon from '@material-ui/icons/Close';
 import Styles from './Style';
 
 import { IEmployments } from '../ProfileContainer';
+
 import { experienceStore } from './experienceStore';
+import { loginStore } from '../../Login/loginStore';
+
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
 
@@ -206,8 +209,7 @@ const EditExperience = observer((props: IProps) => {
                         <Grid item>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <Grid container justify="space-between">
-                                    <KeyboardDatePicker
-                                        disableToolbar
+                                    <DatePicker
                                         variant="inline"
                                         format="MM/dd/yyyy"
                                         margin="normal"
@@ -225,13 +227,9 @@ const EditExperience = observer((props: IProps) => {
                                             experienceStore.selectedExperience
                                                 .joined_at
                                         }
-                                        KeyboardButtonProps={{
-                                            'aria-label': 'change date'
-                                        }}
                                         style={{ width: '45%' }}
                                     />
-                                    <KeyboardDatePicker
-                                        disableToolbar
+                                    <DatePicker
                                         variant="inline"
                                         format="MM/dd/yyyy"
                                         margin="normal"
@@ -249,9 +247,6 @@ const EditExperience = observer((props: IProps) => {
                                             experienceStore.selectedExperience
                                                 .left_at
                                         }
-                                        KeyboardButtonProps={{
-                                            'aria-label': 'change date'
-                                        }}
                                         style={{ width: '45%' }}
                                     />
                                 </Grid>
@@ -308,9 +303,29 @@ const EditExperience = observer((props: IProps) => {
                             />
                         </Grid>
 
-                        <Grid style={{ alignSelf: 'center' }}>
+                        <Grid item style={{ alignSelf: 'flex-end' }}>
                             <Button
-                                className={classes.btn_post}
+                                className={classes.btn_delete}
+                                onClick={(_id: any) => {
+                                    let deleteSuccess =
+                                        experienceStore.deleteExperienceOfUser(
+                                            _id
+                                        );
+                                    if (deleteSuccess) {
+                                        enqueueSnackbar(
+                                            'delete experience success!',
+                                            { variant: 'success' }
+                                        );
+                                        loginStore.userInfo &&
+                                            experienceStore.getExperienceOfUser(
+                                                loginStore.userInfo.id
+                                            );
+                                    }
+                                }}>
+                                Delete
+                            </Button>
+                            <Button
+                                className={classes.btn_save}
                                 onClick={(_id: any) => {
                                     let editSuccess =
                                         experienceStore.updateExperienceOfUser(

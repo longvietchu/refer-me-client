@@ -220,7 +220,10 @@ const ProfileScreen = observer((props: IProps) => {
                                     <Grid
                                         item
                                         style={{ margin: '24px 10px 0' }}>
-                                        <Button onClick={openModal}>
+                                        <Button
+                                            onClick={() =>
+                                                experienceStore.openModalCreateExperience()
+                                            }>
                                             <Add style={{ color: '#0a66c2' }} />
                                         </Button>
                                     </Grid>

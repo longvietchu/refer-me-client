@@ -24,11 +24,11 @@ class EducationStore {
     userEdu?: IEducation[];
 
     title: string = '';
-
     description: string = '';
     joined_at: string = '';
     graduated_at: string = '';
     organization_id: string = '';
+    
     selectedEducation?: IEducation;
     searchResult: any;
 
@@ -57,6 +57,7 @@ class EducationStore {
         const result = await educationService.getEducationOfUser(user_id);
         if (result.status === HttpStatusCode.OK) {
             this.userEdu = result.body.data;
+            await this.getOrganization();
         }
     }
 
@@ -79,12 +80,10 @@ class EducationStore {
             };
         }
         const result = await educationService.createEducationOfUser(data);
-        console.log('result', result);
-        console.log('data', data);
 
         if (result.status < HttpStatusCode.CODE_300) {
-            // return this.closeModalCreateEducation;
             await this.getEducationOfUser(result.body.data.user_id);
+            return this.closeModalCreateEducation;
         }
     }
 
@@ -110,6 +109,7 @@ class EducationStore {
             if (result.status < HttpStatusCode.CODE_300) {
                 console.log('delete', result);
                 this.closeModalEditEducation();
+                await this.getEducationOfUser(this.selectedEducation.user_id);
                 return true;
             }
         }
@@ -117,10 +117,12 @@ class EducationStore {
     }
 
     async getOrganization() {
-        const result = await educationService.getOrganization();
-        if (result.status < HttpStatusCode.CODE_300) {
-            console.log('result++++', result);
-            this.organization = result.body.data;
+        if (this.userEdu) {
+            const result = await educationService.getOrganization();
+            if (result.status < HttpStatusCode.CODE_300) {
+                console.log('result++++', result);
+                this.organization = result.body.data;
+            }
         }
     }
 

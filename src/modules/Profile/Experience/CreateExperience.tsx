@@ -11,11 +11,9 @@ import {
     IconButton
 } from '@material-ui/core';
 
-import {
-    MuiPickersUtilsProvider,
-    KeyboardTimePicker,
-    KeyboardDatePicker
-} from '@material-ui/pickers';
+import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 
@@ -29,6 +27,11 @@ import CloseIcon from '@material-ui/icons/Close';
 import Styles from './Style';
 
 import { IEmployments } from '../ProfileContainer';
+
+import { loginStore } from '../../Login/loginStore';
+import { experienceStore } from './experienceStore';
+import { observer } from 'mobx-react-lite';
+import { useSnackbar } from 'notistack';
 
 const defaultTheme = createMuiTheme();
 
@@ -81,35 +84,9 @@ interface IProps {
     employments: IEmployments[];
 }
 
-// const employments = [
-//     {
-//         value: 'initial',
-//         label: 'Choose one...'
-//     },
-//     {
-//         value: 'full',
-//         label: 'Full-time'
-//     },
-//     {
-//         value: 'part',
-//         label: 'Part-time'
-//     },
-//     {
-//         value: 'contract',
-//         label: 'Contract'
-//     },
-//     {
-//         value: 'temporary',
-//         label: 'Temporary'
-//     },
-//     {
-//         value: 'internship',
-//         label: 'Internship'
-//     }
-// ];
-
-const CreateExperience = (props: IProps) => {
+const CreateExperience = observer((props: IProps) => {
     const classes = Styles();
+    const { enqueueSnackbar } = useSnackbar();
 
     const {
         modalExp,
@@ -127,25 +104,11 @@ const CreateExperience = (props: IProps) => {
         employments
     } = props;
 
-    // const [employmentType, setEmploymentType] = useState('initial');
-
-    const [selectedDate, setSelectedDate] = useState<Date | null>(
-        new Date('2014-08-18T21:11:54')
-    );
-
-    const handleDateChange = (date: Date | null) => {
-        setSelectedDate(date);
-    };
-
-    // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setEmploymentType(event.target.value);
-    // };
-
     return (
         <div>
             <Modal
-                isOpen={modalExp}
-                onRequestClose={closeModal}
+                isOpen={experienceStore.modalCreateExperience}
+                onRequestClose={experienceStore.closeModalCreateExperience}
                 style={customStyles}
                 contentLabel="Example Modal">
                 <Grid container direction="column" spacing={3}>
@@ -155,7 +118,10 @@ const CreateExperience = (props: IProps) => {
                             justify="space-between"
                             alignItems="center">
                             <Typography variant="h6">Add experience</Typography>
-                            <IconButton onClick={closeModal}>
+                            <IconButton
+                                onClick={() =>
+                                    experienceStore.closeModalCreateExperience()
+                                }>
                                 <CloseIcon />
                             </IconButton>
                         </Grid>
@@ -176,24 +142,48 @@ const CreateExperience = (props: IProps) => {
                                     </InputAdornment>
                                 )
                             }}
-                            onChange={(e) => setTitle(e.target.value)}
+                            value={experienceStore.job_title}
+                            onChange={(e) =>
+                                (experienceStore.job_title = e.target.value)
+                            }
                         />
                     </Grid>
                     <Grid item>
-                        <TextField
-                            label="Company"
-                            required
-                            variant="outlined"
-                            fullWidth
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <BusinessIcon />
-                                    </InputAdornment>
-                                )
-                            }}
-                            onChange={(e) => setCompany(e.target.value)}
-                        />
+                        {experienceStore.organization && (
+                            <Autocomplete
+                                id="company"
+                                options={experienceStore.organization}
+                                getOptionLabel={(option: any) => option.name}
+                                onChange={(event: any, value: any) => {
+                                    if (value)
+                                        return (experienceStore.company =
+                                            value.name);
+                                }}
+                                renderOption={(option) => {
+                                    return (
+                                        <React.Fragment>
+                                            <span>
+                                                <img
+                                                    src={option.avatar}
+                                                    style={{
+                                                        height: 20,
+                                                        width: 20
+                                                    }}
+                                                />{' '}
+                                                {option.name}
+                                            </span>
+                                        </React.Fragment>
+                                    );
+                                }}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="Company"
+                                        variant="outlined"
+                                    />
+                                )}
+                            />
+                        )}
                     </Grid>
                     <Grid item>
                         <TextField
@@ -208,39 +198,38 @@ const CreateExperience = (props: IProps) => {
                                     </InputAdornment>
                                 )
                             }}
-                            onChange={(e) => setLocation(e.target.value)}
+                            value={experienceStore.location}
+                            onChange={(e) =>
+                                (experienceStore.location = e.target.value)
+                            }
                         />
                     </Grid>
 
                     <Grid item>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                             <Grid container justify="space-between">
-                                <KeyboardDatePicker
-                                    disableToolbar
+                                <DatePicker
                                     variant="inline"
                                     views={['month', 'year']}
                                     margin="normal"
                                     id="date-picker-inline"
                                     label="Start Date"
-                                    value={startDate}
-                                    onChange={(date: any) => setStartDate(date)}
-                                    KeyboardButtonProps={{
-                                        'aria-label': 'change date'
-                                    }}
+                                    value={experienceStore.joined_at}
+                                    onChange={(date: any) =>
+                                        (experienceStore.joined_at = date)
+                                    }
                                     style={{ width: '45%' }}
                                 />
-                                <KeyboardDatePicker
-                                    disableToolbar
+                                <DatePicker
                                     variant="inline"
                                     views={['month', 'year']}
                                     margin="normal"
                                     id="date-picker-inline"
                                     label="End Date"
-                                    value={endDate}
-                                    onChange={(date: any) => setEndDate(date)}
-                                    KeyboardButtonProps={{
-                                        'aria-label': 'change date'
-                                    }}
+                                    value={experienceStore.left_at}
+                                    onChange={(date: any) =>
+                                        (experienceStore.left_at = date)
+                                    }
                                     style={{ width: '45%' }}
                                 />
                             </Grid>
@@ -254,8 +243,11 @@ const CreateExperience = (props: IProps) => {
                             variant="outlined"
                             fullWidth
                             select
-                            // value={employmentType}
-                            onChange={(e) => setEmoloymentType(e.target.value)}
+                            value={experienceStore.employment_type}
+                            onChange={(e) =>
+                                (experienceStore.employment_type =
+                                    e.target.value)
+                            }
                             SelectProps={{
                                 native: true
                             }}>
@@ -267,21 +259,27 @@ const CreateExperience = (props: IProps) => {
                         </TextField>
                     </Grid>
 
-                    <Grid item>
-                        <TextField
-                            style={{ paddingLeft: 2 }}
-                            label="Description"
-                            variant="outlined"
-                            fullWidth
-                            multiline
-                            onChange={(e) => setDescription(e.target.value)}
-                        />
-                    </Grid>
-
                     <Grid style={{ alignSelf: 'center' }}>
                         <Button
-                            className={classes.btn_post}
-                            onClick={CreateExp}>
+                            className={classes.btn_save}
+                            onClick={() => {
+                                let createSuccess =
+                                    experienceStore.createExperienceOfuser();
+                                if (createSuccess) {
+                                    if (loginStore.userInfo) {
+                                        experienceStore.getExperienceOfUser(
+                                            loginStore.userInfo.id
+                                        );
+                                        experienceStore.closeModalCreateExperience();
+                                        enqueueSnackbar(
+                                            'Create experience success!',
+                                            {
+                                                variant: 'success'
+                                            }
+                                        );
+                                    }
+                                }
+                            }}>
                             Save
                         </Button>
                     </Grid>
@@ -289,6 +287,6 @@ const CreateExperience = (props: IProps) => {
             </Modal>
         </div>
     );
-};
+});
 
 export default CreateExperience;

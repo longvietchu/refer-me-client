@@ -78,12 +78,18 @@ export default makeStyles((theme: Theme) => ({
         textTransform: 'capitalize'
     },
 
-    btn_post: {
+    btn_save: {
         border: '2px solid #0a66c2',
         color: '#0a66c2',
         borderRadius: '1.5rem',
         height: '35px',
         margin: 10
-        // width: "100%",
+    },
+    btn_delete: {
+        border: '2px solid red',
+        color: 'red',
+        borderRadius: '1.5rem',
+        height: '35px',
+        margin: 10
     }
 }));

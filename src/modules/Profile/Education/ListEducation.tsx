@@ -39,13 +39,18 @@ const ListEducation = observer(() => {
                                     alignItems="flex-start"
                                     style={{ marginRight: '14px' }}>
                                     <div>
-                                        <img
-                                            style={{
-                                                height: '56px',
-                                                width: '56px'
-                                            }}
-                                            src="https://dcv.vn/wp-content/uploads/2021/01/logo-dcv-2021-1.png"
-                                        />
+                                        {educationStore.organization && (
+                                            <img
+                                                style={{
+                                                    height: '56px',
+                                                    width: '56px'
+                                                }}
+                                                src={
+                                                    educationStore.organization
+                                                        .avatar
+                                                }
+                                            />
+                                        )}
                                     </div>
                                     <div>
                                         <h3>{item.title}</h3>

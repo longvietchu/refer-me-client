@@ -14,12 +14,7 @@ import {
 
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
-import {
-    MuiPickersUtilsProvider,
-    KeyboardTimePicker,
-    KeyboardDatePicker,
-    DatePicker
-} from '@material-ui/pickers';
+import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 
@@ -27,16 +22,15 @@ import Modal from 'react-modal';
 
 import SchoolIcon from '@material-ui/icons/School';
 import WorkIcon from '@material-ui/icons/Work';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
+
 import CloseIcon from '@material-ui/icons/Close';
 
 import Styles from './Style';
 
-import { IEmployments } from '../ProfileContainer';
 import { loginStore } from '../../Login/loginStore';
 import { educationStore } from './educationStore';
 import { observer } from 'mobx-react-lite';
+import { useSnackbar } from 'notistack';
 
 const defaultTheme = createMuiTheme();
 
@@ -74,38 +68,25 @@ const customStyles = {
 };
 
 interface IProps {
-    // CreateExp: any;
     modalEdu: boolean;
     closeModalEdu: VoidFunction;
     startDate: any;
     endDate: any;
     setStartDate: any;
     setEndDate: any;
-    // setTitle: any;
-    // setCompany: any;
-    // setLocation: any;
-    // setDescription: any;
-    // setEmoloymentType: any;
-    // employments: IEmployments[];
 }
 
 const CreateEducation = observer((props: IProps) => {
     const classes = Styles();
+    const { enqueueSnackbar } = useSnackbar();
 
     const {
         modalEdu,
         closeModalEdu,
-        // CreateExp,
         startDate,
         endDate,
         setStartDate,
         setEndDate
-        // setTitle,
-        // setCompany,
-        // setLocation,
-        // setDescription,
-        // setEmoloymentType,
-        // employments
     } = props;
 
     return (
@@ -134,54 +115,6 @@ const CreateEducation = observer((props: IProps) => {
                     <Divider />
 
                     <Grid item>
-                        {/* <TextField
-                            label="School"
-                            required
-                            variant="outlined"
-                            fullWidth
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <LocationOnIcon />
-                                    </InputAdornment>
-                                )
-                            }}
-                            onChange={(e) => {
-                                educationStore.title = e.target.value;
-                                educationStore.searchOrganization(
-                                    e.target.value
-                                );
-                            }}
-                            value={educationStore.title}
-                        /> */}
-
-                        {/* {educationStore.organization && (
-                            <Autocomplete
-                                id="combo-box-demo"
-                                options={educationStore.organization}
-                                getOptionLabel={(option: any) => option.name}
-                                getOptionSelected={(option, value) =>
-                                    option.name === value.name
-                                }
-                                renderInput={(params) => (
-                                    <TextField
-                                        {...params}
-                                        label="School"
-                                        variant="outlined"
-                                        onChange={(e: any) => {
-                                            educationStore.title =
-                                                e.target.value;
-                                            educationStore.searchOrganization(
-                                                e.target.value
-                                            );
-                                            console.log('eee', e.target.value);
-                                        }}
-                                        value={educationStore.title}
-                                    />
-                                )}
-                            />
-                        )} */}
-
                         {educationStore.organization && (
                             <Autocomplete
                                 id="organization"
@@ -296,11 +229,21 @@ const CreateEducation = observer((props: IProps) => {
                         <Button
                             className={classes.btn_save}
                             onClick={() => {
-                                educationStore.createEducationOfuser();
-                                if (loginStore.userInfo) {
-                                    educationStore.getEducationOfUser(
-                                        loginStore.userInfo.id
-                                    );
+                                let createSuccess =
+                                    educationStore.createEducationOfuser();
+                                if (createSuccess) {
+                                    if (loginStore.userInfo) {
+                                        educationStore.getEducationOfUser(
+                                            loginStore.userInfo.id
+                                        );
+                                        educationStore.closeModalCreateEducation();
+                                        enqueueSnackbar(
+                                            'Create education success!',
+                                            {
+                                                variant: 'success'
+                                            }
+                                        );
+                                    }
                                 }
                             }}>
                             Save
