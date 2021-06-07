@@ -1,13 +1,21 @@
 import React, { useEffect } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import RootView from './modules/RootView';
 import { configure } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { loginStore } from './modules/Login/loginStore';
 configure({ useProxies: 'never', enforceActions: 'never' });
+
 const App = observer(() => {
     useEffect(() => {
         loginStore.getUserInfo();
     }, []);
-    return <RootView />;
+    return (
+        <Router>
+            <div>
+                <RootView />
+            </div>
+        </Router>
+    );
 });
 export default App;

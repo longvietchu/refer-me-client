@@ -21,16 +21,11 @@ import { Helmet } from 'react-helmet';
 const NetworkScreen = () => {
     const classes = Styles();
     return (
-        <Grid
-            container
-            className={classes.app}
-            // style={{ backgroundColor: mode ? darkPrimary : LinkedInBgColor }}
-        >
+        <Grid container className={classes.app}>
             <Helmet>
-                <title>Refer Me</title>
+                <title>Refer Me | Network</title>
             </Helmet>
             <Grid item container className={classes.app__header}>
-                {/* Header */}
                 <Header />
             </Grid>
             <Grid item container className={classes.app__body}>

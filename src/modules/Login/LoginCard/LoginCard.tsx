@@ -23,7 +23,7 @@ const LoginCard = observer(() => {
         let isLoginSuccess = await loginStore.login();
         if (isLoginSuccess) {
             history.push('/home');
-            enqueueSnackbar('Login success!', { variant: 'success' });
+            enqueueSnackbar('Log-in success!', { variant: 'success' });
         }
     };
 

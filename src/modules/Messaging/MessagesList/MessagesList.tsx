@@ -29,6 +29,7 @@ import { loginStore } from '../../Login/loginStore';
 import { messageEvent } from '../messageEvent';
 import { messageStore } from '../messageStore';
 import Styles from './Style';
+import { useFocus } from '../../../common/utils/Utils';
 
 const MessagesList = observer(() => {
     const classes = Styles();
@@ -47,6 +48,8 @@ const MessagesList = observer(() => {
         scrollToBottom();
     }, [messageStore.messageList]);
 
+    const [inputRef, setInputFocus] = useFocus();
+
     const handleSendMessage = (e: any) => {
         messageStore.messageContent = messageStore.messageContent.trim();
         if (messageStore.messageContent === '') return;
@@ -63,6 +66,7 @@ const MessagesList = observer(() => {
         }
         messageEvent.emitMessage(data);
         messageStore.messageContent = '';
+        setInputFocus();
     };
     const emitSeenMessage = () => {
         if (loginStore.userInfo && messageStore.messageList) {
@@ -114,30 +118,30 @@ const MessagesList = observer(() => {
                                 </div>
                             }
                             secondary={
-                                <div
-                                    style={{
-                                        width: '100%',
-                                        overflow: 'hidden',
-                                        textOverflow: 'ellipsis',
-                                        whiteSpace: 'nowrap'
-                                    }}>
-                                    <Typography>
-                                        {messageStore.selectedRoom &&
-                                            messageStore.selectedRoom.user_info
-                                                .name}
-                                    </Typography>
-                                    <FiberManualRecordIcon
+                                messageStore.selectedRoom && (
+                                    <div
                                         style={{
-                                            color: 'green',
-                                            fontSize: '10px'
-                                        }}
-                                    />
-                                    <Typography
-                                        variant="caption"
-                                        style={{ paddingLeft: 5 }}>
-                                        Active
-                                    </Typography>
-                                </div>
+                                            width: '100%',
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis',
+                                            whiteSpace: 'nowrap'
+                                        }}>
+                                        <Typography>
+                                            {
+                                                messageStore.selectedRoom
+                                                    .user_info.name
+                                            }
+                                        </Typography>
+                                        <Typography
+                                            variant="caption"
+                                            style={{ paddingLeft: 5 }}>
+                                            {
+                                                messageStore.selectedRoom
+                                                    .user_info.headline
+                                            }
+                                        </Typography>
+                                    </div>
+                                )
                             }
                         />
 
@@ -237,6 +241,7 @@ const MessagesList = observer(() => {
                         onFocus={() => emitSeenMessage()}
                         value={messageStore.messageContent}
                         placeholder="Type a message..."
+                        ref={inputRef}
                     />
                     <IconButton
                         className={classes.chatButtonIcon}

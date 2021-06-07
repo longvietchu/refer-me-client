@@ -23,7 +23,7 @@ ReactDOM.render(
         <Router>
             <SnackbarProvider
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-                maxSnack={3}
+                maxSnack={1}
                 action={(key) => <SnackbarCloseButton key={key} />}>
                 <App />
             </SnackbarProvider>

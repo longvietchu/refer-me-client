@@ -1,6 +1,5 @@
-import { makeAutoObservable, runInAction } from 'mobx';
+import { makeAutoObservable } from 'mobx';
 import HttpStatusCode from '../../common/constants/HttpErrorCode';
-import StorageService from '../../common/service/StorageService';
 import { signupService } from './signupService';
 
 export interface ISignupInfo {
@@ -13,14 +12,19 @@ class SignupStore {
     constructor() {
         makeAutoObservable(this);
     }
+
     signupInfo: ISignupInfo = { name: '', email: '', password: '' };
+    isLoading: boolean = false;
 
     async signup() {
+        this.isLoading = true;
         const result = await signupService.singup(this.signupInfo);
         if (result.status === HttpStatusCode.OK) {
-            // StorageService.setLocalStore()
             console.log(result.body);
+            return true;
         }
+        this.isLoading = false;
+        return false;
     }
 }
 

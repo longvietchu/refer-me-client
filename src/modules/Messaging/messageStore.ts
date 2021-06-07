@@ -8,6 +8,7 @@ export interface IRoom {
         _id: string;
         name: string;
         avatar: string;
+        headline: string;
     };
     _id: string;
     creator_id: string;

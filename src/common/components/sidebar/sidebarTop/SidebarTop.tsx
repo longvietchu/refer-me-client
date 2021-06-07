@@ -39,7 +39,7 @@ const SidebarTop = observer(() => {
                             fontSize: '12px',
                             padding: '4px 8px'
                         }}>
-                        Internship Trainee at Data Communication of VietNam
+                        {loginStore.userInfo.headline}
                     </p>
                 </div>
             )}

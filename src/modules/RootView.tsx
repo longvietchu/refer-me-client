@@ -1,5 +1,5 @@
-import { Switch, Route, Redirect } from 'react-router-dom';
 import React from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 import LoginScreen from './Login/LoginScreen';
 import SignUpScreen from './SignUp/SignUpScreen';
@@ -13,6 +13,7 @@ import CreateOrganizationContainer from './Organization/CreateOrganization/Creat
 import ProfileOrgContainer from './Organization/ProfileOrganization/ProfileOrgContainer';
 import ChangePasswordScreen from './ChangePassword/ChangePasswordScreen';
 import StorageService from '../common/service/StorageService';
+import CreateProfile from './Profile/CreateProfile/CreateProfile';
 
 const RootView = () => {
     const PrivateRoute = ({ children, ...rest }: any) => {
@@ -20,81 +21,67 @@ const RootView = () => {
         return (
             <Route
                 {...rest}
-                render={() =>
-                    accessToken ? (
-                        children
-                    ) : (
-                        <Redirect
-                            to={{
-                                pathname: '/'
-                            }}
-                        />
-                    )
-                }
-            />
-        );
-    };
-
-    const PublicRoute = ({ children, ...rest }: any) => {
-        let accessToken = StorageService.isTokenExits();
-        return (
-            <Route
-                {...rest}
-                render={(location: any) =>
-                    !accessToken ? (
-                        children
-                    ) : (
-                        <Redirect
-                            to={{
-                                pathname: '/home',
-                                state: { from: location }
-                            }}
-                        />
-                    )
-                }
+                render={() => (accessToken ? children : <Redirect to="/" />)}
             />
         );
     };
 
     return (
         <Switch>
-            <PrivateRoute path="/home" exact>
+            <PrivateRoute exact path="/home">
                 <HomeContainer />
             </PrivateRoute>
+
+            <Route exact path="/create/profile">
+                <CreateProfile />
+            </Route>
             <Route path="/profile/:user_id">
                 <ProfileContainer />
             </Route>
-            <Route path="/notifications">
+
+            <PrivateRoute exact path="/notifications">
                 <NotificationsContainer />
-            </Route>
-            <Route path="/messaging">
+            </PrivateRoute>
+
+            <PrivateRoute exact path="/messaging">
                 <MessagingContainer />
-            </Route>
-            <Route path="/jobs">
+            </PrivateRoute>
+
+            <Route exact path="/jobs">
                 <JobContainer />
             </Route>
-            <Route path="/mynetwork">
+
+            <PrivateRoute exact path="/mynetwork">
                 <NetworkContainer />
-            </Route>
-            <Route path="/change-password">
+            </PrivateRoute>
+
+            <PrivateRoute exact path="/change-password">
                 <ChangePasswordScreen />
-            </Route>
-            <Route path="/organization/new">
+            </PrivateRoute>
+
+            <PrivateRoute exact path="/organization/new">
                 <CreateOrganizationContainer />
-            </Route>
-            <Route path="/organization/profile">
+            </PrivateRoute>
+
+            <Route path="/organization/:organization_id">
                 <ProfileOrgContainer />
             </Route>
 
-            <Route path="/" exact={true}>
-                <LoginScreen />
+            <Route exact path="/">
+                {StorageService.isTokenExits() ? (
+                    <Redirect to="/home" />
+                ) : (
+                    <LoginScreen />
+                )}
             </Route>
 
-            <Route path="/signup" exact={true}>
-                <SignUpScreen />
+            <Route exact path="/signup">
+                {StorageService.isTokenExits() ? (
+                    <Redirect to="/home" />
+                ) : (
+                    <SignUpScreen />
+                )}
             </Route>
-
-            {/* <Route path="/home" component={HomeContainer} /> */}
         </Switch>
     );
 };

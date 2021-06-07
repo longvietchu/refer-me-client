@@ -1,7 +1,8 @@
 import {
     getRequest,
     IApiResponse,
-    postRequest
+    postRequest,
+    putRequest
 } from '../../common/helpers/RequestHelper';
 import { uploadFile } from '../../common/helpers/UploadHelper';
 
@@ -12,8 +13,14 @@ class ProfileService {
     public updateProfile(data: any): Promise<IApiResponse> {
         return postRequest('/v1/profile', data);
     }
-    public uploadCoverImage(file: any): Promise<IApiResponse> {
-        return uploadFile('/v1/profile/background-image', file);
+    public uploadSingleImage(file: any): Promise<IApiResponse> {
+        return uploadFile('/v1/file/upload-single', file);
+    }
+    public updateUserInfo(data: any): Promise<IApiResponse> {
+        return putRequest('/v1/user/change-info', data);
+    }
+    public createProfile(data: any): Promise<IApiResponse> {
+        return postRequest('/v1/profile', data);
     }
 }
 export const profileService = new ProfileService();

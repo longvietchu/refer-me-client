@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ProfileScreen from './ProfileScreen';
-
 import { useSnackbar } from 'notistack';
-
-import { formatDateYYYY, formatYear } from '../../common/config/Function';
 
 const employments = [
     {

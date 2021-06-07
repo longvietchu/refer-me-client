@@ -8,6 +8,7 @@ export interface IUserInfo {
     name: string;
     email: string;
     avatar: string;
+    headline: string;
 }
 
 export interface ILogin {
@@ -28,6 +29,7 @@ class LoginStore {
     async getUserInfo() {
         const result = await loginService.getUserInfo();
         if (result.status === HttpStatusCode.OK) {
+            console.log(result.body.data);
             this.userInfo = result.body.data;
         }
     }

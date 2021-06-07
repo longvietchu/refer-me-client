@@ -3,7 +3,6 @@ import {
     Button,
     Divider,
     Grid,
-    Link,
     List,
     ListItem,
     ListItemAvatar,
@@ -23,7 +22,7 @@ import TelegramIcon from '@material-ui/icons/Telegram';
 import WorkIcon from '@material-ui/icons/Work';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { loginStore } from '../../../modules/Login/loginStore';
 import { profileStore } from '../../../modules/Profile/profileStore';
 import StorageService from '../../service/StorageService';
@@ -54,10 +53,6 @@ const Header = observer(() => {
             profileStore.getProfile(loginStore.userInfo.id);
             history.push(`/profile/${loginStore.userInfo.id}`);
         }
-    };
-
-    const onClickCreateOrg = () => {
-        history.push('/organization/new');
     };
 
     const open = Boolean(anchorEl);
@@ -150,12 +145,12 @@ const Header = observer(() => {
                                 onClick={onClick}
                             />
                         ))}
-                        <MenuItems
+                        {/* <MenuItems
                             key={'mode'}
                             Icon={<BrightnessHighIcon />}
                             title={'Theme'}
                             onClick={() => console.log('Change theme')}
-                        />
+                        /> */}
                     </div>
                     <Paper className={classes.header__bottom__nav}>
                         {bottomItems.map(
@@ -189,34 +184,29 @@ const Header = observer(() => {
                     }
                 }}>
                 <List style={{ padding: 0 }}>
-                    <ListItem
-                        alignItems="flex-start"
-                        button
-                        onClick={onClickProfile}>
-                        <ListItemAvatar style={{ minWidth: '50px' }}>
-                            <Avatar />
-                        </ListItemAvatar>
-                        <ListItemText
-                            primary={
-                                <Typography className={classes.name}>
-                                    Tung Nguyen
-                                </Typography>
-                            }
-                            secondary={
-                                <Typography className={classes.headline}>
-                                    Internship Trainee at Data Communication of
-                                    VietNam
-                                </Typography>
-                            }
-                        />
-                    </ListItem>
+                    {loginStore.userInfo && (
+                        <ListItem
+                            alignItems="flex-start"
+                            button
+                            onClick={onClickProfile}>
+                            <ListItemAvatar style={{ minWidth: '50px' }}>
+                                <Avatar src={loginStore.userInfo.avatar} />
+                            </ListItemAvatar>
+                            <ListItemText
+                                primary={
+                                    <Typography className={classes.name}>
+                                        {loginStore.userInfo.name}
+                                    </Typography>
+                                }
+                                secondary={
+                                    <Typography className={classes.headline}>
+                                        {loginStore.userInfo.headline}
+                                    </Typography>
+                                }
+                            />
+                        </ListItem>
+                    )}
                 </List>
-
-                <Grid container justify="center">
-                    <Button className={classes.btn} onClick={onClickCreateOrg}>
-                        Create an organization
-                    </Button>
-                </Grid>
 
                 <Divider style={{ marginTop: '10px' }} />
 
@@ -225,12 +215,12 @@ const Header = observer(() => {
                         Account
                     </Typography>
                     <Link
-                        href="/change-password"
+                        to="/change-password"
                         style={{ color: '#808080', lineHeight: '20px' }}>
                         Setting
                     </Link>
                     <Link
-                        href=""
+                        to="/"
                         style={{ color: '#808080', lineHeight: '20px' }}>
                         Help
                     </Link>
@@ -243,14 +233,19 @@ const Header = observer(() => {
                         Manage
                     </Typography>
                     <Link
-                        href="#"
+                        to="#"
                         style={{ color: '#808080', lineHeight: '20px' }}>
                         Post & Activity
                     </Link>
                     <Link
-                        href="#"
+                        to="#"
                         style={{ color: '#808080', lineHeight: '20px' }}>
                         Job Posting
+                    </Link>
+                    <Link
+                        to="/organization/new"
+                        style={{ color: '#808080', lineHeight: '20px' }}>
+                        Create an organization
                     </Link>
                 </Grid>
 

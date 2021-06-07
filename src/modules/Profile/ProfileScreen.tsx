@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import {
     Tab,
     Tabs,
@@ -111,25 +111,22 @@ const ProfileScreen = observer((props: IProps) => {
             setValue(newValue);
         }
     };
-    if (loginStore.userInfo) {
+    if (loginStore.userInfo && profileStore.profile) {
         return (
             <Grid container className={classes.app}>
-                <Grid
-                    item
-                    container
-                    className={classes.app__header}
-                    // style={{
-                    //   boxShadow: mode && "0px 5px 10px -10px rgba(0,0,0,0.75)",
-                    // }}
-                >
-                    {/* Header */}
+                <Grid item container className={classes.app__header}>
                     <Header />
                 </Grid>
                 <Grid item container className={classes.app__body}>
                     <Grid item className={classes.body__feed} xs={12} md={7}>
                         <Card>
                             <Grid item xs={12}>
-                                <Paper className={classes.paper}>
+                                <Paper
+                                    className={classes.paper}
+                                    style={{
+                                        background: `#ffffff url(${profileStore.profile.background_image}) no-repeat center center`,
+                                        backgroundSize: 'cover'
+                                    }}>
                                     <div className={classes.avatarBox}>
                                         <Box>
                                             <Avatar
@@ -178,7 +175,7 @@ const ProfileScreen = observer((props: IProps) => {
                                         <Typography
                                             id="status"
                                             style={{ fontSize: '1.2rem' }}>
-                                            {profileStore.profile.headline}
+                                            {loginStore.userInfo.headline}
                                         </Typography>
                                     </span>
                                 </div>
@@ -538,7 +535,7 @@ const ProfileScreen = observer((props: IProps) => {
                 </Grid>
             </Grid>
         );
-    } else return null;
+    } else return <Redirect to="/create/profile" />;
 });
 
 export default ProfileScreen;

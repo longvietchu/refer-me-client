@@ -13,13 +13,17 @@ export default makeStyles((theme) => ({
         position: 'relative',
         bottom: '1rem',
         top: '0rem',
-        marginLeft: '0.7rem'
+        marginLeft: '0.7rem',
+        marginTop: '5rem'
     },
     avatar: {
         border: '4px solid white',
         height: '8rem',
         width: '8rem',
-        marginTop: '0rem'
+        marginTop: '0rem',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center'
     },
     input: {
         display: 'none'
@@ -28,7 +32,10 @@ export default makeStyles((theme) => ({
         backgroundColor: 'rgb(204, 214, 221)',
         height: '12rem',
         marginTop: '1rem',
-        opacity: '0.75'
+        opacity: '0.75',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center'
     },
     icon: {
         color: 'rgba(29,161,242,1.00)',
@@ -70,7 +77,8 @@ export default makeStyles((theme) => ({
         height: '15%'
     },
     camera: {
-        marginLeft: '50%',
-        marginTop: '4rem'
+        backgroundColor: '#fff',
+        marginTop: 8,
+        marginLeft: 8
     }
 }));

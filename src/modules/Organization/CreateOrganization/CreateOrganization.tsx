@@ -8,19 +8,15 @@ import {
     Button,
     TextField
 } from '@material-ui/core';
-
 import Header from '../../../common/components/header/Header';
 import { Helmet } from 'react-helmet';
-
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import CancelRoundedIcon from '@material-ui/icons/CancelRounded';
-
 import Styles from './Style';
 import {
     KeyboardDatePicker,
     MuiPickersUtilsProvider
 } from '@material-ui/pickers';
-
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 import { useHistory } from 'react-router-dom';
@@ -75,7 +71,7 @@ const CreateOrganization = () => {
     };
 
     const onClickCreate = () => {
-        history.push('./profile');
+        history.push('/profile');
     };
     return (
         <Grid
