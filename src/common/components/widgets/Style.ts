@@ -16,7 +16,8 @@ export default makeStyles((theme) => ({
     },
     widgets__top: {
         overflow: 'hidden',
-        borderRadius: 10
+        borderRadius: 10,
+        marginBottom: 8
     },
     heading: {
         width: '100%',

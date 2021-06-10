@@ -1,3 +1,4 @@
+import { CircularProgress } from '@material-ui/core';
 import React from 'react';
 
 const LoadingCard = () => {
@@ -9,12 +10,7 @@ const LoadingCard = () => {
                 justifyContent: 'center',
                 padding: 10
             }}>
-            <i
-                className="fas fa-circle-notch fa-spin"
-                style={{
-                    fontSize: '25px',
-                    color: '#0a66c2'
-                }}></i>
+            <CircularProgress />
         </div>
     );
 };

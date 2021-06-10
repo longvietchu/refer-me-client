@@ -1,26 +1,25 @@
 import DateFnsUtils from '@date-io/date-fns';
 import {
-    Avatar,
-    Box,
     Fab,
     Grid,
     IconButton,
     TextField,
     Typography
 } from '@material-ui/core';
-import { CameraAlt, Close } from '@material-ui/icons';
+import { Close } from '@material-ui/icons';
 import {
     KeyboardDatePicker,
     MuiPickersUtilsProvider
 } from '@material-ui/pickers';
 import 'date-fns';
 import { observer } from 'mobx-react-lite';
-import React, { useEffect } from 'react';
+import React from 'react';
 import Modal from 'react-modal';
 import { loginStore } from '../../Login/loginStore';
 import { Gender, profileStore } from '../profileStore';
 import Styles from './Style';
 
+Modal.setAppElement('#root');
 const customStyles = {
     content: {
         top: '50%',
@@ -34,15 +33,6 @@ const customStyles = {
         padding: 0
     }
 };
-
-interface IProps {
-    modalProfile: boolean;
-    closeModalProfile: VoidFunction;
-    startDate: any;
-    endDate: any;
-    setStartDate: any;
-    setEndDate: any;
-}
 
 const genders = [
     {
@@ -59,31 +49,22 @@ const genders = [
     }
 ];
 
-const ModalEdit = observer((props: any) => {
+const ModalEdit = observer(() => {
     const classes = Styles();
-    const { modalProfile, closeModalProfile, startDate } = props;
-
-    const onChangeCoverImg = (e: any) => {
-        e.preventDefault();
-        let file = e.target.files[0];
-        profileStore.uploadCoverImage(file);
-    };
-    const onChangeAvatar = (e: any) => {
-        e.preventDefault();
-        let file = e.target.files[0];
-        profileStore.uploadAvatar(file);
-    };
 
     if (loginStore.userInfo && profileStore.profile) {
         return (
             <Modal
-                isOpen={modalProfile}
-                onRequestClose={closeModalProfile}
+                isOpen={profileStore.modalProfileOpen}
+                onRequestClose={() => (profileStore.modalProfileOpen = false)}
                 style={customStyles}
                 contentLabel="Example Modal">
                 <Grid component="nav" className={classes.header} item>
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
-                        <IconButton onClick={closeModalProfile}>
+                        <IconButton
+                            onClick={() =>
+                                (profileStore.modalProfileOpen = false)
+                            }>
                             <Close className={classes.icon} />{' '}
                         </IconButton>
                         <Typography className={classes.typo} variant="h4">
@@ -96,10 +77,8 @@ const ModalEdit = observer((props: any) => {
                         className={classes.btn}
                         type="submit"
                         onClick={() => {
-                            const isUpdateSucess = profileStore.updateProfile();
-                            if (isUpdateSucess) {
-                                return closeModalProfile;
-                            }
+                            profileStore.updateProfile();
+                            profileStore.updateUserInfo();
                         }}>
                         <div className={classes.btnDiv}>
                             <span>
@@ -108,65 +87,12 @@ const ModalEdit = observer((props: any) => {
                         </div>
                     </Fab>
                 </Grid>
-                <Grid
-                    className={classes.darkArea}
-                    item
-                    style={{
-                        backgroundImage: `url(${profileStore.profile.background_image})`
-                    }}>
-                    <input
-                        accept="image/*"
-                        className={classes.input}
-                        id="contained-button-file"
-                        multiple
-                        type="file"
-                        onChange={(e) => {
-                            onChangeCoverImg(e);
-                        }}
-                    />
-                    <label htmlFor="contained-button-file">
-                        <IconButton
-                            className={classes.camera}
-                            aria-label="upload picture"
-                            component="span">
-                            <CameraAlt className={classes.icon} />
-                        </IconButton>
-                    </label>
-                    <div className={classes.avatarBox}>
-                        <Box>
-                            <Avatar
-                                className={classes.avatar}
-                                style={{
-                                    backgroundImage: `url(${loginStore.userInfo.avatar})`
-                                }}>
-                                <input
-                                    accept="image/*"
-                                    className={classes.input}
-                                    id="contained-button-file"
-                                    multiple
-                                    type="file"
-                                    onChange={(e) => {
-                                        onChangeAvatar(e);
-                                    }}
-                                />
-                                <label htmlFor="contained-button-file">
-                                    <IconButton
-                                        aria-label="upload picture"
-                                        component="span">
-                                        <CameraAlt className={classes.icon} />
-                                    </IconButton>
-                                </label>
-                            </Avatar>
-                        </Box>
-                    </div>
-                </Grid>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={3}>
                         <Grid item xs={12}>
                             <TextField
                                 className={classes.textField}
                                 name="About"
-                                variant="filled"
                                 fullWidth
                                 id="About"
                                 label="About"
@@ -185,7 +111,6 @@ const ModalEdit = observer((props: any) => {
                             <TextField
                                 className={classes.textField}
                                 name="Headline"
-                                variant="filled"
                                 multiline
                                 fullWidth
                                 id="Headline"
@@ -208,10 +133,7 @@ const ModalEdit = observer((props: any) => {
                                     <KeyboardDatePicker
                                         variant="dialog"
                                         format="dd/MM/yyyy"
-                                        value={
-                                            profileStore.profile.dob ||
-                                            startDate
-                                        }
+                                        value={profileStore.profile.dob}
                                         onChange={(date: any) => {
                                             if (profileStore.profile) {
                                                 profileStore.profile.dob = date;

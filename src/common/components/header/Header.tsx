@@ -50,7 +50,7 @@ const Header = observer(() => {
 
     const onClickProfile = () => {
         if (loginStore.userInfo) {
-            profileStore.getProfile(loginStore.userInfo.id);
+            // await profileStore.getProfile(loginStore.userInfo.id);
             history.push(`/profile/${loginStore.userInfo.id}`);
         }
     };
@@ -252,7 +252,7 @@ const Header = observer(() => {
                 <Divider style={{ marginBottom: '10px' }} />
 
                 <Grid container justify="center" style={{ marginBottom: 10 }}>
-                    <Button className={classes.btn} onClick={SignOut}>
+                    <Button className={classes.btn} onClick={() => SignOut()}>
                         sign out
                     </Button>
                 </Grid>

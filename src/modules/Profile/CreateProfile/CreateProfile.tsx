@@ -10,27 +10,37 @@ import {
 } from '@material-ui/core';
 import { PhotoCamera } from '@material-ui/icons';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import CancelRoundedIcon from '@material-ui/icons/CancelRounded';
 import { Helmet } from 'react-helmet';
 import Header from '../../../common/components/header/Header';
 import Styles from './Style';
 import { observer } from 'mobx-react-lite';
 import { profileStore } from '../profileStore';
 import { loginStore } from '../../Login/loginStore';
+import { useHistory } from 'react-router-dom';
 
 const CreateProfile = observer(() => {
     const classes = Styles();
-    const [date, setDate] = useState(new Date());
+    let history = useHistory();
+
+    // const [date, setDate] = useState(new Date());
     const onChangeAvatar = (e: any) => {
         e.preventDefault();
         let file = e.target.files[0];
         profileStore.uploadAvatar(file);
     };
 
+    const onClickCreateProfile = async () => {
+        await profileStore.updateUserInfo();
+        const isUpdateSuccess = await profileStore.createProfile();
+        if (isUpdateSuccess && loginStore.userInfo) {
+            history.push(`/profile/${loginStore.userInfo.id}`);
+        }
+    };
+
     return (
         <Grid container className={classes.app}>
             <Helmet>
-                <title>Refer Me | Create Profile</title>
+                <title>Refer Me | Profile</title>
             </Helmet>
             <Grid item container className={classes.app__header}>
                 <Header />
@@ -58,7 +68,6 @@ const CreateProfile = observer(() => {
                                 <Grid item>
                                     <TextField
                                         label="about"
-                                        variant="filled"
                                         fullWidth
                                         value={profileStore.inputProfile.about}
                                         onChange={(e) =>
@@ -73,16 +82,24 @@ const CreateProfile = observer(() => {
                                         <MuiPickersUtilsProvider
                                             utils={DateFnsUtils}>
                                             <DatePicker
-                                                variant="dialog"
-                                                format="MM/dd/yyyy"
+                                                autoOk
+                                                clearable
+                                                disableFuture
+                                                openTo="year"
+                                                format="dd/MM/yyyy"
+                                                views={[
+                                                    'year',
+                                                    'month',
+                                                    'date'
+                                                ]}
                                                 label="Date of birth"
-                                                onChange={(date: any) =>
-                                                    (profileStore.inputProfile.dob =
-                                                        date)
-                                                }
                                                 value={
                                                     profileStore.inputProfile
                                                         .dob
+                                                }
+                                                onChange={(date: any) =>
+                                                    (profileStore.inputProfile.dob =
+                                                        date)
                                                 }
                                             />
                                         </MuiPickersUtilsProvider>
@@ -111,24 +128,30 @@ const CreateProfile = observer(() => {
                                                 </IconButton>
                                             </label>
                                         </div>
-                                        {loginStore.userInfo && (
-                                            <div>
-                                                <img
-                                                    id="output"
-                                                    src={
-                                                        loginStore.userInfo
-                                                            .avatar
-                                                    }
-                                                    width="100"
-                                                    height="100"
-                                                />
-                                            </div>
-                                        )}
+                                        {loginStore.userInfo &&
+                                            loginStore.userInfo.avatar !==
+                                                '' && (
+                                                <div>
+                                                    <img
+                                                        id="output"
+                                                        src={
+                                                            loginStore.userInfo
+                                                                .avatar
+                                                        }
+                                                        width="100"
+                                                        height="100"
+                                                    />
+                                                </div>
+                                            )}
                                     </Grid>
                                 </Grid>
                             </Grid>
-                            <Button className={classes.btn}>
-                                Create Profile
+                            <Button
+                                className={classes.btn}
+                                onClick={(e) => onClickCreateProfile()}>
+                                {profileStore.isLoading
+                                    ? 'Creating...'
+                                    : 'Create Profile'}
                             </Button>
                         </Paper>
                     </Grid>

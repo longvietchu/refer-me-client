@@ -82,8 +82,11 @@ export default makeStyles((theme: Theme) => ({
         border: '2px solid #0a66c2',
         color: '#0a66c2',
         borderRadius: '1.5rem',
+        width: '100px',
         height: '35px',
         margin: 10
-        // width: "100%",
+    },
+    date_picker: {
+        flexGrow: 1
     }
 }));

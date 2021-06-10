@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
 import RootView from './modules/RootView';
 import { configure } from 'mobx';
 import { observer } from 'mobx-react-lite';
@@ -10,12 +9,6 @@ const App = observer(() => {
     useEffect(() => {
         loginStore.getUserInfo();
     }, []);
-    return (
-        <Router>
-            <div>
-                <RootView />
-            </div>
-        </Router>
-    );
+    return <RootView />;
 });
 export default App;

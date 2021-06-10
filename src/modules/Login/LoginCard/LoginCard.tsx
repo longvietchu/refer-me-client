@@ -95,7 +95,7 @@ const LoginCard = observer(() => {
                     className={classes.btn}
                     style={{ opacity: loginStore.isLoading ? 0.5 : 1 }}
                     disabled={loginStore.isLoading ? true : false}>
-                    {loginStore.isLoading ? 'Loging In...' : 'Log In'}
+                    {loginStore.isLoading ? 'Signing In...' : 'Sign In'}
                 </Button>
             </form>
 

@@ -1,9 +1,9 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export default makeStyles((theme) => ({
+export default makeStyles(() => ({
     form: {
         width: '100%',
-        marginTop: '6rem',
+        marginTop: '2rem',
         marginBottom: '2rem'
     },
     paper: {
@@ -53,6 +53,7 @@ export default makeStyles((theme) => ({
         marginTop: '0.7rem',
         marginRight: '1rem',
         textTransform: 'capitalize',
+        borderRadius: 8,
         '&:hover': {
             backgroundColor: 'rgba(29,161,242,1.00)'
         },

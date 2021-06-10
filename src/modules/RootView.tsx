@@ -32,9 +32,10 @@ const RootView = () => {
                 <HomeContainer />
             </PrivateRoute>
 
-            <Route exact path="/create/profile">
+            <PrivateRoute exact path="/create/profile">
                 <CreateProfile />
-            </Route>
+            </PrivateRoute>
+
             <Route path="/profile/:user_id">
                 <ProfileContainer />
             </Route>

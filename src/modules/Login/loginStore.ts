@@ -29,7 +29,7 @@ class LoginStore {
     async getUserInfo() {
         const result = await loginService.getUserInfo();
         if (result.status === HttpStatusCode.OK) {
-            console.log(result.body.data);
+            // console.log(result.body.data);
             this.userInfo = result.body.data;
         }
     }

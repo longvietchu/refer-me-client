@@ -62,6 +62,11 @@ const Widgets = () => {
                     />
                 </div>
             </Paper>
+            <Paper className={classes.widgets__top}>
+                <div className={classes.heading}>
+                    <h4>Expand your network</h4>
+                </div>
+            </Paper>
             <div className={classes.widgets__bottom}>
                 <div className={classes.about}>
                     <h4>Author Info</h4>
