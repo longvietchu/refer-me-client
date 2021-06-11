@@ -77,7 +77,6 @@ export default makeStyles((theme: Theme) => ({
         borderRadius: '1.5rem',
         textTransform: 'capitalize'
     },
-
     btn_post: {
         border: '2px solid #0a66c2',
         color: '#0a66c2',
@@ -85,5 +84,15 @@ export default makeStyles((theme: Theme) => ({
         width: '100px',
         height: '35px',
         margin: 10
+    },
+    skillItem: {
+        borderRadius: 24,
+        padding: '0 2px 2px 8px',
+        border: '1px solid #546e7a',
+        marginRight: 8
+    },
+    closeIcon: {
+        width: 16,
+        height: 16
     }
 }));

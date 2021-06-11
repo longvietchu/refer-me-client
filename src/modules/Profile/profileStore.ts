@@ -65,6 +65,12 @@ export interface IExperience {
     };
 }
 
+export interface ISkill {
+    _id: string;
+    votes: number;
+    name: string;
+}
+
 export enum IEmploymentType {
     NONE = 'None',
     FULL_TIME = 'Full-time',
@@ -88,6 +94,7 @@ class ProfileStore {
     profile?: IProfile;
     educationList?: IEducation[];
     experienceList?: IExperience[];
+    skillList?: ISkill[];
 
     inputProfile = {
         dob: new Date(),
@@ -112,6 +119,8 @@ class ProfileStore {
         left_at: new Date(),
         organization_id: ''
     };
+    inputSkillName: string = '';
+    inputSkillList: string[] = [];
     selectedEducation?: IEducation;
     selectedExperience?: IExperience;
     validateInput = { title: '', job_title: '', company: '', location: '' };
@@ -150,6 +159,13 @@ class ProfileStore {
         const result = await profileService.getExperience(user_id);
         if (result.status < HttpStatusCode.CODE_300) {
             this.experienceList = result.body.data;
+        }
+    }
+
+    async getSkill(user_id: string) {
+        const result = await profileService.getSkill(user_id);
+        if (result.status < HttpStatusCode.CODE_300) {
+            this.skillList = result.body.data;
         }
     }
 
@@ -255,12 +271,25 @@ class ProfileStore {
         }
         const result = await profileService.createExperience(data);
         if (result.status < HttpStatusCode.CODE_300 && this.experienceList) {
-            console.log(result);
+            // console.log(result);
             this.experienceList = [result.body.data, ...this.experienceList];
         }
         // console.log(data);
         this.isLoading = false;
         this.modalExperience.create = false;
+    }
+
+    async createSkill() {
+        this.isLoading = true;
+        const data = {
+            name: this.inputSkillList
+        };
+        const result = await profileService.createSkill(data);
+        if (result.status < HttpStatusCode.CODE_300) {
+            this.skillList = result.body.data;
+        }
+        this.isLoading = false;
+        this.modalSkill.create = false;
     }
 
     async updateProfile() {

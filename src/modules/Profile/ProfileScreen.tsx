@@ -25,6 +25,7 @@ import CreateExperience from './Experience/CreateExperience';
 import EditExperience from './Experience/EditExperience';
 import ListExperience from './Experience/ListExperience';
 import { profileStore } from './profileStore';
+import CreateSkill from './Skill/CreateSkill';
 import ListSkill from './Skill/ListSkill';
 import Styles from './Style';
 
@@ -326,11 +327,13 @@ const ProfileScreen = observer(() => {
                         </Grid>
                     </Hidden>
 
-                    <ModalEdit />
                     <CreateExperience />
                     <CreateEducation />
-                    <EditEducation />
+                    <CreateSkill />
+
+                    <ModalEdit />
                     <EditExperience />
+                    <EditEducation />
                 </Grid>
             </Grid>
         );

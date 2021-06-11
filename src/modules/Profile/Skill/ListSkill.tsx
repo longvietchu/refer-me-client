@@ -8,22 +8,43 @@ import LoadingCard from '../../../common/components/util/LoadingCard';
 import { numberUtil } from '../../../common/utils/NumberUtil';
 
 const ListSkill = observer(() => {
-    if (profileStore.educationList) {
+    if (profileStore.skillList) {
         return (
             <div>
-                {[1, 2, 3, 4, 5].map((item, index) => (
+                {profileStore.skillList.map((item, index) => (
                     <Grid
                         container
                         direction="row"
                         justify="space-between"
                         alignItems="center"
-                        key={index}>
-                        <div>
+                        key={item._id}>
+                        <div style={{ padding: 12 }}>
                             <Grid container direction="row" alignItems="center">
-                                <AddCircleOutline />
-                                <div>
-                                    <h4>{item}</h4>
-                                </div>
+                                <AddCircleOutline
+                                    style={{
+                                        width: 30,
+                                        height: 30,
+                                        color: '#0a66c2'
+                                    }}
+                                />
+
+                                <p
+                                    style={{
+                                        marginLeft: 16,
+                                        fontSize: 18,
+                                        fontWeight: 500
+                                    }}>
+                                    {item.name}{' '}
+                                    {item.votes > 0 && (
+                                        <span
+                                            style={{
+                                                color: '#999',
+                                                fontWeight: 100
+                                            }}>
+                                            &#183; {item.votes}
+                                        </span>
+                                    )}
+                                </p>
                             </Grid>
                         </div>
                         <Grid item>

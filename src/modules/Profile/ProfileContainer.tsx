@@ -10,6 +10,7 @@ const ProfileContainer = observer(() => {
         profileStore.getProfile(user_id);
         profileStore.getExperience(user_id);
         profileStore.getEducation(user_id);
+        profileStore.getSkill(user_id);
     }, []);
     return <ProfileScreen />;
 });

@@ -48,5 +48,18 @@ class ProfileService {
     ): Promise<IApiResponse> {
         return putRequest(`/v1/experience/${experience_id}`, data);
     }
+    // Skill services
+    public createSkill(data: any): Promise<IApiResponse> {
+        return postRequest('/v1/skill', data);
+    }
+    public getSkill(user_id: string): Promise<IApiResponse> {
+        return getRequest(`/v1/skill/user/${user_id}`);
+    }
+    public upvoteSkill(skill_id: string): Promise<IApiResponse> {
+        return putRequest(`/v1/skill/upvote/${skill_id}`, {});
+    }
+    public updateSkillName(skill_id: string, data: any): Promise<IApiResponse> {
+        return putRequest(`/v1/skill/${skill_id}`, data);
+    }
 }
 export const profileService = new ProfileService();

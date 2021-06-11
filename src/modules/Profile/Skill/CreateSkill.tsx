@@ -2,17 +2,13 @@ import React from 'react';
 import {
     Button,
     Divider,
+    Fab,
     Grid,
     IconButton,
-    InputAdornment,
     TextField,
     Typography
 } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
-import SchoolIcon from '@material-ui/icons/School';
-import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
+import { Close } from '@material-ui/icons';
 import { observer } from 'mobx-react-lite';
 import Modal from 'react-modal';
 import { profileStore } from '../profileStore';
@@ -55,7 +51,7 @@ const CreateSkill = observer(() => {
                                 onClick={() =>
                                     (profileStore.modalSkill.create = false)
                                 }>
-                                <CloseIcon />
+                                <Close />
                             </IconButton>
                         </Grid>
                     </Grid>
@@ -64,28 +60,52 @@ const CreateSkill = observer(() => {
 
                     <Grid item>
                         <TextField
-                            label="School"
+                            label="Skills"
                             required
                             fullWidth
                             placeholder="your skills(ex: Hardware Design)"
-                            onChange={(e) =>
-                                (profileStore.inputEducation.title =
-                                    e.target.value)
-                            }
-                            value={profileStore.inputEducation.title}
-                            error={
-                                profileStore.validateInput.title !== ''
-                                    ? true
-                                    : false
-                            }
-                            helperText={profileStore.validateInput.title}
+                            onChange={(e) => {
+                                profileStore.inputSkillName = e.target.value;
+                            }}
+                            value={profileStore.inputSkillName}
+                            onKeyPress={(e) => {
+                                if (e.key === 'Enter') {
+                                    profileStore.inputSkillList.push(
+                                        profileStore.inputSkillName.trim()
+                                    );
+                                    profileStore.inputSkillName = '';
+                                }
+                            }}
                         />
+                    </Grid>
+
+                    <Grid item>
+                        {profileStore.inputSkillList.map((item, index) => (
+                            <span className={classes.skillItem} key={index}>
+                                {item}
+                                <IconButton
+                                    style={{ padding: 0, marginLeft: 4 }}
+                                    onClick={() => {
+                                        profileStore.inputSkillList =
+                                            profileStore.inputSkillList.filter(
+                                                (s) => s !== item
+                                            );
+                                    }}>
+                                    <Close className={classes.closeIcon} />
+                                </IconButton>
+                            </span>
+                        ))}
                     </Grid>
 
                     <Grid>
                         <Button
+                            disabled={
+                                profileStore.inputSkillList.length > 0
+                                    ? false
+                                    : true
+                            }
                             className={classes.btn_post}
-                            onClick={(e) => profileStore.createEducation()}>
+                            onClick={(e) => profileStore.createSkill()}>
                             {profileStore.isLoading ? 'Saving...' : 'Save'}
                         </Button>
                     </Grid>
