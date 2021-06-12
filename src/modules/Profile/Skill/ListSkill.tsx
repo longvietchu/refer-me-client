@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Grid } from '@material-ui/core';
-import { Edit, AddCircleOutline } from '@material-ui/icons';
+import { DeleteForever, AddCircleOutline } from '@material-ui/icons';
 import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom';
 import { profileStore } from '../profileStore';
@@ -24,13 +24,12 @@ const ListSkill = observer(() => {
                                     style={{
                                         width: 30,
                                         height: 30,
-                                        color: '#0a66c2'
+                                        color: '#0000008a',
+                                        marginRight: 16
                                     }}
                                 />
-
                                 <p
                                     style={{
-                                        marginLeft: 16,
                                         fontSize: 18,
                                         fontWeight: 500
                                     }}>
@@ -48,8 +47,12 @@ const ListSkill = observer(() => {
                             </Grid>
                         </div>
                         <Grid item>
-                            <Button onClick={() => {}}>
-                                <Edit style={{ color: '#0a66c2' }} />
+                            <Button
+                                onClick={() => {
+                                    profileStore.modalSkill.delete = true;
+                                    profileStore.selectedSkill = item;
+                                }}>
+                                <DeleteForever style={{ color: '#0000008a' }} />
                             </Button>
                         </Grid>
                     </Grid>

@@ -74,13 +74,23 @@ export default makeStyles((theme: Theme) => ({
         color: '#ffffff',
         backgroundColor: '#0a66c2',
         fontWeight: 'bold',
-        borderRadius: '1.5rem',
         textTransform: 'capitalize'
     },
     btn_post: {
         border: '2px solid #0a66c2',
         color: '#0a66c2',
-        borderRadius: '1.5rem',
+        width: '100px',
+        height: '35px',
+        margin: 10
+    },
+    btnDelete: {
+        width: '100px',
+        height: '35px',
+        margin: 10
+    },
+    btnCancel: {
+        border: '2px solid #0a66c2',
+        color: '#0a66c2',
         width: '100px',
         height: '35px',
         margin: 10

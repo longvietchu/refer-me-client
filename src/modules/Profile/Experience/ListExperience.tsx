@@ -126,7 +126,7 @@ const ListExperience = observer(() => {
                                     profileStore.selectedExperience = item;
                                     profileStore.modalExperience.edit = true;
                                 }}>
-                                <Edit style={{ color: '#0a66c2' }} />
+                                <Edit style={{ color: '#0000008a' }} />
                             </Button>
                         </Grid>
                     </Grid>

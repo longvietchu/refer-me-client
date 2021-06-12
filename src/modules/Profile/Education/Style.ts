@@ -70,18 +70,16 @@ export default makeStyles((theme: Theme) => ({
     },
     btn: {
         height: '32px',
-        border: '1.5px solid #0a66c2',
+        border: '1px solid #0a66c2',
         color: '#ffffff',
         backgroundColor: '#0a66c2',
         fontWeight: 'bold',
-        borderRadius: '1.5rem',
         textTransform: 'capitalize'
     },
 
     btn_post: {
-        border: '2px solid #0a66c2',
+        border: '1px solid #0a66c2',
         color: '#0a66c2',
-        borderRadius: '1.5rem',
         width: '100px',
         height: '35px',
         margin: 10

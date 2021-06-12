@@ -88,7 +88,7 @@ const ListEducation = observer(() => {
                                     profileStore.selectedEducation = item;
                                     profileStore.modalEducation.edit = true;
                                 }}>
-                                <Edit style={{ color: '#0a66c2' }} />
+                                <Edit style={{ color: '#0000008a' }} />
                             </Button>
                         </Grid>
                     </Grid>

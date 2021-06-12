@@ -10,6 +10,13 @@ export interface IProfile {
     about: string;
     gender: number;
     user_id: string;
+    user_info: {
+        _id: string;
+        name: string;
+        email: string;
+        avatar: string;
+        headline: string;
+    };
 }
 
 export interface IEducation {
@@ -123,6 +130,7 @@ class ProfileStore {
     inputSkillList: string[] = [];
     selectedEducation?: IEducation;
     selectedExperience?: IExperience;
+    selectedSkill?: ISkill;
     validateInput = { title: '', job_title: '', company: '', location: '' };
 
     isLoading: boolean = false;
@@ -137,7 +145,7 @@ class ProfileStore {
     };
     modalSkill = {
         create: false,
-        edit: false
+        delete: false
     };
     modalProfileOpen: boolean = false;
 
@@ -462,6 +470,17 @@ class ProfileStore {
             this.modalExperience.edit = false;
         }
     }
+
+    async deleteSkill(skill_id: string) {
+        this.isLoading = true;
+        const result = await profileService.deleteSkill(skill_id);
+        if (result.status < HttpStatusCode.CODE_300) {
+            console.log(result);
+        }
+        this.isLoading = false;
+    }
+
+    async upvoteSkill(skill_id: string) {}
 }
 
 export const profileStore = new ProfileStore();

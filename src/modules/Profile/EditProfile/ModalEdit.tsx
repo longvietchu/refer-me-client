@@ -1,16 +1,14 @@
 import DateFnsUtils from '@date-io/date-fns';
 import {
-    Fab,
     Grid,
     IconButton,
     TextField,
-    Typography
+    Typography,
+    Button,
+    Divider
 } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
-import {
-    KeyboardDatePicker,
-    MuiPickersUtilsProvider
-} from '@material-ui/pickers';
+import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import 'date-fns';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
@@ -27,10 +25,9 @@ const customStyles = {
         right: 'auto',
         bottom: 'auto',
         transform: 'translate(-50%, -50%)',
-        height: '80%',
+        height: '70%',
         width: '50%',
-        borderRadius: 10,
-        padding: 0
+        borderRadius: 10
     }
 };
 
@@ -59,127 +56,112 @@ const ModalEdit = observer(() => {
                 onRequestClose={() => (profileStore.modalProfileOpen = false)}
                 style={customStyles}
                 contentLabel="Example Modal">
-                <Grid component="nav" className={classes.header} item>
-                    <div style={{ display: 'flex', flexDirection: 'row' }}>
-                        <IconButton
-                            onClick={() =>
-                                (profileStore.modalProfileOpen = false)
-                            }>
-                            <Close className={classes.icon} />{' '}
-                        </IconButton>
-                        <Typography className={classes.typo} variant="h4">
-                            Edit profile
-                        </Typography>
-                    </div>
-                    <Fab
-                        variant="extended"
-                        size="small"
+                <Grid container direction="column" spacing={3}>
+                    <Grid item>
+                        <Grid
+                            container
+                            justify="space-between"
+                            alignItems="center">
+                            <Typography variant="h6">Edit profile</Typography>
+                            <IconButton
+                                onClick={() =>
+                                    (profileStore.modalProfileOpen = false)
+                                }>
+                                <Close />
+                            </IconButton>
+                        </Grid>
+                    </Grid>
+                    <Divider />
+                    <Grid item>
+                        <TextField
+                            name="About"
+                            fullWidth
+                            id="About"
+                            label="About"
+                            required
+                            value={profileStore.profile.about}
+                            onChange={(e) => {
+                                if (profileStore.profile) {
+                                    profileStore.profile.about = e.target.value;
+                                }
+                            }}
+                        />
+                    </Grid>
+                    <Grid item>
+                        <TextField
+                            name="Headline"
+                            multiline
+                            fullWidth
+                            id="Headline"
+                            label="Headline"
+                            required
+                            value={loginStore.userInfo.headline}
+                            onChange={(e) => {
+                                if (loginStore.userInfo) {
+                                    loginStore.userInfo.headline =
+                                        e.target.value;
+                                }
+                            }}
+                        />
+                    </Grid>
+
+                    <Grid item>
+                        <Grid container justify="space-between">
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <DatePicker
+                                    autoOk
+                                    clearable
+                                    format="dd/MM/yyyy"
+                                    value={profileStore.profile.dob}
+                                    onChange={(date: any) => {
+                                        if (profileStore.profile) {
+                                            profileStore.profile.dob = date;
+                                        }
+                                    }}
+                                    label="Birthday"
+                                    fullWidth
+                                    style={{
+                                        width: '40%'
+                                    }}
+                                />
+                            </MuiPickersUtilsProvider>
+                            <TextField
+                                id="outlined-select-currency-native"
+                                fullWidth
+                                select
+                                label="Select gender"
+                                value={profileStore.profile.gender}
+                                onChange={(e) => {
+                                    if (profileStore.profile) {
+                                        profileStore.profile.gender = parseInt(
+                                            e.target.value
+                                        );
+                                    }
+                                }}
+                                style={{
+                                    width: '40%'
+                                }}>
+                                {genders.map((option: any) => (
+                                    <option
+                                        key={option.value}
+                                        value={option.value}>
+                                        {option.label}
+                                    </option>
+                                ))}
+                            </TextField>
+                        </Grid>
+                    </Grid>
+                    <Button
+                        variant="outlined"
+                        color="primary"
                         className={classes.btn}
-                        type="submit"
                         onClick={() => {
                             profileStore.updateProfile();
                             profileStore.updateUserInfo();
                         }}>
-                        <div className={classes.btnDiv}>
-                            <span>
-                                {profileStore.isLoading ? 'Saving...' : 'Save'}
-                            </span>
-                        </div>
-                    </Fab>
+                        {profileStore.isLoading ? 'Saving...' : 'Save'}
+                    </Button>
                 </Grid>
-                <form className={classes.form} noValidate>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12}>
-                            <TextField
-                                className={classes.textField}
-                                name="About"
-                                fullWidth
-                                id="About"
-                                label="About"
-                                autoFocus
-                                required
-                                value={profileStore.profile.about}
-                                onChange={(e) => {
-                                    if (profileStore.profile) {
-                                        profileStore.profile.about =
-                                            e.target.value;
-                                    }
-                                }}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                className={classes.textField}
-                                name="Headline"
-                                multiline
-                                fullWidth
-                                id="Headline"
-                                label="Headline"
-                                autoFocus
-                                required
-                                value={loginStore.userInfo.headline}
-                                onChange={(e) => {
-                                    if (loginStore.userInfo) {
-                                        loginStore.userInfo.headline =
-                                            e.target.value;
-                                    }
-                                }}
-                            />
-                        </Grid>
-
-                        <Grid item xs={12}>
-                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                <Grid container justify="space-between">
-                                    <KeyboardDatePicker
-                                        variant="dialog"
-                                        format="dd/MM/yyyy"
-                                        value={profileStore.profile.dob}
-                                        onChange={(date: any) => {
-                                            if (profileStore.profile) {
-                                                profileStore.profile.dob = date;
-                                            }
-                                        }}
-                                        label="Birthday"
-                                        fullWidth
-                                        style={{
-                                            width: '40%',
-                                            marginLeft: '5%',
-                                            height: '15%'
-                                        }}
-                                    />
-                                    <TextField
-                                        id="outlined-select-currency-native"
-                                        select
-                                        label="Select gender"
-                                        value={profileStore.profile.gender}
-                                        onChange={(e) => {
-                                            if (profileStore.profile) {
-                                                profileStore.profile.gender =
-                                                    parseInt(e.target.value);
-                                            }
-                                        }}
-                                        SelectProps={{
-                                            native: true
-                                        }}
-                                        variant="outlined"
-                                        style={{
-                                            width: '40%',
-                                            marginRight: '5%',
-                                            height: '15%'
-                                        }}>
-                                        {genders.map((option: any) => (
-                                            <option
-                                                key={option.value}
-                                                value={option.value}>
-                                                {option.label}
-                                            </option>
-                                        ))}
-                                    </TextField>
-                                </Grid>
-                            </MuiPickersUtilsProvider>
-                        </Grid>
-                    </Grid>
-                </form>
             </Modal>
         );
     } else return null;

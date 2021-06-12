@@ -1,4 +1,5 @@
 import {
+    deleteRequest,
     getRequest,
     IApiResponse,
     postRequest,
@@ -60,6 +61,9 @@ class ProfileService {
     }
     public updateSkillName(skill_id: string, data: any): Promise<IApiResponse> {
         return putRequest(`/v1/skill/${skill_id}`, data);
+    }
+    public deleteSkill(skill_id: string): Promise<IApiResponse> {
+        return deleteRequest(`/v1/skill/${skill_id}`, {});
     }
 }
 export const profileService = new ProfileService();

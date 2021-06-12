@@ -145,7 +145,7 @@ const CreateEducation = observer(() => {
                         </Grid>
                     </Grid>
 
-                    <Grid>
+                    <Grid item>
                         <Button
                             className={classes.btn_post}
                             onClick={(e) => profileStore.createEducation()}>

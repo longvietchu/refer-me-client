@@ -46,20 +46,8 @@ export default makeStyles(() => ({
         width: '5rem'
     },
     btn: {
-        backgroundColor: 'rgba(29,161,242,1.00)',
-        color: 'white',
-        fontWeight: 'bold',
-        fontSize: '15px',
-        marginTop: '0.7rem',
-        marginRight: '1rem',
-        textTransform: 'capitalize',
-        borderRadius: 8,
-        '&:hover': {
-            backgroundColor: 'rgba(29,161,242,1.00)'
-        },
-        '&:focus': {
-            backgroundColor: 'rgba(29,161,242,1.00)'
-        }
+        width: 100,
+        marginLeft: 12
     },
     header: {
         display: 'flex',

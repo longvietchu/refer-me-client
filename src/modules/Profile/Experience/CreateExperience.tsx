@@ -217,7 +217,12 @@ const CreateExperience = observer(() => {
                             <Grid container justify="space-between">
                                 <DatePicker
                                     className={classes.date_picker}
-                                    style={{ marginRight: 20 }}
+                                    style={{
+                                        marginRight: !profileStore
+                                            .modalExperience.presentJob
+                                            ? 20
+                                            : 0
+                                    }}
                                     autoOk
                                     clearable
                                     format="dd/MM/yyyy"

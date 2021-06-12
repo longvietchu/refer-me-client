@@ -65,20 +65,22 @@ export default makeStyles((theme) => ({
         marginTop: '-7rem',
         position: 'relative'
     },
-    horizontalDiv: {
+    userInfo: {
+        marginTop: 45
+    },
+    careerInfo: {
         display: 'flex',
-        flexDirection: 'row'
+        flexDirection: 'column'
     },
     backArrow: {
         color: 'rgba(29,161,242,1.00)'
     },
     btn: {
-        border: '1.5px solid rgba(29,161,242,1.00)',
-        color: 'rgba(29,161,242,1.00)',
+        alignSelf: 'flex-end',
+        marginBottom: '12px',
+        color: '#0000008a',
         fontWeight: 'bold',
         borderRadius: '1.5rem',
-        marginTop: '0.7rem',
-        marginRight: '1rem',
         textTransform: 'capitalize'
     },
     avatarBox: {
@@ -143,5 +145,10 @@ export default makeStyles((theme) => ({
             border: '1px solid #1da1f2',
             color: '#1da1f2'
         }
+    },
+    summarizeInfo: {
+        display: 'flex',
+        alignItems: 'center',
+        marginBottom: '12px'
     }
 }));

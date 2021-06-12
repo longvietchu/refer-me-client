@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { Add, CameraAlt, Edit } from '@material-ui/icons';
+import { Add, CameraAlt, DriveEta, Edit } from '@material-ui/icons';
 import { observer } from 'mobx-react-lite';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -26,6 +26,7 @@ import EditExperience from './Experience/EditExperience';
 import ListExperience from './Experience/ListExperience';
 import { profileStore } from './profileStore';
 import CreateSkill from './Skill/CreateSkill';
+import DeleteSkill from './Skill/DeleteSkill';
 import ListSkill from './Skill/ListSkill';
 import Styles from './Style';
 
@@ -117,54 +118,114 @@ const ProfileScreen = observer(() => {
                             </Grid>
                             <Grid
                                 style={{
-                                    marginLeft: '1rem',
-                                    marginBottom: '1rem'
+                                    padding: '1rem',
+                                    display: 'flex',
+                                    justifyContent: 'space-between'
                                 }}
                                 item
                                 xs={12}>
-                                <div
-                                    style={{ justifyContent: 'space-between' }}
-                                    className={classes.horizontalDiv}>
-                                    <div></div>
-                                    <Button
-                                        onClick={() =>
-                                            (profileStore.modalProfileOpen =
-                                                true)
+                                <div className={classes.userInfo}>
+                                    <Typography
+                                        className={classes.nameTypo}
+                                        variant="h6"
+                                        id="name">
+                                        {profileStore.profile.user_info.name}
+                                    </Typography>
+                                    <Typography id="username">
+                                        <small>
+                                            @
+                                            {stringUtil.unMark(
+                                                profileStore.profile.user_info
+                                                    .name
+                                            )}
+                                        </small>
+                                    </Typography>
+
+                                    <Typography
+                                        id="status"
+                                        style={{ fontSize: '1.2rem' }}>
+                                        {
+                                            profileStore.profile.user_info
+                                                .headline
                                         }
-                                        className={classes.btn}>
-                                        <Edit />
-                                    </Button>
+                                    </Typography>
                                 </div>
-                                <div>
-                                    <div
-                                        style={{ marginTop: '1rem' }}
-                                        className={classes.horizontalDiv}>
-                                        <Typography
-                                            className={classes.nameTypo}
-                                            variant="h6"
-                                            id="name">
-                                            {loginStore.userInfo.name}
-                                        </Typography>
-                                    </div>
-                                    <span>
-                                        <Typography id="username">
-                                            <small>
-                                                @
-                                                {stringUtil.unMark(
-                                                    loginStore.userInfo.name
-                                                )}
-                                            </small>
-                                        </Typography>
-                                    </span>
-                                </div>
-                                <div>
-                                    <span>
-                                        <Typography
-                                            id="status"
-                                            style={{ fontSize: '1.2rem' }}>
-                                            {loginStore.userInfo.headline}
-                                        </Typography>
-                                    </span>
+
+                                <div className={classes.careerInfo}>
+                                    {loginStore.userInfo.id ===
+                                        profileStore.profile.user_id && (
+                                        <Button
+                                            onClick={() =>
+                                                (profileStore.modalProfileOpen =
+                                                    true)
+                                            }
+                                            className={classes.btn}>
+                                            <Edit />
+                                        </Button>
+                                    )}
+                                    {profileStore.experienceList && (
+                                        <div className={classes.summarizeInfo}>
+                                            {profileStore.experienceList[0]
+                                                .organization_info &&
+                                            profileStore.experienceList[0]
+                                                .organization_info.avatar ? (
+                                                <Avatar
+                                                    variant="square"
+                                                    src={
+                                                        profileStore
+                                                            .experienceList[0]
+                                                            .organization_info
+                                                            .avatar
+                                                    }
+                                                    style={{ marginRight: 8 }}
+                                                />
+                                            ) : (
+                                                <Avatar
+                                                    variant="square"
+                                                    src="/images/no-avatar.png"
+                                                    style={{ marginRight: 8 }}
+                                                />
+                                            )}
+                                            <Typography>
+                                                {
+                                                    profileStore
+                                                        .experienceList[0]
+                                                        .company
+                                                }
+                                            </Typography>
+                                        </div>
+                                    )}
+                                    {profileStore.educationList && (
+                                        <div className={classes.summarizeInfo}>
+                                            {profileStore.educationList[0]
+                                                .organization_info &&
+                                            profileStore.educationList[0]
+                                                .organization_info.avatar ? (
+                                                <Avatar
+                                                    variant="square"
+                                                    src={
+                                                        profileStore
+                                                            .educationList[0]
+                                                            .organization_info
+                                                            .avatar
+                                                    }
+                                                    style={{ marginRight: 8 }}
+                                                />
+                                            ) : (
+                                                <Avatar
+                                                    variant="square"
+                                                    src="/images/no-avatar.png"
+                                                    style={{ marginRight: 8 }}
+                                                />
+                                            )}
+                                            <Typography>
+                                                {
+                                                    profileStore
+                                                        .educationList[0].title
+                                                }
+                                            </Typography>
+                                        </div>
+                                    )}
                                 </div>
                                 {/* <Grid
                                     container
@@ -256,7 +317,7 @@ const ProfileScreen = observer(() => {
                                             (profileStore.modalExperience.create =
                                                 true)
                                         }>
-                                        <Add style={{ color: '#0a66c2' }} />
+                                        <Add style={{ color: '#0000008a' }} />
                                     </Button>
                                 </Grid>
                             </Grid>
@@ -285,7 +346,7 @@ const ProfileScreen = observer(() => {
                                             (profileStore.modalEducation.create =
                                                 true)
                                         }>
-                                        <Add style={{ color: '#0a66c2' }} />
+                                        <Add style={{ color: '#0000008a' }} />
                                     </Button>
                                 </Grid>
                             </Grid>
@@ -313,7 +374,7 @@ const ProfileScreen = observer(() => {
                                             (profileStore.modalSkill.create =
                                                 true)
                                         }>
-                                        <Add style={{ color: '#0a66c2' }} />
+                                        <Add style={{ color: '#0000008a' }} />
                                     </Button>
                                 </Grid>
                             </Grid>
@@ -334,6 +395,7 @@ const ProfileScreen = observer(() => {
                     <ModalEdit />
                     <EditExperience />
                     <EditEducation />
+                    <DeleteSkill />
                 </Grid>
             </Grid>
         );

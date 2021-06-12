@@ -69,10 +69,9 @@ export default makeStyles((theme) => ({
     btn: {
         width: '20%',
         height: '40px',
-        border: '1.5px solid #0a66c2',
+        border: '1px solid #0a66c2',
         color: '#0a66c2',
         fontWeight: 'bold',
-        borderRadius: '1.5rem',
         marginBottom: '1rem',
         marginLeft: 12,
         textTransform: 'capitalize'
