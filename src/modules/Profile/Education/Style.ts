@@ -83,5 +83,17 @@ export default makeStyles((theme: Theme) => ({
         width: '100px',
         height: '35px',
         margin: 10
+    },
+    link: {
+        textDecoration: 'none',
+        color: '#333',
+        '&:hover': {
+            textDecoration: 'underline'
+        }
+    },
+    organizationAvatar: {
+        marginRight: 8,
+        width: 25,
+        height: 25
     }
 }));

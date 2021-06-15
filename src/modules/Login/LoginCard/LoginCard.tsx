@@ -92,8 +92,7 @@ const LoginCard = observer(() => {
                 <Button
                     onClick={Login}
                     variant="contained"
-                    className={classes.btn}
-                    style={{ opacity: loginStore.isLoading ? 0.5 : 1 }}
+                    color="primary"
                     disabled={loginStore.isLoading ? true : false}>
                     {loginStore.isLoading ? 'Signing In...' : 'Sign In'}
                 </Button>

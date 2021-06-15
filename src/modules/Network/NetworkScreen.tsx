@@ -1,24 +1,16 @@
+import { Divider, Grid, Hidden, Paper, Typography } from '@material-ui/core';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
-import {
-    Grid,
-    Hidden,
-    Container,
-    Box,
-    Paper,
-    Typography
-} from '@material-ui/core';
-
+import { Helmet } from 'react-helmet';
 import Header from '../../common/components/header/Header';
+import LoadingCard from '../../common/components/util/LoadingCard';
+import ConnectCard from './ConnectCard/ConnectCard';
+import Invitation from './Invitation/Invitation';
+import { networkStore } from './networkStore';
 import SideBar from './SideBar/SideBar';
 import Styles from './Style';
-import Invitation from './Invitation/Invitation';
-import ConnectCard from './ConnectCard/ConnectCard';
 
-import connects from './connect';
-
-import { Helmet } from 'react-helmet';
-
-const NetworkScreen = () => {
+const NetworkScreen = observer(() => {
     const classes = Styles();
     return (
         <Grid container className={classes.app}>
@@ -40,41 +32,39 @@ const NetworkScreen = () => {
                     </Grid>
                     <Grid item className={classes.feed__posts}>
                         <Paper className={classes.paper}>
-                            <div style={{ padding: '20px 24px 0' }}>
-                                <Typography
-                                    style={{
-                                        fontSize: '20px',
-                                        fontWeight: 'bold'
-                                    }}>
-                                    Recommended for you
+                            <div style={{ padding: 16 }}>
+                                <Typography variant="body1">
+                                    Expand your network
                                 </Typography>
                             </div>
-                            <Box className={classes.box}>
-                                <Container maxWidth={false}>
-                                    <Box pt={1}>
-                                        <Grid container spacing={3}>
-                                            {connects.map((connect) => (
+                            <Divider />
+                            <div className={classes.box}>
+                                <Grid container spacing={1}>
+                                    {networkStore.recommendList ? (
+                                        networkStore.recommendList.map(
+                                            (recommend, index) => (
                                                 <Grid
                                                     item
-                                                    key={connect.id}
-                                                    lg={3}
-                                                    md={6}
+                                                    key={recommend._id}
+                                                    md={3}
                                                     xs={12}>
                                                     <ConnectCard
-                                                        connect={connect}
+                                                        connect={recommend}
                                                     />
                                                 </Grid>
-                                            ))}
-                                        </Grid>
-                                    </Box>
-                                </Container>
-                            </Box>
+                                            )
+                                        )
+                                    ) : (
+                                        <LoadingCard />
+                                    )}
+                                </Grid>
+                            </div>
                         </Paper>
                     </Grid>
                 </Grid>
             </Grid>
         </Grid>
     );
-};
+});
 
 export default NetworkScreen;

@@ -6,28 +6,42 @@ import { Link } from 'react-router-dom';
 import { profileStore } from '../profileStore';
 import LoadingCard from '../../../common/components/util/LoadingCard';
 import { numberUtil } from '../../../common/utils/NumberUtil';
+import { loginStore } from '../../Login/loginStore';
 
 const ListSkill = observer(() => {
     if (profileStore.skillList) {
         return (
-            <div>
+            <div style={{ padding: '0 18px' }}>
                 {profileStore.skillList.map((item, index) => (
                     <Grid
                         container
                         direction="row"
                         justify="space-between"
                         alignItems="center"
+                        style={{
+                            borderBottom: '1px solid #ebebeb'
+                        }}
                         key={item._id}>
-                        <div style={{ padding: 12 }}>
+                        <div style={{ padding: '12px 0' }}>
                             <Grid container direction="row" alignItems="center">
-                                <AddCircleOutline
-                                    style={{
-                                        width: 30,
-                                        height: 30,
-                                        color: '#0000008a',
-                                        marginRight: 16
-                                    }}
-                                />
+                                {loginStore.userInfo &&
+                                    profileStore.profile &&
+                                    loginStore.userInfo.id !==
+                                        profileStore.profile.user_id && (
+                                        <AddCircleOutline
+                                            style={{
+                                                width: 30,
+                                                height: 30,
+                                                color: '#0000008a',
+                                                marginRight: 16
+                                            }}
+                                            onClick={() =>
+                                                profileStore.upvoteSkill(
+                                                    item._id
+                                                )
+                                            }
+                                        />
+                                    )}
                                 <p
                                     style={{
                                         fontSize: 18,
@@ -46,15 +60,23 @@ const ListSkill = observer(() => {
                                 </p>
                             </Grid>
                         </div>
-                        <Grid item>
-                            <Button
-                                onClick={() => {
-                                    profileStore.modalSkill.delete = true;
-                                    profileStore.selectedSkill = item;
-                                }}>
-                                <DeleteForever style={{ color: '#0000008a' }} />
-                            </Button>
-                        </Grid>
+                        {loginStore.userInfo &&
+                            profileStore.profile &&
+                            loginStore.userInfo.id ===
+                                profileStore.profile.user_id && (
+                                <Grid item>
+                                    <Button
+                                        onClick={() => {
+                                            profileStore.modalSkill.delete =
+                                                true;
+                                            profileStore.selectedSkill = item;
+                                        }}>
+                                        <DeleteForever
+                                            style={{ color: '#0000008a' }}
+                                        />
+                                    </Button>
+                                </Grid>
+                            )}
                     </Grid>
                 ))}
             </div>

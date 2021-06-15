@@ -16,8 +16,8 @@ export default makeStyles((theme) => ({
         display: 'flex',
         minHeight: 'calc(100vh - 50px)',
         justifyContent: 'center',
-        paddingTop: 50,
-        paddingBottom: 50,
+        paddingTop: 10,
+        paddingBottom: 20,
         [theme.breakpoints.down('xs')]: {
             paddingTop: 10,
             paddingBottom: 55
@@ -66,11 +66,14 @@ export default makeStyles((theme) => ({
         position: 'relative'
     },
     userInfo: {
-        marginTop: 45
+        marginTop: 45,
+        marginRight: 20,
+        flex: '2 2'
     },
     careerInfo: {
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        flex: '1 1'
     },
     backArrow: {
         color: 'rgba(29,161,242,1.00)'

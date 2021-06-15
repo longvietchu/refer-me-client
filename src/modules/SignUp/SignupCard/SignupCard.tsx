@@ -24,7 +24,7 @@ const SignupCard = observer(() => {
     const onClickSignup = async () => {
         let isSignupSuccess = await signupStore.signup();
         if (isSignupSuccess) {
-            history.push('/');
+            history.push('/create/profile');
             enqueueSnackbar('Sign-up success!', { variant: 'success' });
         }
     };
@@ -110,8 +110,6 @@ const SignupCard = observer(() => {
                     onClick={onClickSignup}
                     color="primary"
                     variant="contained"
-                    className={classes.btn}
-                    style={{ opacity: signupStore.isLoading ? 0.5 : 1 }}
                     disabled={signupStore.isLoading ? true : false}>
                     {signupStore.isLoading ? 'Joining...' : 'Join'}
                 </Button>

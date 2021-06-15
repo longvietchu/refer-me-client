@@ -18,6 +18,12 @@ class NetworkService {
     public createNetwork(data: any): Promise<IApiResponse> {
         return postRequest(`/v1/connection`, data);
     }
+    public getRecommend(page: number, limit: number): Promise<IApiResponse> {
+        return getRequest(
+            `/v1/connection/recommend?page=${page}&limit=${limit}`,
+            true
+        );
+    }
 }
 
 export const networkService = new NetworkService();

@@ -1,13 +1,17 @@
 import React from 'react';
-import { Button, Divider, Link } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { Edit } from '@material-ui/icons';
 import { observer } from 'mobx-react-lite';
 import { profileStore } from '../profileStore';
 import LoadingCard from '../../../common/components/util/LoadingCard';
 import { numberUtil } from '../../../common/utils/NumberUtil';
+import { loginStore } from '../../Login/loginStore';
+import { Link } from 'react-router-dom';
+import Styles from './Style';
 
 const ListExperience = observer(() => {
+    const classes = Styles();
     const renderDate = (item: any) => {
         if (item.left_at) {
             return (
@@ -42,19 +46,25 @@ const ListExperience = observer(() => {
 
     if (profileStore.experienceList) {
         return (
-            <div>
+            <div style={{ padding: '0 18px' }}>
                 {profileStore.experienceList.map((item, index) => (
                     <Grid
                         container
                         direction="row"
                         justify="space-between"
-                        alignItems="center"
-                        style={{ padding: '0 0 24px' }}
+                        style={{
+                            borderBottom: '1px solid #ebebeb',
+                            padding: '12px 0'
+                        }}
                         key={item._id}>
                         <Link
-                            href="#"
+                            to={
+                                item.organization_info
+                                    ? `/organization/${item.organization_info._id}`
+                                    : '#'
+                            }
                             color="inherit"
-                            style={{ padding: '20px 5px 0px 24px' }}>
+                            className={classes.link}>
                             <Grid
                                 container
                                 direction="row"
@@ -119,19 +129,24 @@ const ListExperience = observer(() => {
                                 </div>
                             </Grid>
                         </Link>
-
-                        <Grid item style={{ margin: '20px 10px 0' }}>
-                            <Button
-                                onClick={() => {
-                                    profileStore.selectedExperience = item;
-                                    profileStore.modalExperience.edit = true;
-                                }}>
-                                <Edit style={{ color: '#0000008a' }} />
-                            </Button>
-                        </Grid>
+                        {loginStore.userInfo &&
+                            profileStore.profile &&
+                            loginStore.userInfo.id ===
+                                profileStore.profile.user_id && (
+                                <Grid item>
+                                    <Button
+                                        onClick={() => {
+                                            profileStore.selectedExperience =
+                                                item;
+                                            profileStore.modalExperience.edit =
+                                                true;
+                                        }}>
+                                        <Edit style={{ color: '#0000008a' }} />
+                                    </Button>
+                                </Grid>
+                            )}
                     </Grid>
                 ))}
-                <Divider style={{ marginLeft: '94px' }} />
             </div>
         );
     } else return <LoadingCard />;

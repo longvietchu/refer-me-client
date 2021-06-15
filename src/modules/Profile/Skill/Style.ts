@@ -104,5 +104,11 @@ export default makeStyles((theme: Theme) => ({
     closeIcon: {
         width: 16,
         height: 16
+    },
+    helperText: {
+        fontSize: 12,
+        color: '#999',
+        marginTop: 4,
+        fontStyle: 'italic'
     }
 }));

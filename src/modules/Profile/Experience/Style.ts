@@ -86,5 +86,16 @@ export default makeStyles((theme: Theme) => ({
     },
     date_picker: {
         flexGrow: 1
+    },
+    link: {
+        textDecoration: 'none',
+        color: '#333',
+        '&:hover': {
+            textDecoration: 'underline'
+        }
+    },
+    organizationAvatar: {
+        marginRight: 8,
+        width: 25
     }
 }));

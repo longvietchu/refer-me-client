@@ -6,27 +6,33 @@ import { Link } from 'react-router-dom';
 import { profileStore } from '../profileStore';
 import LoadingCard from '../../../common/components/util/LoadingCard';
 import { numberUtil } from '../../../common/utils/NumberUtil';
+import { loginStore } from '../../Login/loginStore';
+import Styles from './Style';
 
 const ListEducation = observer(() => {
+    const classes = Styles();
+
     if (profileStore.educationList) {
         return (
-            <div>
+            <div style={{ padding: '0 18px' }}>
                 {profileStore.educationList.map((item, index) => (
                     <Grid
                         container
                         direction="row"
                         justify="space-between"
-                        alignItems="center"
-                        style={{ padding: '0 0 24px' }}
+                        style={{
+                            borderBottom: '1px solid #ebebeb',
+                            padding: '12px 0'
+                        }}
                         key={item._id}>
                         <Link
-                            to="#"
+                            to={
+                                item.organization_info
+                                    ? `/organization/${item.organization_info._id}`
+                                    : '#'
+                            }
                             color="inherit"
-                            style={{
-                                padding: '20px 5px 0px 24px',
-                                textDecoration: 'none',
-                                color: '#333'
-                            }}>
+                            className={classes.link}>
                             <Grid
                                 container
                                 direction="row"
@@ -81,16 +87,22 @@ const ListEducation = observer(() => {
                                 </div>
                             </Grid>
                         </Link>
-
-                        <Grid item style={{ margin: '20px 10px 0' }}>
-                            <Button
-                                onClick={() => {
-                                    profileStore.selectedEducation = item;
-                                    profileStore.modalEducation.edit = true;
-                                }}>
-                                <Edit style={{ color: '#0000008a' }} />
-                            </Button>
-                        </Grid>
+                        {loginStore.userInfo &&
+                            profileStore.profile &&
+                            loginStore.userInfo.id ===
+                                profileStore.profile.user_id && (
+                                <Grid item>
+                                    <Button
+                                        onClick={() => {
+                                            profileStore.selectedEducation =
+                                                item;
+                                            profileStore.modalEducation.edit =
+                                                true;
+                                        }}>
+                                        <Edit style={{ color: '#0000008a' }} />
+                                    </Button>
+                                </Grid>
+                            )}
                     </Grid>
                 ))}
             </div>

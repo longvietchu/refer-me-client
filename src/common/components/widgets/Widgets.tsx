@@ -8,6 +8,7 @@ import { LinkedInLightBlue } from '../../assets/Colors';
 import { LinkedInJobAdd } from '../../assets/images/images';
 import Footer from '../../components/footer/Footer';
 import Style from './Style';
+import { Link } from 'react-router-dom';
 
 const Widgets = () => {
     const classes = Style();
@@ -65,6 +66,7 @@ const Widgets = () => {
             <Paper className={classes.widgets__top}>
                 <div className={classes.heading}>
                     <h4>Expand your network</h4>
+                    <Link to="/profile/60844ea42b7e5a0d40ff82a6">Long Chu</Link>
                 </div>
             </Paper>
             <div className={classes.widgets__bottom}>

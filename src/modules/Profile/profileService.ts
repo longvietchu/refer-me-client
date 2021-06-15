@@ -65,5 +65,10 @@ class ProfileService {
     public deleteSkill(skill_id: string): Promise<IApiResponse> {
         return deleteRequest(`/v1/skill/${skill_id}`, {});
     }
+
+    // Search organization
+    public searchOrganization(keyword: string): Promise<IApiResponse> {
+        return getRequest(`/v1/organization/search?keyword=${keyword}`);
+    }
 }
 export const profileService = new ProfileService();

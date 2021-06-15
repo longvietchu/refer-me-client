@@ -1,69 +1,42 @@
-import React from "react";
+import React from 'react';
 import {
-  Card,
-  CardContent,
-  CardActionArea,
-  Box,
-  Avatar,
-  Typography,
-  Button,
-  Grid,
-} from "@material-ui/core";
+    Card,
+    CardContent,
+    CardActionArea,
+    Box,
+    Avatar,
+    Typography,
+    Button,
+    Grid
+} from '@material-ui/core';
+import Styles from './Style';
+import { observer } from 'mobx-react-lite';
 
-import Styles from "./Style";
-
-const ConnectCard = (connect: any, { ...rest }) => {
-  const classes = Styles();
-  return (
-    <Card className={classes.card} {...rest}>
-      <CardActionArea>
-        <CardContent>
-          <Box pb={3} className={classes.box}>
-            <Avatar alt="Product" className={classes.ava_top} />
-          </Box>
-          <Typography
-            align="center"
-            color="textPrimary"
-            gutterBottom
-            className={classes.name}
-          >
-            {connect.connect.name}
-          </Typography>
-          <Typography
-            align="center"
-            color="textPrimary"
-            variant="body1"
-            className={classes.occupation}
-          >
-            {connect.connect.occupation}
-          </Typography>
-          <Grid
-            container
-            direction="row"
-            justify="space-between"
-            alignItems="center"
-          >
-            <Avatar
-              variant="square"
-              src="https://media-exp1.licdn.com/dms/image/C510BAQGVaXAZYQ2QwA/company-logo_100_100/0/1519908097940?e=1629331200&v=beta&t=fpH6ECLnMjnGW-HHWbZfvQTHOvsgHed0kqWLO6tp3Sw"
-              className={classes.logo}
-            />
-            <Typography
-              align="center"
-              color="textPrimary"
-              variant="body1"
-              className={classes.education}
-            >
-              {connect.connect.education}
+const ConnectCard = observer((props: any) => {
+    const classes = Styles();
+    const { connect } = props;
+    return (
+        <Card className={classes.card}>
+            <Box pb={1} className={classes.box}>
+                <Avatar
+                    src={connect.avatar}
+                    alt="Product"
+                    className={classes.ava_top}
+                />
+            </Box>
+            <Typography variant="subtitle2" align="center" color="textPrimary">
+                {connect.name}
             </Typography>
-          </Grid>
-          <Grid container justify="center">
+            <Typography
+                align="center"
+                color="textPrimary"
+                variant="body1"
+                className={classes.occupation}>
+                {connect.headline}
+            </Typography>
             <Button className={classes.btn}>Connect</Button>
-          </Grid>
-        </CardContent>
-      </CardActionArea>
-    </Card>
-  );
-};
+        </Card>
+    );
+});
 
 export default ConnectCard;

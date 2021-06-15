@@ -1,6 +1,7 @@
 import React from 'react';
 import {
     Button,
+    CircularProgress,
     Divider,
     Grid,
     IconButton,
@@ -8,6 +9,7 @@ import {
     TextField,
     Typography
 } from '@material-ui/core';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import CloseIcon from '@material-ui/icons/Close';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import SchoolIcon from '@material-ui/icons/School';
@@ -15,8 +17,9 @@ import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { observer } from 'mobx-react-lite';
 import Modal from 'react-modal';
-import { profileStore } from '../profileStore';
+import { IOrganization, profileStore } from '../profileStore';
 import Styles from './Style';
+import { toJS } from 'mobx';
 
 Modal.setAppElement('#root');
 const customStyles = {
@@ -33,6 +36,8 @@ const customStyles = {
         borderRadius: 8
     }
 };
+
+const options = ['Option 1', 'Option 2'];
 
 const CreateEducation = observer(() => {
     const classes = Styles();
@@ -65,28 +70,87 @@ const CreateEducation = observer(() => {
                     <Divider />
 
                     <Grid item>
-                        <TextField
-                            label="School"
-                            required
-                            fullWidth
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <LocationOnIcon />
-                                    </InputAdornment>
-                                )
+                        <Autocomplete
+                            freeSolo
+                            id="input-school"
+                            onInputChange={(event, newInputValue) => {
+                                profileStore.searchOrganization(newInputValue);
+                                profileStore.inputEducation.title =
+                                    newInputValue;
                             }}
-                            onChange={(e) =>
-                                (profileStore.inputEducation.title =
-                                    e.target.value)
+                            inputValue={profileStore.inputEducation.title}
+                            onChange={(
+                                event: any,
+                                newValue: string | IOrganization | null
+                            ) => {
+                                if (newValue) {
+                                    const orgObject: any = toJS(newValue);
+                                    // console.log('option: ', orgObject._id);
+                                    profileStore.inputEducation.organization_id =
+                                        orgObject._id;
+                                }
+                            }}
+                            options={
+                                profileStore.searchResult as IOrganization[]
                             }
-                            value={profileStore.inputEducation.title}
-                            error={
-                                profileStore.validateInput.title !== ''
-                                    ? true
-                                    : false
-                            }
-                            helperText={profileStore.validateInput.title}
+                            autoHighlight
+                            getOptionLabel={(option) => option.name}
+                            renderOption={(option) => (
+                                <React.Fragment>
+                                    <span>
+                                        {option.avatar ? (
+                                            <img
+                                                src={option.avatar}
+                                                className={
+                                                    classes.organizationAvatar
+                                                }
+                                            />
+                                        ) : (
+                                            <img
+                                                src="/images/no-avatar.png"
+                                                className={
+                                                    classes.organizationAvatar
+                                                }
+                                            />
+                                        )}
+                                    </span>
+                                    {option.name}
+                                </React.Fragment>
+                            )}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label="School"
+                                    required
+                                    fullWidth
+                                    InputProps={{
+                                        ...params.InputProps,
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <LocationOnIcon />
+                                            </InputAdornment>
+                                        ),
+                                        endAdornment: (
+                                            <React.Fragment>
+                                                {profileStore.isSearching ? (
+                                                    <CircularProgress
+                                                        color="inherit"
+                                                        size={20}
+                                                    />
+                                                ) : null}
+                                            </React.Fragment>
+                                        )
+                                    }}
+                                    error={
+                                        profileStore.validateInput.title !== ''
+                                            ? true
+                                            : false
+                                    }
+                                    helperText={
+                                        profileStore.validateInput.title
+                                    }
+                                />
+                            )}
                         />
                     </Grid>
                     <Grid item>

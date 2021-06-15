@@ -9,11 +9,12 @@ import {
 } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { Add, CameraAlt, DriveEta, Edit } from '@material-ui/icons';
+import { Add, CameraAlt, Edit } from '@material-ui/icons';
 import { observer } from 'mobx-react-lite';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Header from '../../common/components/header/Header';
+import LoadingHeader from '../../common/components/util/LoadingHeader';
 import Widgets from '../../common/components/widgets/Widgets';
 import { stringUtil } from '../../common/utils/StringUtils';
 import { loginStore } from '../Login/loginStore';
@@ -89,7 +90,10 @@ const ProfileScreen = observer(() => {
                                         <Box>
                                             <Avatar
                                                 className={classes.avatar}
-                                                src={loginStore.userInfo.avatar}
+                                                src={
+                                                    profileStore.profile
+                                                        .user_info.avatar
+                                                }
                                             />
                                             <input
                                                 accept="image/*"
@@ -177,16 +181,24 @@ const ProfileScreen = observer(() => {
                                                             .organization_info
                                                             .avatar
                                                     }
-                                                    style={{ marginRight: 8 }}
+                                                    style={{
+                                                        marginRight: 8,
+                                                        width: 25,
+                                                        height: 25
+                                                    }}
                                                 />
                                             ) : (
                                                 <Avatar
                                                     variant="square"
                                                     src="/images/no-avatar.png"
-                                                    style={{ marginRight: 8 }}
+                                                    style={{
+                                                        marginRight: 8,
+                                                        width: 25,
+                                                        height: 25
+                                                    }}
                                                 />
                                             )}
-                                            <Typography>
+                                            <Typography variant="subtitle2">
                                                 {
                                                     profileStore
                                                         .experienceList[0]
@@ -209,16 +221,24 @@ const ProfileScreen = observer(() => {
                                                             .organization_info
                                                             .avatar
                                                     }
-                                                    style={{ marginRight: 8 }}
+                                                    style={{
+                                                        marginRight: 8,
+                                                        width: 25,
+                                                        height: 25
+                                                    }}
                                                 />
                                             ) : (
                                                 <Avatar
                                                     variant="square"
                                                     src="/images/no-avatar.png"
-                                                    style={{ marginRight: 8 }}
+                                                    style={{
+                                                        marginRight: 8,
+                                                        width: 25,
+                                                        height: 25
+                                                    }}
                                                 />
                                             )}
-                                            <Typography>
+                                            <Typography variant="subtitle2">
                                                 {
                                                     profileStore
                                                         .educationList[0].title
@@ -267,7 +287,7 @@ const ProfileScreen = observer(() => {
                                 </Grid> */}
                             </Grid>
                         </Card>
-                        <Grid item xs={12}>
+                        {/* <Grid item xs={12}>
                             {tab === 'Jobs' && (
                                 <Typography
                                     style={{ textAlign: 'center' }}
@@ -275,7 +295,7 @@ const ProfileScreen = observer(() => {
                                     Jobs
                                 </Typography>
                             )}
-                        </Grid>
+                        </Grid> */}
 
                         <Card style={{ marginTop: 16, padding: 24 }}>
                             <Grid item>
@@ -300,8 +320,9 @@ const ProfileScreen = observer(() => {
                                 container
                                 direction="row"
                                 justify="space-between"
-                                alignItems="center">
-                                <Grid item style={{ margin: '24px 24px 0' }}>
+                                alignItems="center"
+                                style={{ padding: '16px 16px 0 16px' }}>
+                                <Grid item>
                                     <Typography
                                         id="status"
                                         style={{
@@ -311,15 +332,20 @@ const ProfileScreen = observer(() => {
                                         Experience
                                     </Typography>
                                 </Grid>
-                                <Grid item style={{ margin: '24px 10px 0' }}>
-                                    <Button
-                                        onClick={() =>
-                                            (profileStore.modalExperience.create =
-                                                true)
-                                        }>
-                                        <Add style={{ color: '#0000008a' }} />
-                                    </Button>
-                                </Grid>
+                                {loginStore.userInfo.id ===
+                                    profileStore.profile.user_id && (
+                                    <Grid item>
+                                        <Button
+                                            onClick={() =>
+                                                (profileStore.modalExperience.create =
+                                                    true)
+                                            }>
+                                            <Add
+                                                style={{ color: '#0000008a' }}
+                                            />
+                                        </Button>
+                                    </Grid>
+                                )}
                             </Grid>
                             <ListExperience />
                         </Card>
@@ -329,8 +355,9 @@ const ProfileScreen = observer(() => {
                                 container
                                 direction="row"
                                 justify="space-between"
-                                alignItems="center">
-                                <Grid item style={{ margin: '24px 24px 0' }}>
+                                alignItems="center"
+                                style={{ padding: '16px 16px 0 16px' }}>
+                                <Grid item>
                                     <Typography
                                         id="status"
                                         style={{
@@ -340,15 +367,20 @@ const ProfileScreen = observer(() => {
                                         Education
                                     </Typography>
                                 </Grid>
-                                <Grid item style={{ margin: '24px 10px 0' }}>
-                                    <Button
-                                        onClick={() =>
-                                            (profileStore.modalEducation.create =
-                                                true)
-                                        }>
-                                        <Add style={{ color: '#0000008a' }} />
-                                    </Button>
-                                </Grid>
+                                {loginStore.userInfo.id ===
+                                    profileStore.profile.user_id && (
+                                    <Grid item>
+                                        <Button
+                                            onClick={() =>
+                                                (profileStore.modalEducation.create =
+                                                    true)
+                                            }>
+                                            <Add
+                                                style={{ color: '#0000008a' }}
+                                            />
+                                        </Button>
+                                    </Grid>
+                                )}
                             </Grid>
                             <ListEducation />
                         </Card>
@@ -357,8 +389,9 @@ const ProfileScreen = observer(() => {
                                 container
                                 direction="row"
                                 justify="space-between"
-                                alignItems="center">
-                                <Grid item style={{ margin: '24px 24px 0' }}>
+                                alignItems="center"
+                                style={{ padding: '16px 16px 0 16px' }}>
+                                <Grid item>
                                     <Typography
                                         id="status"
                                         style={{
@@ -368,15 +401,20 @@ const ProfileScreen = observer(() => {
                                         Skills & endorsements
                                     </Typography>
                                 </Grid>
-                                <Grid item style={{ margin: '24px 10px 0' }}>
-                                    <Button
-                                        onClick={() =>
-                                            (profileStore.modalSkill.create =
-                                                true)
-                                        }>
-                                        <Add style={{ color: '#0000008a' }} />
-                                    </Button>
-                                </Grid>
+                                {loginStore.userInfo.id ===
+                                    profileStore.profile.user_id && (
+                                    <Grid item>
+                                        <Button
+                                            onClick={() =>
+                                                (profileStore.modalSkill.create =
+                                                    true)
+                                            }>
+                                            <Add
+                                                style={{ color: '#0000008a' }}
+                                            />
+                                        </Button>
+                                    </Grid>
+                                )}
                             </Grid>
                             <ListSkill />
                         </Card>
@@ -399,7 +437,7 @@ const ProfileScreen = observer(() => {
                 </Grid>
             </Grid>
         );
-    } else return <LinearProgress />;
+    } else return <LoadingHeader />;
     // return <LoadingCard />;
     // return <Redirect to="/create/profile" />;
 });

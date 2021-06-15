@@ -77,6 +77,9 @@ const CreateSkill = observer(() => {
                                 }
                             }}
                         />
+                        <p className={classes.helperText}>
+                            Press enter to add more skill
+                        </p>
                     </Grid>
 
                     <Grid item>

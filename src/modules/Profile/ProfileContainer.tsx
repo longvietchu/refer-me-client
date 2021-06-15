@@ -11,7 +11,14 @@ const ProfileContainer = observer(() => {
         profileStore.getExperience(user_id);
         profileStore.getEducation(user_id);
         profileStore.getSkill(user_id);
-    }, []);
+        // profileStore.searchOrganization('');
+        return () => {
+            profileStore.profile = undefined;
+            profileStore.experienceList = undefined;
+            profileStore.educationList = undefined;
+            profileStore.skillList = undefined;
+        };
+    }, [user_id]);
     return <ProfileScreen />;
 });
 

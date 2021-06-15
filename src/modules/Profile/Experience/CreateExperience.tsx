@@ -2,6 +2,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import {
     Button,
     Checkbox,
+    CircularProgress,
     Divider,
     FormControlLabel,
     Grid,
@@ -16,12 +17,14 @@ import BusinessIcon from '@material-ui/icons/Business';
 import CloseIcon from '@material-ui/icons/Close';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import WorkIcon from '@material-ui/icons/Work';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import 'date-fns';
+import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import Modal from 'react-modal';
-import { IEmploymentType, profileStore } from '../profileStore';
+import { IEmploymentType, IOrganization, profileStore } from '../profileStore';
 import Styles from './Style';
 
 Modal.setAppElement('#root');
@@ -142,7 +145,7 @@ const CreateExperience = observer(() => {
                         />
                     </Grid>
                     <Grid item>
-                        <TextField
+                        {/* <TextField
                             label="Company"
                             required
                             fullWidth
@@ -164,6 +167,89 @@ const CreateExperience = observer(() => {
                                     : false
                             }
                             helperText={profileStore.validateInput.company}
+                        /> */}
+                        <Autocomplete
+                            freeSolo
+                            id="input-company"
+                            onInputChange={(event, newInputValue) => {
+                                profileStore.searchOrganization(newInputValue);
+                                profileStore.inputExperience.company =
+                                    newInputValue;
+                            }}
+                            inputValue={profileStore.inputExperience.company}
+                            onChange={(
+                                event: any,
+                                newValue: string | IOrganization | null
+                            ) => {
+                                if (newValue) {
+                                    const orgObject: any = toJS(newValue);
+                                    // console.log('option: ', orgObject._id);
+                                    profileStore.inputExperience.organization_id =
+                                        orgObject._id;
+                                }
+                            }}
+                            options={
+                                profileStore.searchResult as IOrganization[]
+                            }
+                            autoHighlight
+                            getOptionLabel={(option) => option.name}
+                            renderOption={(option) => (
+                                <React.Fragment>
+                                    <span>
+                                        {option.avatar ? (
+                                            <img
+                                                src={option.avatar}
+                                                className={
+                                                    classes.organizationAvatar
+                                                }
+                                            />
+                                        ) : (
+                                            <img
+                                                src="/images/no-avatar.png"
+                                                className={
+                                                    classes.organizationAvatar
+                                                }
+                                            />
+                                        )}
+                                    </span>
+                                    {option.name}
+                                </React.Fragment>
+                            )}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label="Company"
+                                    required
+                                    fullWidth
+                                    InputProps={{
+                                        ...params.InputProps,
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <BusinessIcon />
+                                            </InputAdornment>
+                                        ),
+                                        endAdornment: (
+                                            <React.Fragment>
+                                                {profileStore.isSearching ? (
+                                                    <CircularProgress
+                                                        color="inherit"
+                                                        size={20}
+                                                    />
+                                                ) : null}
+                                            </React.Fragment>
+                                        )
+                                    }}
+                                    error={
+                                        profileStore.validateInput.company !==
+                                        ''
+                                            ? true
+                                            : false
+                                    }
+                                    helperText={
+                                        profileStore.validateInput.company
+                                    }
+                                />
+                            )}
                         />
                     </Grid>
                     <Grid item>

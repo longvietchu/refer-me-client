@@ -42,9 +42,6 @@ const CreateProfile = observer(() => {
             <Helmet>
                 <title>Refer Me | Profile</title>
             </Helmet>
-            <Grid item container className={classes.app__header}>
-                <Header />
-            </Grid>
             <Grid item container className={classes.app__body}>
                 <Grid item className={classes.body__feed} xs={12} md={7}>
                     <Grid item className={classes.feed__form}>

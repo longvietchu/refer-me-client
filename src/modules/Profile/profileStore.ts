@@ -72,10 +72,27 @@ export interface IExperience {
     };
 }
 
+export interface IOrganization {
+    _id: string;
+    name: string;
+    avatar: string;
+    background_image: string;
+    description: string;
+    website: string;
+    industry: string;
+    company_size: number;
+    founded: string;
+    created_at: string;
+    updated_at: string;
+}
+
 export interface ISkill {
     _id: string;
     votes: number;
     name: string;
+    user_id: string;
+    created_at: string;
+    updated_at: string;
 }
 
 export enum IEmploymentType {
@@ -131,9 +148,11 @@ class ProfileStore {
     selectedEducation?: IEducation;
     selectedExperience?: IExperience;
     selectedSkill?: ISkill;
+    searchResult: IOrganization[] = [];
     validateInput = { title: '', job_title: '', company: '', location: '' };
 
     isLoading: boolean = false;
+    isSearching: boolean = false;
     modalEducation = {
         create: false,
         edit: false
@@ -175,6 +194,16 @@ class ProfileStore {
         if (result.status < HttpStatusCode.CODE_300) {
             this.skillList = result.body.data;
         }
+    }
+
+    async searchOrganization(keyword: string) {
+        this.isSearching = true;
+        const result = await profileService.searchOrganization(keyword);
+        if (result.status < HttpStatusCode.CODE_300) {
+            this.searchResult = result.body.data;
+            console.log(result.body.data);
+        }
+        this.isSearching = false;
     }
 
     async createProfile() {
@@ -352,6 +381,7 @@ class ProfileStore {
             const result = await profileService.uploadSingleImage(formData);
             if (result.status < HttpStatusCode.CODE_300) {
                 loginStore.userInfo.avatar = result.body.url;
+                console.log(result);
                 await this.updateUserInfo();
             }
             // console.log(result);
@@ -383,7 +413,8 @@ class ProfileStore {
                     ).toISOString(),
                     graduated_at: new Date(
                         this.selectedEducation.graduated_at
-                    ).toISOString()
+                    ).toISOString(),
+                    organization_id: 'noorg'
                 };
             }
             if (data.title === '') {
@@ -395,10 +426,12 @@ class ProfileStore {
                 this.selectedEducation._id,
                 data
             );
-            if (result.status < HttpStatusCode.CODE_300) {
-                // console.log(result);
+            if (result.status < HttpStatusCode.CODE_300 && this.educationList) {
+                console.log(result);
+                this.educationList = this.educationList.map((item) =>
+                    item._id !== result.body.data._id ? item : result.body.data
+                );
             }
-            // console.log(data);
             this.isLoading = false;
             this.modalEducation.edit = false;
         }
@@ -463,7 +496,7 @@ class ProfileStore {
                 data
             );
             if (result.status < HttpStatusCode.CODE_300) {
-                // console.log(result);
+                console.log(result);
             }
             // console.log(data);
             this.isLoading = false;
@@ -480,7 +513,20 @@ class ProfileStore {
         this.isLoading = false;
     }
 
-    async upvoteSkill(skill_id: string) {}
+    async upvoteSkill(skill_id: string) {
+        if (this.skillList) {
+            this.skillList = this.skillList.map((item) => {
+                if (item._id === skill_id) {
+                    item.votes++;
+                }
+                return item;
+            });
+        }
+        const result = await profileService.upvoteSkill(skill_id);
+        if (result.status < HttpStatusCode.CODE_300) {
+            console.log(result);
+        }
+    }
 }
 
 export const profileStore = new ProfileStore();
