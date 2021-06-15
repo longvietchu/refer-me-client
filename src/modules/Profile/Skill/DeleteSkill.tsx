@@ -1,19 +1,6 @@
-import React from 'react';
-import {
-    Button,
-    Divider,
-    Grid,
-    IconButton,
-    InputAdornment,
-    TextField,
-    Typography
-} from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
-import SchoolIcon from '@material-ui/icons/School';
-import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
+import { Button, Grid } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
+import React from 'react';
 import Modal from 'react-modal';
 import { profileStore } from '../profileStore';
 import Styles from './Style';

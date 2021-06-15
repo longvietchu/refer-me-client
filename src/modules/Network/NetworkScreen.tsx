@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet';
 import Header from '../../common/components/header/Header';
 import LoadingCard from '../../common/components/util/LoadingCard';
 import ConnectCard from './ConnectCard/ConnectCard';
+import CreateConnection from './ConnectCard/CreateConnection';
 import Invitation from './Invitation/Invitation';
 import { networkStore } from './networkStore';
 import SideBar from './SideBar/SideBar';
@@ -62,6 +63,7 @@ const NetworkScreen = observer(() => {
                         </Paper>
                     </Grid>
                 </Grid>
+                <CreateConnection />
             </Grid>
         </Grid>
     );

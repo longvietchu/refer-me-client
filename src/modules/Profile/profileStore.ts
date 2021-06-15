@@ -1,4 +1,8 @@
 import { makeAutoObservable } from 'mobx';
+import {
+    IUserInfo,
+    IOrganizationInfo
+} from '../../common/constants/CommonInterface';
 import HttpStatusCode from '../../common/constants/HttpErrorCode';
 import { loginStore } from '../Login/loginStore';
 import { profileService } from './profileService';
@@ -10,13 +14,7 @@ export interface IProfile {
     about: string;
     gender: number;
     user_id: string;
-    user_info: {
-        _id: string;
-        name: string;
-        email: string;
-        avatar: string;
-        headline: string;
-    };
+    user_info: IUserInfo;
 }
 
 export interface IEducation {
@@ -29,19 +27,7 @@ export interface IEducation {
     organization_id: string;
     created_at: string;
     updated_at: string;
-    organization_info: {
-        _id: string;
-        name: string;
-        avatar: string;
-        background_image: string;
-        description: string;
-        website: string;
-        industry: string;
-        company_size: number;
-        founded: string;
-        created_at: string;
-        updated_at: string;
-    };
+    organization_info: IOrganizationInfo;
 }
 
 export interface IExperience {
@@ -57,33 +43,7 @@ export interface IExperience {
     organization_id: string;
     created_at: string;
     updated_at: string;
-    organization_info: {
-        _id: string;
-        name: string;
-        avatar: string;
-        background_image: string;
-        description: string;
-        website: string;
-        industry: string;
-        company_size: number;
-        founded: string;
-        created_at: string;
-        updated_at: string;
-    };
-}
-
-export interface IOrganization {
-    _id: string;
-    name: string;
-    avatar: string;
-    background_image: string;
-    description: string;
-    website: string;
-    industry: string;
-    company_size: number;
-    founded: string;
-    created_at: string;
-    updated_at: string;
+    organization_info: IOrganizationInfo;
 }
 
 export interface ISkill {
@@ -148,7 +108,7 @@ class ProfileStore {
     selectedEducation?: IEducation;
     selectedExperience?: IExperience;
     selectedSkill?: ISkill;
-    searchResult: IOrganization[] = [];
+    searchResult: IOrganizationInfo[] = [];
     validateInput = { title: '', job_title: '', company: '', location: '' };
 
     isLoading: boolean = false;

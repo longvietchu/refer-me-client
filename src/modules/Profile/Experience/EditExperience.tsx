@@ -24,7 +24,8 @@ import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import Modal from 'react-modal';
-import { IEmploymentType, IOrganization, profileStore } from '../profileStore';
+import { IEmploymentType, profileStore } from '../profileStore';
+import { IOrganizationInfo } from '../../../common/constants/CommonInterface';
 import Styles from './Style';
 
 Modal.setAppElement('#root');
@@ -191,7 +192,7 @@ const EditExperience = observer(() => {
                                     }
                                 }}
                                 options={
-                                    profileStore.searchResult as IOrganization[]
+                                    profileStore.searchResult as IOrganizationInfo[]
                                 }
                                 getOptionLabel={(option) => {
                                     // Value selected with enter, right from the input

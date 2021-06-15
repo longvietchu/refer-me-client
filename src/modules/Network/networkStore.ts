@@ -1,34 +1,96 @@
 import { makeAutoObservable } from 'mobx';
+import { IMetaData, IUserInfo } from '../../common/constants/CommonInterface';
 import HttpStatusCode from '../../common/constants/HttpErrorCode';
 import { networkService } from './networkService';
 
-export interface IRecommend {
+export interface IConnection {
     _id: string;
-    name: string;
-    email: string;
-    avatar: string;
-    headline: string;
-    created_at: string;
-    updated_at: string;
+    people: string[];
+    is_connected: boolean;
+    receiver_id: string;
+    sender_id: string;
+    greeting: string;
+    created_at: Date;
+    updated_at: Date;
+    user_info: IUserInfo;
 }
 
 class NetworkStore {
     constructor() {
         makeAutoObservable(this);
     }
-    recommendList?: IRecommend[];
+    recommendList?: IUserInfo[];
     recommendPage: number = 0;
-    recommnedLimit: number = 10;
+    recommendLimit: number = 10;
+    recommendMeta?: IMetaData;
+
+    invitationList?: IConnection[];
+    invitationPage: number = 0;
+    invitationLimit: number = 10;
+    invitationMeta?: IMetaData;
+
+    networkList?: IConnection[];
+    networkPage: number = 0;
+    networkLimit: number = 10;
+    networkMeta?: IMetaData;
+
+    greeting: string = '';
+    createConnectionModal: boolean = false;
+    selectedUser?: IUserInfo;
+    isLoading: boolean = false;
 
     async getRecommend() {
         const result = await networkService.getRecommend(
             this.recommendPage,
-            this.recommnedLimit
+            this.recommendLimit
         );
         if (result.status < HttpStatusCode.CODE_300) {
+            // console.log(result);
             this.recommendList = result.body.data;
+            this.recommendMeta = result.body.meta;
         }
-        console.log(result);
+    }
+
+    async getInvitations() {
+        const result = await networkService.getInvitations(
+            this.invitationPage,
+            this.invitationLimit
+        );
+        if (result.status < HttpStatusCode.CODE_300) {
+            this.invitationList = result.body.data;
+            this.invitationMeta = result.body.meta;
+        }
+    }
+
+    async getNetworks() {
+        const result = await networkService.getNetworks(
+            this.networkPage,
+            this.networkLimit
+        );
+        if (result.status < HttpStatusCode.CODE_300) {
+            this.networkList = result.body.data;
+            this.networkMeta = result.body.meta;
+        }
+    }
+
+    async createConnection(receiver_id: string) {
+        this.isLoading = true;
+        const data = {
+            receiver_id,
+            greeting: this.greeting
+        };
+        const result = await networkService.createConnection(data);
+        if (result.status < HttpStatusCode.CODE_300) {
+            console.log(result.body.data);
+        }
+        this.isLoading = false;
+    }
+
+    async acceptInvitation(invitation_id: string) {
+        const result = await networkService.acceptInvitation(invitation_id);
+        if (result.status < HttpStatusCode.CODE_300) {
+            console.log(result.body.data);
+        }
     }
 }
 

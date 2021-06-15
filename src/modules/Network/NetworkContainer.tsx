@@ -7,6 +7,7 @@ import { networkStore } from './networkStore';
 const NetWorkContainer = observer(() => {
     useEffect(() => {
         networkStore.getRecommend();
+        networkStore.getInvitations();
     }, []);
     return <NetworkScreen />;
 });

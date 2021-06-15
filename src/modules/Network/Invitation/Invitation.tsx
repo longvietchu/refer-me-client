@@ -14,79 +14,92 @@ import {
     Link
 } from '@material-ui/core';
 import Styles from './Style';
+import { observer } from 'mobx-react-lite';
+import { networkStore } from '../networkStore';
 
-const Invitation = () => {
+const Invitation = observer(() => {
     const classes = Styles();
-    const [invite, setInvite] = React.useState(null);
 
-    return (
-        <Paper className={classes.root}>
-            <Grid
-                container
-                direction="row"
-                justify="space-between"
-                alignItems="center"
-                style={{ padding: '8px 16px' }}>
-                {invite ? (
-                    <Typography variant="body1">
-                        No pending invitations
-                    </Typography>
-                ) : (
-                    <Typography variant="body1">Invitations</Typography>
-                )}
-                <Button
-                    style={{
-                        textTransform: 'capitalize'
-                    }}>
-                    <Typography component="span" style={{ color: '#00000099' }}>
-                        Manage
-                    </Typography>
-                </Button>
-            </Grid>
+    if (networkStore.invitationList) {
+        return (
+            <Paper className={classes.root}>
+                <Grid
+                    container
+                    direction="row"
+                    justify="space-between"
+                    alignItems="center"
+                    style={{ padding: '8px 16px' }}>
+                    {networkStore.invitationList.length > 0 ? (
+                        <Typography variant="body1">Invitations</Typography>
+                    ) : (
+                        <Typography variant="body1">
+                            No pending invitations
+                        </Typography>
+                    )}
+                    <Button
+                        style={{
+                            textTransform: 'capitalize'
+                        }}>
+                        <Typography
+                            component="span"
+                            style={{ color: '#00000099' }}>
+                            Manage
+                        </Typography>
+                    </Button>
+                </Grid>
 
-            <Divider />
-
-            {invite ? null : (
+                <Divider />
                 <List disablePadding>
-                    <ListItem>
-                        <ListItemAvatar>
-                            <Link href="#" color="inherit" underline="none">
-                                <Avatar className={classes.ava} />
-                            </Link>
-                        </ListItemAvatar>
-                        <ListItemText
-                            primary={
-                                <Link href="#" color="inherit">
-                                    <Typography
-                                        component="span"
-                                        className={classes.name}>
-                                        tung nguyen
-                                    </Typography>
-                                </Link>
-                            }
-                            secondary={
+                    {networkStore.invitationList.map((invitation, index) => (
+                        <ListItem>
+                            <ListItemAvatar>
                                 <Link href="#" color="inherit" underline="none">
-                                    <Typography
-                                        component="span"
-                                        className={classes.major}>
-                                        programming
-                                    </Typography>
+                                    <Avatar
+                                        src={invitation.user_info.avatar}
+                                        className={classes.ava}
+                                    />
                                 </Link>
-                            }
-                        />
-                        <ListItemSecondaryAction>
-                            <Button className={classes.btn_ignore}>
-                                Ignore
-                            </Button>
-                            <Button className={classes.btn_accept}>
-                                Accept
-                            </Button>
-                        </ListItemSecondaryAction>
-                    </ListItem>
+                            </ListItemAvatar>
+                            <ListItemText
+                                primary={
+                                    <Link href="#" color="inherit">
+                                        <Typography
+                                            component="span"
+                                            className={classes.name}>
+                                            {invitation.user_info.name}
+                                        </Typography>
+                                    </Link>
+                                }
+                                secondary={
+                                    <Link
+                                        href="#"
+                                        color="inherit"
+                                        underline="none">
+                                        <Typography
+                                            component="span"
+                                            className={classes.major}>
+                                            {invitation.user_info.headline}
+                                        </Typography>
+                                    </Link>
+                                }
+                            />
+                            <ListItemSecondaryAction>
+                                <Button
+                                    className={classes.btn_accept}
+                                    onClick={() =>
+                                        networkStore.acceptInvitation(
+                                            invitation._id
+                                        )
+                                    }>
+                                    Accept
+                                </Button>
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                    ))}
                 </List>
-            )}
-        </Paper>
-    );
-};
+            </Paper>
+        );
+    } else return null;
+});
 
 export default Invitation;

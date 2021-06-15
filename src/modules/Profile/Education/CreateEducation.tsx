@@ -17,9 +17,10 @@ import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { observer } from 'mobx-react-lite';
 import Modal from 'react-modal';
-import { IOrganization, profileStore } from '../profileStore';
+import { profileStore } from '../profileStore';
 import Styles from './Style';
 import { toJS } from 'mobx';
+import { IOrganizationInfo } from '../../../common/constants/CommonInterface';
 
 Modal.setAppElement('#root');
 const customStyles = {
@@ -81,7 +82,7 @@ const CreateEducation = observer(() => {
                             inputValue={profileStore.inputEducation.title}
                             onChange={(
                                 event: any,
-                                newValue: string | IOrganization | null
+                                newValue: string | IOrganizationInfo | null
                             ) => {
                                 if (newValue) {
                                     const orgObject: any = toJS(newValue);
@@ -91,7 +92,7 @@ const CreateEducation = observer(() => {
                                 }
                             }}
                             options={
-                                profileStore.searchResult as IOrganization[]
+                                profileStore.searchResult as IOrganizationInfo[]
                             }
                             autoHighlight
                             getOptionLabel={(option) => option.name}

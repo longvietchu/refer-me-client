@@ -1,16 +1,8 @@
-import React from 'react';
-import {
-    Card,
-    CardContent,
-    CardActionArea,
-    Box,
-    Avatar,
-    Typography,
-    Button,
-    Grid
-} from '@material-ui/core';
-import Styles from './Style';
+import { Avatar, Box, Button, Card, Typography } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
+import React from 'react';
+import { networkStore } from '../networkStore';
+import Styles from './Style';
 
 const ConnectCard = observer((props: any) => {
     const classes = Styles();
@@ -34,7 +26,14 @@ const ConnectCard = observer((props: any) => {
                 className={classes.occupation}>
                 {connect.headline}
             </Typography>
-            <Button className={classes.btn}>Connect</Button>
+            <Button
+                className={classes.btn}
+                onClick={() => {
+                    networkStore.createConnectionModal = true;
+                    networkStore.selectedUser = connect;
+                }}>
+                Connect
+            </Button>
         </Card>
     );
 });

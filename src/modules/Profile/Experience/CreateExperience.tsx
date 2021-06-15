@@ -24,7 +24,8 @@ import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import Modal from 'react-modal';
-import { IEmploymentType, IOrganization, profileStore } from '../profileStore';
+import { IEmploymentType, profileStore } from '../profileStore';
+import { IOrganizationInfo } from '../../../common/constants/CommonInterface';
 import Styles from './Style';
 
 Modal.setAppElement('#root');
@@ -179,7 +180,7 @@ const CreateExperience = observer(() => {
                             inputValue={profileStore.inputExperience.company}
                             onChange={(
                                 event: any,
-                                newValue: string | IOrganization | null
+                                newValue: string | IOrganizationInfo | null
                             ) => {
                                 if (newValue) {
                                     const orgObject: any = toJS(newValue);
@@ -189,7 +190,7 @@ const CreateExperience = observer(() => {
                                 }
                             }}
                             options={
-                                profileStore.searchResult as IOrganization[]
+                                profileStore.searchResult as IOrganizationInfo[]
                             }
                             autoHighlight
                             getOptionLabel={(option) => option.name}
