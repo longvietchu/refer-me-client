@@ -8,6 +8,7 @@ const NetWorkContainer = observer(() => {
     useEffect(() => {
         networkStore.getRecommend();
         networkStore.getInvitations();
+        networkStore.getNetworks();
     }, []);
     return <NetworkScreen />;
 });

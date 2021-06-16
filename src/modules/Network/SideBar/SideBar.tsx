@@ -9,58 +9,24 @@ import {
     ListItemSecondaryAction,
     Typography
 } from '@material-ui/core';
-
 import Footer from '../../../common/components/footer/Footer';
-
-import GroupIcon from '@material-ui/icons/Group';
-import PermContactCalendarOutlinedIcon from '@material-ui/icons/PermContactCalendarOutlined';
-import LocalOfferOutlinedIcon from '@material-ui/icons/LocalOfferOutlined';
-import EventAvailableOutlinedIcon from '@material-ui/icons/EventAvailableOutlined';
-import PagesOutlinedIcon from '@material-ui/icons/PagesOutlined';
-import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
-import MailOutlineOutlinedIcon from '@material-ui/icons/MailOutlineOutlined';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
+import { Group, PermContactCalendarOutlined } from '@material-ui/icons';
 import Styles from './Style';
+import { observer } from 'mobx-react-lite';
+import { networkStore, NetworkTab } from '../networkStore';
 
 const network1 = [
-    { id: '0', icon: <GroupIcon />, title: 'Connections', amount: '10' }
-];
-
-const network2 = [
     {
-        id: '1',
-        icon: <PermContactCalendarOutlinedIcon />,
+        id: 0,
+        icon: <PermContactCalendarOutlined />,
         title: 'Contacts',
         amount: '160'
     },
-    {
-        id: '2',
-        icon: <PeopleOutlineIcon />,
-        title: 'People | Follow',
-        amount: '10'
-    },
-    { id: '3', icon: <GroupIcon />, title: 'Groups', amount: '' },
-    {
-        id: '4',
-        icon: <EventAvailableOutlinedIcon />,
-        title: 'Events',
-        amount: ''
-    },
-    { id: '5', icon: <PagesOutlinedIcon />, title: 'pages', amount: '6' },
-    {
-        id: '6',
-        icon: <MailOutlineOutlinedIcon />,
-        title: 'Newsletters',
-        amount: ''
-    },
-    { id: '7', icon: <LocalOfferOutlinedIcon />, title: 'Hashtags', amount: '' }
+    { id: 1, icon: <Group />, title: 'Connections', amount: '10' }
 ];
 
-const SideBar = () => {
+const SideBar = observer(() => {
     const classes = Styles();
-    const [expand, setExpand] = React.useState(true);
-
     return (
         <div className={classes.sidebar}>
             <Paper className={classes.root}>
@@ -75,66 +41,84 @@ const SideBar = () => {
                             Manage my network
                         </ListSubheader>
                     }>
-                    {network1.map((item) => (
-                        <ListItem button>
-                            <ListItemIcon>{item.icon}</ListItemIcon>
-                            <ListItemText
-                                primary={
-                                    <React.Fragment>
-                                        <Typography
-                                            variant="body2"
-                                            className={classes.title}>
-                                            {item.title}
-                                        </Typography>
-                                    </React.Fragment>
-                                }
-                            />
-                            <ListItemSecondaryAction>
-                                <Typography className={classes.amount}>
-                                    {item.amount}
-                                </Typography>
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                    ))}
-                    {expand &&
-                        network2.map((item) => (
-                            <ListItem button>
-                                <ListItemIcon>{item.icon}</ListItemIcon>
-                                <ListItemText
-                                    primary={
-                                        <React.Fragment>
-                                            <Typography
-                                                variant="body2"
-                                                className={classes.title}>
-                                                {item.title}
-                                            </Typography>
-                                        </React.Fragment>
-                                    }
-                                />
-                                <ListItemSecondaryAction>
-                                    <Typography className={classes.amount}>
-                                        {item.amount}
+                    <ListItem
+                        selected={
+                            networkStore.networkTab === NetworkTab.CONTACT
+                                ? true
+                                : false
+                        }
+                        onClick={() =>
+                            (networkStore.networkTab = NetworkTab.CONTACT)
+                        }>
+                        <ListItemIcon>
+                            <PermContactCalendarOutlined />
+                        </ListItemIcon>
+                        <ListItemText
+                            primary={
+                                <React.Fragment>
+                                    <Typography
+                                        variant="body2"
+                                        className={
+                                            networkStore.networkTab ===
+                                            NetworkTab.CONTACT
+                                                ? classes.titleActive
+                                                : classes.title
+                                        }>
+                                        Contacts
                                     </Typography>
-                                </ListItemSecondaryAction>
-                            </ListItem>
-                        ))}
+                                </React.Fragment>
+                            }
+                        />
+                        <ListItemSecondaryAction>
+                            <Typography className={classes.amount}>
+                                {networkStore.invitationList &&
+                                    networkStore.invitationList.length}
+                            </Typography>
+                        </ListItemSecondaryAction>
+                    </ListItem>
+
+                    <ListItem
+                        selected={
+                            networkStore.networkTab === NetworkTab.CONNECTION
+                                ? true
+                                : false
+                        }
+                        onClick={() =>
+                            (networkStore.networkTab = NetworkTab.CONNECTION)
+                        }>
+                        <ListItemIcon>
+                            <Group />
+                        </ListItemIcon>
+                        <ListItemText
+                            primary={
+                                <React.Fragment>
+                                    <Typography
+                                        variant="body2"
+                                        className={
+                                            networkStore.networkTab ===
+                                            NetworkTab.CONNECTION
+                                                ? classes.titleActive
+                                                : classes.title
+                                        }>
+                                        Connections
+                                    </Typography>
+                                </React.Fragment>
+                            }
+                        />
+                        <ListItemSecondaryAction>
+                            <Typography className={classes.amount}>
+                                {networkStore.networkList &&
+                                    networkStore.networkList.length}
+                            </Typography>
+                        </ListItemSecondaryAction>
+                    </ListItem>
                 </List>
-                <div
-                    className={classes.expand}
-                    onClick={() => setExpand(!expand)}>
-                    <Typography component="h4">
-                        {expand ? 'Show less' : 'Show more'}
-                    </Typography>
-                    <ExpandMoreIcon
-                        style={{ transform: expand ? 'rotate(180deg)' : '' }}
-                    />
-                </div>
             </Paper>
             <div className={classes.sidebar__bottom}>
                 <Footer />
             </div>
         </div>
     );
-};
+});
 
 export default SideBar;

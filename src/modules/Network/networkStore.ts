@@ -15,6 +15,23 @@ export interface IConnection {
     user_info: IUserInfo;
 }
 
+export interface INetwork {
+    _id: string;
+    people: string[];
+    is_connected: boolean;
+    receiver_id: string;
+    sender_id: string;
+    greeting: string;
+    created_at: Date;
+    updated_at: Date;
+    people_info: IUserInfo[];
+}
+
+export enum NetworkTab {
+    CONTACT = 'CONTACT',
+    CONNECTION = 'CONNECTION'
+}
+
 class NetworkStore {
     constructor() {
         makeAutoObservable(this);
@@ -29,7 +46,7 @@ class NetworkStore {
     invitationLimit: number = 10;
     invitationMeta?: IMetaData;
 
-    networkList?: IConnection[];
+    networkList?: INetwork[];
     networkPage: number = 0;
     networkLimit: number = 10;
     networkMeta?: IMetaData;
@@ -38,6 +55,7 @@ class NetworkStore {
     createConnectionModal: boolean = false;
     selectedUser?: IUserInfo;
     isLoading: boolean = false;
+    networkTab: string = NetworkTab.CONTACT;
 
     async getRecommend() {
         const result = await networkService.getRecommend(
@@ -82,14 +100,19 @@ class NetworkStore {
         const result = await networkService.createConnection(data);
         if (result.status < HttpStatusCode.CODE_300) {
             console.log(result.body.data);
+            this.createConnectionModal = false;
         }
         this.isLoading = false;
     }
 
     async acceptInvitation(invitation_id: string) {
         const result = await networkService.acceptInvitation(invitation_id);
-        if (result.status < HttpStatusCode.CODE_300) {
+        if (result.status < HttpStatusCode.CODE_300 && this.invitationList) {
             console.log(result.body.data);
+            this.invitationList = this.invitationList.filter(
+                (item) => item._id !== invitation_id
+            );
+            this.getNetworks();
         }
     }
 }
