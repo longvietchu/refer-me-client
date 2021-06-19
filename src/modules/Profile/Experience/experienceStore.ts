@@ -16,6 +16,7 @@ export interface IExperience {
     left_at: string;
     user_id: string;
     organization_id: string;
+    organization_info: any;
 }
 
 interface IEmployments {

@@ -18,20 +18,29 @@ import CancelRoundedIcon from '@material-ui/icons/CancelRounded';
 import Styles from './Style';
 import {
     KeyboardDatePicker,
-    MuiPickersUtilsProvider
+    MuiPickersUtilsProvider,
+    DatePicker
 } from '@material-ui/pickers';
-
 import 'date-fns';
-import DateFnsUtils from '@date-io/date-fns';
-import { useHistory } from 'react-router-dom';
+import { formatYYYYMMDD } from '../../../common/config/Function';
 
-const CreateOrganization = () => {
+import DateFnsUtils from '@date-io/date-fns';
+
+import { useHistory } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
+
+import { observer } from 'mobx-react-lite';
+import { organizationStore } from '../organizationStore';
+
+const CreateOrganization = observer(() => {
     const classes = Styles();
     let history = useHistory();
+    const { enqueueSnackbar } = useSnackbar();
 
     const [date, setDate] = useState(new Date());
+
     const [image, setImage] = useState<string | undefined>();
-    const [selectImg, setSelectImg] = useState();
+    // const [selectImg, setSelectImg] = useState();
 
     const onImageChange = (event: any) => {
         if (event.target.files && event.target.files[0]) {
@@ -42,40 +51,84 @@ const CreateOrganization = () => {
             };
             reader.readAsDataURL(event.target.files[0]);
         }
-        // setImage(URL.createObjectURL(event.target.files[0]));
+        setImage(URL.createObjectURL(event.target.files[0]));
     };
 
-    useEffect(() => {
-        if (!selectImg) {
-            setImage(undefined);
-            return;
-        } else {
-            const objectUrl = URL.createObjectURL(selectImg);
-            setImage(objectUrl);
-            return () => URL.revokeObjectURL(objectUrl);
-        }
+    // const onSelectImg = (event: any) => {
+    //     if (event.target.files && event.target.files[0]) {
+    //         let reader = new FileReader();
+    //         reader.onload = (e: any) => {
+    //             organizationStore.avatar = e.target.result;
+    //             console.log('e', e.target.result);
+    //         };
+    //         reader.readAsDataURL(event.target.files[0]);
+    //     }
+    //     organizationStore.avatar = URL.createObjectURL(event.target.files[0]);
+    // };
 
-        // free memory when ever this component is unmounted
-    }, [selectImg]);
+    // useEffect(() => {
+    //     if (!selectImg) {
+    //         setImage(undefined);
+    //         return;
+    //     } else {
+    //         const objectUrl = URL.createObjectURL(selectImg);
+    //         setImage(objectUrl);
+    //         return () => URL.revokeObjectURL(objectUrl);
+    //     }
 
-    const onSelectImg = (e: any) => {
+    //     // free memory when ever this component is unmounted
+    // }, [selectImg]);
+
+    // useEffect(() => {
+    //     if (!selectImg) {
+    //         organizationStore.avatar = undefined;
+    //         return;
+    //     } else {
+    //         const objectUrl = URL.createObjectURL(selectImg);
+    //         organizationStore.avatar = objectUrl;
+    //         console.log('aaa', URL.revokeObjectURL(objectUrl));
+    //         return () => URL.revokeObjectURL(objectUrl);
+    //     }
+
+    //     // free memory when ever this component is unmounted
+    // }, [selectImg]);
+
+    // const onSelectImg = (e: any) => {
+    //     if (!e.target.files || e.target.files.length === 0) {
+    //         setSelectImg(undefined);
+    //         return;
+    //     }
+    //     // I've kept this example simple by using the first image instead of multiple
+    //     setSelectImg(e.target.files[0]);
+    //     console.log('e', e);
+    // };
+
+    const onSelectImage = (e: any) => {
         if (!e.target.files || e.target.files.length === 0) {
-            setSelectImg(undefined);
+            organizationStore.selectImage = undefined;
             return;
         }
-
         // I've kept this example simple by using the first image instead of multiple
-        setSelectImg(e.target.files[0]);
-        console.log('e', e);
+        organizationStore.selectImage = e.target.files[0];
     };
 
-    const onClickClose = (e: any) => {
-        console.log('index--', e);
-        setSelectImg(undefined);
+    // const onClickClose = (e: any) => {
+    //     console.log('index--', e);
+    //     setSelectImg(undefined);
+    // };
+
+    const onCloseImage = (e: any) => {
+        setImage(undefined);
     };
 
     const onClickCreate = () => {
-        history.push('./profile');
+        let createSuccess = organizationStore.createOrganization();
+        // if (createSuccess) {
+        //     enqueueSnackbar('Create education success!', {
+        //         variant: 'success'
+        //     });
+        //     history.push('/profile');
+        // }
     };
     return (
         <Grid
@@ -116,6 +169,11 @@ const CreateOrganization = () => {
                                         label="Name"
                                         variant="outlined"
                                         fullWidth
+                                        onChange={(e) =>
+                                            (organizationStore.name =
+                                                e.target.value)
+                                        }
+                                        // value={organizationStore.name}
                                     />
                                 </Grid>
                                 <Grid item>
@@ -125,6 +183,11 @@ const CreateOrganization = () => {
                                         variant="outlined"
                                         placeholder="Begin with http:// or https:// or wwww."
                                         fullWidth
+                                        onChange={(e) =>
+                                            (organizationStore.website =
+                                                e.target.value)
+                                        }
+                                        // value={organizationStore.website}
                                     />
                                 </Grid>
                                 <Grid item>
@@ -134,6 +197,11 @@ const CreateOrganization = () => {
                                         variant="outlined"
                                         placeholder="Type your organization industry"
                                         fullWidth
+                                        onChange={(e) =>
+                                            (organizationStore.industry =
+                                                e.target.value)
+                                        }
+                                        // value={organizationStore.industry}
                                     />
                                 </Grid>
                                 <Grid item>
@@ -141,53 +209,84 @@ const CreateOrganization = () => {
                                         required
                                         label="Organization size"
                                         variant="outlined"
-                                        placeholder="Begin with http:// or https:// or wwww."
                                         fullWidth
+                                        onChange={(e) =>
+                                            (organizationStore.company_size =
+                                                e.target.value)
+                                        }
+                                        // value={organizationStore.company_size}
                                     />
                                 </Grid>
-                                <Grid item>
+                                {/* <Grid item>
                                     <TextField
                                         required
                                         label="Organization type"
                                         variant="outlined"
-                                        placeholder="Begin with http:// or https:// or wwww."
                                         fullWidth
+                                        value={organizationStore.}
+                                        onChange={(e) =>
+                                            (organizationStore. =
+                                                e.target.value)
+                                        }
                                     />
-                                </Grid>
+                                </Grid> */}
                                 <Grid item>
                                     <TextField
                                         label="description"
                                         fullWidth
                                         variant="outlined"
                                         placeholder="Type your organization description here..."
+                                        onChange={(e) =>
+                                            (organizationStore.description =
+                                                e.target.value)
+                                        }
+                                        // value={organizationStore.description}
                                     />
                                 </Grid>
 
                                 <Grid container item justify="space-around">
                                     <Grid item>
-                                        <MuiPickersUtilsProvider
+                                        {/* <MuiPickersUtilsProvider
                                             utils={DateFnsUtils}>
-                                            <KeyboardDatePicker
-                                                variant="dialog"
+                                            <DatePicker
+                                                variant="inline"
                                                 format="MM/dd/yyyy"
                                                 label="Organization founding"
-                                                value={date}
                                                 onChange={(date: any) =>
-                                                    setDate(date)
+                                                    // (organizationStore.founded =
+                                                    //     date)
+                                                    console.log('date', date)
+                                                }
+                                                value={
+                                                    organizationStore.founded
                                                 }
                                             />
-                                        </MuiPickersUtilsProvider>
+                                        </MuiPickersUtilsProvider> */}
+                                        <TextField
+                                            id="date"
+                                            label="Organization founding"
+                                            type="date"
+                                            defaultValue="2017-05-24"
+                                            // className={classes.textField}
+                                            InputLabelProps={{
+                                                shrink: true
+                                            }}
+                                            onChange={(e) =>
+                                                (organizationStore.founded =
+                                                    e.target.value)
+                                            }
+                                        />
                                     </Grid>
                                     <Grid item>
                                         <Typography>Logo</Typography>
-                                        {!selectImg && (
+                                        {!image && (
                                             <div>
                                                 <input
                                                     accept="image/*"
                                                     style={{ display: 'none' }}
                                                     id="icon-button-file"
                                                     type="file"
-                                                    onChange={onSelectImg}
+                                                    onChange={onImageChange}
                                                 />
                                                 <label htmlFor="icon-button-file">
                                                     <IconButton
@@ -203,7 +302,7 @@ const CreateOrganization = () => {
                                             </div>
                                         )}
 
-                                        {selectImg && (
+                                        {image && (
                                             <div>
                                                 <img
                                                     id="output"
@@ -218,7 +317,7 @@ const CreateOrganization = () => {
                                                         bottom: 95,
                                                         right: 24
                                                     }}
-                                                    onClick={onClickClose}>
+                                                    onClick={onCloseImage}>
                                                     <CancelRoundedIcon />
                                                 </IconButton>
                                             </div>
@@ -227,7 +326,11 @@ const CreateOrganization = () => {
                                 </Grid>
                             </Grid>
                         </Paper>
-                        <Button className={classes.btn} onClick={onClickCreate}>
+                        <Button
+                            className={classes.btn}
+                            onClick={() =>
+                                organizationStore.createOrganization()
+                            }>
                             Create organization
                         </Button>
                     </Grid>
@@ -235,6 +338,6 @@ const CreateOrganization = () => {
             </Grid>
         </Grid>
     );
-};
+});
 
 export default CreateOrganization;

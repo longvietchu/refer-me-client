@@ -39,18 +39,18 @@ const ListEducation = observer(() => {
                                     alignItems="flex-start"
                                     style={{ marginRight: '14px' }}>
                                     <div>
-                                        {educationStore.organization && (
-                                            <img
-                                                style={{
-                                                    height: '56px',
-                                                    width: '56px'
-                                                }}
-                                                src={
-                                                    educationStore.organization
-                                                        .avatar
-                                                }
-                                            />
-                                        )}
+                                        <img
+                                            style={{
+                                                height: '56px',
+                                                width: '56px'
+                                            }}
+                                            src={
+                                                item.organization_info
+                                                    ? item.organization_info
+                                                          .avatar
+                                                    : null
+                                            }
+                                        />
                                     </div>
                                     <div>
                                         <h3>{item.title}</h3>

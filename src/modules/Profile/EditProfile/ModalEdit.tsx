@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import DateFnsUtils from '@date-io/date-fns';
 import {
     Avatar,
@@ -8,14 +9,15 @@ import {
     TextField,
     Typography
 } from '@material-ui/core';
-import { CameraAlt, Close } from '@material-ui/icons';
+import { CameraAlt, Close, CancelRounded } from '@material-ui/icons';
+
 import {
     KeyboardDatePicker,
     MuiPickersUtilsProvider
 } from '@material-ui/pickers';
 import 'date-fns';
 import { observer } from 'mobx-react-lite';
-import React, { useEffect } from 'react';
+
 import Modal from 'react-modal';
 
 import { Gender, profileStore } from '../profileStore';
@@ -85,15 +87,31 @@ const ModalEdit = observer((props: any) => {
         // setEmoloymentType,
         // employments
     } = props;
+
     const onChangeFile = (e: any) => {
         e.preventDefault();
         let reader = new FileReader();
         let file = e.target.files[0];
-        reader.readAsDataURL(file);
-        profileStore.uploadCoverImage(file);
-    };
-    if(profileStore.profile) {
+        let url = reader.readAsDataURL(file);
+        // profileStore.uploadCoverImage(file);
+        reader.onloadend = function (e: any) {
+            if (profileStore.profile)
+                // profileStore.profile.background_image = read;
+                console.log('reader', e);
+        };
+        console.log('ủl', url);
 
+        if (profileStore.profile) profileStore.profile.background_image = file;
+    };
+
+    // const [image, setImage] = useState<string | undefined>();
+
+    const onImageChange = (event: any) => {
+        if (profileStore.profile)
+            profileStore.profile.background_image = event.target.files[0];
+    };
+
+    if (profileStore.profile) {
         return (
             <Modal
                 // isOpen={modalProfile}
@@ -106,7 +124,9 @@ const ModalEdit = observer((props: any) => {
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
                         <IconButton
                             // onClick={closeModalProfile}
-                            onClick={() => profileStore.closeModalEditProfile()}>
+                            onClick={() =>
+                                profileStore.closeModalEditProfile()
+                            }>
                             <Close className={classes.icon} />{' '}
                         </IconButton>
                         <Typography className={classes.typo} variant="h4">
@@ -127,24 +147,68 @@ const ModalEdit = observer((props: any) => {
                     </Fab>
                 </Grid>
                 <Grid className={classes.darkArea} item>
-                    <input
-                        accept="image/*"
-                        className={classes.input}
-                        id="contained-button-file"
-                        multiple
-                        type="file"
-                        onChange={(e) => {
-                            onChangeFile(e);
-                        }}
-                    />
-                    <label htmlFor="contained-button-file">
+                    <div>
+                        <input
+                            accept="image/*"
+                            className={classes.input}
+                            id="contained-button-file"
+                            multiple
+                            type="file"
+                            onChange={onImageChange}
+                        />
+                        <img
+                            id="output"
+                            src={
+                                profileStore.profile.background_image
+                                    ? URL.createObjectURL(
+                                          profileStore.profile.background_image
+                                      )
+                                    : undefined
+                            }
+                            alt={
+                                profileStore.profile.background_image
+                                    ? profileStore.profile.background_image.name
+                                    : undefined
+                            }
+                        />
+                        <label htmlFor="contained-button-file">
+                            <IconButton
+                                className={classes.camera}
+                                aria-label="upload picture"
+                                component="span">
+                                <CameraAlt className={classes.icon} />
+                            </IconButton>
+                        </label>
+                    </div>
+                    {/* <div>
+                        <img
+                            id="output"
+                            src={
+                                profileStore.profile.background_image
+                                    ? URL.createObjectURL(
+                                          profileStore.profile.background_image
+                                      )
+                                    : undefined
+                            }
+                            alt={
+                                profileStore.profile.background_image
+                                    ? profileStore.profile.background_image.name
+                                    : undefined
+                            }
+                        />
                         <IconButton
-                            className={classes.camera}
-                            aria-label="upload picture"
-                            component="span">
-                            <CameraAlt className={classes.icon} />
+                            style={{
+                                color: '#1473E6',
+                                position: 'relative',
+                                bottom: 95,
+                                right: 24
+                            }}
+                            // onClick={onCloseImage}
+                        >
+                            <CancelRounded />
                         </IconButton>
-                    </label>
+                    </div> */}
+
                     <div className={classes.avatarBox}>
                         <Box>
                             <Avatar className={classes.avatar}>
@@ -154,6 +218,7 @@ const ModalEdit = observer((props: any) => {
                                     id="contained-button-file"
                                     multiple
                                     type="file"
+                                    onChange={onChangeFile}
                                 />
                                 <label htmlFor="contained-button-file">
                                     <IconButton
@@ -180,11 +245,11 @@ const ModalEdit = observer((props: any) => {
                                 required
                                 value={profileStore.profile.about}
                                 onChange={(e) => {
-                                    if(profileStore.profile) {
-                                        profileStore.profile.about = e.target.value
+                                    if (profileStore.profile) {
+                                        profileStore.profile.about =
+                                            e.target.value;
                                     }
-                                }
-                                }
+                                }}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -199,16 +264,15 @@ const ModalEdit = observer((props: any) => {
                                 autoFocus
                                 required
                                 value={profileStore.profile.headline}
-                                onChange={(e) =>
-                                    {
-                                        if(profileStore.profile) {
-                                            profileStore.profile.headline = e.target.value
-                                        }
+                                onChange={(e) => {
+                                    if (profileStore.profile) {
+                                        profileStore.profile.headline =
+                                            e.target.value;
                                     }
-                                }
+                                }}
                             />
                         </Grid>
-    
+
                         <Grid item xs={12}>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <Grid container justify="space-between">
@@ -216,15 +280,14 @@ const ModalEdit = observer((props: any) => {
                                         variant="dialog"
                                         format="dd/MM/yyyy"
                                         value={
-                                            profileStore.profile.dob || startDate
+                                            profileStore.profile.dob ||
+                                            startDate
                                         }
-                                        onChange={(date: any) =>
-                                            {
-                                                if(profileStore.profile) {
-                                                    profileStore.profile.dob = date
-                                                }
+                                        onChange={(date: any) => {
+                                            if (profileStore.profile) {
+                                                profileStore.profile.dob = date;
                                             }
-                                        }
+                                        }}
                                         label="Birthday"
                                         fullWidth
                                         // className={classes.textField}
@@ -240,8 +303,9 @@ const ModalEdit = observer((props: any) => {
                                         label="Select gender"
                                         value={profileStore.profile.gender}
                                         onChange={(e) => {
-                                            if(profileStore.profile) {
-                                                profileStore.profile.gender = parseInt(e.target.value)
+                                            if (profileStore.profile) {
+                                                profileStore.profile.gender =
+                                                    parseInt(e.target.value);
                                             }
                                         }}
                                         SelectProps={{
@@ -268,7 +332,7 @@ const ModalEdit = observer((props: any) => {
                 </form>
             </Modal>
         );
-    } else return null
+    } else return null;
 });
 
 export default ModalEdit;

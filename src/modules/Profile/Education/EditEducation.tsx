@@ -18,6 +18,8 @@ import {
     KeyboardDatePicker,
     DatePicker
 } from '@material-ui/pickers';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 
@@ -36,6 +38,7 @@ import { loginStore } from '../../Login/loginStore';
 
 import { observer } from 'mobx-react-lite';
 import { useSnackbar } from 'notistack';
+import { organizationStore } from '../../Organization/organizationStore';
 
 const defaultTheme = createMuiTheme();
 
@@ -76,7 +79,14 @@ const EditEducation = observer(() => {
     const classes = Styles();
     const { enqueueSnackbar } = useSnackbar();
 
+    if (educationStore.organization) {
+        console.log('aa', educationStore.organization.slice());
+    }
+
     if (educationStore.selectedEducation) {
+        console.log('titles', educationStore.selectedEducation.title);
+        console.log('des', educationStore.selectedEducation.description);
+
         return (
             <div>
                 <Modal
@@ -126,29 +136,61 @@ const EditEducation = observer(() => {
                                 }}
                             />
                         </Grid>
-                        {/* <Grid item>
-                            <TextField
-                                label="Degree"
-                                variant="outlined"
-                                fullWidth
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <SchoolIcon />
-                                        </InputAdornment>
-                                    )
-                                }}
-                                value={
-                                    educationStore.selectedEducation.description
+
+                        <Grid item>
+                            <Autocomplete
+                                value={educationStore.selectedEducation.title}
+                                inputValue={
+                                    educationStore.selectedEducation.title
                                 }
-                                onChange={(e) => {
-                                    if (educationStore.selectedEducation) {
-                                        educationStore.selectedEducation.description =
-                                            e.target.value;
+                                id="School"
+                                options={educationStore.organization.slice()}
+                                onChange={(event: any, value: any) => {
+                                    if (
+                                        value &&
+                                        educationStore.selectedEducation
+                                    ) {
+                                        educationStore.organization_id =
+                                            value._id;
+                                        educationStore.selectedEducation.title =
+                                            value.title;
                                     }
                                 }}
+                                onInputChange={(event: any, value: any) => {
+                                    if (educationStore.selectedEducation) {
+                                        return (educationStore.selectedEducation.title =
+                                            value.title);
+                                    }
+                                }}
+                                renderOption={(option: any) => {
+                                    return (
+                                        <React.Fragment>
+                                            <span>
+                                                <img
+                                                    src={option.avatar}
+                                                    style={{
+                                                        height: 20,
+                                                        width: 20,
+                                                        paddingRight: 2
+                                                    }}
+                                                />{' '}
+                                                {option.name}
+                                            </span>
+                                        </React.Fragment>
+                                    );
+                                }}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="School"
+                                        required
+                                        variant="outlined"
+                                        fullWidth
+                                    />
+                                )}
                             />
-                        </Grid> */}
+                        </Grid>
+
                         <Grid item>
                             <TextField
                                 label="Field of study"

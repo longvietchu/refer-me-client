@@ -8,7 +8,7 @@ import { profileService } from './profileService';
 export interface IProfile {
     _id: string;
     dob: string;
-    background_image: string;
+    background_image: any;
     about: string;
     headline: string;
     gender: number;

@@ -15,5 +15,8 @@ class ProfileService {
     public uploadCoverImage(file: any): Promise<IApiResponse> {
         return uploadFile('/v1/profile/background-image', file);
     }
+    public getOrganization(): Promise<IApiResponse> {
+        return getRequest(`/v1/organization/search`);
+    }
 }
 export const profileService = new ProfileService();

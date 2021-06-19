@@ -71,7 +71,12 @@ const ListExperience = observer(() => {
                                                 height: '56px',
                                                 width: '56px'
                                             }}
-                                            src="https://dcv.vn/wp-content/uploads/2021/01/logo-dcv-2021-1.png"
+                                            src={
+                                                item.organization_info
+                                                    ? item.organization_info
+                                                          .avatar
+                                                    : null
+                                            }
                                         />
                                     </div>
                                     <div>

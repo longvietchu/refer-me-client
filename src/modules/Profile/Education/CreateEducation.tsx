@@ -121,9 +121,17 @@ const CreateEducation = observer((props: IProps) => {
                                 options={educationStore.organization}
                                 getOptionLabel={(option: any) => option.name}
                                 onChange={(event: any, value: any) => {
-                                    if (value)
-                                        return (educationStore.title =
-                                            value.name);
+                                    if (value) {
+                                        educationStore.title = value.name;
+                                        educationStore.organization_id =
+                                            value._id;
+                                        // console.log('value', value);
+                                    }
+                                }}
+                                onInputChange={(event: any, value: any) => {
+                                    if (value) {
+                                        educationStore.title = value.name;
+                                    }
                                 }}
                                 renderOption={(option) => {
                                     return (

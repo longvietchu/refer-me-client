@@ -100,6 +100,9 @@ export const formatDateTime = (time: any) =>
 export const formatDateTimeDDMM = (time: any) =>
     moment(time, 'DD/MM/YYYY').locale('vi').format('DD/MM/YYYY');
 
+export const formatYYYYMMDD = (time: any) =>
+    moment(time, 'DD/MM/YYYY').locale('vi').format('YYYY-MM-DD');
+
 export const formatDateTimeDDMMTommorrow = (time: any) =>
     moment(time, 'DD/MM/YYYY').add(1, 'days').locale('vi').format('DD/MM/YYYY');
 

@@ -14,6 +14,7 @@ export interface IEducation {
     graduated_at: string;
     user_id: string;
     organization_id: string;
+    organization_info: any;
 }
 
 class EducationStore {
@@ -28,7 +29,7 @@ class EducationStore {
     joined_at: string = '';
     graduated_at: string = '';
     organization_id: string = '';
-    
+
     selectedEducation?: IEducation;
     searchResult: any;
 
@@ -89,6 +90,8 @@ class EducationStore {
 
     async updateEducationOfUser(_id: string) {
         if (this.selectedEducation) {
+            console.log('data', this.selectedEducation);
+
             const result = await educationService.updateEducationOfUser(
                 this.selectedEducation._id,
                 this.selectedEducation
