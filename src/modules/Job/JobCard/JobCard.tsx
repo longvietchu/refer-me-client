@@ -43,6 +43,8 @@ const JobCard = observer((props: any) => {
         return d + 'days';
     };
 
+    console.log('job', job);
+
     const onSave = (
         e: { stopPropagation: () => void },
         variant: VariantType,
@@ -62,12 +64,23 @@ const JobCard = observer((props: any) => {
             <CardActionArea>
                 <CardContent>
                     <Box pb={3} className={classes.box}>
-                        <Avatar
-                            alt="Jobs"
-                            // src={job.src}
-                            variant="square"
-                            style={{ height: 72, width: 72 }}
-                        />
+                        {job.organization_info &&
+                        job.organization_info.avatar ? (
+                            <Avatar
+                                alt="Jobs"
+                                src={job.organization_info.avatar}
+                                variant="square"
+                                style={{ height: 72, width: 72 }}
+                            />
+                        ) : (
+                            <Avatar
+                                alt="Jobs"
+                                src="/images/no-avatar.png"
+                                variant="square"
+                                style={{ height: 72, width: 72 }}
+                            />
+                        )}
+
                         {!job.isSave ? (
                             <IconButton
                                 edge="end"
@@ -96,9 +109,12 @@ const JobCard = observer((props: any) => {
                         className={classes.title}>
                         {job.title}
                     </Typography>
-                    <Typography variant="body1" className={classes.company}>
-                        {/* {job.company} */}b
-                    </Typography>
+                    {job.organization_info && job.organization_info.name ? (
+                        <Typography variant="body1" className={classes.company}>
+                            {job.organization_info.name}
+                        </Typography>
+                    ) : null}
+
                     <Typography
                         gutterBottom
                         variant="body1"

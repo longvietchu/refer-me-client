@@ -90,5 +90,10 @@ export default makeStyles((theme: Theme) => ({
         height: '35px',
         margin: 10
         // width: "100%",
+    },
+
+    organizationAvatar: {
+        marginRight: 8,
+        width: 25
     }
 }));

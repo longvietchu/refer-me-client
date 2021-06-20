@@ -20,7 +20,7 @@ import BookmarkIcon from '@material-ui/icons/Bookmark';
 import CreateIcon from '@material-ui/icons/Create';
 
 import ModalPostJob from './ModalPostJob';
-import JobCard from '../../common/components/jobs/JobCard';
+import JobCard from './JobCard/JobCard';
 import LoadingCard from '../../common/components/util/LoadingCard';
 
 import Styles from './Style';
@@ -37,8 +37,6 @@ import { jobStore } from './jobStore';
 
 const JobScreen = observer(() => {
     const classes = Styles();
-
-    // const { onSave, job } = props;
 
     const [modalIsOpen, setModalIsOpen] = React.useState(false);
 
@@ -59,11 +57,7 @@ const JobScreen = observer(() => {
                 <Header />
             </Grid>
 
-            <Grid
-                container
-                item
-                // direction="column"
-                className={classes.app_body}>
+            <Grid container item className={classes.app_body}>
                 <Grid item className={classes.body__feed} xs={12} md={12}>
                     <Grid item className={classes.feed__form}>
                         <Paper className={classes.paper}>
@@ -83,7 +77,7 @@ const JobScreen = observer(() => {
 
                                 <IconButton
                                     className={classes.btn_post}
-                                    onClick={openModal}>
+                                    onClick={() => (jobStore.modalJob = true)}>
                                     <CreateIcon style={{ fontSize: '20px' }} />
                                     <Typography>Post a free job</Typography>
                                 </IconButton>

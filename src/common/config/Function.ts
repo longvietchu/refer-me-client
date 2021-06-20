@@ -98,7 +98,7 @@ export const formatDateTime = (time: any) =>
     moment(time, 'DD/MM/YYYY').locale('vi').format('dddd (DD/MM/YYYY)');
 
 export const formatDateTimeDDMM = (time: any) =>
-    moment(time, 'DD/MM/YYYY').locale('vi').format('DD/MM/YYYY');
+    moment(time).locale('vi').format('DD-MM-YYYY');
 
 export const formatYYYYMMDD = (time: any) =>
     moment(time, 'DD/MM/YYYY').locale('vi').format('YYYY-MM-DD');
