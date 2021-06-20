@@ -78,7 +78,6 @@ class NumberUtil {
         var day = date.getDate();
         var hours = date.getHours();
         var minutes = "0" + date.getMinutes();
-        var seconds = "0" + date.getSeconds()
         var convdataTime = hours + ':' + minutes.substr(-2)+ ', ' + day + '/' + month + '/' + year 
         // var convdataTime = day + ' thg ' + month + ', ' + year + ' - ' + hours + ':' + minutes.substr(-2) 
         return convdataTime;
@@ -92,6 +91,14 @@ class NumberUtil {
         var convdataTime = hours + ':' + minutes.substr(-2);
         return convdataTime;
     }
+
+    public convertUtcToYear(utcTime: string) {
+        const timestamp: number = new Date(utcTime).getTime() / 1000
+        var date = new Date(timestamp * 1000);
+        var year = date.getFullYear();
+        return year;
+    }
+
     public convertUtcToDate(utcTime:string) {
         var months_arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
         const timestamp: number = new Date(utcTime).getTime() / 1000
@@ -103,6 +110,34 @@ class NumberUtil {
         var convdataTime = day + '/' + month + '/' + year 
         // var convdataTime = day + ' thg ' + month + ', ' + year + ' - ' + hours + ':' + minutes.substr(-2) 
         return convdataTime;
+    }
+
+    public renderMonthYearInShort(utcTime: string) {
+        const timestamp: number = new Date(utcTime).getTime() / 1000;
+        let date = new Date(timestamp * 1000);
+        let year = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date);
+        let month = new Intl.DateTimeFormat('en', { month: 'short' }).format(date);
+        let result = `${month} ${year}`
+        return result
+    }
+
+    public relativeTime(start: string, end: string) {
+    let created = new Date(start).getTime();
+    let now = new Date(end).getTime();
+    let howLongAgo = created - now;
+    // Convert to a positive integer
+	let time = Math.abs(howLongAgo);
+	let humanTime, units;
+
+	if (time > (1000 * 60 * 60 * 24 * 365)) {
+		humanTime = parseInt((time / (1000 * 60 * 60 * 24 * 365)).toString(), 10);
+		units = 'yrs';
+	} else {
+		humanTime = parseInt((time / (1000 * 60 * 60 * 24 * 30)).toString(), 10);
+		units = 'mos';
+	}
+
+	return humanTime + ' ' + units;
     }
 }
 

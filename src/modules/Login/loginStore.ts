@@ -8,6 +8,7 @@ export interface IUserInfo {
     name: string;
     email: string;
     avatar: string;
+    headline: string;
 }
 
 export interface ILogin {
@@ -23,13 +24,12 @@ class LoginStore {
     email: string = '';
     password: string = '';
     validateError: string = '';
-    loginState: boolean = false;
     isLoading: boolean = false;
 
     async getUserInfo() {
         const result = await loginService.getUserInfo();
         if (result.status === HttpStatusCode.OK) {
-            console.log('bbb', result);
+            // console.log(result.body.data);
             this.userInfo = result.body.data;
         }
     }
@@ -57,12 +57,12 @@ class LoginStore {
             // console.log(result.body);
             StorageService.setToken(result.body.token);
             this.getUserInfo();
-            this.loginState = true;
+            return true;
         } else {
-            this.loginState = false;
             this.validateError = result.body.message;
         }
         this.isLoading = false;
+        return false;
     }
 }
 

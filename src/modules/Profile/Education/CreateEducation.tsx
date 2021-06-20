@@ -1,57 +1,30 @@
-import React, { useState } from 'react';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-
+import React from 'react';
 import {
-    Grid,
-    Typography,
-    TextField,
-    Divider,
-    InputAdornment,
     Button,
+    CircularProgress,
+    Divider,
+    Grid,
     IconButton,
-    ButtonBase
+    InputAdornment,
+    TextField,
+    Typography
 } from '@material-ui/core';
-
 import Autocomplete from '@material-ui/lab/Autocomplete';
-
-import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
-import 'date-fns';
-import DateFnsUtils from '@date-io/date-fns';
-
-import Modal from 'react-modal';
-
-import SchoolIcon from '@material-ui/icons/School';
-import WorkIcon from '@material-ui/icons/Work';
-
 import CloseIcon from '@material-ui/icons/Close';
-
-import Styles from './Style';
-
-import { loginStore } from '../../Login/loginStore';
-import { educationStore } from './educationStore';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import SchoolIcon from '@material-ui/icons/School';
+import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 import { observer } from 'mobx-react-lite';
+import Modal from 'react-modal';
+import { profileStore } from '../profileStore';
+import Styles from './Style';
+import { toJS } from 'mobx';
+import { IOrganizationInfo } from '../../../common/constants/CommonInterface';
+
 import { useSnackbar } from 'notistack';
 
-const defaultTheme = createMuiTheme();
-
-Object.assign(defaultTheme, {
-    overrides: {
-        MUIRichTextEditor: {
-            root: {
-                border: '1px solid gray'
-            },
-            editor: {
-                padding: 8
-            },
-            placeHolder: {
-                padding: 8,
-                position: 'static'
-            },
-            toolbar: { borderBottom: '1px solid gray' }
-        }
-    }
-});
-
+Modal.setAppElement('#root');
 const customStyles = {
     content: {
         top: '50%',
@@ -60,42 +33,28 @@ const customStyles = {
         bottom: 'auto',
         transform: 'translate(-50%, -50%)',
         height: '70%',
-        width: '30%',
+        width: '50%',
         paddingBottom: 5,
         paddingTop: 10,
-        borderRadius: 10
+        borderRadius: 8
     }
 };
 
-interface IProps {
-    modalEdu: boolean;
-    closeModalEdu: VoidFunction;
-    startDate: any;
-    endDate: any;
-    setStartDate: any;
-    setEndDate: any;
-}
+const options = ['Option 1', 'Option 2'];
 
-const CreateEducation = observer((props: IProps) => {
+const CreateEducation = observer(() => {
     const classes = Styles();
     const { enqueueSnackbar } = useSnackbar();
-
-    const {
-        modalEdu,
-        closeModalEdu,
-        startDate,
-        endDate,
-        setStartDate,
-        setEndDate
-    } = props;
 
     return (
         <div>
             <Modal
-                isOpen={educationStore.modalCreateEducation}
-                onRequestClose={educationStore.closeModalCreateEducation}
+                isOpen={profileStore.modalEducation.create}
+                onRequestClose={() =>
+                    (profileStore.modalEducation.create = false)
+                }
                 style={customStyles}
-                contentLabel="Example Modal">
+                contentLabel="Create Education Modal">
                 <Grid container direction="column" spacing={3}>
                     <Grid item>
                         <Grid
@@ -105,7 +64,7 @@ const CreateEducation = observer((props: IProps) => {
                             <Typography variant="h6">Add education</Typography>
                             <IconButton
                                 onClick={() =>
-                                    educationStore.closeModalCreateEducation()
+                                    (profileStore.modalEducation.create = false)
                                 }>
                                 <CloseIcon />
                             </IconButton>
@@ -115,146 +74,151 @@ const CreateEducation = observer((props: IProps) => {
                     <Divider />
 
                     <Grid item>
-                        {educationStore.organization && (
-                            <Autocomplete
-                                id="organization"
-                                options={educationStore.organization}
-                                getOptionLabel={(option: any) => option.name}
-                                onChange={(event: any, value: any) => {
-                                    if (value) {
-                                        educationStore.title = value.name;
-                                        educationStore.organization_id =
-                                            value._id;
-                                        // console.log('value', value);
+                        <Autocomplete
+                            freeSolo
+                            id="input-school"
+                            onInputChange={(event, newInputValue) => {
+                                profileStore.searchOrganization(newInputValue);
+                                profileStore.inputEducation.title =
+                                    newInputValue;
+                            }}
+                            inputValue={profileStore.inputEducation.title}
+                            onChange={(
+                                event: any,
+                                newValue: string | IOrganizationInfo | null
+                            ) => {
+                                if (newValue) {
+                                    const orgObject: any = toJS(newValue);
+                                    // console.log('option: ', orgObject._id);
+                                    profileStore.inputEducation.organization_id =
+                                        orgObject._id;
+                                }
+                            }}
+                            options={
+                                profileStore.searchResult as IOrganizationInfo[]
+                            }
+                            autoHighlight
+                            getOptionLabel={(option) => option.name}
+                            renderOption={(option) => (
+                                <React.Fragment>
+                                    <span>
+                                        {option.avatar ? (
+                                            <img
+                                                src={option.avatar}
+                                                className={
+                                                    classes.organizationAvatar
+                                                }
+                                            />
+                                        ) : (
+                                            <img
+                                                src="/images/no-avatar.png"
+                                                className={
+                                                    classes.organizationAvatar
+                                                }
+                                            />
+                                        )}
+                                    </span>
+                                    {option.name}
+                                </React.Fragment>
+                            )}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label="School"
+                                    required
+                                    fullWidth
+                                    InputProps={{
+                                        ...params.InputProps,
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <LocationOnIcon />
+                                            </InputAdornment>
+                                        ),
+                                        endAdornment: (
+                                            <React.Fragment>
+                                                {profileStore.isSearching ? (
+                                                    <CircularProgress
+                                                        color="inherit"
+                                                        size={20}
+                                                    />
+                                                ) : null}
+                                            </React.Fragment>
+                                        )
+                                    }}
+                                    error={
+                                        profileStore.validateInput.title !== ''
+                                            ? true
+                                            : false
                                     }
-                                }}
-                                onInputChange={(event: any, value: any) => {
-                                    if (value) {
-                                        educationStore.title = value.name;
+                                    helperText={
+                                        profileStore.validateInput.title
                                     }
-                                }}
-                                renderOption={(option) => {
-                                    return (
-                                        <React.Fragment>
-                                            <span>
-                                                <img
-                                                    src={option.avatar}
-                                                    style={{
-                                                        height: 20,
-                                                        width: 20
-                                                    }}
-                                                />{' '}
-                                                {option.name}
-                                            </span>
-                                        </React.Fragment>
-                                    );
-                                }}
-                                renderInput={(params) => (
-                                    <TextField
-                                        {...params}
-                                        label="Organization"
-                                        variant="outlined"
-                                    />
-                                )}
-                            />
-                        )}
+                                />
+                            )}
+                        />
                     </Grid>
-                    {/* <Grid item>
-                            <TextField
-                                label="Degree"
-                                variant="outlined"
-                                fullWidth
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <SchoolIcon />
-                                        </InputAdornment>
-                                    )
-                                }}
-                                // onChange={(e) => setCompany(e.target.value)}
-                            />
-                        </Grid> */}
+
                     <Grid item>
                         <TextField
-                            label="Field of study"
-                            variant="outlined"
+                            label="Description"
                             fullWidth
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <WorkIcon />
+                                        <SchoolIcon />
                                     </InputAdornment>
                                 )
                             }}
-                            // onChange={(e) => setLocation(e.target.value)}
-                        />
-                    </Grid>
-
-                    <Grid item>
-                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                            <Grid container justify="space-between">
-                                <DatePicker
-                                    variant="inline"
-                                    openTo="year"
-                                    views={['year']}
-                                    onChange={(date: any) =>
-                                        (educationStore.joined_at = date)
-                                    }
-                                    value={educationStore.joined_at}
-                                    label="Start Year"
-                                    style={{ width: '45%' }}
-                                />
-                                <DatePicker
-                                    variant="inline"
-                                    openTo="year"
-                                    views={['year']}
-                                    onChange={(date: any) =>
-                                        (educationStore.graduated_at = date)
-                                    }
-                                    value={educationStore.graduated_at}
-                                    label="End Year (or expected)"
-                                    style={{ width: '45%' }}
-                                />
-                            </Grid>
-                        </MuiPickersUtilsProvider>
-                    </Grid>
-
-                    <Grid item>
-                        <TextField
-                            style={{ paddingLeft: 2 }}
-                            label="Description"
-                            variant="outlined"
-                            fullWidth
-                            multiline
                             onChange={(e) =>
-                                (educationStore.description = e.target.value)
+                                (profileStore.inputEducation.description =
+                                    e.target.value)
                             }
-                            value={educationStore.description}
+                            value={profileStore.inputEducation.description}
                         />
                     </Grid>
 
-                    <Grid style={{ alignSelf: 'center' }}>
-                        <Button
-                            className={classes.btn_save}
-                            onClick={() => {
-                                let createSuccess =
-                                    educationStore.createEducationOfuser();
-                                if (createSuccess) {
-                                    if (loginStore.userInfo) {
-                                        educationStore.getEducationOfUser(
-                                            loginStore.userInfo.id
-                                        );
-                                        educationStore.closeModalCreateEducation();
-                                        enqueueSnackbar(
-                                            'Create education success!',
-                                            {
-                                                variant: 'success'
-                                            }
-                                        );
+                    <Grid item>
+                        <Grid container justify="space-between">
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <DatePicker
+                                    autoOk
+                                    clearable
+                                    format="yyyy"
+                                    views={['year']}
+                                    value={
+                                        profileStore.inputEducation.joined_at
                                     }
-                                }
-                            }}>
-                            Save
+                                    onChange={(date: any) => {
+                                        profileStore.inputEducation.joined_at =
+                                            date;
+                                    }}
+                                    label="Joined year"
+                                    style={{ width: '45%' }}
+                                />
+                                <DatePicker
+                                    autoOk
+                                    clearable
+                                    format="yyyy"
+                                    views={['year']}
+                                    value={
+                                        profileStore.inputEducation.graduated_at
+                                    }
+                                    onChange={(date: any) => {
+                                        profileStore.inputEducation.graduated_at =
+                                            date;
+                                    }}
+                                    label="Graduated year (or expected)"
+                                    style={{ width: '45%' }}
+                                />
+                            </MuiPickersUtilsProvider>
+                        </Grid>
+                    </Grid>
+
+                    <Grid item>
+                        <Button
+                            className={classes.btn_post}
+                            onClick={(e) => profileStore.createEducation()}>
+                            {profileStore.isLoading ? 'Saving...' : 'Save'}
                         </Button>
                     </Grid>
                 </Grid>

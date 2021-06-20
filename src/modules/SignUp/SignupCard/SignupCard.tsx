@@ -5,40 +5,34 @@ import {
     TextField,
     InputAdornment,
     Typography,
-    FormHelperText,
-    Link
+    FormHelperText
 } from '@material-ui/core';
-import Logo from '../../../common/assets/images/text_logo.png';
 import Style from './Style';
 import { AccountCircle, LockRounded, Person } from '@material-ui/icons';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import { signupStore } from '../sigupStore';
+import { observer } from 'mobx-react-lite';
 
-const SignupCard = () => {
+const SignupCard = observer(() => {
     const classes = Style();
 
     const [helperText, sethelperText] = useState('');
     const { enqueueSnackbar } = useSnackbar();
     let history = useHistory();
-    let { name, email, password } = signupStore.signupInfo;
 
     const onClickSignup = async () => {
-        // if (res.data && res.data.success == true) {
-        //     enqueueSnackbar('You have successfully registered!', {
-        //         variant: 'success'
-        //     });
-        //     history.push('/home');
-        // } else {
-        //     sethelperText(res.data.message);
-        // }
-        await signupStore.signup();
+        let isSignupSuccess = await signupStore.signup();
+        if (isSignupSuccess) {
+            history.push('/create/profile');
+            enqueueSnackbar('Sign-up success!', { variant: 'success' });
+        }
     };
 
     return (
         <Paper elevation={3} className={classes.card}>
             <header className={classes.header}>
-                <img src={Logo} alt="logo" />
+                <img src="/rfm-icon.png" alt="Refer Me" />
                 <Typography variant="h4">Sign up</Typography>
             </header>
 
@@ -57,8 +51,10 @@ const SignupCard = () => {
                     }}
                     type="name"
                     placeholder="enter your name..."
-                    value={name}
-                    onChange={(e) => (name = e.target.value)}
+                    value={signupStore.signupInfo.name}
+                    onChange={(e) =>
+                        (signupStore.signupInfo.name = e.target.value)
+                    }
                 />
                 <TextField
                     label="email"
@@ -74,8 +70,10 @@ const SignupCard = () => {
                     }}
                     type="email"
                     placeholder="enter your email..."
-                    value={email}
-                    onChange={(e) => (email = e.target.value)}
+                    value={signupStore.signupInfo.email}
+                    onChange={(e) =>
+                        (signupStore.signupInfo.email = e.target.value)
+                    }
                 />
                 <TextField
                     label="password"
@@ -91,8 +89,10 @@ const SignupCard = () => {
                     }}
                     type="password"
                     placeholder="enter your password..."
-                    value={password}
-                    onChange={(e) => (password = e.target.value)}
+                    value={signupStore.signupInfo.password}
+                    onChange={(e) =>
+                        (signupStore.signupInfo.password = e.target.value)
+                    }
                 />
 
                 <div style={{ width: '100%' }}>
@@ -110,8 +110,8 @@ const SignupCard = () => {
                     onClick={onClickSignup}
                     color="primary"
                     variant="contained"
-                    className={classes.btn}>
-                    Join
+                    disabled={signupStore.isLoading ? true : false}>
+                    {signupStore.isLoading ? 'Joining...' : 'Join'}
                 </Button>
             </form>
 
@@ -123,11 +123,11 @@ const SignupCard = () => {
                 </section>
                 <div>
                     Already on Refer Me? {''}
-                    <Link href="/">Sign in</Link>
+                    <Link to="/">Sign in</Link>
                 </div>
             </div>
         </Paper>
     );
-};
+});
 
 export default SignupCard;

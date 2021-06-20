@@ -1,40 +1,35 @@
-import React, { useState } from 'react';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-
-import {
-    Grid,
-    Typography,
-    TextField,
-    Divider,
-    InputAdornment,
-    Button,
-    IconButton
-} from '@material-ui/core';
-
-import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-
-import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
-
-import Modal from 'react-modal';
-
-import WorkIcon from '@material-ui/icons/Work';
+import {
+    Button,
+    Checkbox,
+    CircularProgress,
+    Divider,
+    FormControlLabel,
+    Grid,
+    IconButton,
+    InputAdornment,
+    MenuItem,
+    TextField,
+    Typography
+} from '@material-ui/core';
+import { createMuiTheme } from '@material-ui/core/styles';
 import BusinessIcon from '@material-ui/icons/Business';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
 import CloseIcon from '@material-ui/icons/Close';
-
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import WorkIcon from '@material-ui/icons/Work';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import 'date-fns';
+import { toJS } from 'mobx';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
+import Modal from 'react-modal';
+import { IEmploymentType, profileStore } from '../profileStore';
+import { IOrganizationInfo } from '../../../common/constants/CommonInterface';
 import Styles from './Style';
 
-import { IEmployments } from '../ProfileContainer';
-
-import { loginStore } from '../../Login/loginStore';
-import { experienceStore } from './experienceStore';
-import { observer } from 'mobx-react-lite';
-import { useSnackbar } from 'notistack';
-
+Modal.setAppElement('#root');
 const defaultTheme = createMuiTheme();
-
 Object.assign(defaultTheme, {
     overrides: {
         MUIRichTextEditor: {
@@ -61,56 +56,51 @@ const customStyles = {
         bottom: 'auto',
         transform: 'translate(-50%, -50%)',
         height: '80%',
-        width: '30%',
+        width: '50%',
         paddingBottom: 5,
         paddingTop: 10,
-        borderRadius: 10
+        borderRadius: 8
     }
 };
 
-interface IProps {
-    CreateExp: any;
-    modalExp: boolean;
-    closeModal: VoidFunction;
-    startDate: any;
-    endDate: any;
-    setStartDate: any;
-    setEndDate: any;
-    setTitle: any;
-    setCompany: any;
-    setLocation: any;
-    setDescription: any;
-    setEmoloymentType: any;
-    employments: IEmployments[];
-}
+const employment_types = [
+    {
+        value: IEmploymentType.NONE,
+        label: 'Choose one...'
+    },
+    {
+        value: IEmploymentType.FULL_TIME,
+        label: 'Full-time'
+    },
+    {
+        value: IEmploymentType.PART_TIME,
+        label: 'Part-time'
+    },
+    {
+        value: IEmploymentType.CONTRACT,
+        label: 'Contract'
+    },
+    {
+        value: IEmploymentType.TEMPORARY,
+        label: 'Temporary'
+    },
+    {
+        value: IEmploymentType.INTERNSHIP,
+        label: 'Internship'
+    }
+];
 
-const CreateExperience = observer((props: IProps) => {
+const CreateExperience = observer(() => {
     const classes = Styles();
-    const { enqueueSnackbar } = useSnackbar();
-
-    const {
-        modalExp,
-        closeModal,
-        CreateExp,
-        startDate,
-        endDate,
-        setStartDate,
-        setEndDate,
-        setTitle,
-        setCompany,
-        setLocation,
-        setDescription,
-        setEmoloymentType,
-        employments
-    } = props;
-
     return (
         <div>
             <Modal
-                isOpen={experienceStore.modalCreateExperience}
-                onRequestClose={experienceStore.closeModalCreateExperience}
+                isOpen={profileStore.modalExperience.create}
+                onRequestClose={() =>
+                    (profileStore.modalExperience.create = false)
+                }
                 style={customStyles}
-                contentLabel="Example Modal">
+                contentLabel="Create Experience Modal">
                 <Grid container direction="column" spacing={3}>
                     <Grid item>
                         <Grid
@@ -120,7 +110,8 @@ const CreateExperience = observer((props: IProps) => {
                             <Typography variant="h6">Add experience</Typography>
                             <IconButton
                                 onClick={() =>
-                                    experienceStore.closeModalCreateExperience()
+                                    (profileStore.modalExperience.create =
+                                        false)
                                 }>
                                 <CloseIcon />
                             </IconButton>
@@ -133,7 +124,6 @@ const CreateExperience = observer((props: IProps) => {
                         <TextField
                             label="Job title"
                             required
-                            variant="outlined"
                             fullWidth
                             InputProps={{
                                 startAdornment: (
@@ -142,54 +132,131 @@ const CreateExperience = observer((props: IProps) => {
                                     </InputAdornment>
                                 )
                             }}
-                            value={experienceStore.job_title}
+                            value={profileStore.inputExperience.job_title}
                             onChange={(e) =>
-                                (experienceStore.job_title = e.target.value)
+                                (profileStore.inputExperience.job_title =
+                                    e.target.value)
                             }
+                            error={
+                                profileStore.validateInput.job_title !== ''
+                                    ? true
+                                    : false
+                            }
+                            helperText={profileStore.validateInput.job_title}
                         />
                     </Grid>
                     <Grid item>
-                        {experienceStore.organization && (
-                            <Autocomplete
-                                id="company"
-                                options={experienceStore.organization}
-                                getOptionLabel={(option: any) => option.name}
-                                onChange={(event: any, value: any) => {
-                                    if (value)
-                                        return (experienceStore.company =
-                                            value.name);
-                                }}
-                                renderOption={(option) => {
-                                    return (
-                                        <React.Fragment>
-                                            <span>
-                                                <img
-                                                    src={option.avatar}
-                                                    style={{
-                                                        height: 20,
-                                                        width: 20
-                                                    }}
-                                                />{' '}
-                                                {option.name}
-                                            </span>
-                                        </React.Fragment>
-                                    );
-                                }}
-                                renderInput={(params) => (
-                                    <TextField
-                                        {...params}
-                                        label="Company"
-                                        variant="outlined"
-                                    />
-                                )}
-                            />
-                        )}
+                        {/* <TextField
+                            label="Company"
+                            required
+                            fullWidth
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <BusinessIcon />
+                                    </InputAdornment>
+                                )
+                            }}
+                            value={profileStore.inputExperience.company}
+                            onChange={(e) =>
+                                (profileStore.inputExperience.company =
+                                    e.target.value)
+                            }
+                            error={
+                                profileStore.validateInput.company !== ''
+                                    ? true
+                                    : false
+                            }
+                            helperText={profileStore.validateInput.company}
+                        /> */}
+                        <Autocomplete
+                            freeSolo
+                            id="input-company"
+                            onInputChange={(event, newInputValue) => {
+                                profileStore.searchOrganization(newInputValue);
+                                profileStore.inputExperience.company =
+                                    newInputValue;
+                            }}
+                            inputValue={profileStore.inputExperience.company}
+                            onChange={(
+                                event: any,
+                                newValue: string | IOrganizationInfo | null
+                            ) => {
+                                if (newValue) {
+                                    const orgObject: any = toJS(newValue);
+                                    // console.log('option: ', orgObject._id);
+                                    profileStore.inputExperience.organization_id =
+                                        orgObject._id;
+                                }
+                            }}
+                            options={
+                                profileStore.searchResult as IOrganizationInfo[]
+                            }
+                            autoHighlight
+                            getOptionLabel={(option) => option.name}
+                            renderOption={(option) => (
+                                <React.Fragment>
+                                    <span>
+                                        {option.avatar ? (
+                                            <img
+                                                src={option.avatar}
+                                                className={
+                                                    classes.organizationAvatar
+                                                }
+                                            />
+                                        ) : (
+                                            <img
+                                                src="/images/no-avatar.png"
+                                                className={
+                                                    classes.organizationAvatar
+                                                }
+                                            />
+                                        )}
+                                    </span>
+                                    {option.name}
+                                </React.Fragment>
+                            )}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label="Company"
+                                    required
+                                    fullWidth
+                                    InputProps={{
+                                        ...params.InputProps,
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <BusinessIcon />
+                                            </InputAdornment>
+                                        ),
+                                        endAdornment: (
+                                            <React.Fragment>
+                                                {profileStore.isSearching ? (
+                                                    <CircularProgress
+                                                        color="inherit"
+                                                        size={20}
+                                                    />
+                                                ) : null}
+                                            </React.Fragment>
+                                        )
+                                    }}
+                                    error={
+                                        profileStore.validateInput.company !==
+                                        ''
+                                            ? true
+                                            : false
+                                    }
+                                    helperText={
+                                        profileStore.validateInput.company
+                                    }
+                                />
+                            )}
+                        />
                     </Grid>
                     <Grid item>
                         <TextField
                             label="Job location"
                             required
-                            variant="outlined"
                             fullWidth
                             InputProps={{
                                 startAdornment: (
@@ -198,10 +265,37 @@ const CreateExperience = observer((props: IProps) => {
                                     </InputAdornment>
                                 )
                             }}
-                            value={experienceStore.location}
+                            value={profileStore.inputExperience.location}
                             onChange={(e) =>
-                                (experienceStore.location = e.target.value)
+                                (profileStore.inputExperience.location =
+                                    e.target.value)
                             }
+                            error={
+                                profileStore.validateInput.location !== ''
+                                    ? true
+                                    : false
+                            }
+                            helperText={profileStore.validateInput.location}
+                        />
+                    </Grid>
+
+                    <Grid item>
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={
+                                        profileStore.modalExperience.presentJob
+                                    }
+                                    onChange={() =>
+                                        (profileStore.modalExperience.presentJob =
+                                            !profileStore.modalExperience
+                                                .presentJob)
+                                    }
+                                    name="presentJob"
+                                    color="primary"
+                                />
+                            }
+                            label="Is this your present job?"
                         />
                     </Grid>
 
@@ -209,29 +303,41 @@ const CreateExperience = observer((props: IProps) => {
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                             <Grid container justify="space-between">
                                 <DatePicker
-                                    variant="inline"
-                                    views={['month', 'year']}
-                                    margin="normal"
-                                    id="date-picker-inline"
-                                    label="Start Date"
-                                    value={experienceStore.joined_at}
-                                    onChange={(date: any) =>
-                                        (experienceStore.joined_at = date)
+                                    className={classes.date_picker}
+                                    style={{
+                                        marginRight: !profileStore
+                                            .modalExperience.presentJob
+                                            ? 20
+                                            : 0
+                                    }}
+                                    autoOk
+                                    clearable
+                                    format="dd/MM/yyyy"
+                                    label="Joined Date"
+                                    value={
+                                        profileStore.inputExperience.joined_at
                                     }
-                                    style={{ width: '45%' }}
+                                    onChange={(date: any) => {
+                                        profileStore.inputExperience.joined_at =
+                                            date;
+                                    }}
                                 />
-                                <DatePicker
-                                    variant="inline"
-                                    views={['month', 'year']}
-                                    margin="normal"
-                                    id="date-picker-inline"
-                                    label="End Date"
-                                    value={experienceStore.left_at}
-                                    onChange={(date: any) =>
-                                        (experienceStore.left_at = date)
-                                    }
-                                    style={{ width: '45%' }}
-                                />
+                                {!profileStore.modalExperience.presentJob && (
+                                    <DatePicker
+                                        className={classes.date_picker}
+                                        autoOk
+                                        clearable
+                                        format="dd/MM/yyyy"
+                                        label="Left Date"
+                                        value={
+                                            profileStore.inputExperience.left_at
+                                        }
+                                        onChange={(date: any) => {
+                                            profileStore.inputExperience.left_at =
+                                                date;
+                                        }}
+                                    />
+                                )}
                             </Grid>
                         </MuiPickersUtilsProvider>
                     </Grid>
@@ -239,48 +345,42 @@ const CreateExperience = observer((props: IProps) => {
                         <TextField
                             id="outlined-select-currency-native"
                             label="Employment type"
-                            required
-                            variant="outlined"
                             fullWidth
                             select
-                            value={experienceStore.employment_type}
+                            value={profileStore.inputExperience.employment_type}
                             onChange={(e) =>
-                                (experienceStore.employment_type =
+                                (profileStore.inputExperience.employment_type =
                                     e.target.value)
-                            }
-                            SelectProps={{
-                                native: true
-                            }}>
-                            {employments.map((option) => (
-                                <option key={option.value} value={option.value}>
+                            }>
+                            {employment_types.map((option) => (
+                                <MenuItem
+                                    key={option.value}
+                                    value={option.value}>
                                     {option.label}
-                                </option>
+                                </MenuItem>
                             ))}
                         </TextField>
                     </Grid>
 
-                    <Grid style={{ alignSelf: 'center' }}>
+                    <Grid item>
+                        <TextField
+                            label="Description"
+                            fullWidth
+                            multiline
+                            rows={4}
+                            value={profileStore.inputExperience.job_description}
+                            onChange={(e) =>
+                                (profileStore.inputExperience.job_description =
+                                    e.target.value)
+                            }
+                        />
+                    </Grid>
+
+                    <Grid>
                         <Button
-                            className={classes.btn_save}
-                            onClick={() => {
-                                let createSuccess =
-                                    experienceStore.createExperienceOfuser();
-                                if (createSuccess) {
-                                    if (loginStore.userInfo) {
-                                        experienceStore.getExperienceOfUser(
-                                            loginStore.userInfo.id
-                                        );
-                                        experienceStore.closeModalCreateExperience();
-                                        enqueueSnackbar(
-                                            'Create experience success!',
-                                            {
-                                                variant: 'success'
-                                            }
-                                        );
-                                    }
-                                }
-                            }}>
-                            Save
+                            className={classes.btn_post}
+                            onClick={() => profileStore.createExpericence()}>
+                            {profileStore.isLoading ? 'Saving...' : 'Save'}
                         </Button>
                     </Grid>
                 </Grid>

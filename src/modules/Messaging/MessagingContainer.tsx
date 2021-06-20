@@ -1,8 +1,16 @@
-import React from "react";
-import MessagingScreen from "./MessagingScreen";
+import { observer } from 'mobx-react-lite';
+import React, { useEffect } from 'react';
+import { messageEvent } from './messageEvent';
+import { messageStore } from './messageStore';
+import MessagingScreen from './MessagingScreen';
 
-const MessaginContainer = () => {
-  return <MessagingScreen />;
-};
+const MessaginContainer = observer(() => {
+    useEffect(() => {
+        messageStore.getRooms();
+        messageEvent.connect();
+    }, []);
+
+    return <MessagingScreen />;
+});
 
 export default MessaginContainer;

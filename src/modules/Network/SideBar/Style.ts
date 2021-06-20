@@ -12,8 +12,11 @@ export default makeStyles((theme) => ({
         borderRadius: 10
     },
     title: {
-        marginLeft: '-10px',
         color: '#00000099'
+    },
+    titleActive: {
+        color: '#00000099',
+        fontWeight: 'bold'
     },
     amount: {
         color: '#00000099'

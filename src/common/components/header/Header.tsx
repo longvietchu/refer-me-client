@@ -1,40 +1,33 @@
-import React from 'react';
-import Logo from '../../assets/images/logo.png';
 import {
-    Paper,
     Avatar,
-    Popover,
-    Typography,
+    Button,
+    Divider,
+    Grid,
     List,
     ListItem,
     ListItemAvatar,
     ListItemText,
-    Divider,
-    Button,
-    Grid,
-    Link
+    Paper,
+    Popover,
+    Typography
 } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
-import HomeIcon from '@material-ui/icons/Home';
-import GroupIcon from '@material-ui/icons/Group';
-import WorkIcon from '@material-ui/icons/Work';
-import TelegramIcon from '@material-ui/icons/Telegram';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import Brightness4Icon from '@material-ui/icons/Brightness4';
-import BrightnessHighIcon from '@material-ui/icons/BrightnessHigh';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import AppsIcon from '@material-ui/icons/Apps';
-
-import Style from './Style';
-import MenuItems from './menuItem/MenuItem';
-
-import KEY from '../../assets/AsyncStorage';
-
-import { useHistory } from 'react-router-dom';
+import BrightnessHighIcon from '@material-ui/icons/BrightnessHigh';
+import GroupIcon from '@material-ui/icons/Group';
+import HomeIcon from '@material-ui/icons/Home';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import SearchIcon from '@material-ui/icons/Search';
+import TelegramIcon from '@material-ui/icons/Telegram';
+import WorkIcon from '@material-ui/icons/Work';
 import { observer } from 'mobx-react-lite';
+import React from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { loginStore } from '../../../modules/Login/loginStore';
 import { profileStore } from '../../../modules/Profile/profileStore';
+import StorageService from '../../service/StorageService';
+import MenuItems from './menuItem/MenuItem';
+import Style from './Style';
 
 const Header = observer(() => {
     const classes = Style();
@@ -51,25 +44,19 @@ const Header = observer(() => {
     };
 
     const SignOut = () => {
-        localStorage.removeItem(KEY.API_TOKEN);
+        StorageService.removeToken();
         history.push('/');
     };
 
     const onClickProfile = () => {
         if (loginStore.userInfo) {
-            profileStore.getProfile(loginStore.userInfo.id);
+            // await profileStore.getProfile(loginStore.userInfo.id);
             history.push(`/profile/${loginStore.userInfo.id}`);
         }
     };
 
-    const onClickCreateOrg = () => {
-        history.push('/organization/new');
-    };
-
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
-
-    //   const { photoURL } = useSelector((state) => state.user); this code to pick photo user from redux
 
     const items = [
         {
@@ -103,12 +90,18 @@ const Header = observer(() => {
             onClick: () => history.push('/notifications')
         },
         {
-            Icon: (
-                <Avatar
-                    className={classes.avatar}
-                    src="https://scontent.fhan4-1.fna.fbcdn.net/v/t1.6435-9/121083834_1699921320175513_6807580545774400741_n.jpg?_nc_cat=105&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=hfVRPKiVyaAAX-_QYhQ&_nc_ht=scontent.fhan4-1.fna&oh=fb6798aedb06700257a6b62a9815e721&oe=608BA140"
-                />
-            ),
+            Icon:
+                loginStore.userInfo && loginStore.userInfo.avatar ? (
+                    <Avatar
+                        className={classes.avatar}
+                        src={loginStore.userInfo.avatar}
+                    />
+                ) : (
+                    <Avatar
+                        className={classes.avatar}
+                        src="https://scontent.fhan4-1.fna.fbcdn.net/v/t1.6435-9/121083834_1699921320175513_6807580545774400741_n.jpg?_nc_cat=105&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=hfVRPKiVyaAAX-_QYhQ&_nc_ht=scontent.fhan4-1.fna&oh=fb6798aedb06700257a6b62a9815e721&oe=608BA140"
+                    />
+                ),
             title: 'Me',
             arrow: true,
             onClick: handleClick
@@ -135,7 +128,7 @@ const Header = observer(() => {
                 <div className={classes.header__container}>
                     <div className={classes.header__logo}>
                         <img
-                            src={Logo}
+                            src="/rfm-icon.png"
                             alt="logo"
                             onClick={() => history.push('/home')}
                         />
@@ -158,12 +151,12 @@ const Header = observer(() => {
                                 onClick={onClick}
                             />
                         ))}
-                        <MenuItems
+                        {/* <MenuItems
                             key={'mode'}
                             Icon={<BrightnessHighIcon />}
                             title={'Theme'}
                             onClick={() => console.log('Change theme')}
-                        />
+                        /> */}
                     </div>
                     <Paper className={classes.header__bottom__nav}>
                         {bottomItems.map(
@@ -197,34 +190,29 @@ const Header = observer(() => {
                     }
                 }}>
                 <List style={{ padding: 0 }}>
-                    <ListItem
-                        alignItems="flex-start"
-                        button
-                        onClick={onClickProfile}>
-                        <ListItemAvatar style={{ minWidth: '50px' }}>
-                            <Avatar />
-                        </ListItemAvatar>
-                        <ListItemText
-                            primary={
-                                <Typography className={classes.name}>
-                                    Tung Nguyen
-                                </Typography>
-                            }
-                            secondary={
-                                <Typography className={classes.headline}>
-                                    Internship Trainee at Data Communication of
-                                    VietNam
-                                </Typography>
-                            }
-                        />
-                    </ListItem>
+                    {loginStore.userInfo && (
+                        <ListItem
+                            alignItems="flex-start"
+                            button
+                            onClick={onClickProfile}>
+                            <ListItemAvatar style={{ minWidth: '50px' }}>
+                                <Avatar src={loginStore.userInfo.avatar} />
+                            </ListItemAvatar>
+                            <ListItemText
+                                primary={
+                                    <Typography className={classes.name}>
+                                        {loginStore.userInfo.name}
+                                    </Typography>
+                                }
+                                secondary={
+                                    <Typography className={classes.headline}>
+                                        {loginStore.userInfo.headline}
+                                    </Typography>
+                                }
+                            />
+                        </ListItem>
+                    )}
                 </List>
-
-                <Grid container justify="center">
-                    <Button className={classes.btn} onClick={onClickCreateOrg}>
-                        Create an organization
-                    </Button>
-                </Grid>
 
                 <Divider style={{ marginTop: '10px' }} />
 
@@ -233,12 +221,12 @@ const Header = observer(() => {
                         Account
                     </Typography>
                     <Link
-                        href="/change-password"
+                        to="/change-password"
                         style={{ color: '#808080', lineHeight: '20px' }}>
                         Setting
                     </Link>
                     <Link
-                        href=""
+                        to="/"
                         style={{ color: '#808080', lineHeight: '20px' }}>
                         Help
                     </Link>
@@ -251,21 +239,26 @@ const Header = observer(() => {
                         Manage
                     </Typography>
                     <Link
-                        href="#"
+                        to="#"
                         style={{ color: '#808080', lineHeight: '20px' }}>
                         Post & Activity
                     </Link>
                     <Link
-                        href="#"
+                        to="#"
                         style={{ color: '#808080', lineHeight: '20px' }}>
                         Job Posting
+                    </Link>
+                    <Link
+                        to="/organization/new"
+                        style={{ color: '#808080', lineHeight: '20px' }}>
+                        Create an organization
                     </Link>
                 </Grid>
 
                 <Divider style={{ marginBottom: '10px' }} />
 
                 <Grid container justify="center" style={{ marginBottom: 10 }}>
-                    <Button className={classes.btn} onClick={SignOut}>
+                    <Button className={classes.btn} onClick={() => SignOut()}>
                         sign out
                     </Button>
                 </Grid>

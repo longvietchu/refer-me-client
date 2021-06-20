@@ -24,7 +24,7 @@ export default makeStyles((theme) => ({
         marginTop: 20,
         '& > img': {
             width: 'auto',
-            height: 35
+            height: 100
         },
         flexDirection: 'column'
     },
@@ -48,7 +48,9 @@ export default makeStyles((theme) => ({
         height: 30,
         borderRadius: 4,
         fontSize: 14,
-        fontWeight: 600
+        fontWeight: 600,
+        backgroundColor: '#0a66c2',
+        color: '#fff'
     },
 
     google: {

@@ -14,21 +14,12 @@ interface MessageData {
     user: string;
 }
 
-interface MessageListData {
-    id: string;
-    data: MessageData;
-}
-
 const MessagingScreen = () => {
     const classes = Styles();
-
-    // const [sender, setSender] = React.useState<string>("");
-    // const [messages, setMessages] = React.useState<MessageListData[]>([]);
-
     return (
         <Grid className={classes.app}>
             <Helmet>
-                <title>Messaging | RefMe</title>
+                <title>Refer Me | Messaging</title>
             </Helmet>
             <Grid item container className={classes.app__header}>
                 {/* Header */}

@@ -3,7 +3,7 @@ import { organizationService } from './organizationService';
 
 import HttpStatusCode from '../../common/constants/HttpErrorCode';
 
-import { formatYYYYMMDD } from '../../common/config/Function';
+// import { formatYYYYMMDD } from '../../common/config/Function';
 
 export interface IOrganization {
     name: string;
@@ -20,7 +20,7 @@ class OrganizationStore {
     constructor() {
         makeAutoObservable(this);
     }
-    
+
     name: string = '';
     avatar: string | undefined = '';
     background_image: string = '';

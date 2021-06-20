@@ -8,13 +8,10 @@ import {
     Button,
     TextField
 } from '@material-ui/core';
-
 import Header from '../../../common/components/header/Header';
 import { Helmet } from 'react-helmet';
-
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import CancelRoundedIcon from '@material-ui/icons/CancelRounded';
-
 import Styles from './Style';
 import {
     KeyboardDatePicker,
@@ -22,7 +19,7 @@ import {
     DatePicker
 } from '@material-ui/pickers';
 import 'date-fns';
-import { formatYYYYMMDD } from '../../../common/config/Function';
+// import { formatYYYYMMDD } from '../../../common/config/Function';
 
 import DateFnsUtils from '@date-io/date-fns';
 
@@ -122,13 +119,7 @@ const CreateOrganization = observer(() => {
     };
 
     const onClickCreate = () => {
-        let createSuccess = organizationStore.createOrganization();
-        // if (createSuccess) {
-        //     enqueueSnackbar('Create education success!', {
-        //         variant: 'success'
-        //     });
-        //     history.push('/profile');
-        // }
+        history.push('/profile');
     };
     return (
         <Grid
@@ -217,19 +208,7 @@ const CreateOrganization = observer(() => {
                                         // value={organizationStore.company_size}
                                     />
                                 </Grid>
-                                {/* <Grid item>
-                                    <TextField
-                                        required
-                                        label="Organization type"
-                                        variant="outlined"
-                                        fullWidth
-                                        value={organizationStore.}
-                                        onChange={(e) =>
-                                            (organizationStore. =
-                                                e.target.value)
-                                        }
-                                    />
-                                </Grid> */}
+
                                 <Grid item>
                                     <TextField
                                         label="description"
@@ -240,34 +219,16 @@ const CreateOrganization = observer(() => {
                                             (organizationStore.description =
                                                 e.target.value)
                                         }
-                                        // value={organizationStore.description}
                                     />
                                 </Grid>
 
                                 <Grid container item justify="space-around">
                                     <Grid item>
-                                        {/* <MuiPickersUtilsProvider
-                                            utils={DateFnsUtils}>
-                                            <DatePicker
-                                                variant="inline"
-                                                format="MM/dd/yyyy"
-                                                label="Organization founding"
-                                                onChange={(date: any) =>
-                                                    // (organizationStore.founded =
-                                                    //     date)
-                                                    console.log('date', date)
-                                                }
-                                                value={
-                                                    organizationStore.founded
-                                                }
-                                            />
-                                        </MuiPickersUtilsProvider> */}
                                         <TextField
                                             id="date"
                                             label="Organization founding"
                                             type="date"
                                             defaultValue="2017-05-24"
-                                            // className={classes.textField}
                                             InputLabelProps={{
                                                 shrink: true
                                             }}

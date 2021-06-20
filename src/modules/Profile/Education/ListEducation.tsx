@@ -1,120 +1,113 @@
-import { Button, Divider, Link } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
-import { Edit, FiberManualRecordOutlined } from '@material-ui/icons';
+import React from 'react';
+import { Button, Grid } from '@material-ui/core';
+import { Edit } from '@material-ui/icons';
 import { observer } from 'mobx-react-lite';
-
+import { Link } from 'react-router-dom';
 import { profileStore } from '../profileStore';
-import { educationStore } from './educationStore';
+import LoadingCard from '../../../common/components/util/LoadingCard';
+import { numberUtil } from '../../../common/utils/NumberUtil';
 import { loginStore } from '../../Login/loginStore';
-
-import { formatYear } from '../../../common/config/Function';
+import Styles from './Style';
 
 const ListEducation = observer(() => {
-    const distance = (a: any, b: any) => {
-        if (b - a < 1) {
-            return b - a + 1 + ' year';
-        } else return b - a + ' years';
-    };
-    if (educationStore.userEdu) {
-        const data = educationStore.userEdu.slice();
+    const classes = Styles();
+
+    if (profileStore.educationList) {
         return (
-            <div>
-                {data.map((item, index) => (
-                    <div>
-                        <Grid
-                            container
-                            key={item._id}
-                            direction="row"
-                            justify="space-between"
-                            alignItems="center"
-                            style={{ padding: '0 0 24px' }}>
-                            <Link
-                                href="#"
-                                color="inherit"
-                                style={{ padding: '20px 5px 0px 24px' }}>
-                                <Grid
-                                    container
-                                    direction="row"
-                                    justify="space-between"
-                                    alignItems="flex-start"
-                                    style={{ marginRight: '14px' }}>
-                                    <div>
+            <div style={{ padding: '0 18px' }}>
+                {profileStore.educationList.map((item, index) => (
+                    <Grid
+                        container
+                        direction="row"
+                        justify="space-between"
+                        style={{
+                            borderBottom: '1px solid #ebebeb',
+                            padding: '12px 0'
+                        }}
+                        key={item._id}>
+                        <Link
+                            to={
+                                item.organization_info
+                                    ? `/organization/${item.organization_info._id}`
+                                    : '#'
+                            }
+                            color="inherit"
+                            className={classes.link}>
+                            <Grid
+                                container
+                                direction="row"
+                                justify="space-between"
+                                alignItems="flex-start"
+                                style={{ marginRight: '14px' }}>
+                                <div>
+                                    {item.organization_info &&
+                                    item.organization_info.avatar ? (
                                         <img
                                             style={{
                                                 height: '56px',
                                                 width: '56px'
                                             }}
-                                            src={
-                                                item.organization_info
-                                                    ? item.organization_info
-                                                          .avatar
-                                                    : null
-                                            }
+                                            src={item.organization_info.avatar}
                                         />
-                                    </div>
-                                    <div>
-                                        <h3>{item.title}</h3>
-                                        <p
+                                    ) : (
+                                        <img
                                             style={{
-                                                fontSize: '14px',
-                                                margin: '2px 0px'
-                                            }}>
-                                            {item.description}
-                                        </p>
-                                        <div
-                                            style={{
-                                                color: '#00000099',
-                                                fontSize: '14px',
-                                                margin: '2px 0px'
-                                            }}>
-                                            <span>
-                                                {formatYear(item.joined_at)}{' '}
-                                                {'-'}{' '}
-                                                {formatYear(item.graduated_at)}
-                                            </span>
-                                            <FiberManualRecordOutlined
-                                                style={{
-                                                    fontSize: '0.5rem',
-                                                    margin: '0px 4px'
-                                                }}
-                                            />
-                                            <span>
-                                                {distance(
-                                                    formatYear(item.joined_at),
-                                                    formatYear(
-                                                        item.graduated_at
-                                                    )
-                                                )}
-                                            </span>
-                                        </div>
+                                                height: '56px',
+                                                width: '56px'
+                                            }}
+                                            src="/images/no-avatar.png"
+                                        />
+                                    )}
+                                </div>
+                                <div>
+                                    <h4>{item.title}</h4>
+                                    <p
+                                        style={{
+                                            fontSize: '14px',
+                                            margin: '2px 0px'
+                                        }}>
+                                        {item.description}
+                                    </p>
+                                    <div
+                                        style={{
+                                            color: '#00000099',
+                                            fontSize: '14px',
+                                            margin: '2px 0px'
+                                        }}>
+                                        <span>
+                                            {numberUtil.convertUtcToYear(
+                                                item.joined_at
+                                            )}{' '}
+                                            -{' '}
+                                            {numberUtil.convertUtcToYear(
+                                                item.graduated_at
+                                            )}
+                                        </span>
                                     </div>
-                                </Grid>
-                            </Link>
-
-                            {profileStore.profile &&
-                            item.user_id === profileStore.profile.user_id ? (
-                                <Grid item style={{ margin: '20px 10px 0' }}>
+                                </div>
+                            </Grid>
+                        </Link>
+                        {loginStore.userInfo &&
+                            profileStore.profile &&
+                            loginStore.userInfo.id ===
+                                profileStore.profile.user_id && (
+                                <Grid item>
                                     <Button
                                         onClick={() => {
-                                            educationStore.modalEditEducation =
-                                                true;
-                                            educationStore.selectedEducation =
+                                            profileStore.selectedEducation =
                                                 item;
+                                            profileStore.modalEducation.edit =
+                                                true;
                                         }}>
-                                        <Edit style={{ color: '#0a66c2' }} />
+                                        <Edit style={{ color: '#0000008a' }} />
                                     </Button>
                                 </Grid>
-                            ) : null}
-                        </Grid>
-
-                        {data && data.length > 1 && index != data.length - 1 ? (
-                            <Divider style={{ marginLeft: '94px' }} />
-                        ) : null}
-                    </div>
+                            )}
+                    </Grid>
                 ))}
             </div>
         );
-    } else return null;
+    } else return <LoadingCard />;
 });
 
 export default ListEducation;

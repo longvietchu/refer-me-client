@@ -5,13 +5,11 @@ import {
     TextField,
     InputAdornment,
     Typography,
-    FormHelperText,
-    Link
+    FormHelperText
 } from '@material-ui/core';
-import Logo from '../../../common/assets/images/text_logo.png';
 import Style from './Style';
 import { AccountCircle, LockRounded } from '@material-ui/icons';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import { observer } from 'mobx-react-lite';
 import { loginStore } from '../loginStore';
@@ -22,10 +20,10 @@ const LoginCard = observer(() => {
     let history = useHistory();
 
     const Login = async () => {
-        loginStore.login();
-        if (loginStore.loginState) {
+        let isLoginSuccess = await loginStore.login();
+        if (isLoginSuccess) {
             history.push('/home');
-            enqueueSnackbar('Login success!', { variant: 'success' });
+            enqueueSnackbar('Sign in success!', { variant: 'success' });
         }
     };
 
@@ -33,7 +31,7 @@ const LoginCard = observer(() => {
     return (
         <Paper elevation={3} className={classes.card}>
             <header className={classes.header}>
-                <img src={Logo} alt="logo" />
+                <img src="/rfm-icon.png" alt="Refer Me" />
             </header>
 
             <Typography variant="h4">Sign in</Typography>
@@ -72,11 +70,11 @@ const LoginCard = observer(() => {
                         )
                     }}
                     type="password"
-                    value={loginStore.password}
                     placeholder="enter your password..."
                     onChange={(e) => {
                         loginStore.password = e.target.value;
                     }}
+                    value={loginStore.password}
                     onKeyDown={LoginEnter}
                 />
 
@@ -93,19 +91,17 @@ const LoginCard = observer(() => {
 
                 <Button
                     onClick={Login}
-                    color="primary"
                     variant="contained"
-                    className={classes.btn}
-                    style={{ opacity: loginStore.isLoading ? 0.5 : 1 }}
+                    color="primary"
                     disabled={loginStore.isLoading ? true : false}>
-                    {loginStore.isLoading ? 'Loging In...' : 'Log In'}
+                    {loginStore.isLoading ? 'Signing In...' : 'Sign In'}
                 </Button>
             </form>
 
             <div className={classes.google}>
                 <div style={{ marginBottom: 10 }}>
                     New to Refer Me? {''}
-                    <Link href="/signup">Join now</Link>
+                    <Link to="/signup">Join now</Link>
                 </div>
             </div>
         </Paper>

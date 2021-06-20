@@ -1,329 +1,398 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { Button, Paper, Avatar, Box, Hidden, Card } from '@material-ui/core';
+import {
+    Avatar,
+    Box,
+    Button,
+    Card,
+    Hidden,
+    LinearProgress,
+    Paper
+} from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { Edit, FiberManualRecordOutlined, Add } from '@material-ui/icons';
-import CreateExperience from './Experience/CreateExperience';
-import ListExperience from './Experience/ListExperience';
-import Widgets from '../../common/components/widgets/Widgets';
+import { Add, CameraAlt, Edit } from '@material-ui/icons';
+import { observer } from 'mobx-react-lite';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Header from '../../common/components/header/Header';
+import LoadingHeader from '../../common/components/util/LoadingHeader';
+import Widgets from '../../common/components/widgets/Widgets';
+import { stringUtil } from '../../common/utils/StringUtils';
+import { loginStore } from '../Login/loginStore';
+import ModalEdit from './EditProfile/ModalEdit';
+import CreateEducation from './Education/CreateEducation';
+import EditEducation from './Education/EditEducation';
+import ListEducation from './Education/ListEducation';
+import CreateExperience from './Experience/CreateExperience';
+import EditExperience from './Experience/EditExperience';
+import ListExperience from './Experience/ListExperience';
+import { profileStore } from './profileStore';
+import CreateSkill from './Skill/CreateSkill';
+import DeleteSkill from './Skill/DeleteSkill';
+import ListSkill from './Skill/ListSkill';
 import Styles from './Style';
 
-import { IEmployments } from './ProfileContainer';
-import CreateEducation from './Education/CreateEducation';
-import ModalEdit from './EditProfile/ModalEdit';
-import { observer } from 'mobx-react-lite';
-import { loginStore } from '../Login/loginStore';
-import { stringUtil } from '../../common/utils/StringUtils';
-
-import { profileStore } from './profileStore';
-import { experienceStore } from './Experience/experienceStore';
-import { educationStore } from './Education/educationStore';
-import ListEducation from './Education/ListEducation';
-import EditExperience from './Experience/EditExperience';
-import EditEducation from './Education/EditEducation';
-
-interface IProps {
-    CreateExp: any;
-    modalProfile: boolean;
-    modalExp: boolean;
-    modalEdu: boolean;
-    openModalProfile: VoidFunction;
-    closeModalProfile: VoidFunction;
-    openModal: VoidFunction;
-    closeModal: VoidFunction;
-    openModalEdu: VoidFunction;
-    closeModalEdu: VoidFunction;
-    startDate: any;
-    endDate: any;
-    setStartDate: any;
-    setEndDate: any;
-    setTitle: any;
-    setCompany: any;
-    setLocation: any;
-    setDescription: any;
-    setEmoloymentType: any;
-    employments: IEmployments[];
-}
-
-const ProfileScreen = observer((props: IProps) => {
-    useEffect(() => {
-        // if (profileStore.profile) {
-        //     experienceStore.getExperienceOfUser(profileStore.profile.user_id);
-        //     educationStore.getEducationOfUser(profileStore.profile.user_id);
-        // }
-    }, [educationStore.userEdu, experienceStore.userExp]);
-
-    useEffect(() => {
-        educationStore.getOrganization();
-    }, []);
-
-    const {
-        CreateExp,
-        modalProfile,
-        modalExp,
-        modalEdu,
-        openModalProfile,
-        closeModalProfile,
-        openModal,
-        closeModal,
-        openModalEdu,
-        closeModalEdu,
-        startDate,
-        endDate,
-        setStartDate,
-        setEndDate,
-        setTitle,
-        setCompany,
-        setLocation,
-        setDescription,
-        setEmoloymentType,
-        employments
-    } = props;
+const ProfileScreen = observer(() => {
     const classes = Styles();
     const history = useHistory();
+
+    const [tab, setTab] = useState('Home');
+
+    const onChangeAvatar = (e: any) => {
+        e.preventDefault();
+        let file = e.target.files[0];
+        profileStore.uploadAvatar(file);
+    };
+
+    const onChangeCoverImg = (e: any) => {
+        e.preventDefault();
+        let file = e.target.files[0];
+        profileStore.uploadCoverImage(file);
+    };
 
     if (loginStore.userInfo && profileStore.profile) {
         return (
             <Grid container className={classes.app}>
-                <Grid
-                    item
-                    container
-                    className={classes.app__header}
-                    // style={{
-                    //   boxShadow: mode && "0px 5px 10px -10px rgba(0,0,0,0.75)",
-                    // }}
-                >
-                    {/* Header */}
+                <Grid item container className={classes.app__header}>
                     <Header />
                 </Grid>
                 <Grid item container className={classes.app__body}>
                     <Grid item className={classes.body__feed} xs={12} md={7}>
                         <Card>
                             <Grid item xs={12}>
-                                <Paper className={classes.paper}>
+                                <Paper
+                                    className={classes.paper}
+                                    style={{
+                                        background: profileStore.profile
+                                            .background_image
+                                            ? `url(${profileStore.profile.background_image}) no-repeat center center`
+                                            : 'rgb(204, 214, 221)',
+                                        backgroundSize: 'cover'
+                                    }}>
+                                    <input
+                                        accept="image/*"
+                                        className={classes.input}
+                                        id="cover-image"
+                                        multiple
+                                        type="file"
+                                        onChange={(e) => {
+                                            onChangeCoverImg(e);
+                                        }}
+                                    />
+                                    {loginStore.userInfo.id ===
+                                        profileStore.profile.user_id && (
+                                        <label
+                                            htmlFor="cover-image"
+                                            className={classes.labelCover}>
+                                            <CameraAlt />
+                                        </label>
+                                    )}
                                     <div className={classes.avatarBox}>
                                         <Box>
                                             <Avatar
                                                 className={classes.avatar}
-                                                src={loginStore.userInfo.avatar}
+                                                src={
+                                                    profileStore.profile
+                                                        .user_info.avatar
+                                                }
                                             />
+                                            <input
+                                                accept="image/*"
+                                                className={classes.input}
+                                                id="avatar-image"
+                                                multiple
+                                                type="file"
+                                                onChange={(e) => {
+                                                    onChangeAvatar(e);
+                                                }}
+                                            />
+                                            {loginStore.userInfo.id ===
+                                                profileStore.profile
+                                                    .user_id && (
+                                                <label
+                                                    htmlFor="avatar-image"
+                                                    className={
+                                                        classes.labelAvatar
+                                                    }>
+                                                    <Edit />
+                                                </label>
+                                            )}
                                         </Box>
                                     </div>
                                 </Paper>
                             </Grid>
-                            <Grid style={{ marginLeft: '1rem' }} item xs={12}>
-                                <div
-                                    style={{ justifyContent: 'space-between' }}
-                                    className={classes.horizontalDiv}>
-                                    <div></div>
-                                    <Button
-                                        onClick={() =>
-                                            profileStore.openModalEditProfile()
+                            <Grid
+                                style={{
+                                    padding: '1rem',
+                                    display: 'flex',
+                                    justifyContent: 'space-between'
+                                }}
+                                item
+                                xs={12}>
+                                <div className={classes.userInfo}>
+                                    <Typography
+                                        className={classes.nameTypo}
+                                        variant="h6"
+                                        id="name">
+                                        {profileStore.profile.user_info.name}
+                                    </Typography>
+                                    <Typography id="username">
+                                        <small>
+                                            @
+                                            {stringUtil.unMark(
+                                                profileStore.profile.user_info
+                                                    .name
+                                            )}
+                                        </small>
+                                    </Typography>
+
+                                    <Typography
+                                        id="status"
+                                        style={{ fontSize: '1.2rem' }}>
+                                        {
+                                            profileStore.profile.user_info
+                                                .headline
                                         }
-                                        className={classes.btn}>
-                                        <Edit />
-                                    </Button>
+                                    </Typography>
                                 </div>
-                                <div>
-                                    <div
-                                        style={{ marginTop: '1rem' }}
-                                        className={classes.horizontalDiv}>
-                                        <Typography
-                                            className={classes.nameTypo}
-                                            variant="h6"
-                                            id="name">
-                                            {loginStore.userInfo.name}
-                                        </Typography>
-                                    </div>
-                                    <span>
-                                        <Typography id="username">
-                                            <small>
-                                                @
-                                                {stringUtil.unMark(
-                                                    loginStore.userInfo.name
-                                                )}
-                                            </small>
-                                        </Typography>
-                                    </span>
+
+                                <div className={classes.careerInfo}>
+                                    {loginStore.userInfo.id ===
+                                        profileStore.profile.user_id && (
+                                        <Button
+                                            onClick={() =>
+                                                (profileStore.modalProfileOpen =
+                                                    true)
+                                            }
+                                            className={classes.btn}>
+                                            <Edit />
+                                        </Button>
+                                    )}
+                                    {profileStore.experienceList && (
+                                        <div className={classes.summarizeInfo}>
+                                            {profileStore.experienceList[0]
+                                                .organization_info &&
+                                            profileStore.experienceList[0]
+                                                .organization_info.avatar ? (
+                                                <Avatar
+                                                    variant="square"
+                                                    src={
+                                                        profileStore
+                                                            .experienceList[0]
+                                                            .organization_info
+                                                            .avatar
+                                                    }
+                                                    style={{
+                                                        marginRight: 8,
+                                                        width: 25,
+                                                        height: 25
+                                                    }}
+                                                />
+                                            ) : (
+                                                <Avatar
+                                                    variant="square"
+                                                    src="/images/no-avatar.png"
+                                                    style={{
+                                                        marginRight: 8,
+                                                        width: 25,
+                                                        height: 25
+                                                    }}
+                                                />
+                                            )}
+                                            <Typography variant="subtitle2">
+                                                {
+                                                    profileStore
+                                                        .experienceList[0]
+                                                        .company
+                                                }
+                                            </Typography>
+                                        </div>
+                                    )}
+                                    {profileStore.educationList && (
+                                        <div className={classes.summarizeInfo}>
+                                            {profileStore.educationList[0]
+                                                .organization_info &&
+                                            profileStore.educationList[0]
+                                                .organization_info.avatar ? (
+                                                <Avatar
+                                                    variant="square"
+                                                    src={
+                                                        profileStore
+                                                            .educationList[0]
+                                                            .organization_info
+                                                            .avatar
+                                                    }
+                                                    style={{
+                                                        marginRight: 8,
+                                                        width: 25,
+                                                        height: 25
+                                                    }}
+                                                />
+                                            ) : (
+                                                <Avatar
+                                                    variant="square"
+                                                    src="/images/no-avatar.png"
+                                                    style={{
+                                                        marginRight: 8,
+                                                        width: 25,
+                                                        height: 25
+                                                    }}
+                                                />
+                                            )}
+                                            <Typography variant="subtitle2">
+                                                {
+                                                    profileStore
+                                                        .educationList[0].title
+                                                }
+                                            </Typography>
+                                        </div>
+                                    )}
                                 </div>
-                                <div>
-                                    <span>
-                                        <Typography
-                                            id="status"
-                                            style={{
-                                                fontSize: '1.2rem'
-                                            }}>
-                                            {profileStore.profile.headline}
-                                        </Typography>
-                                    </span>
-                                </div>
-                                <Grid
-                                    container
-                                    direction="row"
-                                    justify="flex-start"
-                                    alignItems="center"
-                                    spacing={1}
-                                    style={{ padding: '5px 0 8px' }}>
-                                    <Grid item>
-                                        <span>
-                                            <Typography id="location">
-                                                Hanoi, Hanoi, Vietnam
-                                            </Typography>
-                                        </span>
-                                    </Grid>
-                                    <FiberManualRecordOutlined
-                                        style={{ fontSize: '0.5rem' }}
-                                    />
-                                    <Grid item>
-                                        <span>
-                                            <Typography
-                                                id="location"
-                                                style={{ color: '#0a66c2' }}>
-                                                1 connection
-                                            </Typography>
-                                        </span>
-                                    </Grid>
-                                    <FiberManualRecordOutlined
-                                        style={{ fontSize: '0.5rem' }}
-                                    />
-                                    <Grid item>
-                                        <span>
-                                            <Typography
-                                                id="location"
-                                                style={{ color: '#0a66c2' }}>
-                                                Contact info
-                                            </Typography>
-                                        </span>
-                                    </Grid>
-                                </Grid>
                             </Grid>
                         </Card>
 
-                        <Card style={{ marginTop: '20px' }}>
+                        <Card style={{ marginTop: 16, padding: 24 }}>
+                            <Grid item>
+                                <Typography
+                                    id="status"
+                                    style={{
+                                        fontSize: '1.2rem',
+                                        fontWeight: 500
+                                    }}>
+                                    About
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <Typography style={{ fontSize: 15 }}>
+                                    {profileStore.profile.about}
+                                </Typography>
+                            </Grid>
+                        </Card>
+
+                        <Card style={{ marginTop: '16px' }}>
                             <Grid
                                 container
                                 direction="row"
                                 justify="space-between"
-                                alignItems="center">
-                                <Grid item style={{ margin: '24px 24px 0' }}>
+                                alignItems="center"
+                                style={{ padding: '16px 16px 0 16px' }}>
+                                <Grid item>
                                     <Typography
                                         id="status"
-                                        style={{ fontSize: '1.2rem' }}>
+                                        style={{
+                                            fontSize: '1.2rem',
+                                            fontWeight: 500
+                                        }}>
                                         Experience
                                     </Typography>
                                 </Grid>
-
                                 {loginStore.userInfo.id ===
-                                profileStore.profile.user_id ? (
-                                    <Grid
-                                        item
-                                        style={{ margin: '24px 10px 0' }}>
+                                    profileStore.profile.user_id && (
+                                    <Grid item>
                                         <Button
                                             onClick={() =>
-                                                experienceStore.openModalCreateExperience()
+                                                (profileStore.modalExperience.create =
+                                                    true)
                                             }>
-                                            <Add style={{ color: '#0a66c2' }} />
+                                            <Add
+                                                style={{ color: '#0000008a' }}
+                                            />
                                         </Button>
                                     </Grid>
-                                ) : null}
+                                )}
                             </Grid>
                             <ListExperience />
                         </Card>
 
-                        <Card style={{ marginTop: '20px' }}>
+                        <Card style={{ marginTop: '16px' }}>
                             <Grid
                                 container
                                 direction="row"
                                 justify="space-between"
-                                alignItems="center">
-                                <Grid item style={{ margin: '24px 24px 0' }}>
+                                alignItems="center"
+                                style={{ padding: '16px 16px 0 16px' }}>
+                                <Grid item>
                                     <Typography
                                         id="status"
-                                        style={{ fontSize: '1.2rem' }}>
+                                        style={{
+                                            fontSize: '1.2rem',
+                                            fontWeight: 500
+                                        }}>
                                         Education
                                     </Typography>
                                 </Grid>
                                 {loginStore.userInfo.id ===
-                                profileStore.profile.user_id ? (
-                                    <Grid
-                                        item
-                                        style={{ margin: '24px 10px 0' }}>
+                                    profileStore.profile.user_id && (
+                                    <Grid item>
                                         <Button
                                             onClick={() =>
-                                                educationStore.openModalCreateEducation()
+                                                (profileStore.modalEducation.create =
+                                                    true)
                                             }>
-                                            <Add style={{ color: '#0a66c2' }} />
+                                            <Add
+                                                style={{ color: '#0000008a' }}
+                                            />
                                         </Button>
                                     </Grid>
-                                ) : null}
+                                )}
                             </Grid>
                             <ListEducation />
+                        </Card>
+                        <Card style={{ marginTop: '16px' }}>
+                            <Grid
+                                container
+                                direction="row"
+                                justify="space-between"
+                                alignItems="center"
+                                style={{ padding: '16px 16px 0 16px' }}>
+                                <Grid item>
+                                    <Typography
+                                        id="status"
+                                        style={{
+                                            fontSize: '1.2rem',
+                                            fontWeight: 500
+                                        }}>
+                                        Skills & endorsements
+                                    </Typography>
+                                </Grid>
+                                {loginStore.userInfo.id ===
+                                    profileStore.profile.user_id && (
+                                    <Grid item>
+                                        <Button
+                                            onClick={() =>
+                                                (profileStore.modalSkill.create =
+                                                    true)
+                                            }>
+                                            <Add
+                                                style={{ color: '#0000008a' }}
+                                            />
+                                        </Button>
+                                    </Grid>
+                                )}
+                            </Grid>
+                            <ListSkill />
                         </Card>
                     </Grid>
 
                     <Hidden smDown>
                         <Grid item className={classes.body__widgets} md={3}>
-                            {/* Widgets */}
                             <Widgets />
                         </Grid>
                     </Hidden>
 
-                    <ModalEdit
-                        // open={editProfile}
-                        // onClose={() => setEditProfile(false)}
-                        // closeModal={() => setEditProfile(false)}
-                        // modalProfile={modalProfile}
-                        // closeModalProfile={closeModalProfile}
-                        startDate={startDate}
-                        endDate={endDate}
-                        setStartDate={setStartDate}
-                        setEndDate={setEndDate}
-                    />
-                    <CreateExperience
-                        modalExp={modalExp}
-                        closeModal={closeModal}
-                        CreateExp={CreateExp}
-                        startDate={startDate}
-                        endDate={endDate}
-                        setStartDate={setStartDate}
-                        setEndDate={setEndDate}
-                        setTitle={setTitle}
-                        setCompany={setCompany}
-                        setLocation={setLocation}
-                        setDescription={setDescription}
-                        setEmoloymentType={setEmoloymentType}
-                        employments={employments}
-                    />
-                    <EditExperience
-                        modalExp={modalExp}
-                        closeModal={closeModal}
-                        CreateExp={CreateExp}
-                        startDate={startDate}
-                        endDate={endDate}
-                        setStartDate={setStartDate}
-                        setEndDate={setEndDate}
-                        setTitle={setTitle}
-                        setCompany={setCompany}
-                        setLocation={setLocation}
-                        setDescription={setDescription}
-                        setEmoloymentType={setEmoloymentType}
-                        employments={employments}
-                    />
-                    <CreateEducation
-                        modalEdu={modalEdu}
-                        closeModalEdu={closeModalEdu}
-                        startDate={startDate}
-                        endDate={endDate}
-                        setStartDate={setStartDate}
-                        setEndDate={setEndDate}
-                    />
+                    <CreateExperience />
+                    <CreateEducation />
+                    <CreateSkill />
+
+                    <ModalEdit />
+                    <EditExperience />
                     <EditEducation />
+                    <DeleteSkill />
                 </Grid>
             </Grid>
         );
-    } else return null;
+    } else return <LoadingHeader />;
+    // return <LoadingCard />;
+    // return <Redirect to="/create/profile" />;
 });
 
 export default ProfileScreen;

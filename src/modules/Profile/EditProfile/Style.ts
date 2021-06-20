@@ -1,9 +1,9 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export default makeStyles((theme) => ({
+export default makeStyles(() => ({
     form: {
         width: '100%',
-        marginTop: '6rem',
+        marginTop: '2rem',
         marginBottom: '2rem'
     },
     paper: {
@@ -13,13 +13,17 @@ export default makeStyles((theme) => ({
         position: 'relative',
         bottom: '1rem',
         top: '0rem',
-        marginLeft: '0.7rem'
+        marginLeft: '0.7rem',
+        marginTop: '5rem'
     },
     avatar: {
         border: '4px solid white',
         height: '8rem',
         width: '8rem',
-        marginTop: '0rem'
+        marginTop: '0rem',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center'
     },
     input: {
         display: 'none'
@@ -28,7 +32,10 @@ export default makeStyles((theme) => ({
         backgroundColor: 'rgb(204, 214, 221)',
         height: '12rem',
         marginTop: '1rem',
-        opacity: '0.75'
+        opacity: '0.75',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center'
     },
     icon: {
         color: 'rgba(29,161,242,1.00)',
@@ -39,19 +46,8 @@ export default makeStyles((theme) => ({
         width: '5rem'
     },
     btn: {
-        backgroundColor: 'rgba(29,161,242,1.00)',
-        color: 'white',
-        fontWeight: 'bold',
-        fontSize: '15px',
-        marginTop: '0.7rem',
-        marginRight: '1rem',
-        textTransform: 'capitalize',
-        '&:hover': {
-            backgroundColor: 'rgba(29,161,242,1.00)'
-        },
-        '&:focus': {
-            backgroundColor: 'rgba(29,161,242,1.00)'
-        }
+        width: 100,
+        marginLeft: 12
     },
     header: {
         display: 'flex',
@@ -70,7 +66,8 @@ export default makeStyles((theme) => ({
         height: '15%'
     },
     camera: {
-        marginLeft: '50%',
-        marginTop: '4rem'
+        backgroundColor: '#fff',
+        marginTop: 8,
+        marginLeft: 8
     }
 }));

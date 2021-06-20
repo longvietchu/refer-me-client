@@ -20,23 +20,25 @@ import BookmarkIcon from '@material-ui/icons/Bookmark';
 import CreateIcon from '@material-ui/icons/Create';
 
 import ModalPostJob from './ModalPostJob';
-// import jobs from "./jobs";
 import JobCard from '../../common/components/jobs/JobCard';
+import LoadingCard from '../../common/components/util/LoadingCard';
+
 import Styles from './Style';
 
 import { IJob } from './JobContainer';
+import { observer } from 'mobx-react-lite';
 
-interface IProps {
-    onSave: any;
-    job: IJob[];
-}
+import { jobStore } from './jobStore';
 
-const JobScreen = (props: IProps) => {
+// interface IProps {
+//     onSave: any;
+//     job: IJob[];
+// }
+
+const JobScreen = observer(() => {
     const classes = Styles();
 
-    const { onSave, job } = props;
-
-    console.log('onSave', onSave);
+    // const { onSave, job } = props;
 
     const [modalIsOpen, setModalIsOpen] = React.useState(false);
 
@@ -57,12 +59,16 @@ const JobScreen = (props: IProps) => {
                 <Header />
             </Grid>
 
-            <Grid item direction="column" className={classes.app_body}>
-                <Grid item className={classes.body__feed} xs={12}>
+            <Grid
+                container
+                item
+                // direction="column"
+                className={classes.app_body}>
+                <Grid item className={classes.body__feed} xs={12} md={12}>
                     <Grid item className={classes.feed__form}>
                         <Paper className={classes.paper}>
                             <Grid container justify="space-between">
-                                <IconButton href="#">
+                                <IconButton>
                                     <BookmarkIcon />
                                     <Typography
                                         component="span"
@@ -83,10 +89,54 @@ const JobScreen = (props: IProps) => {
                                 </IconButton>
                             </Grid>
                         </Paper>
+
+                        <Paper className={classes.paperListJob}>
+                            <div style={{ padding: '20px 24px 0' }}>
+                                <Typography
+                                    style={{
+                                        fontSize: '20px',
+                                        fontWeight: 'bold'
+                                    }}>
+                                    Recommended for you
+                                </Typography>
+                                <Typography
+                                    variant="caption"
+                                    style={{ fontSize: '14px' }}>
+                                    Based on your profile and search history
+                                </Typography>
+                            </div>
+                            <Box className={classes.box}>
+                                <Container maxWidth={false}>
+                                    <Box pt={3}>
+                                        <Grid container spacing={5}>
+                                            {jobStore.jobList ? (
+                                                jobStore.jobList.map(
+                                                    (job, index) => (
+                                                        <Grid
+                                                            item
+                                                            key={job._id}
+                                                            lg={3}
+                                                            md={6}
+                                                            xs={12}>
+                                                            <JobCard
+                                                                job={job}
+                                                                // onSave={onSave}
+                                                            />
+                                                        </Grid>
+                                                    )
+                                                )
+                                            ) : (
+                                                <LoadingCard />
+                                            )}
+                                        </Grid>
+                                    </Box>
+                                </Container>
+                            </Box>
+                        </Paper>
                     </Grid>
                 </Grid>
 
-                <Grid item className={classes.body__feed} xs={12}>
+                {/* <Grid item className={classes.body__feed} xs={12} md={12}>
                     <Grid item className={classes.feed__form}>
                         <Paper className={classes.paper_search}>
                             <Typography
@@ -146,9 +196,9 @@ const JobScreen = (props: IProps) => {
                             </Grid>
                         </Paper>
                     </Grid>
-                </Grid>
+                </Grid> */}
 
-                <Grid item className={classes.body__feed} xs={12}>
+                {/* <Grid item className={classes.body__feed} xs={12} md={12}>
                     <Grid item className={classes.feed__form}>
                         <Paper className={classes.paper}>
                             <div style={{ padding: '20px 24px 0' }}>
@@ -169,30 +219,36 @@ const JobScreen = (props: IProps) => {
                                 <Container maxWidth={false}>
                                     <Box pt={3}>
                                         <Grid container spacing={5}>
-                                            {job.map((item: IJob) => (
-                                                <Grid
-                                                    item
-                                                    key={item.id}
-                                                    lg={3}
-                                                    md={6}
-                                                    xs={12}>
-                                                    <JobCard
-                                                        job={item}
-                                                        onSave={onSave}
-                                                    />
-                                                </Grid>
-                                            ))}
+                                            {jobStore.jobList ? (
+                                                jobStore.jobList.map(
+                                                    (job, index) => (
+                                                        <Grid
+                                                            item
+                                                            key={job._id}
+                                                            lg={3}
+                                                            md={6}
+                                                            xs={12}>
+                                                            <JobCard
+                                                                job={job}
+                                                                // onSave={onSave}
+                                                            />
+                                                        </Grid>
+                                                    )
+                                                )
+                                            ) : (
+                                                <LoadingCard />
+                                            )}
                                         </Grid>
                                     </Box>
                                 </Container>
                             </Box>
                         </Paper>
                     </Grid>
-                </Grid>
+                </Grid> */}
             </Grid>
             <ModalPostJob modalIsOpen={modalIsOpen} closeModal={closeModal} />
         </Grid>
     );
-};
+});
 
 export default JobScreen;
