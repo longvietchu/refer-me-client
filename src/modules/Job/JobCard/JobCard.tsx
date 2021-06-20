@@ -10,6 +10,8 @@ import {
     Typography
 } from '@material-ui/core';
 
+import { Link, useHistory } from 'react-router-dom';
+
 import { VariantType, useSnackbar } from 'notistack';
 
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
@@ -34,14 +36,7 @@ const JobCard = observer((props: any) => {
     const [isSave, setIsSave] = React.useState(false);
 
     const { enqueueSnackbar } = useSnackbar();
-
-    const difDate = () => {
-        let date1 = new Date(job.created_at).getTime();
-        let date2 = new Date().getTime();
-
-        let d = Math.abs((date2 - date1) / (1000 * 3600 * 24));
-        return d + 'days';
-    };
+    let history = useHistory();
 
     console.log('job', job);
 
@@ -60,23 +55,24 @@ const JobCard = observer((props: any) => {
         <Card
             className={classes.card}
             // {...rest}
-            onClick={() => console.log('1')}>
-            <CardActionArea>
+            onClick={() => history.push(`/jobs/${job._id}`)}>
+            <CardActionArea
+                style={{
+                    height: '100%'
+                }}>
                 <CardContent>
                     <Box pb={3} className={classes.box}>
                         {job.organization_info &&
                         job.organization_info.avatar ? (
-                            <Avatar
+                            <img
                                 alt="Jobs"
                                 src={job.organization_info.avatar}
-                                variant="square"
                                 style={{ height: 72, width: 72 }}
                             />
                         ) : (
-                            <Avatar
+                            <img
                                 alt="Jobs"
                                 src="/images/no-avatar.png"
-                                variant="square"
                                 style={{ height: 72, width: 72 }}
                             />
                         )}
@@ -113,7 +109,11 @@ const JobCard = observer((props: any) => {
                         <Typography variant="body1" className={classes.company}>
                             {job.organization_info.name}
                         </Typography>
-                    ) : null}
+                    ) : (
+                        <Typography variant="body1" className={classes.company}>
+                            {job.user_info.name}
+                        </Typography>
+                    )}
 
                     <Typography
                         gutterBottom

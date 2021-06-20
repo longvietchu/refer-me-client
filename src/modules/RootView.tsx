@@ -14,6 +14,7 @@ import ProfileOrgContainer from './Organization/ProfileOrganization/ProfileOrgCo
 import ChangePasswordScreen from './ChangePassword/ChangePasswordScreen';
 import StorageService from '../common/service/StorageService';
 import CreateProfile from './Profile/CreateProfile/CreateProfile';
+import DetailJob from './Job/DetailJob/DetailJob';
 
 const RootView = () => {
     const PrivateRoute = ({ children, ...rest }: any) => {
@@ -50,6 +51,10 @@ const RootView = () => {
 
             <Route exact path="/jobs">
                 <JobContainer />
+            </Route>
+
+            <Route path="/jobs/:_id">
+                <DetailJob />
             </Route>
 
             <PrivateRoute exact path="/mynetwork">

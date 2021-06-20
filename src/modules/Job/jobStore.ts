@@ -19,6 +19,7 @@ interface IJob {
     industry: string;
     job_functions: string;
     organization_id: string;
+    organization_info: IOrganizationInfo;
     user_id: string;
     user_info: IUserInfo;
     created_at: string;
@@ -39,6 +40,7 @@ class JobStore {
     }
 
     jobList?: IJob[];
+    detailJob?: IJob;
     jobPage: number = 0;
     jobLimit: number = 10;
     jobMeta?: IMetaData;
@@ -74,6 +76,14 @@ class JobStore {
             this.jobList = result.body.data;
             this.jobMeta = result.body.meta;
         }
+    }
+
+    async getOneJob(_id: any) {
+        const result = await jobService.getOneJob(_id);
+        if (result.status < HttpStatusCode.CODE_300) {
+            this.detailJob = result.body.data;
+        }
+        console.log('result', result);
     }
 
     async searchOrganization(keyword: string) {

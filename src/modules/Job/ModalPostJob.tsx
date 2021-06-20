@@ -57,7 +57,7 @@ const customStyles = {
         bottom: 'auto',
         transform: 'translate(-50%, -50%)',
         height: '80%',
-        width: '30%',
+        width: '50%',
         paddingBottom: 5,
         paddingTop: 10,
         borderRadius: 10

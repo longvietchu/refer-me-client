@@ -12,7 +12,7 @@ const SidebarTop = observer(() => {
     let history = useHistory();
 
     const onClick = (): void => {
-        history.push('./mynetwork');
+        history.push('/mynetwork');
     };
     return (
         <Paper className={classes.sidebar}>
