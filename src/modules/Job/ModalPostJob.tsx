@@ -64,11 +64,6 @@ const customStyles = {
     }
 };
 
-interface props {
-    modalIsOpen: boolean;
-    closeModal: VoidFunction;
-}
-
 const employment_types = [
     {
         value: IEmploymentType.NONE,
@@ -96,15 +91,8 @@ const employment_types = [
     }
 ];
 
-const ModalPostJob = observer((props: props) => {
+const ModalPostJob = observer(() => {
     const classes = Styles();
-
-    const { modalIsOpen, closeModal } = props;
-    const [employmentType, setEmploymentType] = React.useState('initial');
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setEmploymentType(event.target.value);
-    };
 
     return (
         <div>

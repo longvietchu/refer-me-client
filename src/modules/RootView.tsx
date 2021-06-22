@@ -15,6 +15,7 @@ import ChangePasswordScreen from './ChangePassword/ChangePasswordScreen';
 import StorageService from '../common/service/StorageService';
 import CreateProfile from './Profile/CreateProfile/CreateProfile';
 import DetailJob from './Job/DetailJob/DetailJob';
+import MyJob from './Job/MyJob/MyJob';
 
 const RootView = () => {
     const PrivateRoute = ({ children, ...rest }: any) => {
@@ -56,6 +57,10 @@ const RootView = () => {
             <Route path="/jobs/:_id">
                 <DetailJob />
             </Route>
+
+            <PrivateRoute exact path="/myjob">
+                <MyJob />
+            </PrivateRoute>
 
             <PrivateRoute exact path="/mynetwork">
                 <NetworkContainer />

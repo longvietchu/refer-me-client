@@ -11,21 +11,33 @@ import {
     CardContent,
     CardActionArea,
     Box,
-    Button
+    Button,
+    IconButton
 } from '@material-ui/core';
 import Header from '../../../common/components/header/Header';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
-import WorkIcon from '@material-ui/icons/Work';
+
+import {
+    LocationOn,
+    Work,
+    WatchLater,
+    Create,
+    Description,
+    Directions,
+    Business,
+    FiberManualRecord
+} from '@material-ui/icons';
 
 import { useParams } from 'react-router';
 
 import { observer } from 'mobx-react-lite';
 
 import { jobStore } from '../jobStore';
+import { loginStore } from '../../Login/loginStore';
 
 import Styles from './Style';
 import LoadingCard from '../../../common/components/util/LoadingCard';
 import { formatDateTimeDDMM } from '../../../common/config/Function';
+import ApplyJob from './ApplyJob';
 
 const DetailJob = observer(() => {
     const classes = Styles();
@@ -129,70 +141,99 @@ const DetailJob = observer(() => {
                                 <div style={{ padding: 16 }}>
                                     <Typography
                                         variant="body1"
-                                        style={{
-                                            fontWeight: 'bold',
-                                            fontSize: '20px'
-                                        }}>
+                                        className={classes.title}>
                                         {jobStore.detailJob.title}
                                     </Typography>
 
-                                    {jobStore.detailJob.organization_info &&
-                                    jobStore.detailJob.organization_info
-                                        .name ? (
-                                        <Typography
-                                            variant="body1"
-                                            className={classes.company}>
-                                            Posted by{' '}
-                                            {
-                                                jobStore.detailJob
-                                                    .organization_info.name
-                                            }
-                                        </Typography>
+                                    {jobStore.detailJob.organization_info ? (
+                                        <div>
+                                            <Typography
+                                                className={classes.company}>
+                                                <Create
+                                                    className={classes.icon}
+                                                />
+                                                Posted by{' '}
+                                                {
+                                                    jobStore.detailJob
+                                                        .organization_info.name
+                                                }
+                                            </Typography>
+                                            <Typography
+                                                className={classes.company}>
+                                                <Business
+                                                    className={classes.icon}
+                                                />
+                                                {
+                                                    jobStore.detailJob
+                                                        .organization_info
+                                                        .company_size
+                                                }{' '}
+                                                employees
+                                                <FiberManualRecord
+                                                    style={{
+                                                        fontSize: '6px',
+                                                        alignSelf: 'center',
+                                                        margin: '2px 4px'
+                                                    }}
+                                                />
+                                                {
+                                                    jobStore.detailJob
+                                                        .organization_info
+                                                        .industry
+                                                }
+                                            </Typography>
+                                        </div>
                                     ) : (
-                                        <Typography
-                                            variant="body1"
-                                            className={classes.company}>
+                                        <Typography className={classes.company}>
+                                            <Create className={classes.icon} />
                                             Posted by{' '}
                                             {jobStore.detailJob.user_info.name}
                                         </Typography>
                                     )}
-                                    <Typography variant="body1">
-                                        <LocationOnIcon
-                                            style={{
-                                                fontSize: '16px',
-                                                marginRight: 6
-                                            }}
-                                        />
+
+                                    <Typography className={classes.location}>
+                                        <LocationOn className={classes.icon} />
                                         {jobStore.detailJob.location}
                                     </Typography>
-                                    <Typography variant="body1">
-                                        <WorkIcon
-                                            style={{
-                                                fontSize: '16px',
-                                                marginRight: 6
-                                            }}
-                                        />
+                                    <Typography
+                                        className={classes.employement_type}>
+                                        <Work className={classes.icon} />
                                         {jobStore.detailJob.employment_type}
                                     </Typography>
-                                    <Typography variant="body1">
+                                    <Typography className={classes.time}>
+                                        <WatchLater className={classes.icon} />
                                         posted at:{' '}
                                         {formatDateTimeDDMM(
                                             jobStore.detailJob.created_at
                                         )}
                                     </Typography>
                                     <Typography>
+                                        <Description className={classes.icon} />
                                         Job description:{' '}
                                         <Typography style={{ margin: 8 }}>
                                             {jobStore.detailJob.description}
                                         </Typography>
                                     </Typography>
 
-                                    <Button>Apply</Button>
+                                    {loginStore.userInfo &&
+                                    loginStore.userInfo.id ===
+                                        jobStore.detailJob.user_info
+                                            ._id ? null : (
+                                        <IconButton
+                                            className={classes.btn}
+                                            onClick={() => {
+                                                jobStore.applyJobModal = true;
+                                            }}>
+                                            <Typography>Apply</Typography>
+                                            <Directions />
+                                        </IconButton>
+                                    )}
                                 </div>
                                 <Divider />
                             </Paper>
                         </Grid>
                     </Grid>
+                    <ApplyJob />
                 </Grid>
             </Grid>
         );

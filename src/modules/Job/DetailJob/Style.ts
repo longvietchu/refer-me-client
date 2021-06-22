@@ -83,11 +83,11 @@ export default makeStyles((theme) => ({
         display: '-webkit-box',
         WebkitBoxOrient: 'vertical',
         WebkitLineClamp: 2,
-        fontSize: '24px'
+        fontSize: '30px',
+        fontWeight: 'bold'
     },
     company: {
-        color: '#00000099',
-        fontSize: '15px',
+        fontSize: '18px',
         paddingTop: '4px',
         width: '100%',
         overflow: 'hidden',
@@ -95,16 +95,43 @@ export default makeStyles((theme) => ({
         whiteSpace: 'nowrap'
     },
     location: {
-        color: '#00000099',
-        fontSize: '15px',
+        fontSize: '18px',
         width: '100%',
         overflow: 'hidden',
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap'
     },
     time: {
-        color: '#00000099',
-        fontSize: '12px'
-        // marginTop: '100px'
+        fontSize: '18px'
+    },
+    employement_type: {
+        fontSize: '18px'
+    },
+
+    icon: {
+        fontSize: '16px',
+        marginRight: 6
+    },
+    btn: {
+        height: '30px',
+        border: '1.5px solid #0a66c2',
+        color: '#0a66c2',
+        fontWeight: 'bold',
+        borderRadius: '1.5rem',
+        textTransform: 'capitalize',
+        width: '12%'
+    },
+
+    btnSend: {
+        width: '100px',
+        height: '35px',
+        margin: 10
+    },
+    btnCancel: {
+        border: '2px solid #0a66c2',
+        color: '#0a66c2',
+        width: '100px',
+        height: '35px',
+        margin: 10
     }
 }));

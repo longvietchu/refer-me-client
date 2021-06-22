@@ -34,6 +34,11 @@ export enum IEmploymentType {
     INTERNSHIP = 'Internship'
 }
 
+export enum JobTab {
+    POSTED = 'POSTED',
+    APPLIED = 'APPLIED'
+}
+
 class JobStore {
     constructor() {
         makeAutoObservable(this);
@@ -66,9 +71,14 @@ class JobStore {
         employment_type: ''
     };
 
+    greeting: string = '';
+    applyJobModal: boolean = false;
+
     modalJob: boolean = false;
     isLoading: boolean = false;
     isSearching: boolean = false;
+
+    jobTab: string = JobTab.POSTED;
 
     async getJobs() {
         const result = await jobService.getJobs(this.jobPage, this.jobLimit);
@@ -132,6 +142,19 @@ class JobStore {
         }
         this.isLoading = false;
         this.modalJob = false;
+    }
+
+    async applyJob(_id: any) {
+        this.isLoading = true;
+        const data = {
+            greeting: this.greeting
+        };
+        const result = await jobService.applyJob(_id, data);
+        if (result.status < HttpStatusCode.CODE_300) {
+            console.log('result----', result);
+            this.applyJobModal = false;
+        }
+        this.isLoading = false;
     }
 }
 

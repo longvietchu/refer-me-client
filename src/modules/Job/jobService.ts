@@ -21,6 +21,10 @@ class JobService {
     public createJob(data: any): Promise<IApiResponse> {
         return postRequest(`/v1/job`, data);
     }
+
+    public applyJob(_id: any, data: any): Promise<IApiResponse> {
+        return postRequest(`/v1/job/apply/${_id}`, data);
+    }
 }
 
 export const jobService = new JobService();
