@@ -1,0 +1,177 @@
+import React, { useEffect } from 'react';
+import { Helmet } from 'react-helmet';
+
+import {
+    Divider,
+    Grid,
+    Hidden,
+    Paper,
+    Typography,
+    CardContent,
+    Box,
+    Button,
+    IconButton
+} from '@material-ui/core';
+import Header from '../../../../common/components/header/Header';
+
+import {
+    LocationOn,
+    Work,
+    WatchLater,
+    Create,
+    Description,
+    Directions,
+    Business,
+    FiberManualRecord
+} from '@material-ui/icons';
+
+import { useParams } from 'react-router';
+
+import { observer } from 'mobx-react-lite';
+
+import { jobStore } from '../../jobStore';
+import { loginStore } from '../../../Login/loginStore';
+
+import Styles from './Style';
+import LoadingCard from '../../../../common/components/util/LoadingCard';
+import { formatDateTimeDDMM } from '../../../../common/config/Function';
+import MyJobCard from '../MyJobCard/MyJobCard';
+
+const PostedJob = observer(() => {
+    const classes = Styles();
+
+    let { _id } = useParams<any>();
+
+    useEffect(() => {
+        jobStore.getOneJob(_id);
+    }, [_id]);
+
+    if (jobStore.detailJob) {
+        return (
+            <Grid container className={classes.app}>
+                <Helmet>
+                    <title>Posted Jobs | Refer Me</title>
+                </Helmet>
+                <Grid item container className={classes.app__header}>
+                    {/* Header */}
+                    <Header />
+                </Grid>
+                <Grid item container className={classes.app__body}>
+                    <Hidden smDown>
+                        <Grid item className={classes.body__sidebar} xs>
+                            <Paper className={classes.paper}>
+                                <CardContent>
+                                    <Box pb={3} className={classes.box}>
+                                        {jobStore.detailJob.organization_info &&
+                                        jobStore.detailJob.organization_info
+                                            .avatar ? (
+                                            <img
+                                                alt="Jobs"
+                                                src={
+                                                    jobStore.detailJob
+                                                        .organization_info
+                                                        .avatar
+                                                }
+                                                style={{
+                                                    height: 72,
+                                                    width: 72
+                                                }}
+                                            />
+                                        ) : (
+                                            <img
+                                                alt="Jobs"
+                                                src="/images/no-avatar.png"
+                                                style={{
+                                                    height: 72,
+                                                    width: 72
+                                                }}
+                                            />
+                                        )}
+                                    </Box>
+
+                                    <Typography
+                                        color="textPrimary"
+                                        variant="h5"
+                                        className={classes.title}>
+                                        {jobStore.detailJob.title}
+                                    </Typography>
+                                    {jobStore.detailJob.organization_info &&
+                                    jobStore.detailJob.organization_info
+                                        .name ? (
+                                        <Typography
+                                            variant="body1"
+                                            className={classes.company}>
+                                            {
+                                                jobStore.detailJob
+                                                    .organization_info.name
+                                            }
+                                        </Typography>
+                                    ) : (
+                                        <Typography
+                                            variant="body1"
+                                            className={classes.company}>
+                                            {jobStore.detailJob.user_info.name}
+                                        </Typography>
+                                    )}
+
+                                    <Typography
+                                        gutterBottom
+                                        variant="body1"
+                                        className={classes.location}>
+                                        {jobStore.detailJob.location}
+                                    </Typography>
+
+                                    <Typography
+                                        variant="body1"
+                                        className={classes.time}>
+                                        {formatDateTimeDDMM(
+                                            jobStore.detailJob.created_at
+                                        )}
+                                    </Typography>
+                                </CardContent>
+                            </Paper>
+                        </Grid>
+                    </Hidden>
+
+                    <Grid item className={classes.body__feed} xs={12} md={7}>
+                        <Grid item className={classes.feed__posts}>
+                            <Paper className={classes.paper}>
+                                <div style={{ padding: 16 }}>
+                                    <Typography variant="body1">
+                                        All Aplicants
+                                    </Typography>
+                                </div>
+                                <Divider />
+                                <div className={classes.box_applicant}>
+                                    <Grid container spacing={5}>
+                                        {jobStore.jobList ? (
+                                            jobStore.jobList.map(
+                                                (job, index) => (
+                                                    <Grid
+                                                        item
+                                                        key={job._id}
+                                                        lg={3}
+                                                        md={6}
+                                                        xs={12}>
+                                                        <MyJobCard
+                                                            job={job}
+                                                            // onSave={onSave}
+                                                        />
+                                                    </Grid>
+                                                )
+                                            )
+                                        ) : (
+                                            <LoadingCard />
+                                        )}
+                                    </Grid>
+                                </div>
+                            </Paper>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        );
+    } else return <LoadingCard />;
+});
+
+export default PostedJob;

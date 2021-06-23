@@ -5,10 +5,8 @@ import { Helmet } from 'react-helmet';
 import Header from '../../../common/components/header/Header';
 import LoadingCard from '../../../common/components/util/LoadingCard';
 import ApplyJob from '../DetailJob/ApplyJob';
-// import ConnectCard from './ConnectCard/ConnectCard';
-// import CreateConnection from './ConnectCard/CreateConnection';
-// import Connection from './Connection/Connection';
-import JobCard from '../JobCard/JobCard';
+
+import MyJobCard from './MyJobCard/MyJobCard';
 import { jobStore, JobTab } from '../jobStore';
 import SideBar from './SideBar/SideBar';
 import Styles from './Style';
@@ -50,7 +48,7 @@ const MyJob = observer(() => {
                                                         lg={3}
                                                         md={6}
                                                         xs={12}>
-                                                        <JobCard
+                                                        <MyJobCard
                                                             job={job}
                                                             // onSave={onSave}
                                                         />
@@ -86,7 +84,7 @@ const MyJob = observer(() => {
                                                         lg={3}
                                                         md={6}
                                                         xs={12}>
-                                                        <JobCard
+                                                        <MyJobCard
                                                             job={job}
                                                             // onSave={onSave}
                                                         />
