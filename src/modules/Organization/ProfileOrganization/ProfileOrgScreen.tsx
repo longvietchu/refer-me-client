@@ -31,7 +31,9 @@ import { useHistory } from 'react-router-dom';
 
 import { Helmet } from 'react-helmet';
 
-const ProfileOrgScreen = () => {
+import { observer } from 'mobx-react-lite';
+
+const ProfileOrgScreen = observer(() => {
     const classes = Styles();
 
     const [isHidden, setIsHidden] = useState(true);
@@ -374,6 +376,6 @@ const ProfileOrgScreen = () => {
             </Grid>
         </Grid>
     );
-};
+});
 
 export default ProfileOrgScreen;

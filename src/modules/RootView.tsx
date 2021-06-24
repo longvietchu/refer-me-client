@@ -16,6 +16,8 @@ import StorageService from '../common/service/StorageService';
 import CreateProfile from './Profile/CreateProfile/CreateProfile';
 import DetailJob from './Job/DetailJob/DetailJob';
 import MyJob from './Job/MyJob/MyJob';
+import PostedJob from './Job/MyJob/Posted/PostedJob';
+import MyOrganization from './Organization/MyOrganization/MyOrganization';
 
 const RootView = () => {
     const PrivateRoute = ({ children, ...rest }: any) => {
@@ -62,6 +64,10 @@ const RootView = () => {
                 <MyJob />
             </PrivateRoute>
 
+            <PrivateRoute path="/hiring/jobs/:_id">
+                <PostedJob />
+            </PrivateRoute>
+
             <PrivateRoute exact path="/mynetwork">
                 <NetworkContainer />
             </PrivateRoute>
@@ -74,9 +80,13 @@ const RootView = () => {
                 <CreateOrganizationContainer />
             </PrivateRoute>
 
-            <Route path="/organization/:organization_id">
+            <Route path="/organization/profile/:organization_id">
                 <ProfileOrgContainer />
             </Route>
+
+            <PrivateRoute exact path="/myorganization">
+                <MyOrganization />
+            </PrivateRoute>
 
             <Route exact path="/">
                 {StorageService.isTokenExits() ? (

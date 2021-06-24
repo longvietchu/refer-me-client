@@ -25,6 +25,7 @@ import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { loginStore } from '../../../modules/Login/loginStore';
 import { profileStore } from '../../../modules/Profile/profileStore';
+import { organizationStore } from '../../../modules/Organization/organizationStore';
 import StorageService from '../../service/StorageService';
 import MenuItems from './menuItem/MenuItem';
 import Style from './Style';
@@ -247,6 +248,11 @@ const Header = observer(() => {
                         to="#"
                         style={{ color: '#808080', lineHeight: '20px' }}>
                         Job Posting
+                    </Link>
+                    <Link
+                        to="/myorganization"
+                        style={{ color: '#808080', lineHeight: '20px' }}>
+                        My organization
                     </Link>
                     <Link
                         to="/organization/new"

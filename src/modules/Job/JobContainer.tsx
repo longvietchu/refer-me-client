@@ -16,14 +16,6 @@ export interface IJob {
 }
 
 const JobContainer = observer(() => {
-    // const [job, setJob] = useState<IJob[]>([]);
-
-    const { enqueueSnackbar } = useSnackbar();
-
-    // useEffect(() => {
-    //     setJob(jobs);
-    // }, [jobs]);
-
     useEffect(() => {
         jobStore.getJobs();
     }, []);

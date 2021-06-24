@@ -8,7 +8,7 @@ const LoadingCard = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                padding: 10
+                padding: 20
             }}>
             <CircularProgress />
         </div>

@@ -19,7 +19,6 @@ import {
     DatePicker
 } from '@material-ui/pickers';
 import 'date-fns';
-// import { formatYYYYMMDD } from '../../../common/config/Function';
 
 import DateFnsUtils from '@date-io/date-fns';
 
@@ -34,93 +33,14 @@ const CreateOrganization = observer(() => {
     let history = useHistory();
     const { enqueueSnackbar } = useSnackbar();
 
-    const [date, setDate] = useState(new Date());
-
-    const [image, setImage] = useState<string | undefined>();
-    // const [selectImg, setSelectImg] = useState();
-
-    const onImageChange = (event: any) => {
-        if (event.target.files && event.target.files[0]) {
-            let reader = new FileReader();
-            reader.onload = (e: any) => {
-                setImage(e.target.result);
-                console.log('e', e.target.result);
-            };
-            reader.readAsDataURL(event.target.files[0]);
+    const onClickCreateOrganization = async () => {
+        let isUpdateSuccess = await organizationStore.createOrganization();
+        if (isUpdateSuccess) {
+            history.push(`/myorganization`);
+            enqueueSnackbar('Create success!', { variant: 'success' });
         }
-        setImage(URL.createObjectURL(event.target.files[0]));
     };
 
-    // const onSelectImg = (event: any) => {
-    //     if (event.target.files && event.target.files[0]) {
-    //         let reader = new FileReader();
-    //         reader.onload = (e: any) => {
-    //             organizationStore.avatar = e.target.result;
-    //             console.log('e', e.target.result);
-    //         };
-    //         reader.readAsDataURL(event.target.files[0]);
-    //     }
-    //     organizationStore.avatar = URL.createObjectURL(event.target.files[0]);
-    // };
-
-    // useEffect(() => {
-    //     if (!selectImg) {
-    //         setImage(undefined);
-    //         return;
-    //     } else {
-    //         const objectUrl = URL.createObjectURL(selectImg);
-    //         setImage(objectUrl);
-    //         return () => URL.revokeObjectURL(objectUrl);
-    //     }
-
-    //     // free memory when ever this component is unmounted
-    // }, [selectImg]);
-
-    // useEffect(() => {
-    //     if (!selectImg) {
-    //         organizationStore.avatar = undefined;
-    //         return;
-    //     } else {
-    //         const objectUrl = URL.createObjectURL(selectImg);
-    //         organizationStore.avatar = objectUrl;
-    //         console.log('aaa', URL.revokeObjectURL(objectUrl));
-    //         return () => URL.revokeObjectURL(objectUrl);
-    //     }
-
-    //     // free memory when ever this component is unmounted
-    // }, [selectImg]);
-
-    // const onSelectImg = (e: any) => {
-    //     if (!e.target.files || e.target.files.length === 0) {
-    //         setSelectImg(undefined);
-    //         return;
-    //     }
-    //     // I've kept this example simple by using the first image instead of multiple
-    //     setSelectImg(e.target.files[0]);
-    //     console.log('e', e);
-    // };
-
-    const onSelectImage = (e: any) => {
-        if (!e.target.files || e.target.files.length === 0) {
-            organizationStore.selectImage = undefined;
-            return;
-        }
-        // I've kept this example simple by using the first image instead of multiple
-        organizationStore.selectImage = e.target.files[0];
-    };
-
-    // const onClickClose = (e: any) => {
-    //     console.log('index--', e);
-    //     setSelectImg(undefined);
-    // };
-
-    const onCloseImage = (e: any) => {
-        setImage(undefined);
-    };
-
-    const onClickCreate = () => {
-        history.push('/profile');
-    };
     return (
         <Grid
             container
@@ -161,10 +81,13 @@ const CreateOrganization = observer(() => {
                                         variant="outlined"
                                         fullWidth
                                         onChange={(e) =>
-                                            (organizationStore.name =
+                                            (organizationStore.inputOrganization.name =
                                                 e.target.value)
                                         }
-                                        // value={organizationStore.name}
+                                        value={
+                                            organizationStore.inputOrganization
+                                                .name
+                                        }
                                     />
                                 </Grid>
                                 <Grid item>
@@ -175,10 +98,13 @@ const CreateOrganization = observer(() => {
                                         placeholder="Begin with http:// or https:// or wwww."
                                         fullWidth
                                         onChange={(e) =>
-                                            (organizationStore.website =
+                                            (organizationStore.inputOrganization.website =
                                                 e.target.value)
                                         }
-                                        // value={organizationStore.website}
+                                        value={
+                                            organizationStore.inputOrganization
+                                                .website
+                                        }
                                     />
                                 </Grid>
                                 <Grid item>
@@ -189,10 +115,13 @@ const CreateOrganization = observer(() => {
                                         placeholder="Type your organization industry"
                                         fullWidth
                                         onChange={(e) =>
-                                            (organizationStore.industry =
+                                            (organizationStore.inputOrganization.industry =
                                                 e.target.value)
                                         }
-                                        // value={organizationStore.industry}
+                                        value={
+                                            organizationStore.inputOrganization
+                                                .industry
+                                        }
                                     />
                                 </Grid>
                                 <Grid item>
@@ -202,10 +131,13 @@ const CreateOrganization = observer(() => {
                                         variant="outlined"
                                         fullWidth
                                         onChange={(e) =>
-                                            (organizationStore.company_size =
+                                            (organizationStore.inputOrganization.company_size =
                                                 e.target.value)
                                         }
-                                        // value={organizationStore.company_size}
+                                        value={
+                                            organizationStore.inputOrganization
+                                                .company_size
+                                        }
                                     />
                                 </Grid>
 
@@ -216,8 +148,12 @@ const CreateOrganization = observer(() => {
                                         variant="outlined"
                                         placeholder="Type your organization description here..."
                                         onChange={(e) =>
-                                            (organizationStore.description =
+                                            (organizationStore.inputOrganization.description =
                                                 e.target.value)
+                                        }
+                                        value={
+                                            organizationStore.inputOrganization
+                                                .description
                                         }
                                     />
                                 </Grid>
@@ -233,66 +169,27 @@ const CreateOrganization = observer(() => {
                                                 shrink: true
                                             }}
                                             onChange={(e) =>
-                                                (organizationStore.founded =
+                                                (organizationStore.inputOrganization.founded =
                                                     e.target.value)
                                             }
+                                            value={
+                                                organizationStore
+                                                    .inputOrganization.founded
+                                            }
                                         />
-                                    </Grid>
-                                    <Grid item>
-                                        <Typography>Logo</Typography>
-                                        {!image && (
-                                            <div>
-                                                <input
-                                                    accept="image/*"
-                                                    style={{ display: 'none' }}
-                                                    id="icon-button-file"
-                                                    type="file"
-                                                    onChange={onImageChange}
-                                                />
-                                                <label htmlFor="icon-button-file">
-                                                    <IconButton
-                                                        color="primary"
-                                                        aria-label="upload picture"
-                                                        component="span"
-                                                        style={{
-                                                            color: '#0a66c2'
-                                                        }}>
-                                                        <PhotoCamera />
-                                                    </IconButton>
-                                                </label>
-                                            </div>
-                                        )}
-
-                                        {image && (
-                                            <div>
-                                                <img
-                                                    id="output"
-                                                    src={image}
-                                                    width="100"
-                                                    height="100"
-                                                />
-                                                <IconButton
-                                                    style={{
-                                                        color: '#1473E6',
-                                                        position: 'relative',
-                                                        bottom: 95,
-                                                        right: 24
-                                                    }}
-                                                    onClick={onCloseImage}>
-                                                    <CancelRoundedIcon />
-                                                </IconButton>
-                                            </div>
-                                        )}
                                     </Grid>
                                 </Grid>
                             </Grid>
                         </Paper>
                         <Button
                             className={classes.btn}
-                            onClick={() =>
-                                organizationStore.createOrganization()
+                            onClick={(e) => onClickCreateOrganization()}
+                            disabled={
+                                organizationStore.isLoading ? true : false
                             }>
-                            Create organization
+                            {organizationStore.isLoading
+                                ? 'Creating...'
+                                : 'Create organization'}
                         </Button>
                     </Grid>
                 </Grid>
