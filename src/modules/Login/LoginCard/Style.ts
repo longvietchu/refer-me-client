@@ -9,11 +9,11 @@ export default makeStyles((theme) => ({
             borderRadius: 0,
             boxShadow: 'none'
         },
-        height: 500,
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
+        padding: '16px 24px'
     },
 
     header: {
@@ -21,15 +21,14 @@ export default makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 20,
+        margin: '16px 0',
         '& > img': {
-            width: 'auto',
-            height: 100
+            width: 56,
+            marginRight: 8
         }
     },
 
     form: {
-        width: 250,
         height: 200,
         display: 'flex',
         flexDirection: 'column',

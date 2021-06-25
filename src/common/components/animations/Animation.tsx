@@ -22,7 +22,6 @@ const Animation = (src: any) => {
                 renderer: 'svg',
                 loop: true,
                 autoplay: true,
-                // animationData: require("../../assets/images/relaxing.json"),
                 animationData: src.src
             });
         }

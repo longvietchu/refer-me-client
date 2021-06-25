@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import {
     Paper,
     Button,
@@ -17,15 +17,28 @@ import { observer } from 'mobx-react-lite';
 const SignupCard = observer(() => {
     const classes = Style();
 
-    const [helperText, sethelperText] = useState('');
     const { enqueueSnackbar } = useSnackbar();
     let history = useHistory();
+
+    useEffect(() => {
+        return () => {
+            signupStore.signupInfo = { name: '', email: '', password: '' };
+            signupStore.isLoading = false;
+        };
+    }, []);
 
     const onClickSignup = async () => {
         let isSignupSuccess = await signupStore.signup();
         if (isSignupSuccess) {
-            history.push('/create/profile');
+            history.push('/');
             enqueueSnackbar('Sign-up success!', { variant: 'success' });
+        }
+    };
+
+    const signupEnter = async (e: any) => {
+        if (e.key === 'Enter') {
+            signupStore.validateError = '';
+            onClickSignup();
         }
     };
 
@@ -36,84 +49,89 @@ const SignupCard = observer(() => {
                 <Typography variant="h4">Sign up</Typography>
             </header>
 
-            <form className={classes.form}>
-                <TextField
-                    label="name"
-                    color="primary"
-                    margin="normal"
-                    required
-                    InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <Person />
-                            </InputAdornment>
-                        )
-                    }}
-                    type="name"
-                    placeholder="enter your name..."
-                    value={signupStore.signupInfo.name}
-                    onChange={(e) =>
-                        (signupStore.signupInfo.name = e.target.value)
-                    }
-                />
-                <TextField
-                    label="email"
-                    color="primary"
-                    margin="normal"
-                    required
-                    InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <AccountCircle />
-                            </InputAdornment>
-                        )
-                    }}
-                    type="email"
-                    placeholder="enter your email..."
-                    value={signupStore.signupInfo.email}
-                    onChange={(e) =>
-                        (signupStore.signupInfo.email = e.target.value)
-                    }
-                />
-                <TextField
-                    label="password"
-                    color="primary"
-                    margin="normal"
-                    required
-                    InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <LockRounded />
-                            </InputAdornment>
-                        )
-                    }}
-                    type="password"
-                    placeholder="enter your password..."
-                    value={signupStore.signupInfo.password}
-                    onChange={(e) =>
-                        (signupStore.signupInfo.password = e.target.value)
-                    }
-                />
+            <TextField
+                fullWidth
+                label="name"
+                color="primary"
+                margin="normal"
+                required
+                InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <Person />
+                        </InputAdornment>
+                    )
+                }}
+                type="name"
+                placeholder="enter your name..."
+                value={signupStore.signupInfo.name}
+                onChange={(e) => (signupStore.signupInfo.name = e.target.value)}
+                onKeyDown={signupEnter}
+            />
+            <TextField
+                fullWidth
+                label="email"
+                color="primary"
+                margin="normal"
+                required
+                InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <AccountCircle />
+                        </InputAdornment>
+                    )
+                }}
+                type="email"
+                placeholder="enter your email..."
+                value={signupStore.signupInfo.email}
+                onChange={(e) =>
+                    (signupStore.signupInfo.email = e.target.value)
+                }
+                onKeyDown={signupEnter}
+            />
+            <TextField
+                fullWidth
+                label="password"
+                color="primary"
+                margin="normal"
+                required
+                InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <LockRounded />
+                        </InputAdornment>
+                    )
+                }}
+                type="password"
+                placeholder="enter your password..."
+                value={signupStore.signupInfo.password}
+                onChange={(e) =>
+                    (signupStore.signupInfo.password = e.target.value)
+                }
+                onKeyDown={signupEnter}
+            />
 
-                <div style={{ width: '100%' }}>
-                    <FormHelperText
-                        style={{
-                            color: '#ff0000',
-                            fontSize: 11,
-                            marginBottom: 8
-                        }}>
-                        {helperText}
-                    </FormHelperText>
-                </div>
+            <div style={{ width: '100%', marginBottom: 16 }}>
+                <FormHelperText
+                    style={{
+                        color: '#ff0000',
+                        fontSize: 11,
+                        marginBottom: 8,
+                        fontStyle: 'italic'
+                    }}>
+                    {signupStore.validateError}
+                </FormHelperText>
+            </div>
 
-                <Button
-                    onClick={onClickSignup}
-                    color="primary"
-                    variant="contained"
-                    disabled={signupStore.isLoading ? true : false}>
-                    {signupStore.isLoading ? 'Joining...' : 'Join'}
-                </Button>
-            </form>
+            <Button
+                fullWidth
+                onClick={onClickSignup}
+                color="primary"
+                variant="contained"
+                style={{ marginBottom: 16 }}
+                disabled={signupStore.isLoading ? true : false}>
+                {signupStore.isLoading ? 'Joining...' : 'Join'}
+            </Button>
 
             <div className={classes.google}>
                 <section>
@@ -121,6 +139,7 @@ const SignupCard = observer(() => {
                     <p>OR</p>
                     <div></div>
                 </section>
+                <br />
                 <div>
                     Already on Refer Me? {''}
                     <Link to="/">Sign in</Link>

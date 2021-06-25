@@ -43,7 +43,7 @@ const Header = observer(() => {
         setAnchorEl(null);
     };
 
-    const SignOut = () => {
+    const signOut = () => {
         StorageService.removeToken();
         history.push('/');
     };
@@ -258,7 +258,7 @@ const Header = observer(() => {
                 <Divider style={{ marginBottom: '10px' }} />
 
                 <Grid container justify="center" style={{ marginBottom: 10 }}>
-                    <Button className={classes.btn} onClick={() => SignOut()}>
+                    <Button className={classes.btn} onClick={() => signOut()}>
                         sign out
                     </Button>
                 </Grid>
