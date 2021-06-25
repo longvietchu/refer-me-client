@@ -27,6 +27,7 @@ import { observer } from 'mobx-react-lite';
 
 import { loginStore } from '../../Login/loginStore';
 import { organizationStore } from '../organizationStore';
+import LoadingHeader from '../../../common/components/util/LoadingHeader';
 
 // interface IProps {
 //     onSave: any;
@@ -73,27 +74,40 @@ const MyOrganization = observer(() => {
                                             <Box pt={3}>
                                                 <Grid container spacing={5}>
                                                     {organizationStore.myOrganization ? (
-                                                        organizationStore.myOrganization.map(
-                                                            (
-                                                                organization,
-                                                                index
-                                                            ) => (
-                                                                <Grid
-                                                                    item
-                                                                    key={
-                                                                        organization._id
-                                                                    }
-                                                                    lg={3}
-                                                                    md={6}
-                                                                    xs={12}>
-                                                                    <OrganizationCard
-                                                                        organization={
-                                                                            organization
+                                                        organizationStore.myOrganization
+                                                            .filter((e) => {
+                                                                if (
+                                                                    loginStore.userInfo
+                                                                ) {
+                                                                    return (
+                                                                        e.user_id ===
+                                                                        loginStore
+                                                                            .userInfo
+                                                                            .id
+                                                                    );
+                                                                }
+                                                            })
+                                                            .map(
+                                                                (
+                                                                    organization,
+                                                                    index
+                                                                ) => (
+                                                                    <Grid
+                                                                        item
+                                                                        key={
+                                                                            organization._id
                                                                         }
-                                                                    />
-                                                                </Grid>
+                                                                        lg={3}
+                                                                        md={6}
+                                                                        xs={12}>
+                                                                        <OrganizationCard
+                                                                            organization={
+                                                                                organization
+                                                                            }
+                                                                        />
+                                                                    </Grid>
+                                                                )
                                                             )
-                                                        )
                                                     ) : (
                                                         <LoadingCard />
                                                     )}
@@ -128,7 +142,7 @@ const MyOrganization = observer(() => {
                 </Grid>
             </Grid>
         );
-    } else return null;
+    } else return <LoadingHeader />;
 });
 
 export default MyOrganization;

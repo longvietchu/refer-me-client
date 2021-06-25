@@ -62,7 +62,8 @@ export default makeStyles((theme) => ({
         backgroundColor: 'rgb(204, 214, 221)',
         height: '11rem',
         top: '0rem',
-        marginTop: '-7rem'
+        marginTop: '-7rem',
+        position: 'relative'
     },
     horizontalDiv: {
         display: 'flex',
@@ -72,12 +73,11 @@ export default makeStyles((theme) => ({
         color: 'rgba(29,161,242,1.00)'
     },
     btn: {
-        border: '1.5px solid rgba(29,161,242,1.00)',
-        color: 'rgba(29,161,242,1.00)',
+        alignSelf: 'flex-end',
+        marginBottom: '12px',
+        color: '#0000008a',
         fontWeight: 'bold',
         borderRadius: '1.5rem',
-        marginTop: '0.7rem',
-        marginRight: '1rem',
         textTransform: 'capitalize'
     },
 
@@ -129,5 +129,46 @@ export default makeStyles((theme) => ({
         WebkitLineClamp: 4,
         overflow: 'hidden',
         WebkitBoxOrient: 'vertical'
+    },
+    input: {
+        display: 'none'
+    },
+    labelCover: {
+        position: 'absolute',
+        top: 10,
+        right: 10,
+        '& > svg': {
+            borderRadius: '50%',
+            backgroundColor: '#fff',
+            padding: 4,
+            width: 30,
+            height: 30,
+            border: '1px solid #1da1f2',
+            color: '#1da1f2'
+        }
+    },
+    labelAvatar: {
+        position: 'absolute',
+        top: 90,
+        left: 96,
+        '& > svg': {
+            borderRadius: '50%',
+            backgroundColor: '#fff',
+            padding: 4,
+            width: 26,
+            height: 26,
+            border: '1px solid #1da1f2',
+            color: '#1da1f2'
+        }
+    },
+    userInfo: {
+        marginTop: 45,
+        marginRight: 20,
+        flex: '2 2'
+    },
+    careerInfo: {
+        display: 'flex',
+        flexDirection: 'column',
+        flex: '1 1'
     }
 }));

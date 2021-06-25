@@ -1,7 +1,8 @@
 import {
     postRequest,
     getRequest,
-    IApiResponse
+    IApiResponse,
+    putRequest
 } from '../../common/helpers/RequestHelper';
 import { uploadFile } from '../../common/helpers/UploadHelper';
 
@@ -21,6 +22,10 @@ class OrganizationService {
 
     public getAnOrganization(_id: any): Promise<IApiResponse> {
         return getRequest(`/v1/organization/detail/${_id}`, false);
+    }
+
+    public updateOrganization(_id: string, data: any): Promise<IApiResponse> {
+        return putRequest(`/v1/organization/update/${_id}`, data);
     }
 
     public uploadSingleImage(file: any): Promise<IApiResponse> {

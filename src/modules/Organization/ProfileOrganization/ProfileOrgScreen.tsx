@@ -17,7 +17,9 @@ import {
     FiberManualRecordOutlined,
     Add,
     NavigateBefore,
-    DirectionsRounded
+    DirectionsRounded,
+    CameraAlt,
+    Delete
 } from '@material-ui/icons';
 
 // import TweetCard from "../HomePage/TweetsCard/TweetsCard";
@@ -31,21 +33,28 @@ import { useHistory } from 'react-router-dom';
 
 import { Helmet } from 'react-helmet';
 
+import { formatDateTimeDDMM } from '../../../common/config/Function';
+
 import { observer } from 'mobx-react-lite';
+import { organizationStore } from '../organizationStore';
+import { loginStore } from '../../Login/loginStore';
+import LoadingHeader from '../../../common/components/util/LoadingHeader';
+import ModalEdit from '../EditProfileOrganization/ModalEdit';
 
 const ProfileOrgScreen = observer(() => {
     const classes = Styles();
 
     const [isHidden, setIsHidden] = useState(true);
+    const [showMore, setShowMore] = useState<boolean>(false);
 
     function ReadMore({ children }: any) {
-        if (children.props.length <= 258)
+        if (children.props.length < 258)
             return (
                 <>
                     <div>{children}</div>
                 </>
             );
-        else {
+        if (children.props.length >= 258 && !isHidden) {
             return (
                 <>
                     <div className={isHidden ? classes.hidden : undefined}>
@@ -54,328 +63,389 @@ const ProfileOrgScreen = observer(() => {
                     {/* <ButtonBase onClick={() => setIsHidden(!isHidden)}>
                         {isHidden ? '...see more' : 'see less'}
                     </ButtonBase> */}
+                    <div>
+                        <Divider />
+                        <Button
+                            className={classes.btn_details}
+                            onClick={() => setIsHidden(!isHidden)}>
+                            See all details
+                        </Button>
+                    </div>
                 </>
             );
         }
     }
 
-    return (
-        <Grid container className={classes.app}>
-            <Helmet>
-                <title>RefMe</title>
-            </Helmet>
-            <Grid
-                item
-                container
-                className={classes.app__header}
-                // style={{
-                //   boxShadow: mode && "0px 5px 10px -10px rgba(0,0,0,0.75)",
-                // }}
-            >
-                {/* Header */}
-                <Header />
-            </Grid>
-            <Grid item container className={classes.app__body}>
-                <Grid item className={classes.body__feed} xs={12} md={7}>
-                    <Card>
-                        <Grid item xs={12}>
-                            <Paper className={classes.paper}>
-                                {' '}
-                                <div className={classes.avatarBox}>
-                                    <Box>
-                                        <Avatar
-                                            className={classes.avatar}
-                                            src="https://scontent.fhan4-1.fna.fbcdn.net/v/t1.6435-9/121083834_1699921320175513_6807580545774400741_n.jpg?_nc_cat=105&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=hfVRPKiVyaAAX-_QYhQ&_nc_ht=scontent.fhan4-1.fna&oh=fb6798aedb06700257a6b62a9815e721&oe=608BA140"
-                                        />
-                                    </Box>
-                                </div>
-                            </Paper>
-                        </Grid>
-                        <Grid style={{ marginLeft: '1rem' }} item xs={12}>
-                            <div
-                                style={{ justifyContent: 'space-between' }}
-                                className={classes.horizontalDiv}>
-                                <div></div>
-                                <Button
-                                    // onClick={openModalProfile}
-                                    className={classes.btn}>
-                                    <Edit />
-                                </Button>
-                            </div>
-                            <div>
-                                <div
-                                    style={{ marginTop: '1rem' }}
-                                    className={classes.horizontalDiv}>
+    const getText = (text: string) => {
+        // For Text that is shorter than desired length
+        if (text.length <= 258) return text;
+        // If text is longer than desired length & showMore is true
+        if (text.length > 258 && showMore) {
+            return (
+                <>
+                    <p>{text}</p>
+
+                    {/* <button onClick={() => setShowMore(false)}>
+                        Show Less
+                    </button> */}
+                    <div>
+                        <Divider />
+                        <Button
+                            className={classes.btn_details}
+                            onClick={() => setShowMore(false)}>
+                            See less
+                        </Button>
+                    </div>
+                </>
+            );
+        }
+        // If text is longer than desired length & showMore is false
+        if (text.length > 258) {
+            return (
+                <>
+                    <p className={!showMore ? classes.hidden : undefined}>
+                        {text.slice(0, 258)}
+                    </p>
+
+                    <div>
+                        <Divider />
+                        <Button
+                            className={classes.btn_details}
+                            onClick={() => setShowMore(true)}>
+                            See all details
+                        </Button>
+                    </div>
+                </>
+            );
+        }
+    };
+
+    const onChangeAvatar = (e: any) => {
+        e.preventDefault();
+        let file = e.target.files[0];
+        organizationStore.uploadImage(file);
+    };
+
+    const onChangeCoverImg = (e: any) => {
+        e.preventDefault();
+        let file = e.target.files[0];
+        organizationStore.uploadCoverImage(file);
+    };
+
+    if (loginStore.userInfo && organizationStore.organization) {
+        return (
+            <Grid container className={classes.app}>
+                <Helmet>
+                    <title>Refer Me</title>
+                </Helmet>
+                <Grid item container className={classes.app__header}>
+                    {/* Header */}
+                    <Header />
+                </Grid>
+                <Grid item container className={classes.app__body}>
+                    <Grid item className={classes.body__feed} xs={12} md={7}>
+                        <Card>
+                            <Grid item xs={12}>
+                                <Paper
+                                    className={classes.paper}
+                                    style={{
+                                        background: organizationStore
+                                            .organization.background_image
+                                            ? `url(${organizationStore.organization.background_image}) no-repeat center center`
+                                            : 'rgb(204, 214, 221)',
+                                        backgroundSize: 'cover'
+                                    }}>
+                                    <input
+                                        accept="image/*"
+                                        className={classes.input}
+                                        id="cover-image"
+                                        multiple
+                                        type="file"
+                                        onChange={(e) => {
+                                            onChangeCoverImg(e);
+                                        }}
+                                    />
+                                    {loginStore.userInfo.id ===
+                                        organizationStore.organization
+                                            .user_id && (
+                                        <label
+                                            htmlFor="cover-image"
+                                            className={classes.labelCover}>
+                                            <CameraAlt />
+                                        </label>
+                                    )}
+
+                                    <div className={classes.avatarBox}>
+                                        <Box>
+                                            <Avatar
+                                                className={classes.avatar}
+                                                src={
+                                                    organizationStore
+                                                        .organization.avatar
+                                                }
+                                            />
+                                            <input
+                                                accept="image/*"
+                                                className={classes.input}
+                                                id="avatar-image"
+                                                multiple
+                                                type="file"
+                                                onChange={(e) => {
+                                                    onChangeAvatar(e);
+                                                }}
+                                            />
+                                            {loginStore.userInfo.id ===
+                                                organizationStore.organization
+                                                    .user_id && (
+                                                <label
+                                                    htmlFor="avatar-image"
+                                                    className={
+                                                        classes.labelAvatar
+                                                    }>
+                                                    <Edit />
+                                                </label>
+                                            )}
+                                        </Box>
+                                    </div>
+                                </Paper>
+                            </Grid>
+
+                            <Grid
+                                style={{
+                                    padding: '1rem',
+                                    display: 'flex',
+                                    justifyContent: 'space-between'
+                                }}
+                                item
+                                xs={12}>
+                                <div className={classes.userInfo}>
                                     <Typography
                                         className={classes.nameTypo}
                                         variant="h6"
                                         id="name">
-                                        organization name
+                                        {organizationStore.organization.name}
                                     </Typography>
-                                </div>
-                            </div>
-                            <div>
-                                <span>
+
                                     <Typography
                                         id="status"
                                         style={{ fontSize: '1.2rem' }}>
-                                        industry
+                                        {
+                                            organizationStore.organization
+                                                .industry
+                                        }
                                     </Typography>
-                                </span>
-                            </div>
-                            <Grid
-                                container
-                                direction="row"
-                                justify="flex-start"
-                                alignItems="center"
-                                spacing={1}>
-                                <Grid item>
-                                    <span>
-                                        <Typography id="location">
-                                            Hanoi, Hanoi, Vietnam
-                                        </Typography>
-                                    </span>
-                                </Grid>
-                                <FiberManualRecordOutlined
-                                    style={{ fontSize: '0.5rem' }}
-                                />
-                                <Grid item>
-                                    <span>
-                                        <Typography
-                                            id="location"
-                                            style={{ color: '#0a66c2' }}>
-                                            1 connection
-                                        </Typography>
-                                    </span>
-                                </Grid>
-                                <FiberManualRecordOutlined
-                                    style={{ fontSize: '0.5rem' }}
-                                />
-                                <Grid item>
-                                    <span>
-                                        <Typography
-                                            id="location"
-                                            style={{ color: '#0a66c2' }}>
-                                            Contact info
-                                        </Typography>
-                                    </span>
-                                </Grid>
+
+                                    {organizationStore.organization.website ? (
+                                        <Button
+                                            endIcon={<DirectionsRounded />}
+                                            className={classes.btn_vis}
+                                            onClick={() => {
+                                                if (
+                                                    organizationStore.organization
+                                                ) {
+                                                    window.open(
+                                                        `${organizationStore.organization.website}`,
+                                                        '_blank'
+                                                    );
+                                                }
+                                            }}>
+                                            Visit website
+                                        </Button>
+                                    ) : null}
+                                </div>
+                                {loginStore.userInfo.id ===
+                                    organizationStore.organization.user_id && (
+                                    <div className={classes.careerInfo}>
+                                        <Button
+                                            onClick={() =>
+                                                (organizationStore.modalEditOrganization =
+                                                    true)
+                                            }
+                                            className={classes.btn}>
+                                            <Edit />
+                                        </Button>
+                                        <Button
+                                            onClick={() =>
+                                                (organizationStore.modalEditOrganization =
+                                                    true)
+                                            }
+                                            className={classes.btn}>
+                                            <Delete />
+                                        </Button>
+                                    </div>
+                                )}
                             </Grid>
+                        </Card>
 
-                            <Button
-                                endIcon={<DirectionsRounded />}
-                                className={classes.btn_vis}
-                                onClick={() =>
-                                    window.open(
-                                        'https://thietbivesinhonline.vn/',
-                                        '_blank'
-                                    )
-                                }>
-                                Visit website
-                            </Button>
-                        </Grid>
-                    </Card>
-
-                    <Card style={{ marginTop: '20px', borderRadius: 10 }}>
-                        <Typography
-                            style={{
-                                padding: '24px 24px 0px',
-                                fontSize: '20px',
-                                fontWeight: 600
-                            }}>
-                            About
-                        </Typography>
-                        <ReadMore>
+                        <Card style={{ marginTop: '20px', borderRadius: 10 }}>
                             <Typography
+                                style={{
+                                    padding: '24px 24px 0px',
+                                    fontSize: '20px',
+                                    fontWeight: 600
+                                }}>
+                                About
+                            </Typography>
+                            {/* <ReadMore> */}
+                            <p
                                 style={{
                                     color: '#00000099',
                                     padding: '24px 24px'
                                 }}>
-                                YEN TUNG Trading and Service Co., Ltd was
-                                established on September 25, 2014. Business
-                                code: 0106650294 Business areas : Bathroom
-                                equipment: with genuine products, famous brands
-                                by domestic manufacturers as well as imported
-                                products: 1 / Toilet: Inax toilet, ToTo toilet,
-                                American Standard toilet, Thai Cotto toilet,
-                                Caesar toilet, Vigracera toilet... 2 / Lavabo –
-                                washbasin: wall-mounted lavabo, table-mounted
-                                lavabo, under-table lavabo 3/ Bathroom mirror
-                                cabinet set: Senli mirror basin set, Bross
-                                mirror basin set, glass basin cabinet set,
-                                Caesar PVC basin cabinet set .. 4/ Shower: Inax
-                                shower, Selta shower, American Standard shower,
-                                Toto temperature shower 5/ Hot and cold standing
-                                shower, temperature shower: Toto shower, Korean
-                                shower: Hado shower, Kosco shower, Samwon
-                                shower... 6/ Hot and cold wash basin faucet,
-                                induction lavabo faucet vòi 7 / Bathroom heating
-                                lights: Hans bathroom heating lights, Kottmann
-                                bathroom heating lights, Duraqua bathroom
-                                heating lights, Braun bathroom heating lights...
-                                8/ Mirrors and bathroom accessories. 9/ Standing
-                                bathroom, massager sauna room Kitchen equipment:
-                                304 stainless steel sink made by domestic
-                                manufacturers, imported stainless steel sink Hot
-                                and cold sink faucet, single dish faucet, Heater
-                                : Ariston water heater. Ferroli water heater,
-                                Picenza water heater, Inax water heater… With
-                                nearly 20 years in the market - formerly Duc
-                                Hien Sanitary ware store - flexible in business
-                                method: traditional sales combined with online
-                                sales (online sales) with 2 websites main:
-                                Vietnam High-class Sanitary Equipment
-                                http://sencaytam.com YEN TUNG Trading and
-                                Service Co., Ltd. is committed to bringing you
-                                genuine products, long-term warranty to ensure
-                                satisfaction for customers when buying our
-                                products.
-                            </Typography>
-                        </ReadMore>
-                        {isHidden ? (
-                            <div>
-                                <Divider />
-                                <Button
-                                    className={classes.btn_details}
-                                    onClick={() => setIsHidden(!isHidden)}>
-                                    See all details
-                                </Button>
-                            </div>
-                        ) : null}
-                    </Card>
+                                {getText(
+                                    organizationStore.organization.description
+                                )}
+                            </p>
+                            {/* </ReadMore> */}
 
-                    <Card style={{ marginTop: '20px', borderRadius: 10 }}>
-                        <Typography
-                            style={{
-                                padding: '24px 24px 0px',
-                                fontSize: '20px',
-                                fontWeight: 600
-                            }}>
-                            Contact information
-                        </Typography>
-                        <Grid container>
-                            <Grid
-                                item
-                                container
-                                direction="column"
-                                xs={4}
-                                style={{ margin: 10 }}
-                                spacing={3}>
-                                <Grid item>
-                                    <Typography
-                                        style={{
-                                            fontWeight: 600,
-                                            lineHeight: 1.5
-                                        }}>
-                                        Website
-                                    </Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Typography
-                                        style={{
-                                            fontWeight: 600,
-                                            lineHeight: 1.5
-                                        }}>
-                                        Phone
-                                    </Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Typography
-                                        style={{
-                                            fontWeight: 600,
-                                            lineHeight: 1.5
-                                        }}>
-                                        Industry
-                                    </Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Typography
-                                        style={{
-                                            fontWeight: 600,
-                                            lineHeight: 1.5
-                                        }}>
-                                        Organization size
-                                    </Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Typography
-                                        style={{
-                                            fontWeight: 600,
-                                            lineHeight: 1.5
-                                        }}>
-                                        Type
-                                    </Typography>
-                                </Grid>
-                            </Grid>
-                            <Grid
-                                item
-                                container
-                                direction="column"
-                                xs={7}
-                                style={{ margin: 10 }}
-                                spacing={3}>
-                                <Grid item>
-                                    <Link
-                                        onClick={() =>
-                                            window.open(
-                                                'https://thietbivesinhonline.vn/',
-                                                '_blank'
-                                            )
-                                        }
-                                        component="button"
-                                        style={{
-                                            lineHeight: 1.5,
-                                            fontSize: 16
-                                        }}>
-                                        https://thietbivesinhonline.vn
-                                    </Link>
-                                </Grid>
-                                <Grid item>
-                                    <Typography
-                                        style={{
-                                            lineHeight: 1.5,
-                                            fontSize: 16
-                                        }}>
-                                        0123456789
-                                    </Typography>
+                            {/* {isHidden ? (
+                                <div>
+                                    <Divider />
+                                    <Button
+                                        className={classes.btn_details}
+                                        onClick={() => setIsHidden(!isHidden)}>
+                                        See all details
+                                    </Button>
+                                </div>
+                            ) : null} */}
+                        </Card>
+
+                        <Card style={{ marginTop: '20px', borderRadius: 10 }}>
+                            <Typography
+                                style={{
+                                    padding: '24px 24px 0px',
+                                    fontSize: '20px',
+                                    fontWeight: 600
+                                }}>
+                                Contact information
+                            </Typography>
+                            <Grid container>
+                                <Grid
+                                    item
+                                    container
+                                    direction="column"
+                                    xs={4}
+                                    style={{ margin: 10 }}
+                                    spacing={3}>
+                                    <Grid item>
+                                        <Typography
+                                            style={{
+                                                fontWeight: 600,
+                                                lineHeight: 1.5
+                                            }}>
+                                            Website
+                                        </Typography>
+                                    </Grid>
+
+                                    <Grid item>
+                                        <Typography
+                                            style={{
+                                                fontWeight: 600,
+                                                lineHeight: 1.5
+                                            }}>
+                                            Industry
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item>
+                                        <Typography
+                                            style={{
+                                                fontWeight: 600,
+                                                lineHeight: 1.5
+                                            }}>
+                                            Organization size
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item>
+                                        <Typography
+                                            style={{
+                                                fontWeight: 600,
+                                                lineHeight: 1.5
+                                            }}>
+                                            Founded at
+                                        </Typography>
+                                    </Grid>
                                 </Grid>
                                 <Grid
                                     item
-                                    style={{ lineHeight: 1.5, fontSize: 16 }}>
-                                    <Typography>Building Materials</Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Typography
+                                    container
+                                    direction="column"
+                                    xs={7}
+                                    style={{ margin: 10 }}
+                                    spacing={3}>
+                                    <Grid item>
+                                        <Link
+                                            onClick={() =>
+                                                window.open(
+                                                    'https://thietbivesinhonline.vn/',
+                                                    '_blank'
+                                                )
+                                            }
+                                            component="button"
+                                            style={{
+                                                lineHeight: 1.5,
+                                                fontSize: 16
+                                            }}>
+                                            {
+                                                organizationStore.organization
+                                                    .website
+                                            }
+                                        </Link>
+                                    </Grid>
+
+                                    <Grid
+                                        item
                                         style={{
                                             lineHeight: 1.5,
                                             fontSize: 16
                                         }}>
-                                        2-10 employees
-                                    </Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Typography
-                                        style={{
-                                            lineHeight: 1.5,
-                                            fontSize: 16
-                                        }}>
-                                        Self-Employed
-                                    </Typography>
+                                        <Typography>
+                                            {
+                                                organizationStore.organization
+                                                    .industry
+                                            }
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item>
+                                        <Typography
+                                            style={{
+                                                lineHeight: 1.5,
+                                                fontSize: 16
+                                            }}>
+                                            {
+                                                organizationStore.organization
+                                                    .company_size
+                                            }{' '}
+                                            employees
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item>
+                                        <Typography
+                                            style={{
+                                                lineHeight: 1.5,
+                                                fontSize: 16
+                                            }}>
+                                            {formatDateTimeDDMM(
+                                                organizationStore.organization
+                                                    .founded
+                                            )}
+                                        </Typography>
+                                    </Grid>
                                 </Grid>
                             </Grid>
-                        </Grid>
-                    </Card>
-                </Grid>
-
-                <Hidden smDown>
-                    <Grid item className={classes.body__widgets} md={3}>
-                        {/* Widgets */}
-                        <Widgets />
+                        </Card>
                     </Grid>
-                </Hidden>
+
+                    <Hidden smDown>
+                        <Grid item className={classes.body__widgets} md={3}>
+                            {/* Widgets */}
+                            <Widgets />
+                        </Grid>
+                    </Hidden>
+                    <ModalEdit />
+                </Grid>
             </Grid>
-        </Grid>
-    );
+        );
+    } else return <LoadingHeader />;
 });
 
 export default ProfileOrgScreen;
