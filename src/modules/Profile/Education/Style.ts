@@ -95,5 +95,17 @@ export default makeStyles((theme: Theme) => ({
         marginRight: 8,
         width: 25,
         height: 25
+    },
+    btnCancel: {
+        border: '2px solid #0a66c2',
+        color: '#0a66c2',
+        width: '100px',
+        height: '35px',
+        margin: 10
+    },
+    btnDelete: {
+        width: '100px',
+        height: '35px',
+        margin: 10
     }
 }));

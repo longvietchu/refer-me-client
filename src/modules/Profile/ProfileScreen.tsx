@@ -29,6 +29,7 @@ import { profileStore } from './profileStore';
 import CreateSkill from './Skill/CreateSkill';
 import DeleteSkill from './Skill/DeleteSkill';
 import ListSkill from './Skill/ListSkill';
+import DeleteExperience from './Experience/DeleteExperience';
 import Styles from './Style';
 
 const ProfileScreen = observer(() => {
@@ -386,6 +387,7 @@ const ProfileScreen = observer(() => {
                     <ModalEdit />
                     <EditExperience />
                     <EditEducation />
+                    <DeleteExperience />
                     <DeleteSkill />
                 </Grid>
             </Grid>

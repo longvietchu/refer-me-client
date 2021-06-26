@@ -258,7 +258,7 @@ const ProfileOrgScreen = observer(() => {
                                     <div className={classes.careerInfo}>
                                         <Button
                                             onClick={() =>
-                                                (organizationStore.modalEditOrganization =
+                                                (organizationStore.modalOrganization.edit =
                                                     true)
                                             }
                                             className={classes.btn}>
@@ -266,7 +266,7 @@ const ProfileOrgScreen = observer(() => {
                                         </Button>
                                         <Button
                                             onClick={() =>
-                                                (organizationStore.modalEditOrganization =
+                                                (organizationStore.modalOrganization.delete =
                                                     true)
                                             }
                                             className={classes.btn}>

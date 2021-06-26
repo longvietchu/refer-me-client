@@ -52,9 +52,9 @@ const ModalEdit = observer(() => {
     if (loginStore.userInfo && organizationStore.organization) {
         return (
             <Modal
-                isOpen={organizationStore.modalEditOrganization}
+                isOpen={organizationStore.modalOrganization.edit}
                 onRequestClose={() =>
-                    (organizationStore.modalEditOrganization = false)
+                    (organizationStore.modalOrganization.edit = false)
                 }
                 style={customStyles}
                 contentLabel="Example Modal">
@@ -69,7 +69,7 @@ const ModalEdit = observer(() => {
                             </Typography>
                             <IconButton
                                 onClick={() =>
-                                    (organizationStore.modalEditOrganization =
+                                    (organizationStore.modalOrganization.edit =
                                         false)
                                 }>
                                 <Close />

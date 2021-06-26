@@ -170,5 +170,17 @@ export default makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         flex: '1 1'
+    },
+    btnCancel: {
+        border: '2px solid #0a66c2',
+        color: '#0a66c2',
+        width: '100px',
+        height: '35px',
+        margin: 10
+    },
+    btnDelete: {
+        width: '100px',
+        height: '35px',
+        margin: 10
     }
 }));

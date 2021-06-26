@@ -38,7 +38,10 @@ class OrganizationStore {
 
     isLoading: boolean = false;
 
-    modalEditOrganization: boolean = false;
+    modalOrganization = {
+        edit: false,
+        delete: false
+    };
 
     async uploadImage(file: any) {
         if (this.organization) {
@@ -146,9 +149,21 @@ class OrganizationStore {
             );
             if (result.status < HttpStatusCode.CODE_300) {
                 console.log(result);
-                this.modalEditOrganization = false;
+                this.modalOrganization.edit = false;
             }
         }
+    }
+
+    async deleteOrganization(organization_id: string) {
+        this.isLoading = true;
+        const result = await organizationService.deleteOrganization(
+            organization_id
+        );
+        if (result.status < HttpStatusCode.CODE_300) {
+            console.log(result);
+            this.modalOrganization.delete = false;
+        }
+        this.isLoading = false;
     }
 }
 

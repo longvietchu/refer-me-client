@@ -5,8 +5,6 @@ import {
 } from '../../common/constants/CommonInterface';
 import HttpStatusCode from '../../common/constants/HttpErrorCode';
 import { loginStore } from '../Login/loginStore';
-import { educationStore } from './Education/educationStore';
-import { experienceStore } from './Experience/experienceStore';
 import { profileService } from './profileService';
 
 export interface IProfile {
@@ -117,12 +115,14 @@ class ProfileStore {
     isSearching: boolean = false;
     modalEducation = {
         create: false,
-        edit: false
+        edit: false,
+        delete: false
     };
     modalExperience = {
         create: false,
         edit: false,
-        presentJob: true
+        presentJob: true,
+        delete: false
     };
     modalSkill = {
         create: false,
@@ -144,9 +144,6 @@ class ProfileStore {
         const result = await profileService.getProfile(user_id);
         if (result.status === HttpStatusCode.OK) {
             this.profile = result.body.data;
-            let userId = result.body.data.user_id;
-            await educationStore.getEducationOfUser(userId);
-            await experienceStore.getExperienceOfUser(userId);
         }
     }
 
@@ -228,10 +225,11 @@ class ProfileStore {
         if (result.status < HttpStatusCode.CODE_300 && this.educationList) {
             console.log(result);
             this.educationList = [result.body.data, ...this.educationList];
+            await this.getEducation(result.body.data.user_id);
+            this.modalEducation.create = false;
         }
         // console.log(data);
         this.isLoading = false;
-        this.modalEducation.create = false;
     }
 
     async createExpericence() {
@@ -285,10 +283,11 @@ class ProfileStore {
         if (result.status < HttpStatusCode.CODE_300 && this.experienceList) {
             // console.log(result);
             this.experienceList = [result.body.data, ...this.experienceList];
+            this.modalExperience.create = false;
+            await this.getExperience(result.body.data.user_id);
         }
         // console.log(data);
         this.isLoading = false;
-        this.modalExperience.create = false;
     }
 
     async createSkill() {
@@ -299,9 +298,10 @@ class ProfileStore {
         const result = await profileService.createSkill(data);
         if (result.status < HttpStatusCode.CODE_300) {
             this.skillList = result.body.data;
+            this.modalSkill.create = false;
+            await this.getSkill(result.body.data.user_id);
         }
         this.isLoading = false;
-        this.modalSkill.create = false;
     }
 
     async updateProfile() {
@@ -406,9 +406,10 @@ class ProfileStore {
                 this.educationList = this.educationList.map((item) =>
                     item._id !== result.body.data._id ? item : result.body.data
                 );
+                this.modalEducation.edit = false;
+                await this.getEducation(result.body.data.user_id);
             }
             this.isLoading = false;
-            this.modalEducation.edit = false;
         }
     }
 
@@ -472,11 +473,36 @@ class ProfileStore {
             );
             if (result.status < HttpStatusCode.CODE_300) {
                 console.log(result);
+                this.modalExperience.edit = false;
+                await this.getExperience(result.body.data.user_id);
             }
             // console.log(data);
             this.isLoading = false;
-            this.modalExperience.edit = false;
         }
+    }
+
+    async deleteEducation(education_id: string) {
+        this.isLoading = true;
+        const result = await profileService.deleteEducation(education_id);
+        if (result.status < HttpStatusCode.CODE_300) {
+            console.log(result);
+            this.modalEducation.delete = false;
+            this.modalEducation.edit = false;
+            await this.getEducation(result.body.data.user_id);
+        }
+        this.isLoading = false;
+    }
+
+    async deleteExperience(experience_id: string) {
+        this.isLoading = true;
+        const result = await profileService.deleteExperience(experience_id);
+        if (result.status < HttpStatusCode.CODE_300) {
+            console.log(result);
+            this.modalExperience.delete = false;
+            this.modalExperience.edit = false;
+            await this.getExperience(result.body.data.user_id);
+        }
+        this.isLoading = false;
     }
 
     async deleteSkill(skill_id: string) {
@@ -484,6 +510,8 @@ class ProfileStore {
         const result = await profileService.deleteSkill(skill_id);
         if (result.status < HttpStatusCode.CODE_300) {
             console.log(result);
+            this.modalSkill.delete = false;
+            await this.getSkill(result.body.data.user_id);
         }
         this.isLoading = false;
     }
