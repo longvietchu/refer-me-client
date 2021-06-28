@@ -283,11 +283,10 @@ class ProfileStore {
         if (result.status < HttpStatusCode.CODE_300 && this.experienceList) {
             // console.log(result);
             this.experienceList = [result.body.data, ...this.experienceList];
-            this.modalExperience.create = false;
-            await this.getExperience(result.body.data.user_id);
         }
         // console.log(data);
         this.isLoading = false;
+        this.modalExperience.create = false;
     }
 
     async createSkill() {
