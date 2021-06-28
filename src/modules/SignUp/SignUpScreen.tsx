@@ -22,7 +22,7 @@ const Style = makeStyles((theme: any) => ({
             display: 'none'
         },
         '& > *': {
-            height: 550
+            height: '80%'
         }
     },
     signupCard: {
@@ -48,7 +48,8 @@ const SignUpScreen = () => {
                 <title>Refer Me | Sign up</title>
             </Helmet>
             <div className={classes.banner}>
-                <Animation src={LottieRelaxing} />
+                {/* <Animation src={LottieRelaxing} /> */}
+                <img src="/images/recruitment.jpg" alt="Refer Me" />
             </div>
             <div className={classes.signupCard}>
                 <SignupCard />

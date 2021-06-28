@@ -9,7 +9,7 @@ export default makeStyles((theme) => ({
             borderRadius: 0,
             boxShadow: 'none'
         },
-        height: 500,
+        padding: '16px 24px',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
@@ -23,10 +23,9 @@ export default makeStyles((theme) => ({
         alignItems: 'center',
         marginTop: 20,
         '& > img': {
-            width: 'auto',
-            height: 100
-        },
-        flexDirection: 'column'
+            width: 56,
+            marginRight: 8
+        }
     },
 
     form: {

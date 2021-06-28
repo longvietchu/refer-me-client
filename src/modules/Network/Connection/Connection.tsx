@@ -15,10 +15,12 @@ import {
 import Styles from './Style';
 import { observer } from 'mobx-react-lite';
 import { networkStore } from '../networkStore';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { messageStore } from '../../Messaging/messageStore';
 
 const Connection = observer(() => {
     const classes = Styles();
+    let history = useHistory();
 
     if (networkStore.networkList) {
         return (
@@ -72,8 +74,18 @@ const Connection = observer(() => {
                                 <ListItemSecondaryAction>
                                     <Button
                                         className={classes.btn_accept}
-                                        onClick={() => {}}>
-                                        Message
+                                        onClick={async () => {
+                                            const createStatus =
+                                                await messageStore.createRoom(
+                                                    network.people_info[0]._id
+                                                );
+                                            if (createStatus) {
+                                                history.push('/messaging');
+                                            }
+                                        }}>
+                                        {messageStore.isLoading
+                                            ? 'Messaging..'
+                                            : 'Message'}
                                     </Button>
                                 </ListItemSecondaryAction>
                             </ListItem>

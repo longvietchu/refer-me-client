@@ -1,6 +1,5 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-
 import LoginScreen from './Login/LoginScreen';
 import SignUpScreen from './SignUp/SignUpScreen';
 import HomeContainer from './Home/HomeContainer';
