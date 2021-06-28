@@ -46,8 +46,8 @@ const Header = observer(() => {
 
     const signOut = () => {
         StorageService.removeToken();
-        history.push('/');
-    };
+        window.location.reload();
+        };
 
     const onClickProfile = () => {
         if (loginStore.userInfo) {

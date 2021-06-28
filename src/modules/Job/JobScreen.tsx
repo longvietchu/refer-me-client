@@ -59,9 +59,7 @@ const JobScreen = observer(() => {
                                 <IconButton
                                     onClick={() => {
                                         if (loginStore.userInfo) {
-                                            history.push(
-                                                `/myjob/${loginStore.userInfo.id}`
-                                            );
+                                            history.push(`/myjob`);
                                         }
                                     }}>
                                     <BookmarkIcon />

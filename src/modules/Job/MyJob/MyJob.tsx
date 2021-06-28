@@ -10,19 +10,20 @@ import ApplyJob from '../DetailJob/ApplyJob';
 
 import MyJobCard from './MyJobCard/MyJobCard';
 import { jobStore, JobTab } from '../jobStore';
+import { loginStore } from '../../Login/loginStore';
 import SideBar from './SideBar/SideBar';
 import Styles from './Style';
 
 const MyJob = observer(() => {
     const classes = Styles();
-    let { user_id } = useParams<any>();
-
-    console.log('user_id', user_id);
 
     useEffect(() => {
-        jobStore.getJobOfUser(user_id);
-    }, [user_id]);
-    
+        if (loginStore.userInfo) {
+            jobStore.getJobOfUser(loginStore.userInfo.id);
+            jobStore.getApplyJob();
+        }
+    }, []);
+
     return (
         <Grid container className={classes.app}>
             <Helmet>
@@ -85,8 +86,8 @@ const MyJob = observer(() => {
                                 <Divider />
                                 <div className={classes.box}>
                                     <Grid container spacing={5}>
-                                        {jobStore.jobList ? (
-                                            jobStore.jobList.map(
+                                        {jobStore.myApplyJobList ? (
+                                            jobStore.myApplyJobList.map(
                                                 (job, index) => (
                                                     <Grid
                                                         item
@@ -95,7 +96,7 @@ const MyJob = observer(() => {
                                                         md={6}
                                                         xs={12}>
                                                         <MyJobCard
-                                                            job={job}
+                                                            job={job.job_info}
                                                             // onSave={onSave}
                                                         />
                                                     </Grid>

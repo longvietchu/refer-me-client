@@ -25,6 +25,16 @@ interface IJob {
     created_at: string;
 }
 
+interface IMyApplyJob {
+    _id: string;
+    greeting: string;
+    user_id: string;
+    job_id: string;
+    created_at: string;
+    updated_at: string;
+    job_info: IJob;
+}
+
 export enum IEmploymentType {
     NONE = 'None',
     FULL_TIME = 'Full-time',
@@ -46,6 +56,7 @@ class JobStore {
 
     jobList?: IJob[];
     myJobList?: IJob[];
+    myApplyJobList?: IMyApplyJob[];
     detailJob?: IJob;
     jobPage: number = 0;
     jobLimit: number = 10;
@@ -103,6 +114,13 @@ class JobStore {
             this.myJobList = result.body.data;
         }
         console.log('111', result);
+    }
+
+    async getApplyJob() {
+        const result = await jobService.getApplyJob();
+        if (result.status < HttpStatusCode.CODE_300) {
+            this.myApplyJobList = result.body.data;
+        }
     }
 
     async searchOrganization(keyword: string) {

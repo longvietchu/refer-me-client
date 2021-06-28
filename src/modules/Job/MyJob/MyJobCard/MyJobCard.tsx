@@ -23,6 +23,8 @@ import Styles from './Style';
 
 import { observer } from 'mobx-react-lite';
 
+import { JobTab, jobStore } from '../../jobStore';
+
 // interface props {
 //   job: any;
 //   onSave: any;
@@ -55,7 +57,12 @@ const MyJobCard = observer((props: any) => {
         <Card
             className={classes.card}
             // {...rest}
-            onClick={() => history.push(`/hiring/jobs/${job._id}`)}>
+
+            onClick={() => {
+                if (jobStore.jobTab === JobTab.POSTED) {
+                    history.push(`/hiring/jobs/${job._id}`);
+                } else history.push(`/jobs/${job._id}`);
+            }}>
             <CardActionArea
                 style={{
                     height: '100%'
