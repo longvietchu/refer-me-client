@@ -14,6 +14,10 @@ class JobService {
         return getRequest(`/v1/job/detail/${_id}`, false);
     }
 
+    public getJobOfUser(user_id: string): Promise<IApiResponse> {
+        return getRequest(`/v1/job/user?user_id=${user_id}`);
+    }
+
     public searchOrganization(keyword: string): Promise<IApiResponse> {
         return getRequest(`/v1/organization/search?keyword=${keyword}`);
     }

@@ -45,6 +45,7 @@ class JobStore {
     }
 
     jobList?: IJob[];
+    myJobList?: IJob[];
     detailJob?: IJob;
     jobPage: number = 0;
     jobLimit: number = 10;
@@ -94,6 +95,14 @@ class JobStore {
             this.detailJob = result.body.data;
         }
         console.log('result', result);
+    }
+
+    async getJobOfUser(user_id: string) {
+        const result = await jobService.getJobOfUser(user_id);
+        if (result.status < HttpStatusCode.CODE_300) {
+            this.myJobList = result.body.data;
+        }
+        console.log('111', result);
     }
 
     async searchOrganization(keyword: string) {

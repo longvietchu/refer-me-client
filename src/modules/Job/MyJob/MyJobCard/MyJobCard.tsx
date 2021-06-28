@@ -76,27 +76,6 @@ const MyJobCard = observer((props: any) => {
                                 style={{ height: 72, width: 72 }}
                             />
                         )}
-
-                        {!job.isSave ? (
-                            <IconButton
-                                edge="end"
-                                onClick={(e) => onSave(e, 'success', job._id)}>
-                                <BookmarkBorderIcon
-                                    style={{ fontSize: '32' }}
-                                />
-                            </IconButton>
-                        ) : (
-                            <IconButton
-                                edge="end"
-                                onClick={(e) => onSave(e, 'error', job._id)}>
-                                <BookmarkIcon
-                                    style={{
-                                        fontSize: '32',
-                                        color: '#00000099'
-                                    }}
-                                />
-                            </IconButton>
-                        )}
                     </Box>
 
                     <Typography
@@ -105,7 +84,7 @@ const MyJobCard = observer((props: any) => {
                         className={classes.title}>
                         {job.title}
                     </Typography>
-                    {job.organization_info && job.organization_info.name ? (
+                    {/* {job.organization_info && job.organization_info.name ? (
                         <Typography variant="body1" className={classes.company}>
                             {job.organization_info.name}
                         </Typography>
@@ -113,7 +92,7 @@ const MyJobCard = observer((props: any) => {
                         <Typography variant="body1" className={classes.company}>
                             {job.user_info.name}
                         </Typography>
-                    )}
+                    )} */}
 
                     <Typography
                         gutterBottom

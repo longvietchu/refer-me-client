@@ -59,7 +59,7 @@ const RootView = () => {
                 <DetailJob />
             </Route>
 
-            <PrivateRoute exact path="/myjob">
+            <PrivateRoute exact path="/myjob/:user_id">
                 <MyJob />
             </PrivateRoute>
 

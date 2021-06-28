@@ -1,6 +1,8 @@
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router';
+
 import { Divider, Grid, Hidden, Paper, Typography } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
 import { Helmet } from 'react-helmet';
 import Header from '../../../common/components/header/Header';
 import LoadingCard from '../../../common/components/util/LoadingCard';
@@ -13,6 +15,14 @@ import Styles from './Style';
 
 const MyJob = observer(() => {
     const classes = Styles();
+    let { user_id } = useParams<any>();
+
+    console.log('user_id', user_id);
+
+    useEffect(() => {
+        jobStore.getJobOfUser(user_id);
+    }, [user_id]);
+    
     return (
         <Grid container className={classes.app}>
             <Helmet>
@@ -39,8 +49,8 @@ const MyJob = observer(() => {
                                 <Divider />
                                 <div className={classes.box}>
                                     <Grid container spacing={5}>
-                                        {jobStore.jobList ? (
-                                            jobStore.jobList.map(
+                                        {jobStore.myJobList ? (
+                                            jobStore.myJobList.map(
                                                 (job, index) => (
                                                     <Grid
                                                         item

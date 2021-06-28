@@ -27,6 +27,7 @@ import Styles from './Style';
 import { observer } from 'mobx-react-lite';
 
 import { jobStore } from './jobStore';
+import { loginStore } from '../Login/loginStore';
 
 // interface IProps {
 //     onSave: any;
@@ -56,7 +57,13 @@ const JobScreen = observer(() => {
                         <Paper className={classes.paper}>
                             <Grid container justify="space-between">
                                 <IconButton
-                                    onClick={() => history.push('/myjob')}>
+                                    onClick={() => {
+                                        if (loginStore.userInfo) {
+                                            history.push(
+                                                `/myjob/${loginStore.userInfo.id}`
+                                            );
+                                        }
+                                    }}>
                                     <BookmarkIcon />
                                     <Typography
                                         component="span"
