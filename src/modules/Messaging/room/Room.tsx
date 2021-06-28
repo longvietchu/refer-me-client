@@ -111,12 +111,10 @@ const Room = observer(() => {
                                 }
                                 onClick={(event) => handleListItemClick(item)}
                                 alignItems="flex-start">
-                                <ListItemAvatar>
-                                    <Avatar
-                                        alt=""
-                                        src={item.user_info.avatar}
-                                    />
-                                </ListItemAvatar>
+                                <Avatar
+                                    src={item.user_info.avatar}
+                                    style={{ marginRight: 12 }}
+                                />
                                 <ListItemText
                                     secondary={
                                         <React.Fragment>

@@ -45,7 +45,7 @@ const LoginCard = observer(() => {
     };
 
     return (
-        <Paper elevation={3} className={classes.card}>
+        <Paper variant="outlined" className={classes.card}>
             <header className={classes.header}>
                 <img src="/rfm-icon.png" alt="Refer Me" />
                 <Typography variant="h4">Sign in</Typography>

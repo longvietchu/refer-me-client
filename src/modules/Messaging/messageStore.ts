@@ -38,6 +38,18 @@ class MessageStore {
     messageList?: IMessage[];
     selectedRoom?: IRoom;
     messageContent: string = '';
+    isLoading: boolean = false;
+
+    async createRoom(user_id: string) {
+        this.isLoading = true;
+        const result = await messageService.createRoom(user_id);
+        if (result.status < HttpStatusCode.CODE_300) {
+            this.isLoading = false;
+            return true;
+        }
+        this.isLoading = false;
+        return false;
+    }
 
     async getRooms() {
         if (loginStore.userInfo) {
@@ -84,6 +96,14 @@ class MessageStore {
             room_id === this.selectedRoom._id
         ) {
             this.messageList = [tempData, ...this.messageList];
+            if (this.roomList) {
+                this.roomList = this.roomList.map((room) => {
+                    if (room._id === room_id) {
+                        room.lastest_message = tempData;
+                    }
+                    return room;
+                });
+            }
         }
     }
 

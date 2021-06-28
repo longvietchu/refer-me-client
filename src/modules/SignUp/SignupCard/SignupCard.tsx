@@ -22,7 +22,12 @@ const SignupCard = observer(() => {
 
     useEffect(() => {
         return () => {
-            signupStore.signupInfo = { name: '', email: '', password: '' };
+            signupStore.signupInfo = {
+                name: '',
+                email: '',
+                password: '',
+                confirmPassword: ''
+            };
             signupStore.isLoading = false;
         };
     }, []);
@@ -43,7 +48,7 @@ const SignupCard = observer(() => {
     };
 
     return (
-        <Paper elevation={3} className={classes.card}>
+        <Paper variant="outlined" className={classes.card}>
             <header className={classes.header}>
                 <img src="/rfm-icon.png" alt="Refer Me" />
                 <Typography variant="h4">Sign up</Typography>
@@ -107,6 +112,27 @@ const SignupCard = observer(() => {
                 value={signupStore.signupInfo.password}
                 onChange={(e) =>
                     (signupStore.signupInfo.password = e.target.value)
+                }
+                onKeyDown={signupEnter}
+            />
+            <TextField
+                fullWidth
+                label="confirm password"
+                color="primary"
+                margin="normal"
+                required
+                InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <LockRounded />
+                        </InputAdornment>
+                    )
+                }}
+                type="password"
+                placeholder="enter your password..."
+                value={signupStore.signupInfo.confirmPassword}
+                onChange={(e) =>
+                    (signupStore.signupInfo.confirmPassword = e.target.value)
                 }
                 onKeyDown={signupEnter}
             />

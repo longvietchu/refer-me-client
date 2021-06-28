@@ -40,8 +40,10 @@ const MessagesList = observer(() => {
     });
 
     const scrollToBottom = () => {
-        // @ts-ignore
-        messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+        if (messageStore.messageList && messageStore.messageList.length > 0) {
+            // @ts-ignore
+            messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
     };
 
     useEffect(() => {
@@ -69,7 +71,11 @@ const MessagesList = observer(() => {
         setInputFocus();
     };
     const emitSeenMessage = () => {
-        if (loginStore.userInfo && messageStore.messageList) {
+        if (
+            loginStore.userInfo &&
+            messageStore.messageList &&
+            messageStore.messageList.length > 0
+        ) {
             const lastMessage = messageStore.messageList[0];
             if (lastMessage.to === loginStore.userInfo.id) {
                 const data = {
@@ -101,179 +107,206 @@ const MessagesList = observer(() => {
             }
         }
     };
-
-    return (
-        <div>
-            <Paper>
-                <List dense={true} style={{ padding: 0 }}>
-                    <ListItem>
-                        <ListItemText
-                            style={{ margin: 0, display: 'flex' }}
-                            primary={
-                                <div
-                                    style={{
-                                        marginRight: 8
-                                    }}>
-                                    <Avatar alt="" src="" />
-                                </div>
-                            }
-                            secondary={
-                                messageStore.selectedRoom && (
+    if (messageStore.selectedRoom) {
+        return (
+            <div>
+                <Paper>
+                    <List dense={true} style={{ padding: 0 }}>
+                        <ListItem>
+                            <ListItemText
+                                style={{ margin: 0, display: 'flex' }}
+                                primary={
                                     <div
                                         style={{
-                                            width: '100%',
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis',
-                                            whiteSpace: 'nowrap'
+                                            marginRight: 8
                                         }}>
-                                        <Typography>
-                                            {
+                                        <Avatar
+                                            src={
                                                 messageStore.selectedRoom
-                                                    .user_info.name
+                                                    .user_info.avatar
                                             }
-                                        </Typography>
-                                        <Typography
-                                            variant="caption"
-                                            style={{ paddingLeft: 5 }}>
-                                            {
-                                                messageStore.selectedRoom
-                                                    .user_info.headline
-                                            }
-                                        </Typography>
+                                        />
                                     </div>
-                                )
-                            }
-                        />
-
-                        <ListItemSecondaryAction>
-                            <IconButton {...bindTrigger(popupState)}>
-                                <MoreHorizIcon />
-                            </IconButton>
-                        </ListItemSecondaryAction>
-                    </ListItem>
-                </List>
-
-                <Divider />
-                <div
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        minHeight: '65vh',
-                        maxHeight: '65vh',
-                        overflowY: 'scroll'
-                    }}>
-                    <div className={classes.messageBody}>
-                        {messageStore.messageList ? (
-                            messageStore.messageList.map((item, i) => (
-                                <div
-                                    className={classes.messageItem}
-                                    key={item._id}>
-                                    {renderDate(
-                                        item,
-                                        i,
-                                        messageStore.messageList
-                                    )}
-                                    {loginStore.userInfo &&
-                                    item.from === loginStore.userInfo.id ? (
-                                        <div className={classes.senderMessage}>
-                                            <div
-                                                className={
-                                                    classes.senderContent
-                                                }>
-                                                {item.content}
-                                            </div>
-
-                                            <div
-                                                className={
-                                                    classes.senderFooter
-                                                }>
-                                                <div className={classes.time}>
-                                                    {numberUtil.convertUtcToTime(
-                                                        item.created_at
-                                                    )}
-                                                </div>
-                                                {item.is_seen && (
-                                                    <CheckIcon
-                                                        className={classes.tick}
-                                                    />
-                                                )}
-                                            </div>
-                                        </div>
-                                    ) : (
+                                }
+                                secondary={
+                                    messageStore.selectedRoom && (
                                         <div
-                                            className={
-                                                classes.recipientMessage
-                                            }>
+                                            style={{
+                                                width: '100%',
+                                                overflow: 'hidden',
+                                                textOverflow: 'ellipsis',
+                                                whiteSpace: 'nowrap'
+                                            }}>
+                                            <Typography>
+                                                {
+                                                    messageStore.selectedRoom
+                                                        .user_info.name
+                                                }
+                                            </Typography>
+                                            <Typography
+                                                variant="caption"
+                                                style={{ paddingLeft: 5 }}>
+                                                {
+                                                    messageStore.selectedRoom
+                                                        .user_info.headline
+                                                }
+                                            </Typography>
+                                        </div>
+                                    )
+                                }
+                            />
+
+                            <ListItemSecondaryAction>
+                                <IconButton {...bindTrigger(popupState)}>
+                                    <MoreHorizIcon />
+                                </IconButton>
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                    </List>
+
+                    <Divider />
+                    <div
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            minHeight: '65vh',
+                            maxHeight: '65vh',
+                            overflowY: 'scroll'
+                        }}>
+                        <div className={classes.messageBody}>
+                            {messageStore.messageList ? (
+                                messageStore.messageList.map((item, i) => (
+                                    <div
+                                        className={classes.messageItem}
+                                        key={item._id}>
+                                        {renderDate(
+                                            item,
+                                            i,
+                                            messageStore.messageList
+                                        )}
+                                        {loginStore.userInfo &&
+                                        item.from === loginStore.userInfo.id ? (
                                             <div
                                                 className={
-                                                    classes.recipientContent
+                                                    classes.senderMessage
                                                 }>
-                                                {item.content}
-                                            </div>
-                                            <div
-                                                className={
-                                                    classes.recipientFooter
-                                                }>
-                                                <div className={classes.time}>
-                                                    {numberUtil.convertUtcToTime(
-                                                        item.created_at
+                                                <div
+                                                    className={
+                                                        classes.senderContent
+                                                    }>
+                                                    {item.content}
+                                                </div>
+
+                                                <div
+                                                    className={
+                                                        classes.senderFooter
+                                                    }>
+                                                    <div
+                                                        className={
+                                                            classes.time
+                                                        }>
+                                                        {numberUtil.convertUtcToTime(
+                                                            item.created_at
+                                                        )}
+                                                    </div>
+                                                    {item.is_seen && (
+                                                        <CheckIcon
+                                                            className={
+                                                                classes.tick
+                                                            }
+                                                        />
                                                     )}
                                                 </div>
                                             </div>
-                                        </div>
-                                    )}
-                                </div>
-                            ))
-                        ) : (
-                            <LoadingCard />
-                        )}
+                                        ) : (
+                                            <div
+                                                className={
+                                                    classes.recipientMessage
+                                                }>
+                                                <div
+                                                    className={
+                                                        classes.recipientContent
+                                                    }>
+                                                    {item.content}
+                                                </div>
+                                                <div
+                                                    className={
+                                                        classes.recipientFooter
+                                                    }>
+                                                    <div
+                                                        className={
+                                                            classes.time
+                                                        }>
+                                                        {numberUtil.convertUtcToTime(
+                                                            item.created_at
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                ))
+                            ) : (
+                                <LoadingCard />
+                            )}
+                        </div>
+                        <div ref={messagesEndRef} />
                     </div>
-                    <div ref={messagesEndRef} />
-                </div>
-                <Divider />
+                    <Divider />
 
-                <div className={classes.chatFooter}>
-                    <Input
-                        className={classes.input}
-                        onChange={(e) =>
-                            (messageStore.messageContent = e.target.value)
-                        }
-                        onFocus={() => emitSeenMessage()}
-                        value={messageStore.messageContent}
-                        placeholder="Type a message..."
-                        ref={inputRef}
-                    />
-                    <IconButton
-                        className={classes.chatButtonIcon}
-                        type="submit"
-                        disabled={
-                            messageStore.messageContent === '' ? true : false
-                        }
-                        color="primary"
-                        onClick={(e) => handleSendMessage(e)}>
-                        <SendRounded />
-                    </IconButton>
-                </div>
-            </Paper>
-            <Menu
-                {...bindMenu(popupState)}
-                getContentAnchorEl={null}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'right'
-                }}
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right'
-                }}
-                className={classes.menu}>
-                <MenuItem onClick={popupState.close}>Archive</MenuItem>
-                <MenuItem onClick={popupState.close}>Delete</MenuItem>
-                <MenuItem onClick={popupState.close}>Mark as unread</MenuItem>
-                <MenuItem onClick={popupState.close}>Mute</MenuItem>
-            </Menu>
-        </div>
-    );
+                    <div className={classes.chatFooter}>
+                        <Input
+                            autoFocus
+                            className={classes.input}
+                            onChange={(e) =>
+                                (messageStore.messageContent = e.target.value)
+                            }
+                            onFocus={() => emitSeenMessage()}
+                            value={messageStore.messageContent}
+                            placeholder="Type a message..."
+                            ref={inputRef}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    handleSendMessage(e);
+                                }
+                            }}
+                        />
+                        <IconButton
+                            className={classes.chatButtonIcon}
+                            type="submit"
+                            disabled={
+                                messageStore.messageContent === ''
+                                    ? true
+                                    : false
+                            }
+                            color="primary"
+                            onClick={(e) => handleSendMessage(e)}>
+                            <SendRounded />
+                        </IconButton>
+                    </div>
+                </Paper>
+                <Menu
+                    {...bindMenu(popupState)}
+                    getContentAnchorEl={null}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right'
+                    }}
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right'
+                    }}
+                    className={classes.menu}>
+                    <MenuItem onClick={popupState.close}>Archive</MenuItem>
+                    <MenuItem onClick={popupState.close}>Delete</MenuItem>
+                    <MenuItem onClick={popupState.close}>
+                        Mark as unread
+                    </MenuItem>
+                    <MenuItem onClick={popupState.close}>Mute</MenuItem>
+                </Menu>
+            </div>
+        );
+    } else return null;
 });
 
 export default MessagesList;

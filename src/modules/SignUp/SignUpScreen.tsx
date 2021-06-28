@@ -22,7 +22,7 @@ const Style = makeStyles((theme: any) => ({
             display: 'none'
         },
         '& > *': {
-            height: 400
+            height: '80%'
         }
     },
     signupCard: {
