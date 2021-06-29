@@ -22,6 +22,18 @@ const customStyles = {
 const ApplyJob = observer(() => {
     const classes = Styles();
 
+    const onClickApplyJob = async () => {
+        if (jobStore.detailJob) {
+            const isApplySuccess = await jobStore.applyJob(
+                jobStore.detailJob._id
+            );
+            if (isApplySuccess !== null) {
+                // history.push(`/profile/${loginStore.userInfo.id}`);
+                window.location.reload();
+            }
+        }
+    };
+
     if (jobStore.detailJob) {
         return (
             <div>
@@ -69,13 +81,14 @@ const ApplyJob = observer(() => {
                                 variant="contained"
                                 color="primary"
                                 className={classes.btnSend}
-                                onClick={(e) => {
-                                    if (jobStore.detailJob) {
-                                        jobStore.applyJob(
-                                            jobStore.detailJob._id
-                                        );
-                                    }
-                                }}>
+                                // onClick={(e) => {
+                                //     if (jobStore.detailJob) {
+                                //         jobStore.applyJob(
+                                //             jobStore.detailJob._id
+                                //         );
+                                //     }
+                                // }}
+                                onClick={() => onClickApplyJob()}>
                                 {jobStore.isLoading ? 'Sending...' : 'Send'}
                             </Button>
                             <Button

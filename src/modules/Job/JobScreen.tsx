@@ -29,15 +29,8 @@ import { observer } from 'mobx-react-lite';
 import { jobStore } from './jobStore';
 import { loginStore } from '../Login/loginStore';
 
-// interface IProps {
-//     onSave: any;
-//     job: IJob[];
-// }
-
 const JobScreen = observer(() => {
     const classes = Styles();
-
-    const [modalIsOpen, setModalIsOpen] = React.useState(false);
 
     let history = useHistory();
 

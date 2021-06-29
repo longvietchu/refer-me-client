@@ -27,7 +27,7 @@ import {
     FiberManualRecord
 } from '@material-ui/icons';
 
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 
 import { observer } from 'mobx-react-lite';
 
@@ -46,7 +46,22 @@ const DetailJob = observer(() => {
 
     useEffect(() => {
         jobStore.getOneJob(_id);
-    }, [_id]);
+        jobStore.isApplied(_id);
+    }, []);
+
+    let history = useHistory();
+
+    const onClickUnApplyJob = async () => {
+        if (jobStore.detailJob) {
+            const isUnApplySuccess = await jobStore.unApplyJob(
+                jobStore.detailJob._id
+            );
+            if (isUnApplySuccess !== null) {
+                // history.push(`/profile/${loginStore.userInfo.id}`);
+                window.location.reload();
+            }
+        }
+    };
 
     if (jobStore.detailJob) {
         return (
@@ -214,7 +229,7 @@ const DetailJob = observer(() => {
                                             {jobStore.detailJob.description}
                                         </Typography>
                                     </Typography>
-
+                                    {/* 
                                     {loginStore.userInfo &&
                                     loginStore.userInfo.id ===
                                         jobStore.detailJob.user_info
@@ -223,6 +238,38 @@ const DetailJob = observer(() => {
                                             className={classes.btn}
                                             onClick={() => {
                                                 jobStore.applyJobModal = true;
+                                            }}>
+                                            <Typography>Apply</Typography>
+                                            <Directions />
+                                        </IconButton>
+                                    )} */}
+
+                                    {loginStore.userInfo &&
+                                    loginStore.userInfo.id ===
+                                        jobStore.detailJob.user_info
+                                            ._id ? null : jobStore.isAppliedJob ? (
+                                        <IconButton
+                                            className={classes.btn}
+                                            // onClick={() => {
+                                            //     if (jobStore.detailJob) {
+                                            //         jobStore.unApplyJob(
+                                            //             jobStore.detailJob._id
+                                            //         );
+                                            //     }
+                                            // }}
+                                            onClick={() => onClickUnApplyJob()}>
+                                            <Typography>
+                                                {jobStore.isLoading
+                                                    ? 'Cancelling...'
+                                                    : 'Cancel'}
+                                            </Typography>
+                                        </IconButton>
+                                    ) : (
+                                        <IconButton
+                                            className={classes.btn}
+                                            onClick={() => {
+                                                jobStore.applyJobModal = true;
+                                                // history.push('/myjob');
                                             }}>
                                             <Typography>Apply</Typography>
                                             <Directions />

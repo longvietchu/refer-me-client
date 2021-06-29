@@ -7,7 +7,6 @@ import Styles from './Style';
 const ConnectCard = observer((props: any) => {
     const classes = Styles();
     const { connect } = props;
-    console.log('connect', connect);
 
     return (
         <Card className={classes.card}>

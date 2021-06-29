@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { makeAutoObservable } from 'mobx';
 import HttpStatusCode from '../../common/constants/HttpErrorCode';
 import {
@@ -86,6 +88,8 @@ class JobStore {
     greeting: string = '';
     applyJobModal: boolean = false;
 
+    isAppliedJob: boolean = false;
+
     modalJob: boolean = false;
     isLoading: boolean = false;
     isSearching: boolean = false;
@@ -97,6 +101,7 @@ class JobStore {
         if (result.status < HttpStatusCode.CODE_300) {
             this.jobList = result.body.data;
             this.jobMeta = result.body.meta;
+            console.log('result---', result);
         }
     }
 
@@ -180,6 +185,25 @@ class JobStore {
         if (result.status < HttpStatusCode.CODE_300) {
             console.log('result----', result);
             this.applyJobModal = false;
+        }
+        this.isLoading = false;
+    }
+
+    async unApplyJob(job_id: string) {
+        this.isLoading = true;
+        const result = await jobService.unApplyJob(job_id);
+        if (result.status < HttpStatusCode.CODE_300) {
+            console.log('----', result);
+        }
+    }
+
+    async isApplied(job_id: string) {
+        this, (this.isLoading = true);
+        const result = await jobService.isApplied(job_id);
+        if (result.status < HttpStatusCode.CODE_300) {
+            console.log('result+++', result);
+            this.isAppliedJob = result.body.is_applied;
+            console.log('isAppliedJob+++', this.isAppliedJob);
         }
         this.isLoading = false;
     }

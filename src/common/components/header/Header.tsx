@@ -47,7 +47,7 @@ const Header = observer(() => {
     const signOut = () => {
         StorageService.removeToken();
         window.location.reload();
-        };
+    };
 
     const onClickProfile = () => {
         if (loginStore.userInfo) {
@@ -245,7 +245,7 @@ const Header = observer(() => {
                         Post & Activity
                     </Link>
                     <Link
-                        to="#"
+                        to="/myjob"
                         style={{ color: '#808080', lineHeight: '20px' }}>
                         Job Posting
                     </Link>

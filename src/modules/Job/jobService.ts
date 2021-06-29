@@ -1,4 +1,5 @@
 import {
+    deleteRequest,
     getRequest,
     IApiResponse,
     postRequest,
@@ -32,6 +33,14 @@ class JobService {
 
     public applyJob(_id: any, data: any): Promise<IApiResponse> {
         return postRequest(`/v1/job/apply/${_id}`, data);
+    }
+
+    public unApplyJob(job_id: string): Promise<IApiResponse> {
+        return deleteRequest(`/v1/job/un-apply/${job_id}`, {});
+    }
+
+    public isApplied(job_id: string): Promise<IApiResponse> {
+        return getRequest(`/v1/job/is-applied?job_id=${job_id}`, true);
     }
 }
 
