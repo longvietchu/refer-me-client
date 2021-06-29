@@ -9,7 +9,8 @@ import {
     IconButton,
     Paper,
     InputBase,
-    Button
+    Button,
+    TextField
 } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom';
 
@@ -33,6 +34,17 @@ const JobScreen = observer(() => {
     const classes = Styles();
 
     let history = useHistory();
+
+    // React.useEffect(() => {
+    //     jobStore.searchJob();
+    // }, [jobStore.inputKeyword]);
+
+    const searchKeyword = async (event: any) => {
+        if (event.key === 'Enter') {
+            console.log('do validate', event.target.value);
+            await jobStore.searchJob(event.target.value);
+        }
+    };
 
     return (
         <Grid container className={classes.app}>
@@ -90,6 +102,10 @@ const JobScreen = observer(() => {
                                     style={{ fontSize: '14px' }}>
                                     Based on your profile and search history
                                 </Typography>
+                                <TextField
+                                    label="Search job title"
+                                    onKeyDown={searchKeyword}
+                                />
                             </div>
                             <Box className={classes.box}>
                                 <Container maxWidth={false}>

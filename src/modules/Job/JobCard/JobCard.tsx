@@ -105,7 +105,8 @@ const JobCard = observer((props: any) => {
                         className={classes.title}>
                         {job.title}
                     </Typography>
-                    {job.organization_info && job.organization_info.name ? (
+                    {/* {job.organization_info &&
+                    job.organization_info.name != undefined ? (
                         <Typography variant="body1" className={classes.company}>
                             {job.organization_info.name}
                         </Typography>
@@ -113,7 +114,7 @@ const JobCard = observer((props: any) => {
                         <Typography variant="body1" className={classes.company}>
                             {job.user_info.name}
                         </Typography>
-                    )}
+                    )} */}
 
                     <Typography
                         gutterBottom

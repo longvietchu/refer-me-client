@@ -19,6 +19,7 @@ const JobContainer = observer(() => {
     useEffect(() => {
         jobStore.getJobs();
     }, []);
+    
 
     return <JobScreen />;
 });

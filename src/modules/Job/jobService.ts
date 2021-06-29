@@ -42,6 +42,10 @@ class JobService {
     public isApplied(job_id: string): Promise<IApiResponse> {
         return getRequest(`/v1/job/is-applied?job_id=${job_id}`, true);
     }
+
+    public searchJob(keyword: string): Promise<IApiResponse> {
+        return getRequest(`/v1/job/search?keyword=${keyword}`);
+    }
 }
 
 export const jobService = new JobService();

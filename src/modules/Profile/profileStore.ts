@@ -510,9 +510,10 @@ class ProfileStore {
         if (result.status < HttpStatusCode.CODE_300 && this.skillList) {
             console.log(result);
             this.modalSkill.delete = false;
-            this.skillList = this.skillList.filter((skill) => skill._id !== skill_id);
+            this.skillList = this.skillList.filter(
+                (skill) => skill._id !== skill_id
+            );
             //await this.getSkill(result.body.data.user_id);
-
         }
         this.isLoading = false;
     }
@@ -534,6 +535,3 @@ class ProfileStore {
 }
 
 export const profileStore = new ProfileStore();
-// lag roi cu tut tut tut
-
-// goi messenger nhe 

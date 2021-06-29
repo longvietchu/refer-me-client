@@ -65,6 +65,10 @@ class JobStore {
     jobMeta?: IMetaData;
     searchResult: IOrganizationInfo[] = [];
 
+    searchJobResult: IJob[] = [];
+
+    searchKeyWord: string = '';
+
     inputJob = {
         title: '',
         location: '',
@@ -77,6 +81,8 @@ class JobStore {
         organization_id: '',
         user_id: ''
     };
+
+    inputKeyword: string = '';
 
     validateInput = {
         title: '',
@@ -169,7 +175,7 @@ class JobStore {
         }
         const result = await jobService.createJob(data);
         if (result.status < HttpStatusCode.CODE_300 && this.jobList) {
-            console.log(result);
+            // console.log(result);
             this.jobList = [result.body.data, ...this.jobList];
         }
         this.isLoading = false;
@@ -183,7 +189,7 @@ class JobStore {
         };
         const result = await jobService.applyJob(_id, data);
         if (result.status < HttpStatusCode.CODE_300) {
-            console.log('result----', result);
+            // console.log('result----', result);
             this.applyJobModal = false;
         }
         this.isLoading = false;
@@ -193,19 +199,29 @@ class JobStore {
         this.isLoading = true;
         const result = await jobService.unApplyJob(job_id);
         if (result.status < HttpStatusCode.CODE_300) {
-            console.log('----', result);
+            // console.log('----', result);
         }
     }
 
     async isApplied(job_id: string) {
-        this, (this.isLoading = true);
+        this.isLoading = true;
         const result = await jobService.isApplied(job_id);
         if (result.status < HttpStatusCode.CODE_300) {
-            console.log('result+++', result);
+            // console.log('result+++', result);
             this.isAppliedJob = result.body.is_applied;
-            console.log('isAppliedJob+++', this.isAppliedJob);
+            // console.log('isAppliedJob+++', this.isAppliedJob);
         }
         this.isLoading = false;
+    }
+
+    async searchJob(keyword: string) {
+        this.isLoading = true;
+        // let keyword = this.inputKeyword;
+        const result = await jobService.searchJob(keyword);
+        if (result.status < HttpStatusCode.CODE_300) {
+            this.jobList = result.body.data;
+            console.log('result---', result);
+        }
     }
 }
 
