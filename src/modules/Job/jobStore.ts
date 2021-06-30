@@ -214,10 +214,9 @@ class JobStore {
         this.isLoading = false;
     }
 
-    async searchJob(keyword: string) {
+    async searchJob() {
         this.isLoading = true;
-        // let keyword = this.inputKeyword;
-        const result = await jobService.searchJob(keyword);
+        const result = await jobService.searchJob(this.inputKeyword);
         if (result.status < HttpStatusCode.CODE_300) {
             this.jobList = result.body.data;
             console.log('result---', result);

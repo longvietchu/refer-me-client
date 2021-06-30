@@ -77,7 +77,7 @@ const JobCard = observer((props: any) => {
                             />
                         )}
 
-                        {!job.isSave ? (
+                        {/* {!job.isSave ? (
                             <IconButton
                                 edge="end"
                                 onClick={(e) => onSave(e, 'success', job._id)}>
@@ -96,7 +96,7 @@ const JobCard = observer((props: any) => {
                                     }}
                                 />
                             </IconButton>
-                        )}
+                        )} */}
                     </Box>
 
                     <Typography
@@ -105,7 +105,7 @@ const JobCard = observer((props: any) => {
                         className={classes.title}>
                         {job.title}
                     </Typography>
-                    {/* {job.organization_info &&
+                    {job.organization_info &&
                     job.organization_info.name != undefined ? (
                         <Typography variant="body1" className={classes.company}>
                             {job.organization_info.name}
@@ -114,7 +114,7 @@ const JobCard = observer((props: any) => {
                         <Typography variant="body1" className={classes.company}>
                             {job.user_info.name}
                         </Typography>
-                    )} */}
+                    )}
 
                     <Typography
                         gutterBottom

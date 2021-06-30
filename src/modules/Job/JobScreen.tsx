@@ -10,7 +10,8 @@ import {
     Paper,
     InputBase,
     Button,
-    TextField
+    TextField,
+    InputAdornment
 } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom';
 
@@ -29,6 +30,7 @@ import { observer } from 'mobx-react-lite';
 
 import { jobStore } from './jobStore';
 import { loginStore } from '../Login/loginStore';
+import SearchIcon from '@material-ui/icons/Search';
 
 const JobScreen = observer(() => {
     const classes = Styles();
@@ -41,8 +43,7 @@ const JobScreen = observer(() => {
 
     const searchKeyword = async (event: any) => {
         if (event.key === 'Enter') {
-            console.log('do validate', event.target.value);
-            await jobStore.searchJob(event.target.value);
+            await jobStore.searchJob();
         }
     };
 
@@ -89,24 +90,45 @@ const JobScreen = observer(() => {
                         </Paper>
 
                         <Paper className={classes.paperListJob}>
-                            <div style={{ padding: '20px 24px 0' }}>
-                                <Typography
-                                    style={{
-                                        fontSize: '20px',
-                                        fontWeight: 'bold'
-                                    }}>
-                                    Recommended for you
-                                </Typography>
-                                <Typography
-                                    variant="caption"
-                                    style={{ fontSize: '14px' }}>
-                                    Based on your profile and search history
-                                </Typography>
+                            <Grid
+                                container
+                                justify="space-between"
+                                style={{ padding: '20px 24px 0' }}>
+                                <div>
+                                    <Typography
+                                        style={{
+                                            fontSize: '20px',
+                                            fontWeight: 'bold'
+                                        }}>
+                                        Recommended for you
+                                    </Typography>
+                                    <Typography
+                                        variant="caption"
+                                        style={{ fontSize: '14px' }}>
+                                        Based on your profile and search history
+                                    </Typography>
+                                </div>
                                 <TextField
-                                    label="Search job title"
+                                    placeholder="Search job title"
                                     onKeyDown={searchKeyword}
+                                    value={jobStore.inputKeyword}
+                                    onChange={(e) =>
+                                        (jobStore.inputKeyword = e.target.value)
+                                    }
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    onClick={() =>
+                                                        jobStore.searchJob()
+                                                    }>
+                                                    <SearchIcon />
+                                                </IconButton>
+                                            </InputAdornment>
+                                        )
+                                    }}
                                 />
-                            </div>
+                            </Grid>
                             <Box className={classes.box}>
                                 <Container maxWidth={false}>
                                     <Box pt={3}>
