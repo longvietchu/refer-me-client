@@ -31,6 +31,10 @@ class JobService {
         return postRequest(`/v1/job`, data);
     }
 
+    public deleteJob(job_id: string): Promise<IApiResponse> {
+        return deleteRequest(`/v1/job/${job_id}`, {});
+    }
+
     public applyJob(_id: any, data: any): Promise<IApiResponse> {
         return postRequest(`/v1/job/apply/${_id}`, data);
     }
@@ -45,6 +49,10 @@ class JobService {
 
     public searchJob(keyword: string): Promise<IApiResponse> {
         return getRequest(`/v1/job/search?keyword=${keyword}`);
+    }
+
+    public getAllApplicants(job_id: string): Promise<IApiResponse> {
+        return getRequest(`/v1/job/applicants?job_id=${job_id}`, true);
     }
 }
 

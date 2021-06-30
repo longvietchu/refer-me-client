@@ -37,6 +37,16 @@ interface IMyApplyJob {
     job_info: IJob;
 }
 
+interface IApplicants {
+    _id: string;
+    greeting: string;
+    user_id: string;
+    job_id: string;
+    created_at: string;
+    updated_at: string;
+    user_info: IUserInfo;
+}
+
 export enum IEmploymentType {
     NONE = 'None',
     FULL_TIME = 'Full-time',
@@ -58,6 +68,7 @@ class JobStore {
 
     jobList?: IJob[];
     myJobList?: IJob[];
+    applicantsList?: IApplicants[];
     myApplyJobList?: IMyApplyJob[];
     detailJob?: IJob;
     jobPage: number = 0;
@@ -102,12 +113,14 @@ class JobStore {
 
     jobTab: string = JobTab.POSTED;
 
+    modalDeleteJob: boolean = false;
+
     async getJobs() {
         const result = await jobService.getJobs(this.jobPage, this.jobLimit);
         if (result.status < HttpStatusCode.CODE_300) {
             this.jobList = result.body.data;
             this.jobMeta = result.body.meta;
-            console.log('result---', result);
+            // console.log('result---', result);
         }
     }
 
@@ -116,7 +129,7 @@ class JobStore {
         if (result.status < HttpStatusCode.CODE_300) {
             this.detailJob = result.body.data;
         }
-        console.log('result', result);
+        console.log('result+++', result);
     }
 
     async getJobOfUser(user_id: string) {
@@ -124,7 +137,7 @@ class JobStore {
         if (result.status < HttpStatusCode.CODE_300) {
             this.myJobList = result.body.data;
         }
-        console.log('111', result);
+        // console.log('111', result);
     }
 
     async getApplyJob() {
@@ -153,13 +166,14 @@ class JobStore {
                 location: this.inputJob.location,
                 organization_id: this.inputJob.organization_id,
                 employment_type: this.inputJob.employment_type,
-                description: this.inputJob.description.trim()
+                description: this.inputJob.description.trim(),
+                company: this.inputJob.company
             };
         } else {
             data = {
                 title: this.inputJob.title.trim(),
                 location: this.inputJob.location,
-
+                company: this.inputJob.company,
                 description: this.inputJob.description.trim()
             };
         }
@@ -175,11 +189,21 @@ class JobStore {
         }
         const result = await jobService.createJob(data);
         if (result.status < HttpStatusCode.CODE_300 && this.jobList) {
-            // console.log(result);
+            console.log('result+++', result);
             this.jobList = [result.body.data, ...this.jobList];
         }
         this.isLoading = false;
         this.modalJob = false;
+    }
+
+    async deleteJob(job_id: string) {
+        this.isLoading = true;
+        const result = await jobService.deleteJob(job_id);
+        if (result.status < HttpStatusCode.CODE_300) {
+            jobStore.modalDeleteJob = false;
+        }
+        this.isLoading = false;
+        return false;
     }
 
     async applyJob(_id: any) {
@@ -220,6 +244,15 @@ class JobStore {
         if (result.status < HttpStatusCode.CODE_300) {
             this.jobList = result.body.data;
             console.log('result---', result);
+        }
+    }
+
+    async getAllApplicants(job_id: string) {
+        this.isLoading = true;
+        const result = await jobService.getAllApplicants(job_id);
+        if (result.status < HttpStatusCode.CODE_300) {
+            console.log('result ne', result);
+            this.applicantsList = result.body.data;
         }
     }
 }
