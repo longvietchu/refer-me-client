@@ -120,7 +120,6 @@ class JobStore {
         if (result.status < HttpStatusCode.CODE_300) {
             this.jobList = result.body.data;
             this.jobMeta = result.body.meta;
-            // console.log('result---', result);
         }
     }
 
@@ -137,7 +136,6 @@ class JobStore {
         if (result.status < HttpStatusCode.CODE_300) {
             this.myJobList = result.body.data;
         }
-        // console.log('111', result);
     }
 
     async getApplyJob() {
@@ -201,6 +199,7 @@ class JobStore {
         const result = await jobService.deleteJob(job_id);
         if (result.status < HttpStatusCode.CODE_300) {
             jobStore.modalDeleteJob = false;
+            return true;
         }
         this.isLoading = false;
         return false;
@@ -223,17 +222,15 @@ class JobStore {
         this.isLoading = true;
         const result = await jobService.unApplyJob(job_id);
         if (result.status < HttpStatusCode.CODE_300) {
-            // console.log('----', result);
         }
+        this.isLoading = false;
     }
 
     async isApplied(job_id: string) {
         this.isLoading = true;
         const result = await jobService.isApplied(job_id);
         if (result.status < HttpStatusCode.CODE_300) {
-            // console.log('result+++', result);
             this.isAppliedJob = result.body.is_applied;
-            // console.log('isAppliedJob+++', this.isAppliedJob);
         }
         this.isLoading = false;
     }
@@ -243,7 +240,6 @@ class JobStore {
         const result = await jobService.searchJob(this.inputKeyword);
         if (result.status < HttpStatusCode.CODE_300) {
             this.jobList = result.body.data;
-            console.log('result---', result);
         }
     }
 
@@ -251,9 +247,9 @@ class JobStore {
         this.isLoading = true;
         const result = await jobService.getAllApplicants(job_id);
         if (result.status < HttpStatusCode.CODE_300) {
-            console.log('result ne', result);
             this.applicantsList = result.body.data;
         }
+        this.isLoading = false;
     }
 }
 

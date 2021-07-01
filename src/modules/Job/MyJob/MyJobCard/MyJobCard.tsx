@@ -63,13 +63,13 @@ const MyJobCard = observer((props: any) => {
                             <img
                                 alt="Jobs"
                                 src={job.organization_info.avatar}
-                                style={{ height: 72, width: 72 }}
+                                style={{ width: 72 }}
                             />
                         ) : (
                             <img
                                 alt="Jobs"
                                 src="/images/no-avatar.png"
-                                style={{ height: 72, width: 72 }}
+                                style={{ width: 72, height: 106 }}
                             />
                         )}
                     </Box>
@@ -80,15 +80,20 @@ const MyJobCard = observer((props: any) => {
                         className={classes.title}>
                         {job.title}
                     </Typography>
-                    {/* {job.organization_info && job.organization_info.name ? (
+
+                    {/* {job.compnay ? (
                         <Typography variant="body1" className={classes.company}>
-                            {job.organization_info.name}
+                            {job.company}
                         </Typography>
-                    ) : (
+                    ) : job.user_info && job.user_info.name != undefined ? (
                         <Typography variant="body1" className={classes.company}>
                             {job.user_info.name}
                         </Typography>
-                    )} */}
+                    ) : null} */}
+
+                    <Typography variant="body1" className={classes.company}>
+                        {job.company}
+                    </Typography>
 
                     <Typography
                         gutterBottom

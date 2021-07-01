@@ -97,10 +97,10 @@ const MyJob = observer(() => {
                                                         xs={12}>
                                                         <MyJobCard
                                                             job={job.job_info}
-                                                            // onSave={onSave}
                                                         />
                                                     </Grid>
                                                 )
+                                                // console.log('jobbbb', job)
                                             )
                                         ) : (
                                             <LoadingCard />

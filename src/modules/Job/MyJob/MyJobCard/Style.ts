@@ -10,7 +10,8 @@ export default makeStyles((theme) => ({
 
     box: {
         display: 'flex',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        height: 130
     },
     title: {
         overflow: 'hidden',
@@ -19,7 +20,8 @@ export default makeStyles((theme) => ({
         display: '-webkit-box',
         WebkitBoxOrient: 'vertical',
         WebkitLineClamp: 2,
-        fontSize: '24px'
+        fontSize: '24px',
+        height: '60px'
     },
     company: {
         color: '#00000099',
@@ -42,7 +44,5 @@ export default makeStyles((theme) => ({
         color: '#00000099',
         fontSize: '12px',
         marginTop: '50px'
-    },
-
-   
+    }
 }));

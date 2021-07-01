@@ -67,13 +67,13 @@ const JobCard = observer((props: any) => {
                             <img
                                 alt="Jobs"
                                 src={job.organization_info.avatar}
-                                style={{ height: 72, width: 72 }}
+                                style={{ width: 72 }}
                             />
                         ) : (
                             <img
                                 alt="Jobs"
                                 src="/images/no-avatar.png"
-                                style={{ height: 72, width: 72 }}
+                                style={{ width: 72 }}
                             />
                         )}
                     </Box>
@@ -84,15 +84,9 @@ const JobCard = observer((props: any) => {
                         className={classes.title}>
                         {job.title}
                     </Typography>
-                    {job.organization_info && job.organization_info.name ? (
-                        <Typography variant="body1" className={classes.company}>
-                            {job.organization_info.name}
-                        </Typography>
-                    ) : (
-                        <Typography variant="body1" className={classes.company}>
-                            {job.user_info.name}
-                        </Typography>
-                    )}
+                    <Typography variant="body1" className={classes.company}>
+                        {job.company}
+                    </Typography>
 
                     <Typography
                         gutterBottom

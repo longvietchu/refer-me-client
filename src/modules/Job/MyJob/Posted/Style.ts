@@ -56,7 +56,6 @@ export default makeStyles((theme) => ({
     },
 
     paper: {
-        marginTop: 16,
         borderRadius: 10
     },
 

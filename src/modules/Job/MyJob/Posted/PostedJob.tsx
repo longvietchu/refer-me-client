@@ -38,9 +38,8 @@ import Styles from './Style';
 import LoadingCard from '../../../../common/components/util/LoadingCard';
 import { formatDateTimeDDMM } from '../../../../common/config/Function';
 
-import ApplicantCard from './ApplicantCard/ApplicantCard';
 import DeleteJob from './DeleteJob';
-import CreateConnection from './ApplicantCard/CreateConnection';
+import Applicant from './Applicant/Applicant';
 
 const PostedJob = observer(() => {
     const classes = Styles();
@@ -91,14 +90,10 @@ const PostedJob = observer(() => {
                                                 }}
                                             />
                                         )}
-                                        {/* <ButtonBase style={{ height: 22 }}>
-                                            <Cancel />
-                                        </ButtonBase> */}
                                         <IconButton
                                             size="small"
                                             style={{ height: 22 }}
                                             onClick={() =>
-                                                // jobStore.deleteJob(_id)
                                                 (jobStore.modalDeleteJob = true)
                                             }>
                                             <Cancel />
@@ -151,49 +146,11 @@ const PostedJob = observer(() => {
 
                     <Grid item className={classes.body__feed} xs={12} md={7}>
                         <Grid item className={classes.feed__posts}>
-                            <Paper className={classes.paper}>
-                                <div style={{ padding: 16 }}>
-                                    <Typography variant="body1">
-                                        All Aplicants
-                                    </Typography>
-                                </div>
-                                <Divider />
-                                {jobStore.applicantsList &&
-                                jobStore.applicantsList.length > 0 ? (
-                                    <div className={classes.box_applicant}>
-                                        <Grid container spacing={5}>
-                                            {jobStore.applicantsList ? (
-                                                jobStore.applicantsList.map(
-                                                    (applicant, index) => (
-                                                        <Grid
-                                                            item
-                                                            key={applicant._id}
-                                                            lg={3}
-                                                            md={6}
-                                                            xs={12}>
-                                                            <ApplicantCard
-                                                                applicant={
-                                                                    applicant
-                                                                }
-                                                                // onSave={onSave}
-                                                            />
-                                                        </Grid>
-                                                    )
-                                                )
-                                            ) : (
-                                                <LoadingCard />
-                                            )}
-                                        </Grid>
-                                    </div>
-                                ) : (
-                                    <div>You don't have any candidates</div>
-                                )}
-                            </Paper>
+                            <Applicant />
                         </Grid>
                     </Grid>
                 </Grid>
                 <DeleteJob />
-                <CreateConnection />
             </Grid>
         );
     } else return <LoadingCard />;

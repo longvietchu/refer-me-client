@@ -17,7 +17,7 @@ const customStyles = {
         transform: 'translate(-50%, -50%)',
         padding: 20,
         borderRadius: 8,
-        height: '30%',
+        height: '25%',
         width: '30%'
     }
 };
@@ -62,14 +62,13 @@ const DeleteJob = observer(() => {
                                 className={classes.btnDelete}
                                 onClick={onClickDelete}
                                 disabled={jobStore.isLoading ? true : false}>
-                                {jobStore.isLoading ? 'Deleting...' : 'Yes'}
+                                {jobStore.isLoading ? 'Deleting' : 'Yes'}
                             </Button>
                             <Button
                                 className={classes.btnCancel}
                                 onClick={(e) =>
                                     (jobStore.modalDeleteJob = false)
-                                }
-                                disabled={jobStore.isLoading ? true : false}>
+                                }>
                                 Cancel
                             </Button>
                         </Grid>
