@@ -113,7 +113,7 @@ const Room = observer(() => {
                                 alignItems="flex-start">
                                 <Avatar
                                     src={item.user_info.avatar}
-                                    style={{ marginRight: 12 }}
+                                    className={classes.avatar}
                                 />
                                 <ListItemText
                                     secondary={
@@ -135,7 +135,10 @@ const Room = observer(() => {
                                             <Typography
                                                 component="span"
                                                 variant="body2"
-                                                style={{ fontSize: 14 }}>
+                                                style={{
+                                                    fontSize: 12,
+                                                    lineHeight: '14px'
+                                                }}>
                                                 {item.lastest_message &&
                                                     numberUtil.convertUtcToDate(
                                                         item.lastest_message

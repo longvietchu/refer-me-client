@@ -57,6 +57,8 @@ class HomeStore {
         description: '',
         post_image: []
     };
+    createPostModal: boolean = false;
+    isPosting: boolean = false;
 
     async getPost() {
         const result = await homeService.getFriendPost(
@@ -84,10 +86,12 @@ class HomeStore {
     }
 
     async createPost() {
+        this.isPosting = true;
         const result = await homeService.createPost(this.inputPost);
         if (result.status < HttpStatusCode.CODE_300) {
             console.log(result.body.data);
         }
+        this.isPosting = false;
     }
 }
 

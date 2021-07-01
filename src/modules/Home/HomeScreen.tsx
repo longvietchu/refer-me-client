@@ -7,6 +7,7 @@ import Form from '../../common/components/form/Form';
 import PostList from '../../common/components/posts/PostList';
 import Widgets from '../../common/components/widgets/Widgets';
 import { Helmet } from 'react-helmet';
+import CreatePostModal from './CreatePostModal';
 
 const HomeScreen = () => {
     const classes = Styles();
@@ -38,6 +39,7 @@ const HomeScreen = () => {
                         <Widgets />
                     </Grid>
                 </Hidden>
+                <CreatePostModal />
             </Grid>
         </Grid>
     );

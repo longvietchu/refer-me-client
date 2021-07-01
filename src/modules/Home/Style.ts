@@ -54,5 +54,33 @@ export default makeStyles((theme) => ({
     body__widgets: {
         minWidth: 225,
         maxWidth: 300
+    },
+    skillItem: {
+        borderRadius: 24,
+        padding: '0 2px 2px 8px',
+        border: '1px solid #546e7a',
+        marginRight: 8
+    },
+    closeIcon: {
+        width: 16,
+        height: 16
+    },
+    btn_post: {
+        border: '2px solid #0a66c2',
+        color: '#0a66c2',
+        width: '100px',
+        height: '35px',
+        margin: 10
+    },
+    textArea: {
+        border: 'none',
+        outline: 'none',
+        fontFamily: 'Roboto',
+        fontSize: 16,
+        lineHeight: '18px',
+        width: '100%',
+        '&::-webkit-resizer': {
+            display: 'none'
+        }
     }
 }));
