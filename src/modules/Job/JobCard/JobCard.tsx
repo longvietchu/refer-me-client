@@ -78,6 +78,8 @@ const JobCard = observer((props: any) => {
                         )}
                     </Box>
 
+                    {/* <div style={{ height: 100 }} /> */}
+
                     <Typography
                         color="textPrimary"
                         variant="h5"

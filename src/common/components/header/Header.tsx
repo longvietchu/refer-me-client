@@ -9,18 +9,27 @@ import {
     ListItemText,
     Paper,
     Popover,
-    Typography
+    Typography,
+    InputAdornment,
+    CircularProgress,
+    TextField
 } from '@material-ui/core';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import AppsIcon from '@material-ui/icons/Apps';
-import BrightnessHighIcon from '@material-ui/icons/BrightnessHigh';
+
 import GroupIcon from '@material-ui/icons/Group';
 import HomeIcon from '@material-ui/icons/Home';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import SearchIcon from '@material-ui/icons/Search';
 import TelegramIcon from '@material-ui/icons/Telegram';
 import WorkIcon from '@material-ui/icons/Work';
+import BusinessIcon from '@material-ui/icons/Business';
+
 import { observer } from 'mobx-react-lite';
+import { toJS } from 'mobx';
+
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { loginStore } from '../../../modules/Login/loginStore';
@@ -29,6 +38,9 @@ import { organizationStore } from '../../../modules/Organization/organizationSto
 import StorageService from '../../service/StorageService';
 import MenuItems from './menuItem/MenuItem';
 import Style from './Style';
+
+import { jobStore } from '../../../modules/Job/jobStore';
+import { IOrganizationInfo } from '../../constants/CommonInterface';
 
 const Header = observer(() => {
     const classes = Style();
@@ -133,13 +145,101 @@ const Header = observer(() => {
                             alt="logo"
                             onClick={() => history.push('/home')}
                         />
-                        <div className={classes.search}>
+                        {/* <div className={classes.search}>
                             <SearchIcon />
                             <input placeholder="Search" />
                         </div>
                         <Avatar
                             className={classes.avatar}
                             src="https://scontent.fhan4-1.fna.fbcdn.net/v/t1.6435-9/121083834_1699921320175513_6807580545774400741_n.jpg?_nc_cat=105&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=hfVRPKiVyaAAX-_QYhQ&_nc_ht=scontent.fhan4-1.fna&oh=fb6798aedb06700257a6b62a9815e721&oe=608BA140"
+                        /> */}
+
+                        <Autocomplete
+                            freeSolo
+                            className={classes.search}
+                            id="input-company"
+                            onInputChange={(event, newInputValue) => {
+                                jobStore.searchOrganization(newInputValue);
+                                jobStore.inputJob.company = newInputValue;
+                            }}
+                            inputValue={jobStore.inputJob.company}
+                            onChange={(
+                                event: any,
+                                newValue: string | IOrganizationInfo | null
+                            ) => {
+                                if (newValue) {
+                                    const orgObject: any = toJS(newValue);
+                                    // console.log('option: ', orgObject._id);
+                                    // jobStore.inputJob.organization_id =
+                                    //     orgObject._id;
+                                    if (orgObject._id) {
+                                        history.push(
+                                            `/organization/profile/${orgObject._id}`
+                                        );
+                                    } else
+                                        history.push(
+                                            '/organization/unavailable'
+                                        );
+                                }
+                            }}
+                            options={
+                                jobStore.searchResult as IOrganizationInfo[]
+                            }
+                            autoHighlight
+                            getOptionLabel={(option) => option.name}
+                            renderOption={(option) => (
+                                <React.Fragment>
+                                    <span>
+                                        {option.avatar ? (
+                                            <img
+                                                src={option.avatar}
+                                                className={
+                                                    classes.organizationAvatar
+                                                }
+                                            />
+                                        ) : (
+                                            <img
+                                                src="/images/no-avatar.png"
+                                                className={
+                                                    classes.organizationAvatar
+                                                }
+                                            />
+                                        )}
+                                    </span>
+                                    {option.name}
+                                </React.Fragment>
+                            )}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    placeholder="Search organization"
+                                    required
+                                    InputProps={{
+                                        ...params.InputProps,
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <SearchIcon />
+                                            </InputAdornment>
+                                        ),
+                                        endAdornment: (
+                                            <React.Fragment>
+                                                {jobStore.isSearching ? (
+                                                    <CircularProgress
+                                                        color="inherit"
+                                                        size={20}
+                                                    />
+                                                ) : null}
+                                            </React.Fragment>
+                                        )
+                                    }}
+                                    error={
+                                        jobStore.validateInput.company !== ''
+                                            ? true
+                                            : false
+                                    }
+                                    helperText={jobStore.validateInput.company}
+                                />
+                            )}
                         />
                     </div>
                     <div className={classes.header__nav}>

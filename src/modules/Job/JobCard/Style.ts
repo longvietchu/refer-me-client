@@ -11,7 +11,7 @@ export default makeStyles((theme) => ({
     box: {
         display: 'flex',
         justifyContent: 'space-between',
-        height: 130
+        height: 100
     },
     title: {
         overflow: 'hidden',
@@ -42,6 +42,9 @@ export default makeStyles((theme) => ({
     time: {
         color: '#00000099',
         fontSize: '12px',
-        marginTop: '50px'
+        marginTop: '50px',
+        alignSelf: 'flex-end'
+        // position: 'relative',
+        // bottom: '-18px'
     }
 }));

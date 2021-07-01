@@ -168,5 +168,9 @@ export default makeStyles((theme) => ({
         textTransform: 'capitalize',
         width: '100%',
         margin: '0 10px'
+    },
+    organizationAvatar: {
+        marginRight: 8,
+        width: 25
     }
 }));

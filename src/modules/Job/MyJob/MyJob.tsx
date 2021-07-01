@@ -100,6 +100,7 @@ const MyJob = observer(() => {
                                                         />
                                                     </Grid>
                                                 )
+
                                                 // console.log('jobbbb', job)
                                             )
                                         ) : (

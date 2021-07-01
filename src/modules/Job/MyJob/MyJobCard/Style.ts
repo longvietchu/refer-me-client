@@ -11,7 +11,7 @@ export default makeStyles((theme) => ({
     box: {
         display: 'flex',
         justifyContent: 'space-between',
-        height: 130
+        height: 100
     },
     title: {
         overflow: 'hidden',

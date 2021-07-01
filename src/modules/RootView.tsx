@@ -17,6 +17,7 @@ import DetailJob from './Job/DetailJob/DetailJob';
 import MyJob from './Job/MyJob/MyJob';
 import PostedJob from './Job/MyJob/Posted/PostedJob';
 import MyOrganization from './Organization/MyOrganization/MyOrganization';
+import UnavailableOrg from './Organization/UnavailableOrg';
 
 const RootView = () => {
     const PrivateRoute = ({ children, ...rest }: any) => {
@@ -81,6 +82,10 @@ const RootView = () => {
 
             <Route path="/organization/profile/:organization_id">
                 <ProfileOrgContainer />
+            </Route>
+
+            <Route path="/organization/unavailable">
+                <UnavailableOrg />
             </Route>
 
             <PrivateRoute exact path="/myorganization">

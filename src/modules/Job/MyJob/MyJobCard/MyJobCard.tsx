@@ -40,7 +40,7 @@ const MyJobCard = observer((props: any) => {
     const { enqueueSnackbar } = useSnackbar();
     let history = useHistory();
 
-    console.log('job', job);
+    console.log('job--', job);
 
     return (
         <Card
@@ -69,7 +69,7 @@ const MyJobCard = observer((props: any) => {
                             <img
                                 alt="Jobs"
                                 src="/images/no-avatar.png"
-                                style={{ width: 72, height: 106 }}
+                                style={{ width: 72 }}
                             />
                         )}
                     </Box>
