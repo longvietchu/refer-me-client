@@ -30,7 +30,7 @@ class OrganizationService {
     }
 
     public deleteOrganization(_id: string): Promise<IApiResponse> {
-        return deleteRequest(`/v1/organization/update/${_id}`, {});
+        return deleteRequest(`/v1/organization/${_id}`, {});
     }
 
     public uploadSingleImage(file: any): Promise<IApiResponse> {

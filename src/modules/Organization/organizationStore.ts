@@ -67,7 +67,6 @@ class OrganizationStore {
             );
             if (result.status < HttpStatusCode.CODE_300) {
                 this.organization.background_image = result.body.url;
-                this.organization.background_image = result.body.url;
                 await this.updateOrganization();
             }
         }
@@ -80,22 +79,6 @@ class OrganizationStore {
             console.log('result', result);
         }
     }
-
-    // async getMyOrganization() {
-    //     const result = await organizationService.getAllOrganization(
-    //         this.organizationPage,
-    //         this.organizationLimit
-    //     );
-    //     if (result.status < HttpStatusCode.CODE_300) {
-    //         this.myOrganization = result.body.data.filter((e: any) => {
-    //             if (loginStore.userInfo) {
-    //                 console.log('result+++++', result);
-    //                 return e.user_id === loginStore.userInfo.id;
-    //             }
-    //         });
-    //         this.organizationMeta = result.body.meta;
-    //     }
-    // }
 
     async getMyOrganization() {
         const result = await organizationService.getAllOrganization(
@@ -135,7 +118,7 @@ class OrganizationStore {
         if (loginStore.userInfo && this.organization) {
             const data = {
                 name: this.organization.name,
-                avatar: this.organization.name,
+                avatar: this.organization.avatar,
                 background_image: this.organization.background_image,
                 description: this.organization.description,
                 website: this.organization.website,
@@ -162,8 +145,10 @@ class OrganizationStore {
         if (result.status < HttpStatusCode.CODE_300) {
             console.log(result);
             this.modalOrganization.delete = false;
+            return true;
         }
         this.isLoading = false;
+        return false;
     }
 }
 

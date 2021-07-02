@@ -31,6 +31,7 @@ const DeleteEducation = observer(() => {
                 organizationStore.organization._id
             );
             history.push('/myorganization');
+            window.location.reload();
         }
     };
 
@@ -63,13 +64,7 @@ const DeleteEducation = observer(() => {
                                 variant="contained"
                                 color="secondary"
                                 className={classes.btnDelete}
-                                onClick={(e) => {
-                                    if (organizationStore.organization) {
-                                        organizationStore.deleteOrganization(
-                                            organizationStore.organization._id
-                                        );
-                                    }
-                                }}>
+                                onClick={onClickDelete}>
                                 {organizationStore.isLoading
                                     ? 'Deleting...'
                                     : 'Delete'}

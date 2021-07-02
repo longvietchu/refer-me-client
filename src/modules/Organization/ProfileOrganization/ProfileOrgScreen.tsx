@@ -40,6 +40,7 @@ import { organizationStore } from '../organizationStore';
 import { loginStore } from '../../Login/loginStore';
 import LoadingHeader from '../../../common/components/util/LoadingHeader';
 import ModalEdit from '../EditProfileOrganization/ModalEdit';
+import DeleteEducation from './DeleteOrganization';
 
 const ProfileOrgScreen = observer(() => {
     const classes = Styles();
@@ -442,6 +443,7 @@ const ProfileOrgScreen = observer(() => {
                         </Grid>
                     </Hidden>
                     <ModalEdit />
+                    <DeleteEducation />
                 </Grid>
             </Grid>
         );
