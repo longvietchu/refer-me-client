@@ -93,6 +93,17 @@ class HomeStore {
         }
         this.isPosting = false;
     }
+
+    async uploadPostImages(files: any) {
+        var formData = new FormData();
+        formData.append('images', files);
+        // const result = await homeService.uploadMultipleImages(formData);
+        // if (result.status < HttpStatusCode.CODE_300) {
+        //     this.inputPost.post_image = result.body.images;
+        //     console.log(result);
+        // }
+        console.log(formData);
+    }
 }
 
 export const homeStore = new HomeStore();

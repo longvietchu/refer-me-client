@@ -71,9 +71,9 @@ export default makeStyles((theme) => ({
     tick: {
         marginRight: '10px',
         alignSelf: 'flex-end',
-        marginLeft: 10,
-        width: 18,
-        height: 18
+        marginLeft: 8,
+        width: 16,
+        height: 16
     },
     menu: {
         marginTop: 10
@@ -104,16 +104,16 @@ export default makeStyles((theme) => ({
         background: '#ffffff',
         borderRadius: '0px 12px 12px 12px',
         padding: '12px 16px',
-        marginBottom: 8,
+        marginBottom: 4,
         fontSize: '14px',
         lineHeight: '16px',
         color: '#333333'
     },
     recipientFooter: {
-        fontSize: '12px',
-        lineHeight: '14px',
+        fontSize: '10px',
+        lineHeight: '12px',
         color: '#666666',
-        marginBottom: 8
+        marginBottom: 4
     },
     senderMessage: {
         alignSelf: 'flex-end'
@@ -125,17 +125,17 @@ export default makeStyles((theme) => ({
         fontSize: '14px',
         lineHeight: '16px',
         color: '#ffffff',
-        marginBottom: 8
+        marginBottom: 4
     },
     time: {},
     senderFooter: {
-        fontSize: '12px',
-        lineHeight: '14px',
+        fontSize: '10px',
+        lineHeight: '12px',
         textAlign: 'right',
         color: '#666666',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-end',
-        marginBottom: 8
+        marginBottom: 4
     }
 }));

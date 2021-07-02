@@ -1,8 +1,6 @@
-import React from 'react';
 import {
     Button,
     Divider,
-    Fab,
     Grid,
     IconButton,
     TextareaAutosize,
@@ -10,9 +8,10 @@ import {
 } from '@material-ui/core';
 import { Close, PhotoSizeSelectActual } from '@material-ui/icons';
 import { observer } from 'mobx-react-lite';
+import React, { useState } from 'react';
 import Modal from 'react-modal';
-import Styles from './Style';
 import { homeStore } from './homeStore';
+import Styles from './Style';
 
 Modal.setAppElement('#root');
 const customStyles = {
@@ -22,16 +21,25 @@ const customStyles = {
         right: 'auto',
         bottom: 'auto',
         transform: 'translate(-50%, -50%)',
-        height: '70%',
         width: '50%',
         paddingBottom: 5,
         paddingTop: 10,
         borderRadius: 8
+    },
+    overlay: {
+        backgroundColor: 'rgba(0, 0, 0, 0.75)',
+        zIndex: 100
     }
 };
 
 const CreatePostModal = observer(() => {
     const classes = Styles();
+    const [files, setFiles] = useState([]);
+    const onChangePostImages = (e: any) => {
+        e.preventDefault();
+        console.log(e.target.files);
+        // homeStore.uploadPostImages(e.target.files);
+    };
 
     return (
         <div>
@@ -59,21 +67,25 @@ const CreatePostModal = observer(() => {
                     <Divider />
 
                     <Grid item>
-                        <textarea
+                        <TextareaAutosize
                             className={classes.textArea}
                             placeholder="Post description"
                             onChange={(e) => {
                                 homeStore.inputPost.description =
                                     e.target.value;
                             }}
-                            rows={4}
-                            value={homeStore.inputPost.description}></textarea>
+                            rowsMin={4}
+                            value={homeStore.inputPost.description}
+                        />
                         <input
-                            id="upload-image"
+                            id="post-images"
                             type="file"
                             accept="image/*"
                             hidden
-                            onChange={(e) => console.log('images')}
+                            multiple
+                            onChange={(e) => {
+                                onChangePostImages(e);
+                            }}
                         />
                     </Grid>
 
@@ -93,16 +105,16 @@ const CreatePostModal = observer(() => {
                                 </IconButton>
                             </span>
                         ))}
-                        <label htmlFor="upload-image">
+                    </Grid>
+
+                    <Grid className={classes.footer}>
+                        <label htmlFor="post-images">
                             <PhotoSizeSelectActual
                                 style={{
-                                    color: '#0073b1'
+                                    color: '#666666'
                                 }}
                             />
                         </label>
-                    </Grid>
-
-                    <Grid>
                         <Button
                             disabled={
                                 homeStore.inputPost.description.length > 0
@@ -111,7 +123,7 @@ const CreatePostModal = observer(() => {
                             }
                             className={classes.btn_post}
                             onClick={(e) => homeStore.createPost()}>
-                            {homeStore.isPosting ? 'Saving...' : 'Save'}
+                            {homeStore.isPosting ? 'Posting...' : 'Post'}
                         </Button>
                     </Grid>
                 </Grid>

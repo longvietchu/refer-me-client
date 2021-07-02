@@ -66,7 +66,7 @@ export default makeStyles((theme) => ({
         height: 16
     },
     btn_post: {
-        border: '2px solid #0a66c2',
+        border: '1px solid #0a66c2',
         color: '#0a66c2',
         width: '100px',
         height: '35px',
@@ -81,6 +81,14 @@ export default makeStyles((theme) => ({
         width: '100%',
         '&::-webkit-resizer': {
             display: 'none'
+        }
+    },
+    footer: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        '& > label': {
+            padding: '8px 16px'
         }
     }
 }));

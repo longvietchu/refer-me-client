@@ -101,10 +101,11 @@ const MessagesList = observer(() => {
         if (index === lastIndex) {
             return dateComponent;
         } else {
-            const lastDate = new Date(data[index + 1].createdAt).getTime();
-            const currentDate = new Date(item.createdAt).getTime();
-            const diff = new Date(currentDate - lastDate).getMinutes();
-            if (diff > 10) {
+            let lastDate = new Date(data[index + 1].createdAt).getTime();
+            let currentDate = new Date(item.createdAt).getTime();
+            let diff = (currentDate - lastDate) / 1000;
+            diff /= 60;
+            if (diff > 30) {
                 return dateComponent;
             }
         }
@@ -116,7 +117,11 @@ const MessagesList = observer(() => {
                     <List dense={true} style={{ padding: 0 }}>
                         <ListItem>
                             <ListItemText
-                                style={{ margin: 0, display: 'flex' }}
+                                style={{
+                                    margin: 0,
+                                    display: 'flex',
+                                    alignItems: 'center'
+                                }}
                                 primary={
                                     <div
                                         style={{
@@ -144,9 +149,7 @@ const MessagesList = observer(() => {
                                                     .user_info.name
                                             }
                                         </Typography>
-                                        <Typography
-                                            variant="caption"
-                                            style={{ paddingLeft: 5 }}>
+                                        <Typography variant="caption">
                                             {
                                                 messageStore.selectedRoom
                                                     .user_info.headline

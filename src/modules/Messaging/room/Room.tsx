@@ -47,12 +47,7 @@ const Room = observer(() => {
                 );
             } else {
                 return (
-                    <Typography
-                        className={
-                            item.lastest_message.is_seen
-                                ? classes.typo
-                                : classes.typoActive
-                        }>
+                    <Typography className={classes.typo}>
                         You: {item.lastest_message.content}
                     </Typography>
                 );
@@ -75,9 +70,9 @@ const Room = observer(() => {
                         Messaging
                     </Typography>
                     <Grid item>
-                        <IconButton>
+                        {/* <IconButton>
                             <CreateIcon />
-                        </IconButton>
+                        </IconButton> */}
                         <IconButton>
                             <MoreHorizIcon />
                         </IconButton>
@@ -110,7 +105,7 @@ const Room = observer(() => {
                                     messageStore.selectedRoom._id === item._id
                                 }
                                 onClick={(event) => handleListItemClick(item)}
-                                alignItems="flex-start">
+                                alignItems="center">
                                 <Avatar
                                     src={item.user_info.avatar}
                                     className={classes.avatar}
@@ -147,7 +142,10 @@ const Room = observer(() => {
                                             </Typography>
                                         </React.Fragment>
                                     }
-                                    style={{ marginLeft: 20 }}
+                                    style={{
+                                        alignSelf: 'flex-start',
+                                        flexGrow: 0
+                                    }}
                                 />
                             </ListItem>
                         </List>
