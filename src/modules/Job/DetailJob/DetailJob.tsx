@@ -36,6 +36,7 @@ import { loginStore } from '../../Login/loginStore';
 
 import Styles from './Style';
 import LoadingCard from '../../../common/components/util/LoadingCard';
+import LoadingHeader from '../../../common/components/util/LoadingHeader';
 import { formatDateTimeDDMM } from '../../../common/config/Function';
 import ApplyJob from './ApplyJob';
 
@@ -229,20 +230,6 @@ const DetailJob = observer(() => {
                                             {jobStore.detailJob.description}
                                         </Typography>
                                     </Typography>
-                                    {/* 
-                                    {loginStore.userInfo &&
-                                    loginStore.userInfo.id ===
-                                        jobStore.detailJob.user_info
-                                            ._id ? null : (
-                                        <IconButton
-                                            className={classes.btn}
-                                            onClick={() => {
-                                                jobStore.applyJobModal = true;
-                                            }}>
-                                            <Typography>Apply</Typography>
-                                            <Directions />
-                                        </IconButton>
-                                    )} */}
 
                                     {loginStore.userInfo &&
                                     loginStore.userInfo.id ===
@@ -250,13 +237,6 @@ const DetailJob = observer(() => {
                                             ._id ? null : jobStore.isAppliedJob ? (
                                         <IconButton
                                             className={classes.btn}
-                                            // onClick={() => {
-                                            //     if (jobStore.detailJob) {
-                                            //         jobStore.unApplyJob(
-                                            //             jobStore.detailJob._id
-                                            //         );
-                                            //     }
-                                            // }}
                                             onClick={() => onClickUnApplyJob()}>
                                             <Typography>
                                                 {jobStore.isLoading
@@ -269,14 +249,12 @@ const DetailJob = observer(() => {
                                             className={classes.btn}
                                             onClick={() => {
                                                 jobStore.applyJobModal = true;
-                                                // history.push('/myjob');
                                             }}>
                                             <Typography>Apply</Typography>
                                             <Directions />
                                         </IconButton>
                                     )}
                                 </div>
-                                <Divider />
                             </Paper>
                         </Grid>
                     </Grid>
@@ -284,7 +262,7 @@ const DetailJob = observer(() => {
                 </Grid>
             </Grid>
         );
-    } else return <LoadingCard />;
+    } else return <LoadingHeader />;
 });
 
 export default DetailJob;

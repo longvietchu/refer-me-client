@@ -30,6 +30,8 @@ class OrganizationStore {
         founded: ''
     };
 
+    inputSearchOrg: string = '';
+
     organizationPage: number = 0;
     organizationLimit: number = 10;
     organizationMeta?: IMetaData;

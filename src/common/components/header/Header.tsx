@@ -32,14 +32,14 @@ import { toJS } from 'mobx';
 
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { loginStore } from '../../../modules/Login/loginStore';
-import { profileStore } from '../../../modules/Profile/profileStore';
-import { organizationStore } from '../../../modules/Organization/organizationStore';
 import StorageService from '../../service/StorageService';
 import MenuItems from './menuItem/MenuItem';
 import Style from './Style';
 
+import { profileStore } from '../../../modules/Profile/profileStore';
+import { loginStore } from '../../../modules/Login/loginStore';
 import { jobStore } from '../../../modules/Job/jobStore';
+import { organizationStore } from '../../../modules/Organization/organizationStore';
 import { IOrganizationInfo } from '../../constants/CommonInterface';
 
 const Header = observer(() => {
@@ -160,9 +160,10 @@ const Header = observer(() => {
                             id="input-company"
                             onInputChange={(event, newInputValue) => {
                                 jobStore.searchOrganization(newInputValue);
-                                jobStore.inputJob.company = newInputValue;
+                                organizationStore.inputSearchOrg =
+                                    newInputValue;
                             }}
-                            inputValue={jobStore.inputJob.company}
+                            inputValue={organizationStore.inputSearchOrg}
                             onChange={(
                                 event: any,
                                 newValue: string | IOrganizationInfo | null
