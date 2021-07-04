@@ -2,6 +2,7 @@ import { makeAutoObservable } from 'mobx';
 import { IMetaData, IUserInfo } from '../../common/constants/CommonInterface';
 import { homeService } from './homeService';
 import HttpStatusCode from '../../common/constants/HttpErrorCode';
+import { loginStore } from '../Login/loginStore';
 
 export interface IPostReaction {
     _id: string;
@@ -53,7 +54,7 @@ class HomeStore {
     reactionList?: IReaction[];
     commentList?: IComment;
 
-    inputPost = {
+    inputPost: { description: string; post_image: string[] } = {
         description: '',
         post_image: []
     };
@@ -87,22 +88,31 @@ class HomeStore {
 
     async createPost() {
         this.isPosting = true;
-        const result = await homeService.createPost(this.inputPost);
-        if (result.status < HttpStatusCode.CODE_300) {
+        let result = await homeService.createPost(this.inputPost);
+        if (
+            result.status < HttpStatusCode.CODE_300 &&
+            this.postList &&
+            loginStore.userInfo
+        ) {
+            result.body.data.user_info = loginStore.userInfo;
+            this.postList = [result.body.data, ...this.postList];
+            this.createPostModal = false;
             console.log(result.body.data);
         }
         this.isPosting = false;
     }
 
     async uploadPostImages(files: any) {
-        var formData = new FormData();
-        formData.append('images', files);
-        // const result = await homeService.uploadMultipleImages(formData);
-        // if (result.status < HttpStatusCode.CODE_300) {
-        //     this.inputPost.post_image = result.body.images;
-        //     console.log(result);
-        // }
-        console.log(formData);
+        let formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+            formData.append('images', files[i]);
+        }
+        const result = await homeService.uploadMultipleImages(formData);
+        if (result.status < HttpStatusCode.CODE_300) {
+            this.inputPost.post_image = result.body.images;
+            console.log(result);
+        }
+        // console.log(formData);
     }
 }
 

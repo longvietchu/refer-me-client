@@ -55,22 +55,27 @@ export default makeStyles((theme) => ({
         minWidth: 225,
         maxWidth: 300
     },
-    skillItem: {
+    imageItem: {
         borderRadius: 24,
         padding: '0 2px 2px 8px',
         border: '1px solid #546e7a',
         marginRight: 8
     },
+    preview_image: {
+        height: 100
+    },
     closeIcon: {
         width: 16,
-        height: 16
+        height: 16,
+        backgroundColor: '#fff',
+        borderRadius: '50%',
+        position: 'absolute',
+        top: 8,
+        right: 8
     },
     btn_post: {
-        border: '1px solid #0a66c2',
-        color: '#0a66c2',
-        width: '100px',
-        height: '35px',
-        margin: 10
+        backgroundColor: '#0a66c2',
+        color: '#FFFFFF'
     },
     textArea: {
         border: 'none',
@@ -87,6 +92,7 @@ export default makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
+        marginBottom: 16,
         '& > label': {
             padding: '8px 16px'
         }

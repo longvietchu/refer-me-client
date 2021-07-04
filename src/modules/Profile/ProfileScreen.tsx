@@ -72,7 +72,6 @@ const ProfileScreen = observer(() => {
                                         accept="image/*"
                                         className={classes.input}
                                         id="cover-image"
-                                        multiple
                                         type="file"
                                         onChange={(e) => {
                                             onChangeCoverImg(e);
@@ -99,7 +98,6 @@ const ProfileScreen = observer(() => {
                                                 accept="image/*"
                                                 className={classes.input}
                                                 id="avatar-image"
-                                                multiple
                                                 type="file"
                                                 onChange={(e) => {
                                                     onChangeAvatar(e);

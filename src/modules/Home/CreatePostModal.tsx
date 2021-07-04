@@ -34,11 +34,15 @@ const customStyles = {
 
 const CreatePostModal = observer(() => {
     const classes = Styles();
-    const [files, setFiles] = useState([]);
+    const [previewImages, setPreviewImages] = useState<string[]>([]);
     const onChangePostImages = (e: any) => {
         e.preventDefault();
-        console.log(e.target.files);
-        // homeStore.uploadPostImages(e.target.files);
+        let images = [];
+        for (let i = 0; i < e.target.files.length; i++) {
+            images.push(URL.createObjectURL(e.target.files[i]));
+        }
+        setPreviewImages([...previewImages, ...images]);
+        homeStore.uploadPostImages(e.target.files);
     };
 
     return (
@@ -47,6 +51,9 @@ const CreatePostModal = observer(() => {
                 isOpen={homeStore.createPostModal}
                 onRequestClose={() => (homeStore.createPostModal = false)}
                 style={customStyles}
+                onAfterClose={() => {
+                    homeStore.inputPost = { description: '', post_image: [] };
+                }}
                 contentLabel="Create Education Modal">
                 <Grid container direction="column" spacing={3}>
                     <Grid item>
@@ -81,7 +88,7 @@ const CreatePostModal = observer(() => {
                             id="post-images"
                             type="file"
                             accept="image/*"
-                            hidden
+                            style={{ display: 'none' }}
                             multiple
                             onChange={(e) => {
                                 onChangePostImages(e);
@@ -89,21 +96,26 @@ const CreatePostModal = observer(() => {
                         />
                     </Grid>
 
-                    <Grid item>
-                        {homeStore.inputPost.post_image.map((item, index) => (
-                            <span className={classes.skillItem} key={index}>
-                                {item}
-                                <IconButton
-                                    style={{ padding: 0, marginLeft: 4 }}
+                    <Grid container spacing={1}>
+                        {previewImages.map((item, index) => (
+                            <Grid
+                                item
+                                key={index}
+                                style={{ position: 'relative' }}>
+                                <img
+                                    src={item}
+                                    className={classes.preview_image}
+                                />
+                                <Close
+                                    className={classes.closeIcon}
                                     onClick={() => {
-                                        homeStore.inputPost.post_image =
-                                            homeStore.inputPost.post_image.filter(
-                                                (s) => s !== item
-                                            );
-                                    }}>
-                                    <Close className={classes.closeIcon} />
-                                </IconButton>
-                            </span>
+                                        let result = previewImages.filter(
+                                            (s) => s !== item
+                                        );
+                                        setPreviewImages(result);
+                                    }}
+                                />
+                            </Grid>
                         ))}
                     </Grid>
 
@@ -117,10 +129,12 @@ const CreatePostModal = observer(() => {
                         </label>
                         <Button
                             disabled={
-                                homeStore.inputPost.description.length > 0
+                                homeStore.inputPost.description.length > 0 ||
+                                previewImages.length > 0
                                     ? false
                                     : true
                             }
+                            variant="contained"
                             className={classes.btn_post}
                             onClick={(e) => homeStore.createPost()}>
                             {homeStore.isPosting ? 'Posting...' : 'Post'}
