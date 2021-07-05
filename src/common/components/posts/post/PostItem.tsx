@@ -60,7 +60,7 @@ const PostItem = (props: props) => {
                     </div>
                     <div className={classes.body__image}>
                         {post_image.map((image) => (
-                            <img src={image} alt="post" />
+                            <img src={image} alt={description} />
                         ))}
                     </div>
                 </div>

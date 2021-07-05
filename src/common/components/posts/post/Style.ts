@@ -68,21 +68,19 @@ export default makeStyles((theme) => ({
         }
     },
     body__image: {
-        width: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        overflow: 'hidden',
-        '& > img': {
-            width: '100%',
-            height: 'auto',
-            objectFit: 'contain',
-            transition: 'all 0.5s ease',
-            '&:hover': {
-                //transform: "scale(1.1)",
-            }
+        display: 'grid',
+        gridTemplateColumns: 'repeat(4, 1fr)',
+        gridGap: 15,
+        alignItems: 'stretch',
+        border: '1px solid red',
+        '& > img:first-child': {
+            gridColumn: 'span 3'
         },
-        '& > div': {
-            height: 'auto'
+        '& > img': {
+            border: '1px solid red',
+            maxWidth: '100%',
+            gridColumn: 'span 1',
+            objectFit: 'cover'
         }
     },
     post__footer: {
