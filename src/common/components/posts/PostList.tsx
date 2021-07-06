@@ -15,14 +15,7 @@ const Posts = observer(() => {
                 <div className={classes.posts}>
                     <div style={{ width: '100%' }}>
                         {homeStore.postList.map((post) => (
-                            <PostItem
-                                key={post._id}
-                                user_info={post.user_info}
-                                reactions={post.reactions}
-                                updated_at={post.updated_at}
-                                description={post.description}
-                                post_image={post.post_image}
-                            />
+                            <PostItem post={post} />
                         ))}
                     </div>
                 </div>

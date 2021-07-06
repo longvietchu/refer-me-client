@@ -16,8 +16,8 @@ export interface IReaction {
     _id: string;
     post_id: string;
     user_id: string;
-    created_at: Date;
-    updated_at: Date;
+    created_at: string;
+    updated_at: string;
     user_info: IUserInfo;
 }
 
@@ -30,6 +30,7 @@ export interface IPost {
     updated_at: string;
     user_info: IUserInfo;
     reactions: IPostReaction[];
+    comments: IComment[];
 }
 
 export interface IComment {
@@ -37,8 +38,8 @@ export interface IComment {
     content: string;
     post_id: string;
     user_id: string;
-    created_at: Date;
-    updated_at: Date;
+    created_at: string;
+    updated_at: string;
     user_info: IUserInfo;
 }
 
@@ -60,6 +61,7 @@ class HomeStore {
     };
     createPostModal: boolean = false;
     isPosting: boolean = false;
+    inputComment: string = '';
 
     async getPost() {
         const result = await homeService.getFriendPost(
@@ -81,8 +83,13 @@ class HomeStore {
 
     async getComment(post_id: string) {
         const result = await homeService.getCommentOfPost(post_id);
-        if (result.status < HttpStatusCode.CODE_300) {
-            this.commentList = result.body.data;
+        if (result.status < HttpStatusCode.CODE_300 && this.postList) {
+            this.postList = this.postList.map((post) => {
+                if (post._id === post_id) {
+                    post.comments = result.body.data;
+                }
+                return post;
+            });
         }
     }
 
@@ -100,6 +107,40 @@ class HomeStore {
             console.log(result.body.data);
         }
         this.isPosting = false;
+    }
+
+    async createComment(post_id: string, content: string) {
+        let data = {
+            content: content.trim()
+        };
+        let result = await homeService.createComment(post_id, data);
+        if (result.status < HttpStatusCode.CODE_300 && this.postList) {
+            this.postList = this.postList.map((post) => {
+                if (post._id === post_id) {
+                    post.comments = [result.body.data, ...post.comments];
+                }
+                return post;
+            });
+            console.log(result.body.data);
+        }
+    }
+
+    async createReaction(post_id: string) {
+        let result = await homeService.createReaction(post_id);
+        if (
+            result.status < HttpStatusCode.CODE_300 &&
+            this.postList &&
+            loginStore.userInfo
+        ) {
+            result.body.data.user_info = loginStore.userInfo;
+            this.postList = this.postList.map((post) => {
+                if (post._id === post_id) {
+                    post.reactions = [result.body.data, ...post.reactions];
+                }
+                return post;
+            });
+            console.log(result.body.data);
+        }
     }
 
     async uploadPostImages(files: any) {
