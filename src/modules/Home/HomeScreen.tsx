@@ -27,7 +27,7 @@ const HomeScreen = () => {
                 </Hidden>
                 <Grid item className={classes.body__feed} xs={12} sm={8} md={5}>
                     <Grid item className={classes.feed__form}>
-                        <Form />
+                        <Form />      
                     </Grid>
                     <Grid item className={classes.feed__posts}>
                         <PostList />
