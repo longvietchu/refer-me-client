@@ -30,10 +30,12 @@ import { messageEvent } from '../messageEvent';
 import { messageStore } from '../messageStore';
 import Styles from './Style';
 import { useFocus } from '../../../common/utils/Utils';
+import { useHistory } from 'react-router-dom';
 
 const MessagesList = observer(() => {
     const classes = Styles();
     const messagesEndRef = useRef(null);
+    let history = useHistory();
     const popupState = usePopupState({
         variant: 'popover',
         popupId: 'demoMenu'
@@ -99,10 +101,11 @@ const MessagesList = observer(() => {
         if (index === lastIndex) {
             return dateComponent;
         } else {
-            const lastDate = new Date(data[index + 1].createdAt).getTime();
-            const currentDate = new Date(item.createdAt).getTime();
-            const diff = new Date(currentDate - lastDate).getMinutes();
-            if (diff > 10) {
+            let lastDate = new Date(data[index + 1].createdAt).getTime();
+            let currentDate = new Date(item.createdAt).getTime();
+            let diff = (currentDate - lastDate) / 1000;
+            diff /= 60;
+            if (diff > 30) {
                 return dateComponent;
             }
         }
@@ -114,7 +117,11 @@ const MessagesList = observer(() => {
                     <List dense={true} style={{ padding: 0 }}>
                         <ListItem>
                             <ListItemText
-                                style={{ margin: 0, display: 'flex' }}
+                                style={{
+                                    margin: 0,
+                                    display: 'flex',
+                                    alignItems: 'center'
+                                }}
                                 primary={
                                     <div
                                         style={{
@@ -129,31 +136,34 @@ const MessagesList = observer(() => {
                                     </div>
                                 }
                                 secondary={
-                                    messageStore.selectedRoom && (
-                                        <div
-                                            style={{
-                                                width: '100%',
-                                                overflow: 'hidden',
-                                                textOverflow: 'ellipsis',
-                                                whiteSpace: 'nowrap'
-                                            }}>
-                                            <Typography>
-                                                {
-                                                    messageStore.selectedRoom
-                                                        .user_info.name
-                                                }
-                                            </Typography>
-                                            <Typography
-                                                variant="caption"
-                                                style={{ paddingLeft: 5 }}>
-                                                {
-                                                    messageStore.selectedRoom
-                                                        .user_info.headline
-                                                }
-                                            </Typography>
-                                        </div>
-                                    )
+                                    <div
+                                        style={{
+                                            width: '100%',
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis',
+                                            whiteSpace: 'nowrap'
+                                        }}>
+                                        <Typography>
+                                            {
+                                                messageStore.selectedRoom
+                                                    .user_info.name
+                                            }
+                                        </Typography>
+                                        <Typography variant="caption">
+                                            {
+                                                messageStore.selectedRoom
+                                                    .user_info.headline
+                                            }
+                                        </Typography>
+                                    </div>
                                 }
+                                onClick={() => {
+                                    if (messageStore.selectedRoom) {
+                                        history.push(
+                                            `/profile/${messageStore.selectedRoom.user_info._id}`
+                                        );
+                                    }
+                                }}
                             />
 
                             <ListItemSecondaryAction>

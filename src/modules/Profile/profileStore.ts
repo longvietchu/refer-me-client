@@ -353,9 +353,10 @@ class ProfileStore {
             var formData = new FormData();
             formData.append('image', file);
             const result = await profileService.uploadSingleImage(formData);
-            if (result.status < HttpStatusCode.CODE_300) {
+            if (result.status < HttpStatusCode.CODE_300 && this.profile) {
                 loginStore.userInfo.avatar = result.body.url;
-                console.log(result);
+                this.profile.user_info.avatar = result.body.url;
+                // console.log(result);
                 await this.updateUserInfo();
             }
             // console.log(result);

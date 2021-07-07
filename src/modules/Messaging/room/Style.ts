@@ -27,8 +27,8 @@ export default makeStyles((theme: Theme) => ({
         width: '100%',
         display: '-webkit-box',
         WebkitBoxOrient: 'vertical',
-        WebkitLineClamp: 2,
-        fontSize: 14
+        WebkitLineClamp: 1,
+        fontSize: 12
     },
     typoActive: {
         overflow: 'hidden',
@@ -36,12 +36,16 @@ export default makeStyles((theme: Theme) => ({
         width: '100%',
         display: '-webkit-box',
         WebkitBoxOrient: 'vertical',
-        WebkitLineClamp: 2,
+        WebkitLineClamp: 1,
         fontWeight: 'bold',
         color: '#333',
-        fontSize: 14
+        fontSize: 12
     },
     iconButton: {
         padding: 10
+    },
+    avatar: {
+        marginRight: 12,
+        alignSelf: 'center'
     }
 }));

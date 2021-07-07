@@ -47,12 +47,7 @@ const Room = observer(() => {
                 );
             } else {
                 return (
-                    <Typography
-                        className={
-                            item.lastest_message.is_seen
-                                ? classes.typo
-                                : classes.typoActive
-                        }>
+                    <Typography className={classes.typo}>
                         You: {item.lastest_message.content}
                     </Typography>
                 );
@@ -75,9 +70,9 @@ const Room = observer(() => {
                         Messaging
                     </Typography>
                     <Grid item>
-                        <IconButton>
+                        {/* <IconButton>
                             <CreateIcon />
-                        </IconButton>
+                        </IconButton> */}
                         <IconButton>
                             <MoreHorizIcon />
                         </IconButton>
@@ -110,10 +105,10 @@ const Room = observer(() => {
                                     messageStore.selectedRoom._id === item._id
                                 }
                                 onClick={(event) => handleListItemClick(item)}
-                                alignItems="flex-start">
+                                alignItems="center">
                                 <Avatar
                                     src={item.user_info.avatar}
-                                    style={{ marginRight: 12 }}
+                                    className={classes.avatar}
                                 />
                                 <ListItemText
                                     secondary={
@@ -135,7 +130,10 @@ const Room = observer(() => {
                                             <Typography
                                                 component="span"
                                                 variant="body2"
-                                                style={{ fontSize: 14 }}>
+                                                style={{
+                                                    fontSize: 12,
+                                                    lineHeight: '14px'
+                                                }}>
                                                 {item.lastest_message &&
                                                     numberUtil.convertUtcToDate(
                                                         item.lastest_message
@@ -144,7 +142,10 @@ const Room = observer(() => {
                                             </Typography>
                                         </React.Fragment>
                                     }
-                                    style={{ marginLeft: 20 }}
+                                    style={{
+                                        alignSelf: 'flex-start',
+                                        flexGrow: 0
+                                    }}
                                 />
                             </ListItem>
                         </List>

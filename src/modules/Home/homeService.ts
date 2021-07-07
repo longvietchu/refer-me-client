@@ -4,6 +4,7 @@ import {
     postRequest,
     putRequest
 } from '../../common/helpers/RequestHelper';
+import { uploadFile } from '../../common/helpers/UploadHelper';
 
 class HomeService {
     public getFriendPost(page: number, limit: number): Promise<IApiResponse> {
@@ -26,6 +27,9 @@ class HomeService {
     }
     public createComment(post_id: string, data: any): Promise<IApiResponse> {
         return postRequest(`/v1/post/comment?post_id=${post_id}`, data);
+    }
+    public uploadMultipleImages(files: any): Promise<IApiResponse> {
+        return uploadFile('/v1/file/upload-multiple', files);
     }
 }
 

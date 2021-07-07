@@ -6,6 +6,7 @@ import { messageService } from './messageService';
 export interface IRoom {
     user_info: {
         _id: string;
+        email: string;
         name: string;
         avatar: string;
         headline: string;
@@ -57,7 +58,7 @@ class MessageStore {
                 loginStore.userInfo.id
             );
             if (result.status < HttpStatusCode.CODE_300) {
-                // console.log(result.body.data);
+                console.log(result.body.data);
                 this.roomList = result.body.data;
                 this.selectedRoom = result.body.data[0];
                 await this.getMessages();
@@ -110,13 +111,12 @@ class MessageStore {
     async onSeenMessage(data: any) {
         const { room_id, to, from, last_message_created_at } = data;
         if (this.messageList) {
-            let seenRoomList = this.messageList.map((item) => {
+            this.messageList = this.messageList.map((item) => {
                 if (item.to === to) {
                     item.is_seen = true;
                 }
                 return item;
             });
-            this.messageList = seenRoomList;
         }
     }
 }
