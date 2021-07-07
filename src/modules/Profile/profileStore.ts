@@ -10,7 +10,7 @@ import { profileService } from './profileService';
 export interface IProfile {
     _id: string;
     dob: string;
-    background_image: string;
+    background_image: any;
     about: string;
     gender: number;
     user_id: string;
@@ -115,18 +115,30 @@ class ProfileStore {
     isSearching: boolean = false;
     modalEducation = {
         create: false,
-        edit: false
+        edit: false,
+        delete: false
     };
     modalExperience = {
         create: false,
         edit: false,
-        presentJob: true
+        presentJob: true,
+        delete: false
     };
     modalSkill = {
         create: false,
         delete: false
     };
     modalProfileOpen: boolean = false;
+
+    modalEditProfile: boolean = false;
+
+    openModalEditProfile() {
+        this.modalEditProfile = true;
+    }
+
+    closeModalEditProfile() {
+        this.modalEditProfile = false;
+    }
 
     async getProfile(user_id: string) {
         const result = await profileService.getProfile(user_id);
@@ -213,10 +225,11 @@ class ProfileStore {
         if (result.status < HttpStatusCode.CODE_300 && this.educationList) {
             console.log(result);
             this.educationList = [result.body.data, ...this.educationList];
+            // await this.getEducation(result.body.data.user_id);
+            this.modalEducation.create = false;
         }
         // console.log(data);
         this.isLoading = false;
-        this.modalEducation.create = false;
     }
 
     async createExpericence() {
@@ -282,11 +295,12 @@ class ProfileStore {
             name: this.inputSkillList
         };
         const result = await profileService.createSkill(data);
-        if (result.status < HttpStatusCode.CODE_300) {
-            this.skillList = result.body.data;
+        if (result.status < HttpStatusCode.CODE_300 && this.skillList) {
+            this.skillList = [...result.body.data, ...this.skillList];
+            this.modalSkill.create = false;
+            // await this.getSkill(result.body.data.user_id);
         }
         this.isLoading = false;
-        this.modalSkill.create = false;
     }
 
     async updateProfile() {
@@ -392,9 +406,10 @@ class ProfileStore {
                 this.educationList = this.educationList.map((item) =>
                     item._id !== result.body.data._id ? item : result.body.data
                 );
+                this.modalEducation.edit = false;
+                await this.getEducation(result.body.data.user_id);
             }
             this.isLoading = false;
-            this.modalEducation.edit = false;
         }
     }
 
@@ -458,18 +473,48 @@ class ProfileStore {
             );
             if (result.status < HttpStatusCode.CODE_300) {
                 console.log(result);
+                this.modalExperience.edit = false;
+                await this.getExperience(result.body.data.user_id);
             }
             // console.log(data);
             this.isLoading = false;
-            this.modalExperience.edit = false;
         }
+    }
+
+    async deleteEducation(education_id: string) {
+        this.isLoading = true;
+        const result = await profileService.deleteEducation(education_id);
+        if (result.status < HttpStatusCode.CODE_300) {
+            console.log(result);
+            this.modalEducation.delete = false;
+            this.modalEducation.edit = false;
+            await this.getEducation(result.body.data.user_id);
+        }
+        this.isLoading = false;
+    }
+
+    async deleteExperience(experience_id: string) {
+        this.isLoading = true;
+        const result = await profileService.deleteExperience(experience_id);
+        if (result.status < HttpStatusCode.CODE_300) {
+            console.log(result);
+            this.modalExperience.delete = false;
+            this.modalExperience.edit = false;
+            await this.getExperience(result.body.data.user_id);
+        }
+        this.isLoading = false;
     }
 
     async deleteSkill(skill_id: string) {
         this.isLoading = true;
         const result = await profileService.deleteSkill(skill_id);
-        if (result.status < HttpStatusCode.CODE_300) {
+        if (result.status < HttpStatusCode.CODE_300 && this.skillList) {
             console.log(result);
+            this.modalSkill.delete = false;
+            this.skillList = this.skillList.filter(
+                (skill) => skill._id !== skill_id
+            );
+            //await this.getSkill(result.body.data.user_id);
         }
         this.isLoading = false;
     }

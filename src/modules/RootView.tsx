@@ -13,6 +13,11 @@ import ProfileOrgContainer from './Organization/ProfileOrganization/ProfileOrgCo
 import ChangePasswordScreen from './ChangePassword/ChangePasswordScreen';
 import StorageService from '../common/service/StorageService';
 import CreateProfile from './Profile/CreateProfile/CreateProfile';
+import DetailJob from './Job/DetailJob/DetailJob';
+import MyJob from './Job/MyJob/MyJob';
+import PostedJob from './Job/MyJob/Posted/PostedJob';
+import MyOrganization from './Organization/MyOrganization/MyOrganization';
+import UnavailableOrg from './Organization/UnavailableOrg';
 
 const RootView = () => {
     const PrivateRoute = ({ children, ...rest }: any) => {
@@ -51,6 +56,18 @@ const RootView = () => {
                 <JobContainer />
             </Route>
 
+            <Route path="/jobs/:_id">
+                <DetailJob />
+            </Route>
+
+            <PrivateRoute exact path="/myjob">
+                <MyJob />
+            </PrivateRoute>
+
+            <PrivateRoute path="/hiring/jobs/:_id">
+                <PostedJob />
+            </PrivateRoute>
+
             <PrivateRoute exact path="/mynetwork">
                 <NetworkContainer />
             </PrivateRoute>
@@ -63,9 +80,17 @@ const RootView = () => {
                 <CreateOrganizationContainer />
             </PrivateRoute>
 
-            <Route path="/organization/:organization_id">
+            <Route path="/organization/profile/:organization_id">
                 <ProfileOrgContainer />
             </Route>
+
+            <Route path="/organization/unavailable">
+                <UnavailableOrg />
+            </Route>
+
+            <PrivateRoute exact path="/myorganization">
+                <MyOrganization />
+            </PrivateRoute>
 
             <Route exact path="/">
                 {StorageService.isTokenExits() ? (

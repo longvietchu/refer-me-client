@@ -29,6 +29,7 @@ import { profileStore } from './profileStore';
 import CreateSkill from './Skill/CreateSkill';
 import DeleteSkill from './Skill/DeleteSkill';
 import ListSkill from './Skill/ListSkill';
+import DeleteExperience from './Experience/DeleteExperience';
 import Styles from './Style';
 
 const ProfileScreen = observer(() => {
@@ -245,55 +246,8 @@ const ProfileScreen = observer(() => {
                                         </div>
                                     )}
                                 </div>
-                                {/* <Grid
-                                    container
-                                    direction="row"
-                                    justify="flex-start"
-                                    alignItems="center"
-                                    spacing={1}>
-                                    <Grid item>
-                                        <span>
-                                            <Typography id="location">
-                                                Hanoi, Hanoi, Vietnam
-                                            </Typography>
-                                        </span>
-                                    </Grid>
-                                    <FiberManualRecordOutlined
-                                        style={{ fontSize: '0.5rem' }}
-                                    />
-                                    <Grid item>
-                                        <span>
-                                            <Typography
-                                                id="location"
-                                                style={{ color: '#0a66c2' }}>
-                                                1 connection
-                                            </Typography>
-                                        </span>
-                                    </Grid>
-                                    <FiberManualRecordOutlined
-                                        style={{ fontSize: '0.5rem' }}
-                                    />
-                                    <Grid item>
-                                        <span>
-                                            <Typography
-                                                id="location"
-                                                style={{ color: '#0a66c2' }}>
-                                                Contact info
-                                            </Typography>
-                                        </span>
-                                    </Grid>
-                                </Grid> */}
                             </Grid>
                         </Card>
-                        {/* <Grid item xs={12}>
-                            {tab === 'Jobs' && (
-                                <Typography
-                                    style={{ textAlign: 'center' }}
-                                    variant="subtitle1">
-                                    Jobs
-                                </Typography>
-                            )}
-                        </Grid> */}
 
                         <Card style={{ marginTop: 16, padding: 24 }}>
                             <Grid item>
@@ -431,6 +385,7 @@ const ProfileScreen = observer(() => {
                     <ModalEdit />
                     <EditExperience />
                     <EditEducation />
+                    <DeleteExperience />
                     <DeleteSkill />
                 </Grid>
             </Grid>

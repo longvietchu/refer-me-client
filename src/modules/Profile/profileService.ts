@@ -36,6 +36,9 @@ class ProfileService {
     ): Promise<IApiResponse> {
         return putRequest(`/v1/education/${education_id}`, data);
     }
+    public deleteEducation(education_id: string): Promise<IApiResponse> {
+        return deleteRequest(`/v1/education/${education_id}`, {});
+    }
     // Experience services
     public createExperience(data: any): Promise<IApiResponse> {
         return postRequest('/v1/experience', data);
@@ -48,6 +51,9 @@ class ProfileService {
         data: any
     ): Promise<IApiResponse> {
         return putRequest(`/v1/experience/${experience_id}`, data);
+    }
+    public deleteExperience(experience_id: string): Promise<IApiResponse> {
+        return deleteRequest(`/v1/experience/${experience_id}`, {});
     }
     // Skill services
     public createSkill(data: any): Promise<IApiResponse> {
@@ -69,6 +75,9 @@ class ProfileService {
     // Search organization
     public searchOrganization(keyword: string): Promise<IApiResponse> {
         return getRequest(`/v1/organization/search?keyword=${keyword}`);
+    }
+    public getOrganization(): Promise<IApiResponse> {
+        return getRequest(`/v1/organization/search`);
     }
 }
 export const profileService = new ProfileService();

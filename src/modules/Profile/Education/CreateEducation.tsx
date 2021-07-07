@@ -22,6 +22,8 @@ import Styles from './Style';
 import { toJS } from 'mobx';
 import { IOrganizationInfo } from '../../../common/constants/CommonInterface';
 
+import { useSnackbar } from 'notistack';
+
 Modal.setAppElement('#root');
 const customStyles = {
     content: {
@@ -42,6 +44,7 @@ const options = ['Option 1', 'Option 2'];
 
 const CreateEducation = observer(() => {
     const classes = Styles();
+    const { enqueueSnackbar } = useSnackbar();
 
     return (
         <div>
@@ -154,6 +157,7 @@ const CreateEducation = observer(() => {
                             )}
                         />
                     </Grid>
+
                     <Grid item>
                         <TextField
                             label="Description"

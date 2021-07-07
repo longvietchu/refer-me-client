@@ -1,9 +1,9 @@
 import React from 'react';
-import { Paper, Avatar, Divider, Link, Grid } from '@material-ui/core';
+import { Paper, Avatar, Divider, Grid } from '@material-ui/core';
 import LabelImportantIcon from '@material-ui/icons/LabelImportant';
 import Style from './Style';
 
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { loginStore } from '../../../../modules/Login/loginStore';
 
@@ -12,7 +12,7 @@ const SidebarTop = observer(() => {
     let history = useHistory();
 
     const onClick = (): void => {
-        history.push('./mynetwork');
+        history.push('/mynetwork');
     };
     return (
         <Paper className={classes.sidebar}>
@@ -23,7 +23,9 @@ const SidebarTop = observer(() => {
                 }}></div>
             {loginStore.userInfo && (
                 <div style={{ padding: '12px 12px 16px' }}>
-                    <Link color="inherit" underline="none" href="./profile">
+                    <Link
+                        to={`/profile/${loginStore.userInfo.id}`}
+                        style={{ textDecoration: 'none', color: 'black' }}>
                         <Grid container direction="column" alignItems="center">
                             <Avatar
                                 className={classes.avatar}

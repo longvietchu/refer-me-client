@@ -19,6 +19,7 @@ import Styles from './Style';
 import { toJS } from 'mobx';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { IOrganizationInfo } from '../../../common/constants/CommonInterface';
+import DeleteEducation from './DeleteEducation';
 
 Modal.setAppElement('#root');
 const customStyles = {
@@ -261,10 +262,21 @@ const EditEducation = observer(() => {
                                         ? 'Saving...'
                                         : 'Save'}
                                 </Button>
+                                <Button
+                                    onClick={() =>
+                                        (profileStore.modalEducation.delete =
+                                            true)
+                                    }
+                                    color="secondary"
+                                    variant="outlined"
+                                    className={classes.btnDelete}>
+                                    Delete
+                                </Button>
                             </Grid>
                         </Grid>
                     )}
                 </Modal>
+                <DeleteEducation />
             </div>
         );
     } else return null;

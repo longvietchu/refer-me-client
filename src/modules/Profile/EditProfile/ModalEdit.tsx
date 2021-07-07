@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import DateFnsUtils from '@date-io/date-fns';
 import {
     Grid,
@@ -11,7 +12,6 @@ import { Close } from '@material-ui/icons';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import 'date-fns';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
 import Modal from 'react-modal';
 import { loginStore } from '../../Login/loginStore';
 import { Gender, profileStore } from '../profileStore';

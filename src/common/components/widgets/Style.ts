@@ -12,7 +12,7 @@ export default makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         position: 'sticky',
-        top: '10vh'
+        top: '6vh'
     },
     widgets__top: {
         overflow: 'hidden',
