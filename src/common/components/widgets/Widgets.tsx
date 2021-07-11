@@ -18,7 +18,7 @@ const Widgets = () => {
         <div className={classes.widgets}>
             <Paper className={classes.widgets__top}>
                 <div className={classes.heading}>
-                    <h4>Refer Me News</h4>
+                    <h4>Organizations you may know</h4>
                     <ErrorOutlineSharpIcon />
                 </div>
                 {top_1.map((title, i) => (

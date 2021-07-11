@@ -2,7 +2,7 @@ import { Button, Grid } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import Modal from 'react-modal';
-import { profileStore } from '../profileStore';
+import { homeStore } from '../../Home/homeStore';
 import Styles from './Style';
 
 Modal.setAppElement('#root');
@@ -14,32 +14,27 @@ const customStyles = {
         bottom: 'auto',
         transform: 'translate(-50%, -50%)',
         padding: 20,
-        borderRadius: 8,
-        width: '30%'
+        borderRadius: 8
+    },
+    overlay: {
+        backgroundColor: 'rgba(0, 0, 0, 0.75)',
+        zIndex: 100
     }
 };
 
-const DeleteExperience = observer(() => {
+const DeletePost = observer(() => {
     const classes = Styles();
 
     return (
         <div>
             <Modal
-                isOpen={profileStore.modalExperience.delete}
-                onRequestClose={() =>
-                    (profileStore.modalExperience.delete = false)
-                }
+                isOpen={homeStore.modalPost.delete}
+                onRequestClose={() => (homeStore.modalPost.delete = false)}
                 style={customStyles}
-                contentLabel="delete Expreience Modal">
-                {profileStore.selectedExperience && (
+                contentLabel="Update Education Modal">
+                {homeStore.selectedPost && (
                     <Grid container direction="column" spacing={3}>
-                        <Grid item>
-                            Are you sure to delete experience:{' '}
-                            <span style={{ fontWeight: 'bold' }}>
-                                {profileStore.selectedExperience.company}
-                            </span>
-                            ?
-                        </Grid>
+                        <Grid item>Are you sure to delete this post?</Grid>
                         <Grid
                             item
                             style={{
@@ -52,19 +47,19 @@ const DeleteExperience = observer(() => {
                                 color="secondary"
                                 className={classes.btnDelete}
                                 onClick={(e) => {
-                                    if (profileStore.selectedExperience) {
-                                        profileStore.deleteExperience(
-                                            profileStore.selectedExperience._id
-                                        );
+                                    if (homeStore.selectedPost) {
+                                        homeStore.deletePost();
                                     }
                                 }}>
-                                {profileStore.isLoading ? 'Deleting...' : 'Yes'}
+                                {homeStore.isDeleting
+                                    ? 'Deleting...'
+                                    : 'Delete'}
                             </Button>
                             <Button
                                 className={classes.btnCancel}
                                 onClick={(e) => {
-                                    profileStore.modalExperience.delete = false;
-                                    // profileStore.selectedExperience = undefined;
+                                    homeStore.modalPost.delete = false;
+                                    homeStore.selectedPost = undefined;
                                 }}>
                                 Cancel
                             </Button>
@@ -76,4 +71,4 @@ const DeleteExperience = observer(() => {
     );
 });
 
-export default DeleteExperience;
+export default DeletePost;

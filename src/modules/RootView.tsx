@@ -16,8 +16,8 @@ import CreateProfile from './Profile/CreateProfile/CreateProfile';
 import DetailJob from './Job/DetailJob/DetailJob';
 import MyJob from './Job/MyJob/MyJob';
 import PostedJob from './Job/MyJob/Posted/PostedJob';
-import MyOrganization from './Organization/MyOrganization/MyOrganization';
 import UnavailableOrg from './Organization/UnavailableOrg';
+import MyOrganization from './Organization/MyOrganization/MyOrganization';
 
 const RootView = () => {
     const PrivateRoute = ({ children, ...rest }: any) => {

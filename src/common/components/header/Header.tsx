@@ -1,51 +1,45 @@
 import {
     Avatar,
     Button,
+    CircularProgress,
     Divider,
     Grid,
+    InputAdornment,
     List,
     ListItem,
     ListItemAvatar,
     ListItemText,
     Paper,
     Popover,
-    Typography,
-    InputAdornment,
-    CircularProgress,
-    TextField
+    TextField,
+    Typography
 } from '@material-ui/core';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import AppsIcon from '@material-ui/icons/Apps';
-
 import GroupIcon from '@material-ui/icons/Group';
 import HomeIcon from '@material-ui/icons/Home';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import SearchIcon from '@material-ui/icons/Search';
 import TelegramIcon from '@material-ui/icons/Telegram';
 import WorkIcon from '@material-ui/icons/Work';
-import BusinessIcon from '@material-ui/icons/Business';
-
-import { observer } from 'mobx-react-lite';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { toJS } from 'mobx';
-
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import { jobStore } from '../../../modules/Job/jobStore';
+import { loginStore } from '../../../modules/Login/loginStore';
+import { organizationStore } from '../../../modules/Organization/organizationStore';
+import { IOrganizationInfo } from '../../constants/CommonInterface';
 import StorageService from '../../service/StorageService';
 import MenuItems from './menuItem/MenuItem';
 import Style from './Style';
 
-import { profileStore } from '../../../modules/Profile/profileStore';
-import { loginStore } from '../../../modules/Login/loginStore';
-import { jobStore } from '../../../modules/Job/jobStore';
-import { organizationStore } from '../../../modules/Organization/organizationStore';
-import { IOrganizationInfo } from '../../constants/CommonInterface';
-
 const Header = observer(() => {
     const classes = Style();
-    const [anchorEl, setAnchorEl] =
-        React.useState<HTMLButtonElement | null>(null);
+    const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+        null
+    );
     let history = useHistory();
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {

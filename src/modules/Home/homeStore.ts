@@ -59,8 +59,15 @@ class HomeStore {
         description: '',
         post_image: []
     };
-    createPostModal: boolean = false;
+    selectedPost?: IPost;
+    modalPost = {
+        create: false,
+        edit: false,
+        delete: false
+    };
     isPosting: boolean = false;
+    isGettingComment: boolean = false;
+    isDeleting: boolean = false;
     inputComment: string = '';
 
     async getPost() {
@@ -82,6 +89,7 @@ class HomeStore {
     }
 
     async getComment(post_id: string) {
+        this.isGettingComment = true;
         const result = await homeService.getCommentOfPost(post_id);
         if (result.status < HttpStatusCode.CODE_300 && this.postList) {
             this.postList = this.postList.map((post) => {
@@ -91,19 +99,27 @@ class HomeStore {
                 return post;
             });
         }
+        this.isGettingComment = false;
+        // console.log(result.body);
     }
 
-    async createPost() {
+    async createPost(previewImage: any) {
         this.isPosting = true;
-        let result = await homeService.createPost(this.inputPost);
+        await this.uploadPostImages(previewImage);
+        let data = {
+            description: this.inputPost.description.trim(),
+            post_image: this.inputPost.post_image
+        };
+        let result = await homeService.createPost(data);
         if (
             result.status < HttpStatusCode.CODE_300 &&
             this.postList &&
             loginStore.userInfo
         ) {
             result.body.data.user_info = loginStore.userInfo;
+            result.body.data.reactions = [];
             this.postList = [result.body.data, ...this.postList];
-            this.createPostModal = false;
+            this.modalPost.create = false;
             console.log(result.body.data);
         }
         this.isPosting = false;
@@ -125,7 +141,7 @@ class HomeStore {
         }
     }
 
-    async createReaction(post_id: string) {
+    async createReaction(post_id: string, isLiked: boolean) {
         let result = await homeService.createReaction(post_id);
         if (
             result.status < HttpStatusCode.CODE_300 &&
@@ -135,12 +151,37 @@ class HomeStore {
             result.body.data.user_info = loginStore.userInfo;
             this.postList = this.postList.map((post) => {
                 if (post._id === post_id) {
-                    post.reactions = [result.body.data, ...post.reactions];
+                    if (isLiked) {
+                        post.reactions = post.reactions.filter(
+                            (reaction) =>
+                                reaction.user_id !== result.body.data.user_id
+                        );
+                    } else {
+                        post.reactions = [result.body.data, ...post.reactions];
+                    }
                 }
                 return post;
             });
             console.log(result.body.data);
         }
+    }
+
+    async updatePost() {
+        this.isPosting = true;
+        if (this.selectedPost) {
+            let data = {
+                description: this.selectedPost.description.trim(),
+                post_image: this.selectedPost.post_image
+            };
+            let result = await homeService.updatePost(
+                this.selectedPost._id,
+                data
+            );
+            if (result.status < HttpStatusCode.CODE_300) {
+                console.log(result);
+            }
+        }
+        this.isPosting = false;
     }
 
     async uploadPostImages(files: any) {
@@ -151,9 +192,22 @@ class HomeStore {
         const result = await homeService.uploadMultipleImages(formData);
         if (result.status < HttpStatusCode.CODE_300) {
             this.inputPost.post_image = result.body.images;
-            console.log(result);
+            // console.log(result);
         }
         // console.log(formData);
+    }
+
+    async deletePost() {
+        this.isDeleting = true;
+        if (this.selectedPost) {
+            const result = await homeService.deletePost(this.selectedPost._id);
+            if (result.status < HttpStatusCode.CODE_300 && this.postList) {
+                this.postList = this.postList.filter(
+                    (post) => post._id !== result.body.data._id
+                );
+            }
+        }
+        this.isDeleting = false;
     }
 }
 

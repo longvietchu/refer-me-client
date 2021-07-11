@@ -217,7 +217,7 @@ class ProfileStore {
             };
         }
         if (data.title === '') {
-            this.validateInput.title = 'Thông tin này là bắt buộc!';
+            this.validateInput.title = 'This infomation is required!';
             this.isLoading = false;
             return;
         }
@@ -262,17 +262,17 @@ class ProfileStore {
             };
         }
         if (data.job_title === '') {
-            this.validateInput.job_title = 'Thông tin này là bắt buộc!';
+            this.validateInput.job_title = 'This infomation is required!';
             this.isLoading = false;
             return;
         }
         if (data.company === '') {
-            this.validateInput.company = 'Thông tin này là bắt buộc!';
+            this.validateInput.company = 'This infomation is required!';
             this.isLoading = false;
             return;
         }
         if (data.location === '') {
-            this.validateInput.location = 'Thông tin này là bắt buộc!';
+            this.validateInput.location = 'This infomation is required!';
             this.isLoading = false;
             return;
         }
@@ -393,7 +393,7 @@ class ProfileStore {
                 };
             }
             if (data.title === '') {
-                this.validateInput.title = 'Thông tin này là bắt buộc!';
+                this.validateInput.title = 'This infomation is required!';
                 this.isLoading = false;
                 return;
             }
@@ -450,17 +450,17 @@ class ProfileStore {
                 };
             }
             if (data.job_title === '') {
-                this.validateInput.job_title = 'Thông tin này là bắt buộc!';
+                this.validateInput.job_title = 'This infomation is required!';
                 this.isLoading = false;
                 return;
             }
             if (data.company === '') {
-                this.validateInput.company = 'Thông tin này là bắt buộc!';
+                this.validateInput.company = 'This infomation is required!';
                 this.isLoading = false;
                 return;
             }
             if (data.location === '') {
-                this.validateInput.location = 'Thông tin này là bắt buộc!';
+                this.validateInput.location = 'This infomation is required!';
                 this.isLoading = false;
                 return;
             }

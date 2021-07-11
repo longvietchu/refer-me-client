@@ -1,10 +1,9 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { homeStore } from '../../../modules/Home/homeStore';
-import Loading from '../../assets/images/loading-dots.json';
-import Animation from '../animations/Animation';
-import PostItem from './post/PostItem';
+import LoadingCard from '../../common/components/util/LoadingCard';
+import { homeStore } from '../Home/homeStore';
+import PostItem from './PostItem';
 
 const Posts = observer(() => {
     const classes = Style();
@@ -35,12 +34,7 @@ const Posts = observer(() => {
                     </p>
                 </div>
             );
-    } else
-        return (
-            <div style={{ width: 200 }}>
-                <Animation src={Loading} />
-            </div>
-        );
+    } else return <LoadingCard />;
 });
 
 const Style = makeStyles(() => ({
