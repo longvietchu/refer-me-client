@@ -10,6 +10,23 @@ import {
 
 import { loginStore } from '../Login/loginStore';
 
+interface IOrgJob {
+    _id: string;
+    title: string;
+    location: string;
+    company: string;
+    description: string;
+    seniority_level: string;
+    employment_type: string;
+    industry: string;
+    job_functions: string;
+    organization_id: string;
+    organization_info: IOrganizationInfo;
+    user_id: string;
+    user_info: IUserInfo;
+    created_at: string;
+}
+
 class OrganizationStore {
     constructor() {
         makeAutoObservable(this);
@@ -18,6 +35,8 @@ class OrganizationStore {
     organization?: IOrganizationInfo;
 
     myOrganization?: IOrganizationInfo[];
+
+    listJobOfOrg?: IOrgJob[];
 
     inputOrganization = {
         name: '',
@@ -151,6 +170,18 @@ class OrganizationStore {
         }
         this.isLoading = false;
         return false;
+    }
+
+    async getJobOfOrganization(organization_id: string) {
+        this.isLoading = true;
+        const result = await organizationService.getJobOfOrganization(
+            organization_id
+        );
+        if (result.status < HttpStatusCode.CODE_300) {
+            console.log('result-----', result);
+            this.listJobOfOrg = result.body.data;
+        }
+        this.isLoading = false;
     }
 }
 

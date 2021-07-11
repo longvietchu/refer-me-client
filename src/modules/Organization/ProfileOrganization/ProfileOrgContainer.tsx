@@ -12,6 +12,7 @@ const ProfileOrgContainer = observer(() => {
 
     useEffect(() => {
         organizationStore.getAnOrganization(organization_id);
+        organizationStore.getJobOfOrganization(organization_id);
         return () => {
             organizationStore.organization = undefined;
         };

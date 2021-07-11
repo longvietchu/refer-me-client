@@ -10,21 +10,22 @@ import {
     Link,
     Grid,
     Typography,
-    ButtonBase
+    ButtonBase,
+    Tabs,
+    Tab,
+    Container
 } from '@material-ui/core';
 import {
     Edit,
     FiberManualRecordOutlined,
     Add,
-    NavigateBefore,
     DirectionsRounded,
     CameraAlt,
-    Delete
+    Delete,
+    NavigateBefore,
+    NavigateNext
 } from '@material-ui/icons';
 
-// import TweetCard from "../HomePage/TweetsCard/TweetsCard";
-// import Media from "./Media";
-// import "roboto-fontface";
 import Widgets from '../../../common/components/widgets/Widgets';
 import Header from '../../../common/components/header/Header';
 import Styles from './Style';
@@ -41,41 +42,79 @@ import { loginStore } from '../../Login/loginStore';
 import LoadingHeader from '../../../common/components/util/LoadingHeader';
 import ModalEdit from '../EditProfileOrganization/ModalEdit';
 import DeleteEducation from './DeleteOrganization';
+import JobOrgCard from './JobOrgCard';
+import LoadingCard from '../../../common/components/util/LoadingCard';
+
+interface TabPanelProps {
+    children?: React.ReactNode;
+    dir?: string;
+    index: any;
+    value: any;
+}
+
+function TabPanel(props: TabPanelProps) {
+    const { children, value, index, ...other } = props;
+
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            {...other}>
+            {value === index && (
+                <Box p={3}>
+                    <Typography>{children}</Typography>
+                </Box>
+            )}
+        </div>
+    );
+}
+
+function a11yProps(index: any) {
+    return {
+        id: `full-width-tab-${index}`,
+        'aria-controls': `full-width-tabpanel-${index}`
+    };
+}
+
+// const useStyles = makeStyles((theme: Theme) => ({
+//     root: {
+//         backgroundColor: theme.palette.background.paper,
+//         width: 500
+//     }
+// }));
 
 const ProfileOrgScreen = observer(() => {
     const classes = Styles();
 
-    const [isHidden, setIsHidden] = useState(true);
     const [showMore, setShowMore] = useState<boolean>(false);
+    const [value, setValue] = useState(0);
+    const [tab, setTab] = useState('About');
 
-    function ReadMore({ children }: any) {
-        if (children.props.length < 258)
-            return (
-                <>
-                    <div>{children}</div>
-                </>
-            );
-        if (children.props.length >= 258 && !isHidden) {
-            return (
-                <>
-                    <div className={isHidden ? classes.hidden : undefined}>
-                        {children}
-                    </div>
-                    {/* <ButtonBase onClick={() => setIsHidden(!isHidden)}>
-                        {isHidden ? '...see more' : 'see less'}
-                    </ButtonBase> */}
-                    <div>
-                        <Divider />
-                        <Button
-                            className={classes.btn_details}
-                            onClick={() => setIsHidden(!isHidden)}>
-                            See all details
-                        </Button>
-                    </div>
-                </>
-            );
+    const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+        setValue(newValue);
+    };
+
+    const handleChangeIndex = (index: number) => {
+        setValue(index);
+    };
+
+    const handleNextTab = () => {
+        let newValue = value;
+        if (newValue !== 1) {
+            newValue = newValue + 1;
+            setValue(newValue);
         }
-    }
+    };
+
+    const handleBackTab = () => {
+        let newValue = value;
+        if (newValue !== 0) {
+            newValue = newValue - 1;
+            setValue(newValue);
+        }
+    };
 
     const getText = (text: string) => {
         // For Text that is shorter than desired length
@@ -276,40 +315,115 @@ const ProfileOrgScreen = observer(() => {
                                     </div>
                                 )}
                             </Grid>
-                        </Card>
-
-                        <Card style={{ marginTop: '20px', borderRadius: 10 }}>
-                            <Typography
-                                style={{
-                                    padding: '24px 24px 0px',
-                                    fontSize: '20px',
-                                    fontWeight: 600
-                                }}>
-                                About
-                            </Typography>
-                            {/* <ReadMore> */}
-                            <p
-                                style={{
-                                    color: '#00000099',
-                                    padding: '24px 24px'
-                                }}>
-                                {getText(
-                                    organizationStore.organization.description
-                                )}
-                            </p>
-                            {/* </ReadMore> */}
-
-                            {/* {isHidden ? (
+                            <Divider />
+                            <Grid style={{ flexGrow: 1 }} item xs={12}>
                                 <div>
+                                    <Hidden smUp>
+                                        <Button onClick={handleBackTab}>
+                                            <NavigateBefore
+                                                className={classes.backArrow}
+                                            />
+                                        </Button>
+                                    </Hidden>
+
+                                    <Tabs
+                                        onChange={handleChange}
+                                        value={value}
+                                        variant="fullWidth"
+                                        className={classes.tabs}>
+                                        <Tab
+                                            tabIndex={0}
+                                            label="About"
+                                            onClick={() => setTab('About')}
+                                            // className={classes.tab}
+                                        />
+                                        <Tab
+                                            tabIndex={1}
+                                            label="Jobs"
+                                            onClick={() => setTab('Jobs')}
+                                            // className={classes.tab}
+                                        />
+                                    </Tabs>
                                     <Divider />
-                                    <Button
-                                        className={classes.btn_details}
-                                        onClick={() => setIsHidden(!isHidden)}>
-                                        See all details
-                                    </Button>
+                                    <Hidden smUp>
+                                        <Button onClick={handleNextTab}>
+                                            <NavigateNext
+                                                className={classes.backArrow}
+                                            />
+                                        </Button>
+                                    </Hidden>
                                 </div>
-                            ) : null} */}
+                            </Grid>
                         </Card>
+
+                        <Grid item xs={12}>
+                            {tab === 'About' && (
+                                <Card
+                                    style={{
+                                        marginTop: '20px',
+                                        borderRadius: 10
+                                    }}>
+                                    <Typography
+                                        style={{
+                                            padding: '24px 24px 0px',
+                                            fontSize: '20px',
+                                            fontWeight: 600
+                                        }}>
+                                        About
+                                    </Typography>
+                                    {/* <ReadMore> */}
+                                    <p
+                                        style={{
+                                            color: '#00000099',
+                                            padding: '24px 24px'
+                                        }}>
+                                        {getText(
+                                            organizationStore.organization
+                                                .description
+                                        )}
+                                    </p>
+                                </Card>
+                            )}
+                            {tab === 'Jobs' && (
+                                <Card
+                                    style={{
+                                        marginTop: '20px',
+                                        borderRadius: 10
+                                    }}>
+                                    <Typography
+                                        style={{
+                                            padding: '24px 24px 0px',
+                                            fontSize: '20px',
+                                            fontWeight: 600
+                                        }}>
+                                        Recently posted jobs
+                                    </Typography>
+                                    <Grid
+                                        style={{
+                                            padding: '24px 24px'
+                                        }}
+                                        container
+                                        spacing={5}>
+                                        {organizationStore.listJobOfOrg ? (
+                                            organizationStore.listJobOfOrg.map(
+                                                (job, index) => (
+                                                    <Grid
+                                                        item
+                                                        key={job._id}
+                                                        lg={3}
+                                                        md={6}
+                                                        xs={12}>
+                                                        <JobOrgCard job={job} />
+                                                    </Grid>
+                                                )
+                                            )
+                                        ) : (
+                                            <LoadingCard />
+                                        )}
+                                    </Grid>
+                                </Card>
+                            )}
+                        </Grid>
 
                         <Card style={{ marginTop: '20px', borderRadius: 10 }}>
                             <Typography

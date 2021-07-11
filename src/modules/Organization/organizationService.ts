@@ -25,6 +25,10 @@ class OrganizationService {
         return getRequest(`/v1/organization/detail/${_id}`, false);
     }
 
+    public getJobOfOrganization(_id: string): Promise<IApiResponse> {
+        return getRequest(`/v1/job/organization?organization_id=${_id}`);
+    }
+
     public updateOrganization(_id: string, data: any): Promise<IApiResponse> {
         return putRequest(`/v1/organization/update/${_id}`, data);
     }
