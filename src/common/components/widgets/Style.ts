@@ -101,5 +101,37 @@ export default makeStyles((theme) => ({
                 }
             }
         }
+    },
+    box: {
+        marginRight: 8
+    },
+    company: {
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        width: '100%',
+        display: '-webkit-box',
+        WebkitBoxOrient: 'vertical',
+        WebkitLineClamp: 2,
+        fontSize: 16,
+        lineHeight: '18px'
+    },
+    industry: {
+        color: '#00000099',
+        fontSize: 12,
+        paddingTop: '4px',
+        width: '100%',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap'
+    },
+    organizationContainer: {
+        display: 'flex',
+        padding: 16,
+        '&:hover': {
+            backgroundColor: '#00000014'
+        },
+        '& > .organization-info': {
+            flexGrow: 1
+        }
     }
 }));

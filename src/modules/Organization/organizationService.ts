@@ -17,6 +17,15 @@ class OrganizationService {
             false
         );
     }
+    public getOrganizationOfUser(
+        user_id: string,
+        page: number,
+        limit: number
+    ): Promise<IApiResponse> {
+        return getRequest(
+            `/v1/organization/my-organizations?user_id=${user_id}&page=${page}&limit=${limit}`
+        );
+    }
     public createOrganization(data: any): Promise<IApiResponse> {
         return postRequest(`/v1/organization`, data);
     }

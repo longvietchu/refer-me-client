@@ -167,14 +167,14 @@ const Header = observer(() => {
                                     // console.log('option: ', orgObject._id);
                                     // jobStore.inputJob.organization_id =
                                     //     orgObject._id;
-                                    if (orgObject._id) {
-                                        history.push(
-                                            `/organization/profile/${orgObject._id}`
-                                        );
-                                    } else
-                                        history.push(
-                                            '/organization/unavailable'
-                                        );
+                                    // if (orgObject._id) {
+                                    //     history.push(
+                                    //         `/organization/profile/${orgObject._id}`
+                                    //     );
+                                    // } else
+                                    //     history.push(
+                                    //         '/organization/unavailable'
+                                    //     );
                                 }
                             }}
                             options={
@@ -184,33 +184,37 @@ const Header = observer(() => {
                             getOptionLabel={(option) => option.name}
                             renderOption={(option) => (
                                 <React.Fragment>
-                                    <span>
-                                        {option.avatar ? (
-                                            <img
-                                                src={option.avatar}
-                                                className={
-                                                    classes.organizationAvatar
-                                                }
-                                            />
-                                        ) : (
-                                            <img
-                                                src="/images/no-avatar.png"
-                                                className={
-                                                    classes.organizationAvatar
-                                                }
-                                            />
-                                        )}
-                                    </span>
-                                    {option.name}
+                                    <Link
+                                        to={`/organization/profile/${option._id}`}
+                                        className={classes.optionContainer}>
+                                        <div>
+                                            {option.avatar ? (
+                                                <img
+                                                    src={option.avatar}
+                                                    className={
+                                                        classes.organizationAvatar
+                                                    }
+                                                />
+                                            ) : (
+                                                <img
+                                                    src="/images/no-avatar.png"
+                                                    className={
+                                                        classes.organizationAvatar
+                                                    }
+                                                />
+                                            )}
+                                        </div>
+                                        <p>{option.name}</p>
+                                    </Link>
                                 </React.Fragment>
                             )}
                             renderInput={(params) => (
                                 <TextField
                                     {...params}
                                     placeholder="Search organization"
-                                    required
                                     InputProps={{
                                         ...params.InputProps,
+                                        disableUnderline: true,
                                         startAdornment: (
                                             <InputAdornment position="start">
                                                 <SearchIcon />
@@ -227,12 +231,6 @@ const Header = observer(() => {
                                             </React.Fragment>
                                         )
                                     }}
-                                    error={
-                                        jobStore.validateInput.company !== ''
-                                            ? true
-                                            : false
-                                    }
-                                    helperText={jobStore.validateInput.company}
                                 />
                             )}
                         />

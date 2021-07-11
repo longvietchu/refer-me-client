@@ -61,7 +61,7 @@ export default makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         marginLeft: 10,
-        padding: '0 10px',
+        paddingLeft: 10,
         borderRadius: 3,
         backgroundColor:
             theme.palette.type === 'dark' ? darkSecondary : '#eef3f8',
@@ -172,5 +172,9 @@ export default makeStyles((theme) => ({
     organizationAvatar: {
         marginRight: 8,
         width: 25
+    },
+    optionContainer: {
+        display: 'flex',
+        justifyContent: 'center'
     }
 }));

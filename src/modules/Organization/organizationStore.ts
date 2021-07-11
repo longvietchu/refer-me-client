@@ -34,7 +34,15 @@ class OrganizationStore {
 
     organization?: IOrganizationInfo;
 
+    organizationList?: IOrganizationInfo[];
+    organizationPage: number = 0;
+    organizationLimit: number = 10;
+    organizationMeta?: IMetaData;
+
     myOrganization?: IOrganizationInfo[];
+    myOrganizationPage: number = 0;
+    myOrganizationLimit: number = 15;
+    myOrganizationMeta?: IMetaData;
 
     listJobOfOrg?: IOrgJob[];
 
@@ -50,13 +58,7 @@ class OrganizationStore {
     };
 
     inputSearchOrg: string = '';
-
-    organizationPage: number = 0;
-    organizationLimit: number = 10;
-    organizationMeta?: IMetaData;
-
     avatar: string = '';
-
     isLoading: boolean = false;
 
     modalOrganization = {
@@ -93,6 +95,17 @@ class OrganizationStore {
         }
     }
 
+    async getAllOrganization() {
+        const result = await organizationService.getAllOrganization(
+            this.organizationPage,
+            this.organizationLimit
+        );
+        if (result.status < HttpStatusCode.CODE_300) {
+            this.organizationList = result.body.data;
+            this.organizationMeta = result.body.meta;
+        }
+    }
+
     async getAnOrganization(_id: any) {
         const result = await organizationService.getAnOrganization(_id);
         if (result.status < HttpStatusCode.CODE_300) {
@@ -101,14 +114,15 @@ class OrganizationStore {
         }
     }
 
-    async getMyOrganization() {
-        const result = await organizationService.getAllOrganization(
-            this.organizationPage,
-            this.organizationLimit
+    async getMyOrganization(user_id: string) {
+        const result = await organizationService.getOrganizationOfUser(
+            user_id,
+            this.myOrganizationPage,
+            this.myOrganizationLimit
         );
         if (result.status < HttpStatusCode.CODE_300) {
             this.myOrganization = result.body.data;
-            this.organizationMeta = result.body.meta;
+            this.myOrganizationMeta = result.body.meta;
         }
     }
 

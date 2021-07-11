@@ -95,7 +95,7 @@ const JobOrgCard = observer((props: any) => {
                     </Typography>
 
                     <Typography variant="body1" className={classes.time}>
-                        {formatDateTimeDDMM(job.created_at)}
+                        Opened at: {formatDateTimeDDMM(job.created_at)}
                     </Typography>
                 </CardContent>
             </CardActionArea>

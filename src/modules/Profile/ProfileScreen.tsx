@@ -172,8 +172,7 @@ const ProfileScreen = observer(() => {
                                                 .organization_info &&
                                             profileStore.experienceList[0]
                                                 .organization_info.avatar ? (
-                                                <Avatar
-                                                    variant="square"
+                                                <img
                                                     src={
                                                         profileStore
                                                             .experienceList[0]
@@ -182,18 +181,15 @@ const ProfileScreen = observer(() => {
                                                     }
                                                     style={{
                                                         marginRight: 8,
-                                                        width: 25,
-                                                        height: 25
+                                                        width: 25
                                                     }}
                                                 />
                                             ) : (
-                                                <Avatar
-                                                    variant="square"
+                                                <img
                                                     src="/images/no-avatar.png"
                                                     style={{
                                                         marginRight: 8,
-                                                        width: 25,
-                                                        height: 25
+                                                        width: 25
                                                     }}
                                                 />
                                             )}
@@ -212,8 +208,7 @@ const ProfileScreen = observer(() => {
                                                 .organization_info &&
                                             profileStore.educationList[0]
                                                 .organization_info.avatar ? (
-                                                <Avatar
-                                                    variant="square"
+                                                <img
                                                     src={
                                                         profileStore
                                                             .educationList[0]
@@ -222,18 +217,15 @@ const ProfileScreen = observer(() => {
                                                     }
                                                     style={{
                                                         marginRight: 8,
-                                                        width: 25,
-                                                        height: 25
+                                                        width: 25
                                                     }}
                                                 />
                                             ) : (
-                                                <Avatar
-                                                    variant="square"
+                                                <img
                                                     src="/images/no-avatar.png"
                                                     style={{
                                                         marginRight: 8,
-                                                        width: 25,
-                                                        height: 25
+                                                        width: 25
                                                     }}
                                                 />
                                             )}

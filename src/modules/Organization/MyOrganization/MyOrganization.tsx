@@ -40,14 +40,16 @@ const MyOrganization = observer(() => {
     let history = useHistory();
 
     useEffect(() => {
-        organizationStore.getMyOrganization();
+        if (loginStore.userInfo) {
+            organizationStore.getMyOrganization(loginStore.userInfo.id);
+        }
     }, []);
 
     if (organizationStore.myOrganization) {
         return (
             <Grid container className={classes.app}>
                 <Helmet>
-                    <title>Your Organizations | RefMe</title>
+                    <title>Your Organizations | Refer Me</title>
                 </Helmet>
                 <Grid item container className={classes.app__header}>
                     {/* Header */}
@@ -73,43 +75,26 @@ const MyOrganization = observer(() => {
                                         <Container maxWidth={false}>
                                             <Box pt={3}>
                                                 <Grid container spacing={5}>
-                                                    {organizationStore.myOrganization ? (
-                                                        organizationStore.myOrganization
-                                                            .filter((e) => {
-                                                                if (
-                                                                    loginStore.userInfo
-                                                                ) {
-                                                                    return (
-                                                                        e.user_id ===
-                                                                        loginStore
-                                                                            .userInfo
-                                                                            .id
-                                                                    );
+                                                    {organizationStore.myOrganization.map(
+                                                        (
+                                                            organization,
+                                                            index
+                                                        ) => (
+                                                            <Grid
+                                                                item
+                                                                key={
+                                                                    organization._id
                                                                 }
-                                                            })
-                                                            .map(
-                                                                (
-                                                                    organization,
-                                                                    index
-                                                                ) => (
-                                                                    <Grid
-                                                                        item
-                                                                        key={
-                                                                            organization._id
-                                                                        }
-                                                                        lg={3}
-                                                                        md={6}
-                                                                        xs={12}>
-                                                                        <OrganizationCard
-                                                                            organization={
-                                                                                organization
-                                                                            }
-                                                                        />
-                                                                    </Grid>
-                                                                )
-                                                            )
-                                                    ) : (
-                                                        <LoadingCard />
+                                                                lg={3}
+                                                                md={6}
+                                                                xs={12}>
+                                                                <OrganizationCard
+                                                                    organization={
+                                                                        organization
+                                                                    }
+                                                                />
+                                                            </Grid>
+                                                        )
                                                     )}
                                                 </Grid>
                                             </Box>

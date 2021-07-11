@@ -30,7 +30,7 @@ const HomeScreen = () => {
                 </Hidden>
                 <Grid item className={classes.body__feed} xs={12} sm={8} md={5}>
                     <Grid item className={classes.feed__form}>
-                        <Form />      
+                        <Form />
                     </Grid>
                     <Grid item className={classes.feed__posts}>
                         <PostList />
@@ -39,7 +39,7 @@ const HomeScreen = () => {
                     </Grid>
                 </Grid>
                 <Hidden smDown>
-                    <Grid item className={classes.body__widgets} md={2}>
+                    <Grid item className={classes.body__widgets} md={3}>
                         <Widgets />
                     </Grid>
                 </Hidden>

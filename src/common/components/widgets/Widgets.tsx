@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Paper } from '@material-ui/core';
+import { Box, Paper, Typography } from '@material-ui/core';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import ErrorOutlineSharpIcon from '@material-ui/icons/ErrorOutlineSharp';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -9,8 +9,11 @@ import { LinkedInJobAdd } from '../../assets/images/images';
 import Footer from '../../components/footer/Footer';
 import Style from './Style';
 import { Link } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
+import { organizationStore } from '../../../modules/Organization/organizationStore';
+import LoadingCard from '../util/LoadingCard';
 
-const Widgets = () => {
+const Widgets = observer(() => {
     const classes = Style();
     const [expand, setExpand] = useState(false);
 
@@ -21,22 +24,41 @@ const Widgets = () => {
                     <h4>Organizations you may know</h4>
                     <ErrorOutlineSharpIcon />
                 </div>
-                {top_1.map((title, i) => (
-                    <HeaderInfo
-                        key={`widgets-top_1_${i}`}
-                        Icon={
-                            <FiberManualRecordIcon
-                                style={{
-                                    color: LinkedInLightBlue,
-                                    fontSize: 12
-                                }}
-                            />
-                        }
-                        title={title}
-                        time={true}
-                        count={true}
-                    />
-                ))}
+                {organizationStore.organizationList ? (
+                    organizationStore.organizationList.map((organization) => (
+                        <Link to={`/organization/profile/${organization._id}`}>
+                            <div className={classes.organizationContainer}>
+                                <Box className={classes.box}>
+                                    {organization.avatar ? (
+                                        <img
+                                            alt="Organizations"
+                                            src={organization.avatar}
+                                            style={{ width: 32 }}
+                                        />
+                                    ) : (
+                                        <img
+                                            alt="Jobs"
+                                            src="/images/no-avatar.png"
+                                            style={{ width: 32 }}
+                                        />
+                                    )}
+                                </Box>
+                                <div className="organization-info">
+                                    <Typography
+                                        color="textPrimary"
+                                        className={classes.company}>
+                                        {organization.name}
+                                    </Typography>
+                                    <Typography className={classes.industry}>
+                                        Industry: {organization.industry}
+                                    </Typography>
+                                </div>
+                            </div>
+                        </Link>
+                    ))
+                ) : (
+                    <LoadingCard />
+                )}
                 {expand &&
                     top_2.map((title, i) => (
                         <HeaderInfo
@@ -63,12 +85,12 @@ const Widgets = () => {
                     />
                 </div>
             </Paper>
-            <Paper className={classes.widgets__top}>
+            {/* <Paper className={classes.widgets__top}>
                 <div className={classes.heading}>
                     <h4>Expand your network</h4>
                     <Link to="/profile/60844ea42b7e5a0d40ff82a6">Long Chu</Link>
                 </div>
-            </Paper>
+            </Paper> */}
             <div className={classes.widgets__bottom}>
                 <div className={classes.about}>
                     <h4>Author Info</h4>
@@ -88,7 +110,7 @@ const Widgets = () => {
             </div>
         </div>
     );
-};
+});
 
 const top_1 = [
     'Google cracks down on loan apps',
