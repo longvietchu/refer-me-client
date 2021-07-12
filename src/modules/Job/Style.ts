@@ -44,7 +44,10 @@ export default makeStyles((theme: Theme) => ({
     },
 
     paper: {
-        borderRadius: 10
+        borderRadius: 10,
+        '& > div> button': {
+            borderRadius: 10
+        }
     },
 
     paperListJob: {

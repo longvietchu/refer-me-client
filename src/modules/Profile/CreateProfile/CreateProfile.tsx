@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import DateFnsUtils from '@date-io/date-fns';
 import {
     Button,
@@ -8,29 +7,32 @@ import {
     TextField,
     Typography
 } from '@material-ui/core';
-import { PhotoCamera } from '@material-ui/icons';
+import { Close, PhotoCamera } from '@material-ui/icons';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import { Helmet } from 'react-helmet';
-import Header from '../../../common/components/header/Header';
-import Styles from './Style';
 import { observer } from 'mobx-react-lite';
-import { profileStore } from '../profileStore';
-import { loginStore } from '../../Login/loginStore';
+import React from 'react';
+import { useState } from 'react';
+import { Helmet } from 'react-helmet';
 import { useHistory } from 'react-router-dom';
+import { loginStore } from '../../Login/loginStore';
+import { profileStore } from '../profileStore';
+import Styles from './Style';
 
 const CreateProfile = observer(() => {
     const classes = Styles();
     let history = useHistory();
-
-    // const [date, setDate] = useState(new Date());
+    const [previewAvatar, setPreviewAvatar] = useState('');
+    const [selectedAvatar, setSelectedAvatar] = useState<any>();
     const onChangeAvatar = (e: any) => {
         e.preventDefault();
         let file = e.target.files[0];
-        profileStore.uploadAvatar(file);
+        setPreviewAvatar(URL.createObjectURL(file));
+        setSelectedAvatar(file);
+        // console.log('select: ', URL.createObjectURL(file));
     };
 
     const onClickCreateProfile = async () => {
-        await profileStore.updateUserInfo();
+        await profileStore.uploadAvatar(selectedAvatar);
         const isUpdateSuccess = await profileStore.createProfile();
         if (isUpdateSuccess && loginStore.userInfo) {
             history.push(`/profile/${loginStore.userInfo.id}`);
@@ -62,6 +64,52 @@ const CreateProfile = observer(() => {
                                 direction="column"
                                 spacing={3}
                                 style={{ padding: 14 }}>
+                                <Grid container item alignItems="center">
+                                    <Typography>Avatar</Typography>
+                                    <div
+                                        style={{
+                                            margin: '0 12px'
+                                        }}>
+                                        <input
+                                            accept="image/*"
+                                            style={{ display: 'none' }}
+                                            id="select-avatar"
+                                            type="file"
+                                            onChange={(e) => {
+                                                onChangeAvatar(e);
+                                            }}
+                                        />
+                                        <label htmlFor="select-avatar">
+                                            <IconButton
+                                                color="primary"
+                                                aria-label="upload picture"
+                                                component="span"
+                                                style={{
+                                                    color: '#0a66c2'
+                                                }}>
+                                                <PhotoCamera />
+                                            </IconButton>
+                                        </label>
+                                    </div>
+                                    {previewAvatar.length > 0 && (
+                                        <Grid
+                                            item
+                                            style={{ position: 'relative' }}>
+                                            <img
+                                                src={previewAvatar}
+                                                className={
+                                                    classes.preview_image
+                                                }
+                                            />
+                                            <Close
+                                                className={classes.closeIcon}
+                                                onClick={() => {
+                                                    setPreviewAvatar('');
+                                                }}
+                                            />
+                                        </Grid>
+                                    )}
+                                </Grid>
                                 <Grid item>
                                     <TextField
                                         label="about"
@@ -74,7 +122,7 @@ const CreateProfile = observer(() => {
                                     />
                                 </Grid>
 
-                                <Grid container item justify="space-around">
+                                <Grid container item>
                                     <Grid item>
                                         <MuiPickersUtilsProvider
                                             utils={DateFnsUtils}>
@@ -100,46 +148,6 @@ const CreateProfile = observer(() => {
                                                 }
                                             />
                                         </MuiPickersUtilsProvider>
-                                    </Grid>
-                                    <Grid item>
-                                        <Typography>Avatar</Typography>
-                                        <div>
-                                            <input
-                                                accept="image/*"
-                                                style={{ display: 'none' }}
-                                                id="icon-button-file"
-                                                type="file"
-                                                onChange={(e) => {
-                                                    onChangeAvatar(e);
-                                                }}
-                                            />
-                                            <label htmlFor="icon-button-file">
-                                                <IconButton
-                                                    color="primary"
-                                                    aria-label="upload picture"
-                                                    component="span"
-                                                    style={{
-                                                        color: '#0a66c2'
-                                                    }}>
-                                                    <PhotoCamera />
-                                                </IconButton>
-                                            </label>
-                                        </div>
-                                        {loginStore.userInfo &&
-                                            loginStore.userInfo.avatar !==
-                                                '' && (
-                                                <div>
-                                                    <img
-                                                        id="output"
-                                                        src={
-                                                            loginStore.userInfo
-                                                                .avatar
-                                                        }
-                                                        width="100"
-                                                        height="100"
-                                                    />
-                                                </div>
-                                            )}
                                     </Grid>
                                 </Grid>
                             </Grid>

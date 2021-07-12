@@ -36,7 +36,7 @@ class OrganizationStore {
 
     organizationList?: IOrganizationInfo[];
     organizationPage: number = 0;
-    organizationLimit: number = 10;
+    organizationLimit: number = 5;
     organizationMeta?: IMetaData;
 
     myOrganization?: IOrganizationInfo[];

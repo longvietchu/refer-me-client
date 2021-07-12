@@ -75,5 +75,17 @@ export default makeStyles((theme) => ({
         marginBottom: '1rem',
         marginLeft: 12,
         textTransform: 'capitalize'
+    },
+    preview_image: {
+        height: 150
+    },
+    closeIcon: {
+        width: 16,
+        height: 16,
+        backgroundColor: '#fff',
+        borderRadius: '50%',
+        position: 'absolute',
+        top: 8,
+        right: 8
     }
 }));

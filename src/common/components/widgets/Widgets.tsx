@@ -59,23 +59,6 @@ const Widgets = observer(() => {
                 ) : (
                     <LoadingCard />
                 )}
-                {expand &&
-                    top_2.map((title, i) => (
-                        <HeaderInfo
-                            key={`widgets-top_2_${i}`}
-                            Icon={
-                                <FiberManualRecordIcon
-                                    style={{
-                                        color: LinkedInLightBlue,
-                                        fontSize: 12
-                                    }}
-                                />
-                            }
-                            title={title}
-                            time={true}
-                            count={true}
-                        />
-                    ))}
                 <div
                     className={classes.expand}
                     onClick={() => setExpand(!expand)}>
@@ -111,21 +94,6 @@ const Widgets = observer(() => {
         </div>
     );
 });
-
-const top_1 = [
-    'Google cracks down on loan apps',
-    'Byju’s new acquisition',
-    "Lost password? That'll be $220M",
-    'Tesla gets an India address',
-    'India Inc returns gingerly to office'
-];
-
-const top_2 = [
-    'To Bitcoin or not to Bitcoin',
-    'Infosys, Wipro post robust numbers',
-    'Longer hours equal less productivity',
-    'Fake commute has real benefits'
-];
 
 const author = [
     {

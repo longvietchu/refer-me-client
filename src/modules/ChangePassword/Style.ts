@@ -68,10 +68,16 @@ export default makeStyles((theme) => ({
 
     btn: {
         height: '32px',
-        border: '1.5px solid #0a66c2',
+        border: '1px solid #0a66c2',
         color: '#0a66c2',
         fontWeight: 'bold',
         borderRadius: '1.5rem',
         textTransform: 'capitalize'
+    },
+    validate: {
+        fontSize: 12,
+        lineHeight: '14px',
+        color: '#ff0000',
+        fontStyle: 'italic'
     }
 }));

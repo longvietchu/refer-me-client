@@ -277,7 +277,6 @@ const Header = observer(() => {
                 className={classes.menu}
                 PaperProps={{
                     style: {
-                        width: '20%',
                         borderRadius: 10,
                         justifyContent: 'center',
                         alignItems: 'center'
@@ -317,7 +316,7 @@ const Header = observer(() => {
                     <Link
                         to="/change-password"
                         style={{ color: '#808080', lineHeight: '20px' }}>
-                        Setting
+                        Security
                     </Link>
                     <Link
                         to="/"

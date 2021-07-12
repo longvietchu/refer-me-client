@@ -1,13 +1,16 @@
 import {
-    deleteRequest,
-    getRequest,
-    postRequest
+    IApiResponse,
+    postRequest,
+    putRequest
 } from '../../common/helpers/RequestHelper';
-import { IApiResponse } from '../../common/helpers/UploadHelper';
 
 class SignupService {
     public singup(data: any): Promise<IApiResponse> {
         return postRequest('/v1/auth/register', data);
+    }
+
+    public changePassword(data: any): Promise<IApiResponse> {
+        return putRequest('/v1/user/change-password', data);
     }
 }
 

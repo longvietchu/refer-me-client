@@ -356,7 +356,6 @@ class ProfileStore {
             if (result.status < HttpStatusCode.CODE_300 && this.profile) {
                 loginStore.userInfo.avatar = result.body.url;
                 this.profile.user_info.avatar = result.body.url;
-                // console.log(result);
                 await this.updateUserInfo();
             }
             // console.log(result);

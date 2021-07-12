@@ -67,13 +67,13 @@ const JobCard = observer((props: any) => {
                             <img
                                 alt="Jobs"
                                 src={job.organization_info.avatar}
-                                style={{ width: 72 }}
+                                style={{ height: 72 }}
                             />
                         ) : (
                             <img
                                 alt="Jobs"
                                 src="/images/no-avatar.png"
-                                style={{ width: 72 }}
+                                style={{ height: 72 }}
                             />
                         )}
                     </Box>
@@ -98,7 +98,7 @@ const JobCard = observer((props: any) => {
                     </Typography>
 
                     <Typography variant="body1" className={classes.time}>
-                        {formatDateTimeDDMM(job.created_at)}
+                        Opened at: {formatDateTimeDDMM(job.created_at)}
                     </Typography>
                 </CardContent>
             </CardActionArea>

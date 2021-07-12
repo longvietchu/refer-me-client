@@ -166,77 +166,90 @@ const ProfileScreen = observer(() => {
                                             <Edit />
                                         </Button>
                                     )}
-                                    {profileStore.experienceList && (
-                                        <div className={classes.summarizeInfo}>
-                                            {profileStore.experienceList[0]
-                                                .organization_info &&
-                                            profileStore.experienceList[0]
-                                                .organization_info.avatar ? (
-                                                <img
-                                                    src={
+                                    {profileStore.experienceList &&
+                                        profileStore.experienceList.length >
+                                            0 && (
+                                            <div
+                                                className={
+                                                    classes.summarizeInfo
+                                                }>
+                                                {profileStore.experienceList[0]
+                                                    .organization_info &&
+                                                profileStore.experienceList[0]
+                                                    .organization_info
+                                                    .avatar ? (
+                                                    <img
+                                                        src={
+                                                            profileStore
+                                                                .experienceList[0]
+                                                                .organization_info
+                                                                .avatar
+                                                        }
+                                                        style={{
+                                                            marginRight: 8,
+                                                            width: 25
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    <img
+                                                        src="/images/no-avatar.png"
+                                                        style={{
+                                                            marginRight: 8,
+                                                            width: 25
+                                                        }}
+                                                    />
+                                                )}
+                                                <Typography variant="subtitle2">
+                                                    {
                                                         profileStore
                                                             .experienceList[0]
-                                                            .organization_info
-                                                            .avatar
+                                                            .company
                                                     }
-                                                    style={{
-                                                        marginRight: 8,
-                                                        width: 25
-                                                    }}
-                                                />
-                                            ) : (
-                                                <img
-                                                    src="/images/no-avatar.png"
-                                                    style={{
-                                                        marginRight: 8,
-                                                        width: 25
-                                                    }}
-                                                />
-                                            )}
-                                            <Typography variant="subtitle2">
-                                                {
-                                                    profileStore
-                                                        .experienceList[0]
-                                                        .company
-                                                }
-                                            </Typography>
-                                        </div>
-                                    )}
-                                    {profileStore.educationList && (
-                                        <div className={classes.summarizeInfo}>
-                                            {profileStore.educationList[0]
-                                                .organization_info &&
-                                            profileStore.educationList[0]
-                                                .organization_info.avatar ? (
-                                                <img
-                                                    src={
+                                                </Typography>
+                                            </div>
+                                        )}
+                                    {profileStore.educationList &&
+                                        profileStore.educationList.length >
+                                            0 && (
+                                            <div
+                                                className={
+                                                    classes.summarizeInfo
+                                                }>
+                                                {profileStore.educationList[0]
+                                                    .organization_info &&
+                                                profileStore.educationList[0]
+                                                    .organization_info
+                                                    .avatar ? (
+                                                    <img
+                                                        src={
+                                                            profileStore
+                                                                .educationList[0]
+                                                                .organization_info
+                                                                .avatar
+                                                        }
+                                                        style={{
+                                                            marginRight: 8,
+                                                            width: 25
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    <img
+                                                        src="/images/no-avatar.png"
+                                                        style={{
+                                                            marginRight: 8,
+                                                            width: 25
+                                                        }}
+                                                    />
+                                                )}
+                                                <Typography variant="subtitle2">
+                                                    {
                                                         profileStore
                                                             .educationList[0]
-                                                            .organization_info
-                                                            .avatar
+                                                            .title
                                                     }
-                                                    style={{
-                                                        marginRight: 8,
-                                                        width: 25
-                                                    }}
-                                                />
-                                            ) : (
-                                                <img
-                                                    src="/images/no-avatar.png"
-                                                    style={{
-                                                        marginRight: 8,
-                                                        width: 25
-                                                    }}
-                                                />
-                                            )}
-                                            <Typography variant="subtitle2">
-                                                {
-                                                    profileStore
-                                                        .educationList[0].title
-                                                }
-                                            </Typography>
-                                        </div>
-                                    )}
+                                                </Typography>
+                                            </div>
+                                        )}
                                 </div>
                             </Grid>
                         </Card>
