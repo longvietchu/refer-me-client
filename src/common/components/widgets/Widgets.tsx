@@ -78,7 +78,20 @@ const Widgets = observer(() => {
                 <div className={classes.about}>
                     <h4>Author Info</h4>
                     <div>
-                        {author.map(({ src, url }, i) => (
+                        Long Chu:
+                        {author1.map(({ src, url }, i) => (
+                            <a
+                                href={`${url}`}
+                                key={`author-link-${i}`}
+                                rel="noreferrer nofollow"
+                                target="_blank">
+                                {src}
+                            </a>
+                        ))}
+                    </div>
+                    <div>
+                        Tung Nguyen:
+                        {author2.map(({ src, url }, i) => (
                             <a
                                 href={`${url}`}
                                 key={`author-link-${i}`}
@@ -95,7 +108,7 @@ const Widgets = observer(() => {
     );
 });
 
-const author = [
+const author1 = [
     {
         src: <i className="fab fa-github"></i>,
         url: 'https://github.com/longvietchu'
@@ -107,6 +120,20 @@ const author = [
     {
         src: <i className="fas fa-envelope"></i>,
         url: 'mailto:vietlong5200@gmail.com'
+    }
+];
+const author2 = [
+    {
+        src: <i className="fab fa-github"></i>,
+        url: 'https://github.com/haitung1999'
+    },
+    {
+        src: <i className="fab fa-linkedin"></i>,
+        url: 'https://www.linkedin.com/in/nhtung99/'
+    },
+    {
+        src: <i className="fas fa-envelope"></i>,
+        url: 'mailto:haitung1999@gmail.com'
     }
 ];
 

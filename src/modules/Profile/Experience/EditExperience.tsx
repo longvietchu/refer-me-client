@@ -19,15 +19,15 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import WorkIcon from '@material-ui/icons/Work';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import 'date-fns';
-import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import Modal from 'react-modal';
-import { IEmploymentType, profileStore } from '../profileStore';
 import { IOrganizationInfo } from '../../../common/constants/CommonInterface';
-import Styles from './Style';
+import { IEmploymentType, profileStore } from '../profileStore';
 import DeleteExperience from './DeleteExperience';
+import Styles from './Style';
 
 Modal.setAppElement('#root');
 const defaultTheme = createMuiTheme();
@@ -56,7 +56,6 @@ const customStyles = {
         right: 'auto',
         bottom: 'auto',
         transform: 'translate(-50%, -50%)',
-        height: '80%',
         width: '50%',
         paddingBottom: 5,
         paddingTop: 10,
@@ -342,15 +341,19 @@ const EditExperience = observer(() => {
                                             format="dd/MM/yyyy"
                                             label="Joined Date"
                                             value={
-                                                profileStore.selectedExperience
-                                                    .joined_at
+                                                new Date(
+                                                    profileStore.selectedExperience.joined_at
+                                                )
                                             }
-                                            onChange={(date: any) => {
+                                            onChange={(
+                                                date: MaterialUiPickersDate
+                                            ) => {
                                                 if (
-                                                    profileStore.selectedExperience
+                                                    profileStore.selectedExperience &&
+                                                    date
                                                 ) {
                                                     profileStore.selectedExperience.joined_at =
-                                                        date;
+                                                        date.toISOString();
                                                 }
                                             }}
                                         />
@@ -363,16 +366,19 @@ const EditExperience = observer(() => {
                                                 format="dd/MM/yyyy"
                                                 label="Left Date"
                                                 value={
-                                                    profileStore
-                                                        .selectedExperience
-                                                        .left_at
+                                                    new Date(
+                                                        profileStore.selectedExperience.left_at
+                                                    )
                                                 }
-                                                onChange={(date: any) => {
+                                                onChange={(
+                                                    date: MaterialUiPickersDate
+                                                ) => {
                                                     if (
-                                                        profileStore.selectedExperience
+                                                        profileStore.selectedExperience &&
+                                                        date
                                                     ) {
                                                         profileStore.selectedExperience.left_at =
-                                                            date;
+                                                            date.toISOString();
                                                     }
                                                 }}
                                             />

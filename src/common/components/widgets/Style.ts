@@ -86,6 +86,8 @@ export default makeStyles((theme) => ({
             justifyContent: 'space-evenly',
             alignItems: 'center',
             marginTop: 10,
+            color: '#0a66c2',
+            fontWeight: 500,
             '& > a': {
                 color: 'grey',
                 transition: 'all 0.4s ease',
@@ -96,7 +98,7 @@ export default makeStyles((theme) => ({
                             : darkPrimary
                 },
                 '& > i': {
-                    fontSize: 24,
+                    fontSize: 18,
                     color: '#0a66c2'
                 }
             }

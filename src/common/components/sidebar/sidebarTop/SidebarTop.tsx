@@ -1,25 +1,33 @@
-import React from 'react';
-import { Paper, Avatar, Divider, Grid } from '@material-ui/core';
-import LabelImportantIcon from '@material-ui/icons/LabelImportant';
-import Style from './Style';
-
-import { Link, useHistory } from 'react-router-dom';
+import { Avatar, Divider, Grid, Paper } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
+import React from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { loginStore } from '../../../../modules/Login/loginStore';
+import {
+    networkStore,
+    NetworkTab
+} from '../../../../modules/Network/networkStore';
+import { profileStore } from '../../../../modules/Profile/profileStore';
+import Style from './Style';
 
 const SidebarTop = observer(() => {
     const classes = Style();
     let history = useHistory();
 
-    const onClick = (): void => {
-        history.push('/mynetwork');
-    };
+    // const onClick = (): void => {
+    //     history.push('/mynetwork');
+    // };
     return (
         <Paper className={classes.sidebar}>
             <div
                 className={classes.cover}
                 style={{
-                    backgroundImage: `url("https://tandsgo.com/wp-content/uploads/2020/02/Abstract-blue-and-orange-pattern.jpg")`
+                    background:
+                        profileStore.profile &&
+                        profileStore.profile.background_image
+                            ? `url(${profileStore.profile.background_image}) center center / cover no-repeat`
+                            : 'url("/images/grey-network.jpg") center center / cover no-repeat',
+                    backgroundSize: 'cover'
                 }}></div>
             {loginStore.userInfo && (
                 <div style={{ padding: '12px 12px 16px' }}>
@@ -45,13 +53,21 @@ const SidebarTop = observer(() => {
                     </p>
                 </div>
             )}
-            <div className={classes.stats} onClick={onClick}>
+            <div className={classes.stats}>
                 <Divider />
-                <div className={classes.stat}>
+                <Link to="/mynetwork" className={classes.stat}>
                     <h4>Invitation</h4>
-                    <p>100</p>
-                </div>
-                <div className={classes.stat}>
+                    <p>
+                        {networkStore.invitationList &&
+                            networkStore.invitationList.length}
+                    </p>
+                </Link>
+                <div
+                    className={classes.stat}
+                    onClick={() => {
+                        networkStore.networkTab = NetworkTab.CONNECTION;
+                        history.push('/mynetwork');
+                    }}>
                     <div>
                         <h4
                             style={{
@@ -69,14 +85,17 @@ const SidebarTop = observer(() => {
                             Grown your connection
                         </span>
                     </div>
-                    <p>1000</p>
+                    <p>
+                        {networkStore.networkList &&
+                            networkStore.networkList.length}
+                    </p>
                 </div>
                 <Divider />
             </div>
-            <div className={classes.myItems}>
+            {/* <div className={classes.myItems}>
                 <LabelImportantIcon style={{ transform: 'rotate(-90deg)' }} />
                 <h4>My Items</h4>
-            </div>
+            </div> */}
         </Paper>
     );
 });

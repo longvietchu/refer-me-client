@@ -365,32 +365,13 @@ class ProfileStore {
     async updateEducation() {
         if (this.selectedEducation) {
             this.isLoading = true;
-            let data: any = {};
-            if (this.selectedEducation.organization_id !== '') {
-                data = {
-                    title: this.selectedEducation.title.trim(),
-                    description: this.selectedEducation.description.trim(),
-                    joined_at: new Date(
-                        this.selectedEducation.joined_at
-                    ).toISOString(),
-                    graduated_at: new Date(
-                        this.selectedEducation.graduated_at
-                    ).toISOString(),
-                    organization_id: this.selectedEducation.organization_id
-                };
-            } else {
-                data = {
-                    title: this.selectedEducation.title.trim(),
-                    description: this.selectedEducation.description.trim(),
-                    joined_at: new Date(
-                        this.selectedEducation.joined_at
-                    ).toISOString(),
-                    graduated_at: new Date(
-                        this.selectedEducation.graduated_at
-                    ).toISOString(),
-                    organization_id: 'noorg'
-                };
-            }
+            let data = {
+                title: this.selectedEducation.title.trim(),
+                description: this.selectedEducation.description.trim(),
+                joined_at: this.selectedEducation.joined_at,
+                graduated_at: this.selectedEducation.graduated_at,
+                organization_id: this.selectedEducation.organization_id
+            };
             if (data.title === '') {
                 this.validateInput.title = 'This infomation is required!';
                 this.isLoading = false;
@@ -401,12 +382,11 @@ class ProfileStore {
                 data
             );
             if (result.status < HttpStatusCode.CODE_300 && this.educationList) {
-                console.log(result);
+                // console.log(result);
                 this.educationList = this.educationList.map((item) =>
                     item._id !== result.body.data._id ? item : result.body.data
                 );
                 this.modalEducation.edit = false;
-                await this.getEducation(result.body.data.user_id);
             }
             this.isLoading = false;
         }
@@ -415,39 +395,16 @@ class ProfileStore {
     async updateExperience() {
         if (this.selectedExperience) {
             this.isLoading = true;
-            let data: any = {};
-            if (this.selectedExperience.organization_id !== '') {
-                data = {
-                    job_title: this.selectedExperience.job_title.trim(),
-                    job_description:
-                        this.selectedExperience.job_description.trim(),
-                    company: this.selectedExperience.company.trim(),
-                    location: this.selectedExperience.location.trim(),
-                    employment_type: this.selectedExperience.employment_type,
-                    joined_at: new Date(
-                        this.selectedExperience.joined_at
-                    ).toISOString(),
-                    left_at: new Date(
-                        this.selectedExperience.left_at
-                    ).toISOString(),
-                    organization_id: this.selectedExperience.organization_id
-                };
-            } else {
-                data = {
-                    job_title: this.selectedExperience.job_title.trim(),
-                    job_description:
-                        this.selectedExperience.job_description.trim(),
-                    company: this.selectedExperience.company.trim(),
-                    location: this.selectedExperience.location.trim(),
-                    employment_type: this.selectedExperience.employment_type,
-                    joined_at: new Date(
-                        this.selectedExperience.joined_at
-                    ).toISOString(),
-                    left_at: new Date(
-                        this.selectedExperience.left_at
-                    ).toISOString()
-                };
-            }
+            let data = {
+                job_title: this.selectedExperience.job_title.trim(),
+                job_description: this.selectedExperience.job_description.trim(),
+                company: this.selectedExperience.company.trim(),
+                location: this.selectedExperience.location.trim(),
+                employment_type: this.selectedExperience.employment_type,
+                joined_at: this.selectedExperience.joined_at,
+                left_at: this.selectedExperience.left_at,
+                organization_id: this.selectedExperience.organization_id
+            };
             if (data.job_title === '') {
                 this.validateInput.job_title = 'This infomation is required!';
                 this.isLoading = false;
@@ -470,12 +427,16 @@ class ProfileStore {
                 this.selectedExperience._id,
                 data
             );
-            if (result.status < HttpStatusCode.CODE_300) {
-                console.log(result);
+            if (
+                result.status < HttpStatusCode.CODE_300 &&
+                this.experienceList
+            ) {
+                // console.log(result);
+                this.experienceList = this.experienceList.map((item) =>
+                    item._id !== result.body.data._id ? item : result.body.data
+                );
                 this.modalExperience.edit = false;
-                await this.getExperience(result.body.data.user_id);
             }
-            // console.log(data);
             this.isLoading = false;
         }
     }
@@ -483,11 +444,13 @@ class ProfileStore {
     async deleteEducation(education_id: string) {
         this.isLoading = true;
         const result = await profileService.deleteEducation(education_id);
-        if (result.status < HttpStatusCode.CODE_300) {
-            console.log(result);
+        if (result.status < HttpStatusCode.CODE_300 && this.educationList) {
+            // console.log(result);
+            this.educationList = this.educationList.filter(
+                (item) => item._id !== education_id
+            );
             this.modalEducation.delete = false;
             this.modalEducation.edit = false;
-            await this.getEducation(result.body.data.user_id);
         }
         this.isLoading = false;
     }
@@ -495,11 +458,13 @@ class ProfileStore {
     async deleteExperience(experience_id: string) {
         this.isLoading = true;
         const result = await profileService.deleteExperience(experience_id);
-        if (result.status < HttpStatusCode.CODE_300) {
-            console.log(result);
+        if (result.status < HttpStatusCode.CODE_300 && this.experienceList) {
+            // console.log(result);
+            this.experienceList = this.experienceList.filter(
+                (item) => item._id !== experience_id
+            );
             this.modalExperience.delete = false;
             this.modalExperience.edit = false;
-            await this.getExperience(result.body.data.user_id);
         }
         this.isLoading = false;
     }
@@ -508,12 +473,11 @@ class ProfileStore {
         this.isLoading = true;
         const result = await profileService.deleteSkill(skill_id);
         if (result.status < HttpStatusCode.CODE_300 && this.skillList) {
-            console.log(result);
+            // console.log(result);
             this.modalSkill.delete = false;
             this.skillList = this.skillList.filter(
                 (skill) => skill._id !== skill_id
             );
-            //await this.getSkill(result.body.data.user_id);
         }
         this.isLoading = false;
     }
@@ -529,7 +493,7 @@ class ProfileStore {
         }
         const result = await profileService.upvoteSkill(skill_id);
         if (result.status < HttpStatusCode.CODE_300) {
-            console.log(result);
+            // console.log(result);
         }
     }
 }

@@ -50,7 +50,7 @@ const ProfileScreen = observer(() => {
         profileStore.uploadCoverImage(file);
     };
 
-    if (loginStore.userInfo && profileStore.profile) {
+    if (profileStore.profile) {
         return (
             <Grid container className={classes.app}>
                 <Grid item container className={classes.app__header}>
@@ -61,12 +61,13 @@ const ProfileScreen = observer(() => {
                         <Card>
                             <Grid item xs={12}>
                                 <Paper
+                                    elevation={0}
                                     className={classes.paper}
                                     style={{
                                         background: profileStore.profile
                                             .background_image
-                                            ? `url(${profileStore.profile.background_image}) no-repeat center center`
-                                            : 'rgb(204, 214, 221)',
+                                            ? `url(${profileStore.profile.background_image}) center center / cover no-repeat`
+                                            : 'url("/images/grey-network.jpg") center center / cover no-repeat',
                                         backgroundSize: 'cover'
                                     }}>
                                     <input
@@ -78,14 +79,15 @@ const ProfileScreen = observer(() => {
                                             onChangeCoverImg(e);
                                         }}
                                     />
-                                    {loginStore.userInfo.id ===
-                                        profileStore.profile.user_id && (
-                                        <label
-                                            htmlFor="cover-image"
-                                            className={classes.labelCover}>
-                                            <CameraAlt />
-                                        </label>
-                                    )}
+                                    {loginStore.userInfo &&
+                                        loginStore.userInfo.id ===
+                                            profileStore.profile.user_id && (
+                                            <label
+                                                htmlFor="cover-image"
+                                                className={classes.labelCover}>
+                                                <CameraAlt />
+                                            </label>
+                                        )}
                                     <div className={classes.avatarBox}>
                                         <Box>
                                             <Avatar
@@ -104,17 +106,18 @@ const ProfileScreen = observer(() => {
                                                     onChangeAvatar(e);
                                                 }}
                                             />
-                                            {loginStore.userInfo.id ===
-                                                profileStore.profile
-                                                    .user_id && (
-                                                <label
-                                                    htmlFor="avatar-image"
-                                                    className={
-                                                        classes.labelAvatar
-                                                    }>
-                                                    <Edit />
-                                                </label>
-                                            )}
+                                            {loginStore.userInfo &&
+                                                loginStore.userInfo.id ===
+                                                    profileStore.profile
+                                                        .user_id && (
+                                                    <label
+                                                        htmlFor="avatar-image"
+                                                        className={
+                                                            classes.labelAvatar
+                                                        }>
+                                                        <Edit />
+                                                    </label>
+                                                )}
                                         </Box>
                                     </div>
                                 </Paper>
@@ -155,17 +158,18 @@ const ProfileScreen = observer(() => {
                                 </div>
 
                                 <div className={classes.careerInfo}>
-                                    {loginStore.userInfo.id ===
-                                        profileStore.profile.user_id && (
-                                        <Button
-                                            onClick={() =>
-                                                (profileStore.modalProfileOpen =
-                                                    true)
-                                            }
-                                            className={classes.btn}>
-                                            <Edit />
-                                        </Button>
-                                    )}
+                                    {loginStore.userInfo &&
+                                        loginStore.userInfo.id ===
+                                            profileStore.profile.user_id && (
+                                            <Button
+                                                onClick={() =>
+                                                    (profileStore.modalProfileOpen =
+                                                        true)
+                                                }
+                                                className={classes.btn}>
+                                                <Edit />
+                                            </Button>
+                                        )}
                                     {profileStore.experienceList &&
                                         profileStore.experienceList.length >
                                             0 && (
@@ -286,23 +290,26 @@ const ProfileScreen = observer(() => {
                                             fontSize: '1.2rem',
                                             fontWeight: 500
                                         }}>
-                                        Experience
+                                        Experiences
                                     </Typography>
                                 </Grid>
-                                {loginStore.userInfo.id ===
-                                    profileStore.profile.user_id && (
-                                    <Grid item>
-                                        <Button
-                                            onClick={() =>
-                                                (profileStore.modalExperience.create =
-                                                    true)
-                                            }>
-                                            <Add
-                                                style={{ color: '#0000008a' }}
-                                            />
-                                        </Button>
-                                    </Grid>
-                                )}
+                                {loginStore.userInfo &&
+                                    loginStore.userInfo.id ===
+                                        profileStore.profile.user_id && (
+                                        <Grid item>
+                                            <Button
+                                                onClick={() =>
+                                                    (profileStore.modalExperience.create =
+                                                        true)
+                                                }>
+                                                <Add
+                                                    style={{
+                                                        color: '#0000008a'
+                                                    }}
+                                                />
+                                            </Button>
+                                        </Grid>
+                                    )}
                             </Grid>
                             <ListExperience />
                         </Card>
@@ -321,23 +328,26 @@ const ProfileScreen = observer(() => {
                                             fontSize: '1.2rem',
                                             fontWeight: 500
                                         }}>
-                                        Education
+                                        Educations
                                     </Typography>
                                 </Grid>
-                                {loginStore.userInfo.id ===
-                                    profileStore.profile.user_id && (
-                                    <Grid item>
-                                        <Button
-                                            onClick={() =>
-                                                (profileStore.modalEducation.create =
-                                                    true)
-                                            }>
-                                            <Add
-                                                style={{ color: '#0000008a' }}
-                                            />
-                                        </Button>
-                                    </Grid>
-                                )}
+                                {loginStore.userInfo &&
+                                    loginStore.userInfo.id ===
+                                        profileStore.profile.user_id && (
+                                        <Grid item>
+                                            <Button
+                                                onClick={() =>
+                                                    (profileStore.modalEducation.create =
+                                                        true)
+                                                }>
+                                                <Add
+                                                    style={{
+                                                        color: '#0000008a'
+                                                    }}
+                                                />
+                                            </Button>
+                                        </Grid>
+                                    )}
                             </Grid>
                             <ListEducation />
                         </Card>
@@ -358,20 +368,23 @@ const ProfileScreen = observer(() => {
                                         Skills & endorsements
                                     </Typography>
                                 </Grid>
-                                {loginStore.userInfo.id ===
-                                    profileStore.profile.user_id && (
-                                    <Grid item>
-                                        <Button
-                                            onClick={() =>
-                                                (profileStore.modalSkill.create =
-                                                    true)
-                                            }>
-                                            <Add
-                                                style={{ color: '#0000008a' }}
-                                            />
-                                        </Button>
-                                    </Grid>
-                                )}
+                                {loginStore.userInfo &&
+                                    loginStore.userInfo.id ===
+                                        profileStore.profile.user_id && (
+                                        <Grid item>
+                                            <Button
+                                                onClick={() =>
+                                                    (profileStore.modalSkill.create =
+                                                        true)
+                                                }>
+                                                <Add
+                                                    style={{
+                                                        color: '#0000008a'
+                                                    }}
+                                                />
+                                            </Button>
+                                        </Grid>
+                                    )}
                             </Grid>
                             <ListSkill />
                         </Card>
@@ -396,8 +409,6 @@ const ProfileScreen = observer(() => {
             </Grid>
         );
     } else return <LoadingHeader />;
-    // return <LoadingCard />;
-    // return <Redirect to="/create/profile" />;
 });
 
 export default ProfileScreen;

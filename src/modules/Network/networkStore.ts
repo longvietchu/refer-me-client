@@ -63,7 +63,7 @@ class NetworkStore {
             this.recommendLimit
         );
         if (result.status < HttpStatusCode.CODE_300) {
-            console.log('result', result);
+            // console.log('result', result);
             this.recommendList = result.body.data;
             this.recommendMeta = result.body.meta;
         }
