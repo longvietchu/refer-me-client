@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 
 import {
@@ -28,6 +28,10 @@ import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { IEmploymentType, jobStore } from './jobStore';
 import { IOrganizationInfo } from '../../common/constants/CommonInterface';
+import { convertToRaw } from 'draft-js';
+
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const defaultTheme = createMuiTheme();
 
@@ -93,6 +97,29 @@ const employment_types = [
 
 const ModalPostJob = observer(() => {
     const classes = Styles();
+
+    const [Ques, setQues] = useState('');
+
+    const handleChange = (prop: any) => (event: any) => {
+        // `event` is of type Draft.Model.ImmutableData.EditorState
+        //
+        // Use convertToRaw to save the editor state including inline styles, blocks, etc.
+        const content = JSON.stringify(convertToRaw(event.getCurrentContent()));
+        //
+        // Or use `getPlainText` method to get the text
+        // https://draftjs.org/docs/api-reference-content-state#getplaintext
+        // const content = event.getCurrentContent().getPlainText()
+        //
+
+        console.log(content);
+    };
+
+    const [value, setValue] = useState('');
+
+    const onChange = (event: any) => {
+        console.log('event', event);
+        jobStore.inputJob.description = event;
+    };
 
     return (
         <div>
@@ -299,7 +326,7 @@ const ModalPostJob = observer(() => {
                     </Grid>
 
                     <Grid item>
-                        <MuiThemeProvider theme={defaultTheme}>
+                        {/* <MuiThemeProvider theme={defaultTheme}>
                             <Typography
                                 variant="subtitle1"
                                 style={{ paddingLeft: 2 }}>
@@ -323,8 +350,15 @@ const ModalPostJob = observer(() => {
                                     'numberList',
                                     'bulletList'
                                 ]}
+                                defaultValue={jobStore.inputJob.description}
+                                onChange={onChange}
                             />
-                        </MuiThemeProvider>
+                        </MuiThemeProvider> */}
+                        <ReactQuill
+                            theme="snow"
+                            value={jobStore.inputJob.description}
+                            onChange={onChange}
+                        />
                     </Grid>
 
                     <Grid style={{ alignSelf: 'center' }}>

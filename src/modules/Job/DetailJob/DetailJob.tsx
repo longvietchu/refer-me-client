@@ -39,6 +39,7 @@ import LoadingCard from '../../../common/components/util/LoadingCard';
 import LoadingHeader from '../../../common/components/util/LoadingHeader';
 import { formatDateTimeDDMM } from '../../../common/config/Function';
 import ApplyJob from './ApplyJob';
+import { Markup } from 'interweave';
 
 const DetailJob = observer(() => {
     const classes = Styles();
@@ -226,9 +227,25 @@ const DetailJob = observer(() => {
                                     <Typography>
                                         <Description className={classes.icon} />
                                         Job description:{' '}
-                                        <Typography style={{ margin: 8 }}>
-                                            {jobStore.detailJob.description}
-                                        </Typography>
+                                        {/* <p style={{ margin: 8 }}>
+                                            <React.Fragment>
+                                                {jobStore.detailJob.description}
+                                            </React.Fragment>
+                                        </p> */}
+                                        {/* <p
+                                            dangerouslySetInnerHTML={{
+                                                __html: jobStore.detailJob
+                                                    .description
+                                            }}
+                                        /> */}
+                                        <p style={{ padding: 16 }}>
+                                            <Markup
+                                                content={
+                                                    jobStore.detailJob
+                                                        .description
+                                                }
+                                            />
+                                        </p>
                                     </Typography>
 
                                     {loginStore.userInfo &&
