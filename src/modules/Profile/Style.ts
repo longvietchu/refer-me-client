@@ -133,6 +133,15 @@ export default makeStyles((theme) => ({
             height: 26,
             border: '1px solid #1da1f2',
             color: '#1da1f2'
+        },
+        '& > div': {
+            borderRadius: '50%',
+            backgroundColor: '#fff',
+            padding: 4,
+            width: 26,
+            height: 26,
+            border: '1px solid #1da1f2',
+            color: '#1da1f2'
         }
     },
     labelCover: {
@@ -140,6 +149,15 @@ export default makeStyles((theme) => ({
         top: 10,
         right: 10,
         '& > svg': {
+            borderRadius: '50%',
+            backgroundColor: '#fff',
+            padding: 4,
+            width: 30,
+            height: 30,
+            border: '1px solid #1da1f2',
+            color: '#1da1f2'
+        },
+        '& > div': {
             borderRadius: '50%',
             backgroundColor: '#fff',
             padding: 4,

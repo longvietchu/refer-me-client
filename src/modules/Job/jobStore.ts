@@ -92,6 +92,7 @@ class JobStore {
         organization_id: '',
         user_id: ''
     };
+    selectedJob?: IJob;
 
     inputKeyword: string = '';
 
@@ -110,10 +111,10 @@ class JobStore {
     modalJob: boolean = false;
     isLoading: boolean = false;
     isSearching: boolean = false;
+    modalDeleteJob: boolean = false;
+    modalEditJob: boolean = false;
 
     jobTab: string = JobTab.POSTED;
-
-    modalDeleteJob: boolean = false;
 
     async getJobs() {
         const result = await jobService.getJobs(this.jobPage, this.jobLimit);
@@ -128,7 +129,7 @@ class JobStore {
         if (result.status < HttpStatusCode.CODE_300) {
             this.detailJob = result.body.data;
         }
-        console.log('result+++', result);
+        // console.log('result+++', result);
     }
 
     async getJobOfUser(user_id: string) {
@@ -156,38 +157,28 @@ class JobStore {
     }
 
     async createJob() {
-        this.isLoading = true;
-        let data: any = {};
-        if (this.inputJob.organization_id !== '') {
-            data = {
-                title: this.inputJob.title.trim(),
-                location: this.inputJob.location,
-                organization_id: this.inputJob.organization_id,
-                employment_type: this.inputJob.employment_type,
-                description: this.inputJob.description.trim(),
-                company: this.inputJob.company
-            };
-        } else {
-            data = {
-                title: this.inputJob.title.trim(),
-                location: this.inputJob.location,
-                company: this.inputJob.company,
-                description: this.inputJob.description.trim()
-            };
-        }
+        let data = {
+            title: this.inputJob.title.trim(),
+            location: this.inputJob.location,
+            organization_id: this.inputJob.organization_id,
+            employment_type: this.inputJob.employment_type,
+            description: this.inputJob.description.trim(),
+            company: this.inputJob.company
+        };
         if (data.title === '') {
-            this.validateInput.title = 'Thông tin này là bắt buộc!';
+            this.validateInput.title = 'This infomation is required!';
             this.isLoading = false;
             return;
         }
         if (data.location === '') {
-            this.validateInput.location = 'Thông tin này là bắt buộc!';
+            this.validateInput.location = 'This infomation is required!';
             this.isLoading = false;
             return;
         }
+        this.isLoading = true;
         const result = await jobService.createJob(data);
         if (result.status < HttpStatusCode.CODE_300 && this.jobList) {
-            console.log('result+++', result);
+            // console.log('result+++', result);
             this.jobList = [result.body.data, ...this.jobList];
         }
         this.isLoading = false;

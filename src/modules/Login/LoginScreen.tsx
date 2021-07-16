@@ -28,6 +28,8 @@ const Style = makeStyles((theme: any) => ({
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1,
+        marginRight: '4rem',
+        marginLeft: '2rem',
         [theme.breakpoints.down('sm')]: {
             margin: 0
         },

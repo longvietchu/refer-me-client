@@ -69,5 +69,16 @@ export default makeStyles(() => ({
         backgroundColor: '#fff',
         marginTop: 8,
         marginLeft: 8
+    },
+    textArea: {
+        border: 'none',
+        outline: 'none',
+        fontFamily: 'Roboto',
+        fontSize: 16,
+        lineHeight: '18px',
+        width: '100%',
+        '&::-webkit-resizer': {
+            display: 'none'
+        }
     }
 }));

@@ -38,15 +38,13 @@ const JobCard = observer((props: any) => {
     const { enqueueSnackbar } = useSnackbar();
     let history = useHistory();
 
-    console.log('job', job);
-
     const onSave = (
         e: { stopPropagation: () => void },
         variant: VariantType,
         _id: string
     ) => {
         e.stopPropagation();
-        console.log('b', _id);
+        // console.log('b', _id);
         enqueueSnackbar('Save job successfully!', { variant });
         setIsSave(!isSave);
     };

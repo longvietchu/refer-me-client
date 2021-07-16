@@ -138,7 +138,7 @@ const JobScreen = observer(() => {
                                                         <Grid
                                                             item
                                                             key={job._id}
-                                                            lg={2}
+                                                            lg={3}
                                                             md={6}
                                                             xs={12}>
                                                             <JobCard

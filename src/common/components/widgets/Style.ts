@@ -121,10 +121,7 @@ export default makeStyles((theme) => ({
         color: '#00000099',
         fontSize: 12,
         paddingTop: '4px',
-        width: '100%',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap'
+        width: '100%'
     },
     organizationContainer: {
         display: 'flex',

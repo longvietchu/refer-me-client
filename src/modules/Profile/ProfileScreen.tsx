@@ -3,6 +3,7 @@ import {
     Box,
     Button,
     Card,
+    CircularProgress,
     Hidden,
     LinearProgress,
     Paper
@@ -31,6 +32,7 @@ import DeleteSkill from './Skill/DeleteSkill';
 import ListSkill from './Skill/ListSkill';
 import DeleteExperience from './Experience/DeleteExperience';
 import Styles from './Style';
+import MDEditor from '@uiw/react-md-editor';
 
 const ProfileScreen = observer(() => {
     const classes = Styles();
@@ -85,7 +87,11 @@ const ProfileScreen = observer(() => {
                                             <label
                                                 htmlFor="cover-image"
                                                 className={classes.labelCover}>
-                                                <CameraAlt />
+                                                {profileStore.isUploadCoverImage ? (
+                                                    <CircularProgress />
+                                                ) : (
+                                                    <CameraAlt />
+                                                )}
                                             </label>
                                         )}
                                     <div className={classes.avatarBox}>
@@ -115,7 +121,11 @@ const ProfileScreen = observer(() => {
                                                         className={
                                                             classes.labelAvatar
                                                         }>
-                                                        <Edit />
+                                                        {profileStore.isUploadAvatar ? (
+                                                            <CircularProgress />
+                                                        ) : (
+                                                            <Edit />
+                                                        )}
                                                     </label>
                                                 )}
                                         </Box>
@@ -270,7 +280,11 @@ const ProfileScreen = observer(() => {
                                 </Typography>
                             </Grid>
                             <Grid item>
-                                <Typography style={{ fontSize: 15 }}>
+                                <Typography
+                                    style={{
+                                        fontSize: 15,
+                                        whiteSpace: 'pre-wrap'
+                                    }}>
                                     {profileStore.profile.about}
                                 </Typography>
                             </Grid>

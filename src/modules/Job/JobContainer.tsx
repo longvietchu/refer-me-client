@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import JobScreen from './JobScreen';
-import { VariantType, useSnackbar } from 'notistack';
-import jobs from './jobs';
 import { observer } from 'mobx-react-lite';
+import React, { useEffect } from 'react';
+import JobScreen from './JobScreen';
 import { jobStore } from './jobStore';
 
 export interface IJob {
@@ -19,7 +17,6 @@ const JobContainer = observer(() => {
     useEffect(() => {
         jobStore.getJobs();
     }, []);
-    
 
     return <JobScreen />;
 });

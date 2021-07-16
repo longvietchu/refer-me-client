@@ -176,5 +176,16 @@ export default makeStyles((theme) => ({
     optionContainer: {
         display: 'flex',
         justifyContent: 'center'
+    },
+    btnSignin: {
+        color: '#0a66c2',
+        width: 160,
+        border: '1px solid #0a66c2',
+        height: 30,
+        margin: '0 10px',
+        fontWeight: 'bold',
+        borderRadius: '1.5rem',
+        textTransform: 'capitalize',
+        textAlign: 'center'
     }
 }));

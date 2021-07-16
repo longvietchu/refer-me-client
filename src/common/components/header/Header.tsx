@@ -52,6 +52,7 @@ const Header = observer(() => {
 
     const signOut = () => {
         StorageService.removeToken();
+        loginStore.userInfo = undefined;
         window.location.reload();
     };
 
@@ -282,84 +283,125 @@ const Header = observer(() => {
                         alignItems: 'center'
                     }
                 }}>
-                <List style={{ padding: 0 }}>
-                    {loginStore.userInfo && (
-                        <ListItem
-                            alignItems="flex-start"
-                            button
-                            onClick={onClickProfile}>
-                            <ListItemAvatar style={{ minWidth: '50px' }}>
-                                <Avatar src={loginStore.userInfo.avatar} />
-                            </ListItemAvatar>
-                            <ListItemText
-                                primary={
-                                    <Typography className={classes.name}>
-                                        {loginStore.userInfo.name}
-                                    </Typography>
-                                }
-                                secondary={
-                                    <Typography className={classes.headline}>
-                                        {loginStore.userInfo.headline}
-                                    </Typography>
-                                }
-                            />
-                        </ListItem>
-                    )}
-                </List>
+                {loginStore.userInfo ? (
+                    <div>
+                        <List style={{ padding: 0 }}>
+                            <ListItem
+                                alignItems="flex-start"
+                                button
+                                onClick={onClickProfile}>
+                                <ListItemAvatar style={{ minWidth: '50px' }}>
+                                    <Avatar src={loginStore.userInfo.avatar} />
+                                </ListItemAvatar>
+                                <ListItemText
+                                    primary={
+                                        <Typography className={classes.name}>
+                                            {loginStore.userInfo.name}
+                                        </Typography>
+                                    }
+                                    secondary={
+                                        <Typography
+                                            className={classes.headline}>
+                                            {loginStore.userInfo.headline}
+                                        </Typography>
+                                    }
+                                />
+                            </ListItem>
+                        </List>
 
-                <Divider style={{ marginTop: '10px' }} />
+                        <Divider style={{ marginTop: '10px' }} />
 
-                <Grid container direction="column" style={{ padding: 12 }}>
-                    <Typography style={{ fontWeight: 'bold' }}>
-                        Account
-                    </Typography>
-                    <Link
-                        to="/change-password"
-                        style={{ color: '#808080', lineHeight: '20px' }}>
-                        Security
-                    </Link>
-                    <Link
-                        to="/"
-                        style={{ color: '#808080', lineHeight: '20px' }}>
-                        Help
-                    </Link>
-                </Grid>
+                        <Grid
+                            container
+                            direction="column"
+                            style={{ padding: 12 }}>
+                            <Typography style={{ fontWeight: 'bold' }}>
+                                Account
+                            </Typography>
+                            <Link
+                                to="/change-password"
+                                style={{
+                                    color: '#808080',
+                                    lineHeight: '20px'
+                                }}>
+                                Security
+                            </Link>
+                            <Link
+                                to="/"
+                                style={{
+                                    color: '#808080',
+                                    lineHeight: '20px'
+                                }}>
+                                Help
+                            </Link>
+                        </Grid>
 
-                <Divider />
+                        <Divider />
 
-                <Grid container direction="column" style={{ padding: 12 }}>
-                    <Typography style={{ fontWeight: 'bold' }}>
-                        Manage
-                    </Typography>
-                    <Link
-                        to="#"
-                        style={{ color: '#808080', lineHeight: '20px' }}>
-                        Post & Activity
-                    </Link>
-                    <Link
-                        to="/myjob"
-                        style={{ color: '#808080', lineHeight: '20px' }}>
-                        Job Posting
-                    </Link>
-                    <Link
-                        to="/myorganization"
-                        style={{ color: '#808080', lineHeight: '20px' }}>
-                        My organization
-                    </Link>
-                    <Link
-                        to="/organization/new"
-                        style={{ color: '#808080', lineHeight: '20px' }}>
-                        Create an organization
-                    </Link>
-                </Grid>
+                        <Grid
+                            container
+                            direction="column"
+                            style={{ padding: 12 }}>
+                            <Typography style={{ fontWeight: 'bold' }}>
+                                Manage
+                            </Typography>
+                            <Link
+                                to="#"
+                                style={{
+                                    color: '#808080',
+                                    lineHeight: '20px'
+                                }}>
+                                Post & Activity
+                            </Link>
+                            <Link
+                                to="/myjob"
+                                style={{
+                                    color: '#808080',
+                                    lineHeight: '20px'
+                                }}>
+                                Job Posting
+                            </Link>
+                            <Link
+                                to="/myorganization"
+                                style={{
+                                    color: '#808080',
+                                    lineHeight: '20px'
+                                }}>
+                                My organization
+                            </Link>
+                            <Link
+                                to="/organization/new"
+                                style={{
+                                    color: '#808080',
+                                    lineHeight: '20px'
+                                }}>
+                                Create an organization
+                            </Link>
+                        </Grid>
 
-                <Divider style={{ marginBottom: '10px' }} />
+                        <Divider style={{ marginBottom: '10px' }} />
 
-                <Grid container justify="center" style={{ marginBottom: 10 }}>
-                    <Button className={classes.btn} onClick={() => signOut()}>
-                        sign out
-                    </Button>
-                </Grid>
+                        <Grid
+                            container
+                            justify="center"
+                            style={{ marginBottom: 10 }}>
+                            <Button
+                                className={classes.btn}
+                                onClick={() => signOut()}>
+                                sign out
+                            </Button>
+                        </Grid>
+                    </div>
+                ) : (
+                    <Grid
+                        container
+                        justify="center"
+                        style={{ padding: '10px 0' }}>
+                        <Link to="/" className={classes.btnSignin}>
+                            sign in
+                        </Link>
+                    </Grid>
+                )}
             </Popover>
         </div>
     );

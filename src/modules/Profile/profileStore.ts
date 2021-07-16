@@ -113,6 +113,8 @@ class ProfileStore {
 
     isLoading: boolean = false;
     isSearching: boolean = false;
+    isUploadAvatar: boolean = false;
+    isUploadCoverImage: boolean = false;
     modalEducation = {
         create: false,
         edit: false,
@@ -306,15 +308,17 @@ class ProfileStore {
     async updateProfile() {
         if (this.profile) {
             const data = {
-                dob: new Date(this.profile.dob).toISOString(),
+                dob: this.profile.dob,
                 about: this.profile.about.trim(),
                 gender: this.profile.gender,
                 background_image: this.profile.background_image
             };
             this.isLoading = true;
             const result = await profileService.updateProfile(data);
-            if (result.status < HttpStatusCode.CODE_300) {
-                // console.log(result.body);
+            if (result.status < HttpStatusCode.CODE_300 && this.profile) {
+                this.profile.dob = result.body.data.dob;
+                this.profile.about = result.body.data.about;
+                this.profile.gender = result.body.data.gender;
             }
             this.isLoading = false;
         }
@@ -329,7 +333,11 @@ class ProfileStore {
             };
             const result = await profileService.updateUserInfo(data);
             if (result.status < HttpStatusCode.CODE_300) {
-                // console.log(result.body);
+                loginStore.userInfo.name = result.body.data.name;
+                loginStore.userInfo.headline = result.body.data.headline;
+                if (this.profile && this.profile.user_info.headline) {
+                    this.profile.user_info.headline = result.body.data.headline;
+                }
                 this.modalProfileOpen = false;
             }
         }
@@ -339,9 +347,11 @@ class ProfileStore {
         if (this.profile) {
             var formData = new FormData();
             formData.append('image', file);
+            this.isUploadCoverImage = true;
             const result = await profileService.uploadSingleImage(formData);
             if (result.status < HttpStatusCode.CODE_300) {
                 this.profile.background_image = result.body.url;
+                this.isUploadCoverImage = false;
                 await this.updateProfile();
             }
             // console.log(result);
@@ -352,10 +362,12 @@ class ProfileStore {
         if (loginStore.userInfo) {
             var formData = new FormData();
             formData.append('image', file);
+            this.isUploadAvatar = true;
             const result = await profileService.uploadSingleImage(formData);
             if (result.status < HttpStatusCode.CODE_300 && this.profile) {
                 loginStore.userInfo.avatar = result.body.url;
                 this.profile.user_info.avatar = result.body.url;
+                this.isUploadAvatar = true;
                 await this.updateUserInfo();
             }
             // console.log(result);
