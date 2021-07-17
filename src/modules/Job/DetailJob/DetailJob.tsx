@@ -227,17 +227,6 @@ const DetailJob = observer(() => {
                                     <Typography>
                                         <Description className={classes.icon} />
                                         Job description:{' '}
-                                        {/* <p style={{ margin: 8 }}>
-                                            <React.Fragment>
-                                                {jobStore.detailJob.description}
-                                            </React.Fragment>
-                                        </p> */}
-                                        {/* <p
-                                            dangerouslySetInnerHTML={{
-                                                __html: jobStore.detailJob
-                                                    .description
-                                            }}
-                                        /> */}
                                         <p style={{ padding: 16 }}>
                                             <Markup
                                                 content={

@@ -326,34 +326,6 @@ const ModalPostJob = observer(() => {
                     </Grid>
 
                     <Grid item>
-                        {/* <MuiThemeProvider theme={defaultTheme}>
-                            <Typography
-                                variant="subtitle1"
-                                style={{ paddingLeft: 2 }}>
-                                Add a job description
-                            </Typography>
-
-                            <MUIRichTextEditor
-                                label="Type something here..."
-                                inlineToolbar={true}
-                                inlineToolbarControls={[
-                                    'bold',
-                                    'italic',
-                                    'my-style',
-                                    'link'
-                                ]}
-                                controls={[
-                                    'bold',
-                                    'italic',
-                                    'underline',
-                                    'strikethrough',
-                                    'numberList',
-                                    'bulletList'
-                                ]}
-                                defaultValue={jobStore.inputJob.description}
-                                onChange={onChange}
-                            />
-                        </MuiThemeProvider> */}
                         <ReactQuill
                             theme="snow"
                             value={jobStore.inputJob.description}
