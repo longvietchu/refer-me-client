@@ -179,10 +179,11 @@ class JobStore {
         const result = await jobService.createJob(data);
         if (result.status < HttpStatusCode.CODE_300 && this.jobList) {
             // console.log('result+++', result);
-            this.jobList = [result.body.data, ...this.jobList];
+            // this.jobList = [result.body.data, ...this.jobList];
+            await this.getJobs();
+            this.modalJob = false;
         }
         this.isLoading = false;
-        this.modalJob = false;
     }
 
     async deleteJob(job_id: string) {
