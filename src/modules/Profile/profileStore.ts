@@ -192,7 +192,6 @@ class ProfileStore {
     }
 
     async createEducation() {
-        this.isLoading = true;
         let data: any = {};
         if (this.inputEducation.organization_id !== '') {
             data = {
@@ -223,11 +222,11 @@ class ProfileStore {
             this.isLoading = false;
             return;
         }
+        this.isLoading = true;
         const result = await profileService.createEducation(data);
         if (result.status < HttpStatusCode.CODE_300 && this.educationList) {
-            console.log(result);
-            this.educationList = [result.body.data, ...this.educationList];
-            // await this.getEducation(result.body.data.user_id);
+            // this.educationList = [result.body.data, ...this.educationList];
+            await this.getEducation(result.body.data.user_id);
             this.modalEducation.create = false;
         }
         // console.log(data);
@@ -235,34 +234,16 @@ class ProfileStore {
     }
 
     async createExpericence() {
-        this.isLoading = true;
-        let data: any = {};
-        if (this.inputExperience.organization_id !== '') {
-            data = {
-                job_title: this.inputExperience.job_title.trim(),
-                job_description: this.inputExperience.job_description.trim(),
-                company: this.inputExperience.company.trim(),
-                location: this.inputExperience.location.trim(),
-                employment_type: this.inputExperience.employment_type,
-                joined_at: new Date(
-                    this.inputExperience.joined_at
-                ).toISOString(),
-                left_at: new Date(this.inputExperience.left_at).toISOString(),
-                organization_id: this.inputExperience.organization_id
-            };
-        } else {
-            data = {
-                job_title: this.inputExperience.job_title.trim(),
-                job_description: this.inputExperience.job_description.trim(),
-                company: this.inputExperience.company.trim(),
-                location: this.inputExperience.location.trim(),
-                employment_type: this.inputExperience.employment_type,
-                joined_at: new Date(
-                    this.inputExperience.joined_at
-                ).toISOString(),
-                left_at: new Date(this.inputExperience.left_at).toISOString()
-            };
-        }
+        let data = {
+            job_title: this.inputExperience.job_title.trim(),
+            job_description: this.inputExperience.job_description.trim(),
+            company: this.inputExperience.company.trim(),
+            location: this.inputExperience.location.trim(),
+            employment_type: this.inputExperience.employment_type,
+            joined_at: new Date(this.inputExperience.joined_at).toISOString(),
+            left_at: new Date(this.inputExperience.left_at).toISOString(),
+            organization_id: this.inputExperience.organization_id
+        };
         if (data.job_title === '') {
             this.validateInput.job_title = 'This infomation is required!';
             this.isLoading = false;
@@ -281,21 +262,21 @@ class ProfileStore {
         if (profileStore.modalExperience.presentJob) {
             data.left_at = '';
         }
+        this.isLoading = true;
         const result = await profileService.createExperience(data);
         if (result.status < HttpStatusCode.CODE_300 && this.experienceList) {
-            // console.log(result);
-            this.experienceList = [result.body.data, ...this.experienceList];
+            // this.experienceList = [result.body.data, ...this.experienceList];
+            await this.getExperience(result.body.data.user_id);
+            this.modalExperience.create = false;
         }
-        // console.log(data);
         this.isLoading = false;
-        this.modalExperience.create = false;
     }
 
     async createSkill() {
-        this.isLoading = true;
         const data = {
             name: this.inputSkillList
         };
+        this.isLoading = true;
         const result = await profileService.createSkill(data);
         if (result.status < HttpStatusCode.CODE_300 && this.skillList) {
             this.skillList = [...result.body.data, ...this.skillList];
@@ -354,7 +335,6 @@ class ProfileStore {
                 this.isUploadCoverImage = false;
                 await this.updateProfile();
             }
-            // console.log(result);
         }
     }
 
@@ -370,13 +350,11 @@ class ProfileStore {
                 this.isUploadAvatar = false;
                 await this.updateUserInfo();
             }
-            // console.log(result);
         }
     }
 
     async updateEducation() {
         if (this.selectedEducation) {
-            this.isLoading = true;
             let data = {
                 title: this.selectedEducation.title.trim(),
                 description: this.selectedEducation.description.trim(),
@@ -389,15 +367,17 @@ class ProfileStore {
                 this.isLoading = false;
                 return;
             }
+            this.isLoading = true;
             const result = await profileService.updateEducation(
                 this.selectedEducation._id,
                 data
             );
             if (result.status < HttpStatusCode.CODE_300 && this.educationList) {
                 // console.log(result);
-                this.educationList = this.educationList.map((item) =>
-                    item._id !== result.body.data._id ? item : result.body.data
-                );
+                // this.educationList = this.educationList.map((item) =>
+                //     item._id !== result.body.data._id ? item : result.body.data
+                // );
+                await this.getEducation(result.body.data.user_id);
                 this.modalEducation.edit = false;
             }
             this.isLoading = false;
@@ -444,9 +424,10 @@ class ProfileStore {
                 this.experienceList
             ) {
                 // console.log(result);
-                this.experienceList = this.experienceList.map((item) =>
-                    item._id !== result.body.data._id ? item : result.body.data
-                );
+                // this.experienceList = this.experienceList.map((item) =>
+                //     item._id !== result.body.data._id ? item : result.body.data
+                // );
+                await this.getExperience(result.body.data.user_id);
                 this.modalExperience.edit = false;
             }
             this.isLoading = false;
