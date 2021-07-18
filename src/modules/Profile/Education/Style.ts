@@ -107,5 +107,9 @@ export default makeStyles((theme: Theme) => ({
         width: '100px',
         height: '35px',
         margin: 10
+    },
+    noItem: {
+        padding: 16,
+        color: '#00000099'
     }
 }));

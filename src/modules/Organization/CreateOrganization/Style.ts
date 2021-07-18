@@ -67,15 +67,13 @@ export default makeStyles((theme) => ({
     box: { minHeight: '100%' },
 
     btn: {
-        width: '42%',
+        width: '40%',
         height: '40px',
         border: '1.5px solid #0a66c2',
         color: '#0a66c2',
         fontWeight: 'bold',
         borderRadius: '1.5rem',
-        marginTop: '2rem',
-        marginRight: '1rem',
-        marginBottom: '1rem',
+        marginLeft: 12,
         textTransform: 'capitalize'
     }
 }));

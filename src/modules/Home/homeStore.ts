@@ -198,16 +198,16 @@ class HomeStore {
     }
 
     async deletePost() {
-        this.isDeleting = true;
         if (this.selectedPost) {
+            this.isDeleting = true;
             const result = await homeService.deletePost(this.selectedPost._id);
             if (result.status < HttpStatusCode.CODE_300 && this.postList) {
                 this.postList = this.postList.filter(
                     (post) => post._id !== result.body.data._id
                 );
+                this.isDeleting = false;
             }
         }
-        this.isDeleting = false;
     }
 }
 

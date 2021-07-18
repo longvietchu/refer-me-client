@@ -175,7 +175,7 @@ class ProfileStore {
         const result = await profileService.searchOrganization(keyword);
         if (result.status < HttpStatusCode.CODE_300) {
             this.searchResult = result.body.data;
-            console.log(result.body.data);
+            // console.log(result.body.data);
         }
         this.isSearching = false;
     }
@@ -234,16 +234,34 @@ class ProfileStore {
     }
 
     async createExpericence() {
-        let data = {
-            job_title: this.inputExperience.job_title.trim(),
-            job_description: this.inputExperience.job_description.trim(),
-            company: this.inputExperience.company.trim(),
-            location: this.inputExperience.location.trim(),
-            employment_type: this.inputExperience.employment_type,
-            joined_at: new Date(this.inputExperience.joined_at).toISOString(),
-            left_at: new Date(this.inputExperience.left_at).toISOString(),
-            organization_id: this.inputExperience.organization_id
-        };
+        let data: any = {};
+        if (this.inputExperience.organization_id.length > 0) {
+            data = {
+                job_title: this.inputExperience.job_title.trim(),
+                job_description: this.inputExperience.job_description.trim(),
+                company: this.inputExperience.company.trim(),
+                location: this.inputExperience.location.trim(),
+                employment_type: this.inputExperience.employment_type,
+                joined_at: new Date(
+                    this.inputExperience.joined_at
+                ).toISOString(),
+                left_at: new Date(this.inputExperience.left_at).toISOString(),
+                organization_id: this.inputExperience.organization_id
+            };
+        } else {
+            data = {
+                job_title: this.inputExperience.job_title.trim(),
+                job_description: this.inputExperience.job_description.trim(),
+                company: this.inputExperience.company.trim(),
+                location: this.inputExperience.location.trim(),
+                employment_type: this.inputExperience.employment_type,
+                joined_at: new Date(
+                    this.inputExperience.joined_at
+                ).toISOString(),
+                left_at: new Date(this.inputExperience.left_at).toISOString()
+            };
+        }
+        console.log(data);
         if (data.job_title === '') {
             this.validateInput.job_title = 'This infomation is required!';
             this.isLoading = false;

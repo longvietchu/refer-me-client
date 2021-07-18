@@ -45,6 +45,7 @@ class MessageStore {
         this.isLoading = true;
         const result = await messageService.createRoom(user_id);
         if (result.status < HttpStatusCode.CODE_300) {
+            // this.selectedRoom = result.body.data;
             this.isLoading = false;
             return true;
         }
@@ -58,7 +59,7 @@ class MessageStore {
                 loginStore.userInfo.id
             );
             if (result.status < HttpStatusCode.CODE_300) {
-                console.log(result.body.data);
+                // console.log(result.body.data);
                 this.roomList = result.body.data;
                 this.selectedRoom = result.body.data[0];
                 await this.getMessages();
@@ -110,13 +111,16 @@ class MessageStore {
 
     async onSeenMessage(data: any) {
         const { room_id, to, from, last_message_created_at } = data;
-        if (this.messageList) {
+        if (this.messageList && this.selectedRoom) {
             this.messageList = this.messageList.map((item) => {
                 if (item.to === to) {
                     item.is_seen = true;
                 }
                 return item;
             });
+            if (this.selectedRoom.lastest_message.to === to) {
+                this.selectedRoom.lastest_message.is_seen = true;
+            }
         }
     }
 }

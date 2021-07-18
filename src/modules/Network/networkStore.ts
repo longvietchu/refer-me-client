@@ -98,8 +98,11 @@ class NetworkStore {
             greeting: this.greeting
         };
         const result = await networkService.createConnection(data);
-        if (result.status < HttpStatusCode.CODE_300) {
-            console.log(result.body.data);
+        if (result.status < HttpStatusCode.CODE_300 && this.recommendList) {
+            // console.log(result.body.data);
+            this.recommendList = this.recommendList.filter(
+                (user) => user._id !== receiver_id
+            );
             this.createConnectionModal = false;
         }
         this.isLoading = false;
@@ -108,7 +111,7 @@ class NetworkStore {
     async acceptInvitation(invitation_id: string) {
         const result = await networkService.acceptInvitation(invitation_id);
         if (result.status < HttpStatusCode.CODE_300 && this.invitationList) {
-            console.log(result.body.data);
+            // console.log(result.body.data);
             this.invitationList = this.invitationList.filter(
                 (item) => item._id !== invitation_id
             );

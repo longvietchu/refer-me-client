@@ -1,27 +1,23 @@
-import React, { useEffect } from 'react';
 import {
-    Paper,
-    Grid,
-    Typography,
-    IconButton,
+    Avatar,
     Divider,
+    Grid,
+    IconButton,
     InputBase,
     List,
     ListItem,
     ListItemText,
-    ListItemAvatar,
-    Avatar
+    Paper,
+    Typography
 } from '@material-ui/core';
-
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import CreateIcon from '@material-ui/icons/Create';
 import SearchIcon from '@material-ui/icons/Search';
-
-import Styles from './Style';
 import { observer } from 'mobx-react-lite';
-import { messageStore } from '../messageStore';
-import { numberUtil } from '../../../common/utils/NumberUtil';
+import React from 'react';
 import LoadingCard from '../../../common/components/util/LoadingCard';
+import { numberUtil } from '../../../common/utils/NumberUtil';
+import { messageStore } from '../messageStore';
+import Styles from './Style';
 
 const Room = observer(() => {
     const classes = Styles();
@@ -70,9 +66,6 @@ const Room = observer(() => {
                         Messaging
                     </Typography>
                     <Grid item>
-                        {/* <IconButton>
-                            <CreateIcon />
-                        </IconButton> */}
                         <IconButton>
                             <MoreHorizIcon />
                         </IconButton>

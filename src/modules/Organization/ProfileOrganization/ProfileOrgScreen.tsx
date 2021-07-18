@@ -187,12 +187,13 @@ const ProfileOrgScreen = observer(() => {
                         <Card>
                             <Grid item xs={12}>
                                 <Paper
+                                    elevation={0}
                                     className={classes.paper}
                                     style={{
                                         background: organizationStore
                                             .organization.background_image
-                                            ? `url(${organizationStore.organization.background_image}) no-repeat center center`
-                                            : 'rgb(204, 214, 221)',
+                                            ? `url(${organizationStore.organization.background_image}) center center / cover no-repeat`
+                                            : 'url("/images/grey-network.jpg") center center / cover no-repeat',
                                         backgroundSize: 'cover'
                                     }}>
                                     <input
@@ -375,7 +376,8 @@ const ProfileOrgScreen = observer(() => {
                                     <p
                                         style={{
                                             color: '#00000099',
-                                            padding: '24px 24px'
+                                            padding: '24px 24px',
+                                            whiteSpace: 'pre-wrap'
                                         }}>
                                         {getText(
                                             organizationStore.organization

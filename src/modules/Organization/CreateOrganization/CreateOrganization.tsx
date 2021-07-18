@@ -1,32 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import {
-    Grid,
-    Typography,
-    IconButton,
-    Paper,
-    InputBase,
-    Button,
-    TextField
-} from '@material-ui/core';
-import Header from '../../../common/components/header/Header';
-import { Helmet } from 'react-helmet';
-import PhotoCamera from '@material-ui/icons/PhotoCamera';
-import CancelRoundedIcon from '@material-ui/icons/CancelRounded';
-import Styles from './Style';
-import {
-    KeyboardDatePicker,
-    MuiPickersUtilsProvider,
-    DatePicker
-} from '@material-ui/pickers';
+import { Button, Grid, Paper, TextField, Typography } from '@material-ui/core';
+import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import 'date-fns';
-
-import DateFnsUtils from '@date-io/date-fns';
-
-import { useHistory } from 'react-router-dom';
-import { useSnackbar } from 'notistack';
-
 import { observer } from 'mobx-react-lite';
+import { useSnackbar } from 'notistack';
+import React from 'react';
+import { Helmet } from 'react-helmet';
+import { useHistory } from 'react-router-dom';
+import Header from '../../../common/components/header/Header';
 import { organizationStore } from '../organizationStore';
+import Styles from './Style';
+import DateFnsUtils from '@date-io/date-fns';
 
 const CreateOrganization = observer(() => {
     const classes = Styles();
@@ -48,10 +31,9 @@ const CreateOrganization = observer(() => {
             // style={{ backgroundColor: mode ? darkPrimary : LinkedInBgColor }}
         >
             <Helmet>
-                <title>RefMe</title>
+                <title>Refer Me</title>
             </Helmet>
             <Grid item container className={classes.app__header}>
-                {/* Header */}
                 <Header />
             </Grid>
             <Grid item container className={classes.app__body}>
@@ -143,8 +125,9 @@ const CreateOrganization = observer(() => {
 
                                 <Grid item>
                                     <TextField
-                                        label="description"
+                                        label="Description"
                                         fullWidth
+                                        multiline
                                         variant="outlined"
                                         placeholder="Type your organization description here..."
                                         onChange={(e) =>
@@ -158,9 +141,9 @@ const CreateOrganization = observer(() => {
                                     />
                                 </Grid>
 
-                                <Grid container item justify="space-around">
+                                <Grid container item>
                                     <Grid item>
-                                        <TextField
+                                        {/* <TextField
                                             id="date"
                                             label="Organization founding"
                                             type="date"
@@ -176,21 +159,48 @@ const CreateOrganization = observer(() => {
                                                 organizationStore
                                                     .inputOrganization.founded
                                             }
-                                        />
+                                        /> */}
+                                        <MuiPickersUtilsProvider
+                                            utils={DateFnsUtils}>
+                                            <DatePicker
+                                                autoOk
+                                                clearable
+                                                disableFuture
+                                                openTo="year"
+                                                format="dd/MM/yyyy"
+                                                views={[
+                                                    'year',
+                                                    'month',
+                                                    'date'
+                                                ]}
+                                                label="Date of birth"
+                                                value={
+                                                    organizationStore
+                                                        .inputOrganization
+                                                        .founded
+                                                }
+                                                onChange={(date: any) =>
+                                                    (organizationStore.inputOrganization.founded =
+                                                        date)
+                                                }
+                                            />
+                                        </MuiPickersUtilsProvider>
                                     </Grid>
                                 </Grid>
+                                <Button
+                                    className={classes.btn}
+                                    onClick={(e) => onClickCreateOrganization()}
+                                    disabled={
+                                        organizationStore.isLoading
+                                            ? true
+                                            : false
+                                    }>
+                                    {organizationStore.isLoading
+                                        ? 'Creating...'
+                                        : 'Create organization'}
+                                </Button>
                             </Grid>
                         </Paper>
-                        <Button
-                            className={classes.btn}
-                            onClick={(e) => onClickCreateOrganization()}
-                            disabled={
-                                organizationStore.isLoading ? true : false
-                            }>
-                            {organizationStore.isLoading
-                                ? 'Creating...'
-                                : 'Create organization'}
-                        </Button>
                     </Grid>
                 </Grid>
             </Grid>

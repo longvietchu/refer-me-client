@@ -13,7 +13,8 @@ export default makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 0
+        borderRadius: 0,
+        borderBottom: '1px solid #ebebeb'
     },
     header__container: {
         minWidth: 1150,
@@ -80,7 +81,7 @@ export default makeStyles((theme) => ({
         }
     },
     header__nav: {
-        flex: 6,
+        flex: 5,
         height: '100%',
         display: 'flex',
         justifyContent: 'space-between',
@@ -150,8 +151,8 @@ export default makeStyles((theme) => ({
     },
 
     headline: {
-        fontSize: '12px',
-        width: '100%',
+        fontSize: 12,
+        maxWidth: '12rem',
         overflow: 'hidden',
         textOverflow: 'ellipsis',
         display: '-webkit-box',

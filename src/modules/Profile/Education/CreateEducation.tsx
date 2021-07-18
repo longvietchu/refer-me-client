@@ -33,9 +33,14 @@ const customStyles = {
         bottom: 'auto',
         transform: 'translate(-50%, -50%)',
         width: '50%',
+        maxHeight: '80%',
         paddingBottom: 5,
         paddingTop: 10,
         borderRadius: 8
+    },
+    overlay: {
+        backgroundColor: 'rgba(0, 0, 0, 0.75)',
+        zIndex: 100
     }
 };
 

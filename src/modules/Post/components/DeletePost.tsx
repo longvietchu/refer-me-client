@@ -47,9 +47,7 @@ const DeletePost = observer(() => {
                                 color="secondary"
                                 className={classes.btnDelete}
                                 onClick={(e) => {
-                                    if (homeStore.selectedPost) {
-                                        homeStore.deletePost();
-                                    }
+                                    homeStore.deletePost();
                                 }}>
                                 {homeStore.isDeleting
                                     ? 'Deleting...'

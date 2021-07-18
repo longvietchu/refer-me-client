@@ -68,7 +68,8 @@ export default makeStyles((theme) => ({
         padding: 10,
         paddingTop: 5,
         '& > p': {
-            fontSize: 14
+            fontSize: 14,
+            whiteSpace: 'pre-wrap'
         }
     },
     body__image: {

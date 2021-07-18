@@ -6,7 +6,9 @@ import MessagingScreen from './MessagingScreen';
 
 const MessaginContainer = observer(() => {
     useEffect(() => {
-        messageStore.getRooms();
+        if (!messageStore.roomList) {
+            messageStore.getRooms();
+        }
         messageEvent.connect();
     }, []);
 
