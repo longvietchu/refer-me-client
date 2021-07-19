@@ -1,45 +1,35 @@
-import React, { useEffect } from 'react';
-import { Helmet } from 'react-helmet';
-
 import {
-    Divider,
+    Box,
+    Button,
+    CardContent,
     Grid,
     Hidden,
     Paper,
-    Typography,
-    Card,
-    CardContent,
-    CardActionArea,
-    Box,
-    Button,
-    IconButton
+    Typography
 } from '@material-ui/core';
-import Header from '../../../common/components/header/Header';
-
 import {
-    LocationOn,
-    Work,
-    WatchLater,
+    Business,
     Create,
     Description,
     Directions,
-    Business,
-    FiberManualRecord
+    FiberManualRecord,
+    LocationOn,
+    PeopleAlt,
+    WatchLater,
+    Work
 } from '@material-ui/icons';
-
-import { useHistory, useParams } from 'react-router';
-
 import { observer } from 'mobx-react-lite';
-
-import { jobStore } from '../jobStore';
-import { loginStore } from '../../Login/loginStore';
-
-import Styles from './Style';
-import LoadingCard from '../../../common/components/util/LoadingCard';
+import React, { useEffect } from 'react';
+import { Helmet } from 'react-helmet';
+import { useHistory, useParams } from 'react-router';
+import Header from '../../../common/components/header/Header';
 import LoadingHeader from '../../../common/components/util/LoadingHeader';
 import { formatDateTimeDDMM } from '../../../common/config/Function';
+import { loginStore } from '../../Login/loginStore';
+import { jobStore } from '../jobStore';
 import ApplyJob from './ApplyJob';
-import { Markup } from 'interweave';
+import Styles from './Style';
+import MDEditor from '@uiw/react-md-editor';
 
 const DetailJob = observer(() => {
     const classes = Styles();
@@ -49,9 +39,10 @@ const DetailJob = observer(() => {
     useEffect(() => {
         jobStore.getOneJob(_id);
         jobStore.isApplied(_id);
+        return () => {
+            jobStore.detailJob = undefined;
+        };
     }, []);
-
-    let history = useHistory();
 
     const onClickUnApplyJob = async () => {
         if (jobStore.detailJob) {
@@ -69,10 +60,9 @@ const DetailJob = observer(() => {
         return (
             <Grid container className={classes.app}>
                 <Helmet>
-                    <title>Jobs | RefMe</title>
+                    <title>Job | Refer Me</title>
                 </Helmet>
                 <Grid item container className={classes.app__header}>
-                    {/* Header */}
                     <Header />
                 </Grid>
                 <Grid item container className={classes.app__body}>
@@ -92,7 +82,6 @@ const DetailJob = observer(() => {
                                                         .avatar
                                                 }
                                                 style={{
-                                                    height: 72,
                                                     width: 72
                                                 }}
                                             />
@@ -101,7 +90,6 @@ const DetailJob = observer(() => {
                                                 alt="Jobs"
                                                 src="/images/no-avatar.png"
                                                 style={{
-                                                    height: 72,
                                                     width: 72
                                                 }}
                                             />
@@ -136,13 +124,13 @@ const DetailJob = observer(() => {
                                     <Typography
                                         gutterBottom
                                         variant="body1"
-                                        className={classes.location}>
+                                        className={classes.company}>
                                         {jobStore.detailJob.location}
                                     </Typography>
 
                                     <Typography
                                         variant="body1"
-                                        className={classes.time}>
+                                        className={classes.company}>
                                         {formatDateTimeDDMM(
                                             jobStore.detailJob.created_at
                                         )}
@@ -156,25 +144,40 @@ const DetailJob = observer(() => {
                         <Grid item className={classes.feed__posts}>
                             <Paper className={classes.paper}>
                                 <div style={{ padding: 16 }}>
-                                    <Typography
-                                        variant="body1"
-                                        className={classes.title}>
-                                        {jobStore.detailJob.title}
-                                    </Typography>
+                                    <div className={classes.jobHeader}>
+                                        <Typography
+                                            variant="body1"
+                                            className={classes.title}>
+                                            {jobStore.detailJob.title}
+                                        </Typography>
+                                        {loginStore.userInfo &&
+                                            (loginStore.userInfo.id ===
+                                            jobStore.detailJob.user_info
+                                                ._id ? null : jobStore.isAppliedJob ? (
+                                                <Button
+                                                    className={classes.btn}
+                                                    onClick={() =>
+                                                        onClickUnApplyJob()
+                                                    }>
+                                                    {jobStore.isLoading
+                                                        ? 'Cancelling...'
+                                                        : 'Cancel'}
+                                                </Button>
+                                            ) : (
+                                                <Button
+                                                    className={classes.btn}
+                                                    onClick={() => {
+                                                        jobStore.applyJobModal =
+                                                            true;
+                                                    }}>
+                                                    Apply
+                                                    <Directions />
+                                                </Button>
+                                            ))}
+                                    </div>
 
                                     {jobStore.detailJob.organization_info ? (
                                         <div>
-                                            <Typography
-                                                className={classes.company}>
-                                                <Create
-                                                    className={classes.icon}
-                                                />
-                                                Posted by{' '}
-                                                {
-                                                    jobStore.detailJob
-                                                        .organization_info.name
-                                                }
-                                            </Typography>
                                             <Typography
                                                 className={classes.company}>
                                                 <Business
@@ -182,13 +185,11 @@ const DetailJob = observer(() => {
                                                 />
                                                 {
                                                     jobStore.detailJob
-                                                        .organization_info
-                                                        .company_size
+                                                        .organization_info.name
                                                 }{' '}
-                                                employees
                                                 <FiberManualRecord
                                                     style={{
-                                                        fontSize: '6px',
+                                                        fontSize: 6,
                                                         alignSelf: 'center',
                                                         margin: '2px 4px'
                                                     }}
@@ -199,6 +200,18 @@ const DetailJob = observer(() => {
                                                         .industry
                                                 }
                                             </Typography>
+                                            <Typography
+                                                className={classes.company}>
+                                                <PeopleAlt
+                                                    className={classes.icon}
+                                                />
+                                                {
+                                                    jobStore.detailJob
+                                                        .organization_info
+                                                        .company_size
+                                                }{' '}
+                                                employees
+                                            </Typography>
                                         </div>
                                     ) : (
                                         <Typography className={classes.company}>
@@ -208,58 +221,28 @@ const DetailJob = observer(() => {
                                         </Typography>
                                     )}
 
-                                    <Typography className={classes.location}>
+                                    <Typography className={classes.company}>
                                         <LocationOn className={classes.icon} />
                                         {jobStore.detailJob.location}
                                     </Typography>
-                                    <Typography
-                                        className={classes.employement_type}>
+                                    <Typography className={classes.company}>
                                         <Work className={classes.icon} />
                                         {jobStore.detailJob.employment_type}
                                     </Typography>
-                                    <Typography className={classes.time}>
+                                    <Typography className={classes.company}>
                                         <WatchLater className={classes.icon} />
-                                        posted at:{' '}
+                                        Opened at:{' '}
                                         {formatDateTimeDDMM(
                                             jobStore.detailJob.created_at
                                         )}
                                     </Typography>
-                                    <Typography>
+                                    <Typography className={classes.company}>
                                         <Description className={classes.icon} />
-                                        Job description:{' '}
-                                        <p style={{ padding: 16 }}>
-                                            <Markup
-                                                content={
-                                                    jobStore.detailJob
-                                                        .description
-                                                }
-                                            />
-                                        </p>
+                                        Description:
                                     </Typography>
-
-                                    {loginStore.userInfo &&
-                                    loginStore.userInfo.id ===
-                                        jobStore.detailJob.user_info
-                                            ._id ? null : jobStore.isAppliedJob ? (
-                                        <IconButton
-                                            className={classes.btn}
-                                            onClick={() => onClickUnApplyJob()}>
-                                            <Typography>
-                                                {jobStore.isLoading
-                                                    ? 'Cancelling...'
-                                                    : 'Cancel'}
-                                            </Typography>
-                                        </IconButton>
-                                    ) : (
-                                        <IconButton
-                                            className={classes.btn}
-                                            onClick={() => {
-                                                jobStore.applyJobModal = true;
-                                            }}>
-                                            <Typography>Apply</Typography>
-                                            <Directions />
-                                        </IconButton>
-                                    )}
+                                    <MDEditor.Markdown
+                                        source={jobStore.detailJob.description}
+                                    />
                                 </div>
                             </Paper>
                         </Grid>

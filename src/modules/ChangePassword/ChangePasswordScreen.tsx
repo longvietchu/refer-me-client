@@ -1,52 +1,34 @@
-import React, { useState } from 'react';
-import {
-    Grid,
-    Paper,
-    Hidden,
-    Button,
-    ListItem,
-    ListItemText,
-    Typography,
-    TextField
-} from '@material-ui/core';
-import Header from '../../common/components/header/Header';
+import { Button, Grid, Paper, TextField, Typography } from '@material-ui/core';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
 import { Helmet } from 'react-helmet';
-
+import Header from '../../common/components/header/Header';
+import { signupStore } from '../SignUp/sigupStore';
 import Styles from './Style';
-const ChangePasswordScreen = () => {
+
+const ChangePasswordScreen = observer(() => {
     const classes = Styles();
 
-    const [state, setState] = useState({
-        oldPassword: '',
-        newPassword: '',
-        cfPassword: ''
-    });
-
     return (
-        <Grid
-            container
-            className={classes.app}
-            // style={{ backgroundColor: mode ? darkPrimary : LinkedInBgColor }}
-        >
+        <Grid container className={classes.app}>
             <Helmet>
                 <title>Settings</title>
             </Helmet>
             <Grid item container className={classes.app__header}>
-                {/* Header */}
                 <Header />
             </Grid>
             <Grid item container className={classes.app__body}>
-                <Hidden smDown>
+                {/* <Hidden smDown>
                     <Grid item className={classes.body__sidebar} xs>
                         <Paper style={{ borderRadius: 5 }}>
                             <ListItem>
                                 <ListItemText style={{ textAlign: 'center' }}>
-                                    Sign in & security
+                                    Security
                                 </ListItemText>
                             </ListItem>
                         </Paper>
                     </Grid>
-                </Hidden>
+                </Hidden> */}
                 <Grid item className={classes.body__feed} xs={12} md={7}>
                     <Grid item className={classes.feed__form}>
                         <Paper>
@@ -64,27 +46,40 @@ const ChangePasswordScreen = () => {
                                 direction="column"
                                 spacing={3}
                                 style={{ padding: '10px 50px' }}>
-                                {/* <Grid item>
-                                    <TextField
-                                        style={{ width: 0, height: 0 }}
-                                        type="password"
-                                        name=""
-                                        value=""
-                                        aria-readonly={true}
-                                        variant="outlined"
-                                    />
-                                </Grid> */}
                                 <Grid item>
                                     <TextField
-                                        variant="outlined"
+                                        required
                                         style={{ width: '50%' }}
-                                        label="Type your current password"
-                                        value={state.oldPassword}
+                                        label="Current password"
+                                        value={
+                                            signupStore.changePasswordInput
+                                                .currentPassword
+                                        }
                                         onChange={(e) =>
-                                            setState({
-                                                ...state,
-                                                oldPassword: e.target.value
-                                            })
+                                            (signupStore.changePasswordInput.currentPassword =
+                                                e.target.value)
+                                        }
+                                        type="password"
+                                        inputProps={{
+                                            autocomplete: 'current-password',
+                                            form: {
+                                                autocomplete: 'off'
+                                            }
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item>
+                                    <TextField
+                                        required
+                                        style={{ width: '50%' }}
+                                        label="New password"
+                                        value={
+                                            signupStore.changePasswordInput
+                                                .newPassword
+                                        }
+                                        onChange={(e) =>
+                                            (signupStore.changePasswordInput.newPassword =
+                                                e.target.value)
                                         }
                                         type="password"
                                         inputProps={{
@@ -97,45 +92,52 @@ const ChangePasswordScreen = () => {
                                 </Grid>
                                 <Grid item>
                                     <TextField
-                                        variant="outlined"
+                                        required
                                         style={{ width: '50%' }}
-                                        label="Type your new password"
-                                        value={state.newPassword}
+                                        label="Confirm new password"
+                                        value={
+                                            signupStore.changePasswordInput
+                                                .confirmPassword
+                                        }
                                         onChange={(e) =>
-                                            setState({
-                                                ...state,
-                                                newPassword: e.target.value
-                                            })
+                                            (signupStore.changePasswordInput.confirmPassword =
+                                                e.target.value)
                                         }
                                         type="password"
+                                        inputProps={{
+                                            autocomplete: 'confirm-password',
+                                            form: {
+                                                autocomplete: 'off'
+                                            }
+                                        }}
                                     />
                                 </Grid>
-                                <Grid item>
-                                    <TextField
-                                        variant="outlined"
-                                        style={{ width: '50%' }}
-                                        label="Retype your new password"
-                                        value={state.cfPassword}
-                                        onChange={(e) =>
-                                            setState({
-                                                ...state,
-                                                cfPassword: e.target.value
-                                            })
-                                        }
-                                        type="password"
-                                    />
-                                </Grid>
+                                {signupStore.validateChangePass.length > 0 && (
+                                    <Grid item>
+                                        <p className={classes.validate}>
+                                            {signupStore.validateChangePass}
+                                        </p>
+                                    </Grid>
+                                )}
                                 <Grid item>
                                     <Button
                                         className={classes.btn}
                                         disabled={
-                                            state.oldPassword === '' ||
-                                            state.newPassword === '' ||
-                                            state.cfPassword === ''
+                                            signupStore.changePasswordInput
+                                                .currentPassword === '' ||
+                                            signupStore.changePasswordInput
+                                                .newPassword === '' ||
+                                            signupStore.changePasswordInput
+                                                .confirmPassword === ''
                                                 ? true
                                                 : false
-                                        }>
-                                        Save
+                                        }
+                                        onClick={() => {
+                                            signupStore.changePassword();
+                                        }}>
+                                        {signupStore.isLoading
+                                            ? 'Changing...'
+                                            : 'Confirm'}
                                     </Button>
                                 </Grid>
                             </Grid>
@@ -145,6 +147,6 @@ const ChangePasswordScreen = () => {
             </Grid>
         </Grid>
     );
-};
+});
 
 export default ChangePasswordScreen;

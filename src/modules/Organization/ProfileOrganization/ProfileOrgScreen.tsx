@@ -410,7 +410,7 @@ const ProfileOrgScreen = observer(() => {
                                                     <Grid
                                                         item
                                                         key={job._id}
-                                                        lg={3}
+                                                        lg={4}
                                                         md={6}
                                                         xs={12}>
                                                         <JobOrgCard job={job} />

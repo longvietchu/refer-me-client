@@ -23,13 +23,13 @@ class MessageEvent {
         }
 
         this.socket.addEventListener('disconnect', () => {
-            console.log('===disconnected===');
+            // console.log('===disconnected===');
             this.disconect = true;
             this.isSendTokenSuccess = false;
         });
 
         this.socket.on('connect', () => {
-            console.log('===connected===');
+            // console.log('===connected===');
         });
 
         this.socket.addEventListener(

@@ -35,15 +35,12 @@ const JobOrgCard = observer((props: any) => {
     const { enqueueSnackbar } = useSnackbar();
     let history = useHistory();
 
-    console.log('job', job);
-
     const onSave = (
         e: { stopPropagation: () => void },
         variant: VariantType,
         _id: string
     ) => {
         e.stopPropagation();
-        console.log('b', _id);
         enqueueSnackbar('Save job successfully!', { variant });
         setIsSave(!isSave);
     };
@@ -95,7 +92,7 @@ const JobOrgCard = observer((props: any) => {
                     </Typography>
 
                     <Typography variant="body1" className={classes.time}>
-                        {formatDateTimeDDMM(job.created_at)}
+                        Opened at: {formatDateTimeDDMM(job.created_at)}
                     </Typography>
                 </CardContent>
             </CardActionArea>

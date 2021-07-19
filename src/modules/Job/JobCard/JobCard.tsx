@@ -38,15 +38,13 @@ const JobCard = observer((props: any) => {
     const { enqueueSnackbar } = useSnackbar();
     let history = useHistory();
 
-    console.log('job', job);
-
     const onSave = (
         e: { stopPropagation: () => void },
         variant: VariantType,
         _id: string
     ) => {
         e.stopPropagation();
-        console.log('b', _id);
+        // console.log('b', _id);
         enqueueSnackbar('Save job successfully!', { variant });
         setIsSave(!isSave);
     };
@@ -67,13 +65,13 @@ const JobCard = observer((props: any) => {
                             <img
                                 alt="Jobs"
                                 src={job.organization_info.avatar}
-                                style={{ width: 72 }}
+                                style={{ height: 72 }}
                             />
                         ) : (
                             <img
                                 alt="Jobs"
                                 src="/images/no-avatar.png"
-                                style={{ width: 72 }}
+                                style={{ height: 72 }}
                             />
                         )}
                     </Box>
@@ -98,7 +96,7 @@ const JobCard = observer((props: any) => {
                     </Typography>
 
                     <Typography variant="body1" className={classes.time}>
-                        {formatDateTimeDDMM(job.created_at)}
+                        Opened at: {formatDateTimeDDMM(job.created_at)}
                     </Typography>
                 </CardContent>
             </CardActionArea>

@@ -44,7 +44,10 @@ export default makeStyles((theme: Theme) => ({
     },
 
     paper: {
-        borderRadius: 10
+        borderRadius: 10,
+        '& > div> button': {
+            borderRadius: 10
+        }
     },
 
     paperListJob: {
@@ -84,12 +87,12 @@ export default makeStyles((theme: Theme) => ({
     },
 
     btn_post: {
-        border: '2px solid #0a66c2',
+        border: '1px solid #0a66c2',
         color: '#0a66c2',
-        borderRadius: '1.5rem',
-        height: '35px',
-        margin: 10
-        // width: "100%",
+        borderRadius: '2rem',
+        height: 40,
+        margin: 10,
+        padding: 16
     },
 
     organizationAvatar: {

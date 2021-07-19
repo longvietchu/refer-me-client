@@ -10,7 +10,7 @@ const LoadingCard = () => {
                 justifyContent: 'center',
                 padding: 20
             }}>
-            <CircularProgress />
+            <CircularProgress size={24} />
         </div>
     );
 };

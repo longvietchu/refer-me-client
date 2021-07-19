@@ -4,10 +4,12 @@ import { Grid, Hidden } from '@material-ui/core';
 import Styles from './Style';
 import Sidebar from '../../common/components/sidebar/Sidebar';
 import Form from '../../common/components/form/Form';
-import PostList from '../../common/components/posts/PostList';
+import PostList from '../Post/PostList';
 import Widgets from '../../common/components/widgets/Widgets';
 import { Helmet } from 'react-helmet';
 import CreatePostModal from './CreatePostModal';
+import EditPost from '../Post/components/EditPost';
+import DeletePost from '../Post/components/DeletePost';
 
 const HomeScreen = () => {
     const classes = Styles();
@@ -28,14 +30,16 @@ const HomeScreen = () => {
                 </Hidden>
                 <Grid item className={classes.body__feed} xs={12} sm={8} md={5}>
                     <Grid item className={classes.feed__form}>
-                        <Form />      
+                        <Form />
                     </Grid>
                     <Grid item className={classes.feed__posts}>
                         <PostList />
+                        <EditPost />
+                        <DeletePost />
                     </Grid>
                 </Grid>
                 <Hidden smDown>
-                    <Grid item className={classes.body__widgets} md={2}>
+                    <Grid item className={classes.body__widgets} md={3}>
                         <Widgets />
                     </Grid>
                 </Hidden>

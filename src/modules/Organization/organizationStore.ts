@@ -34,7 +34,15 @@ class OrganizationStore {
 
     organization?: IOrganizationInfo;
 
+    organizationList?: IOrganizationInfo[];
+    organizationPage: number = 0;
+    organizationLimit: number = 5;
+    organizationMeta?: IMetaData;
+
     myOrganization?: IOrganizationInfo[];
+    myOrganizationPage: number = 0;
+    myOrganizationLimit: number = 15;
+    myOrganizationMeta?: IMetaData;
 
     listJobOfOrg?: IOrgJob[];
 
@@ -50,13 +58,7 @@ class OrganizationStore {
     };
 
     inputSearchOrg: string = '';
-
-    organizationPage: number = 0;
-    organizationLimit: number = 10;
-    organizationMeta?: IMetaData;
-
     avatar: string = '';
-
     isLoading: boolean = false;
 
     modalOrganization = {
@@ -72,7 +74,7 @@ class OrganizationStore {
                 formData
             );
             if (result.status < HttpStatusCode.CODE_300) {
-                console.log(result);
+                // console.log(result);
                 this.organization.avatar = result.body.url;
                 await this.updateOrganization();
             }
@@ -93,22 +95,34 @@ class OrganizationStore {
         }
     }
 
-    async getAnOrganization(_id: any) {
-        const result = await organizationService.getAnOrganization(_id);
-        if (result.status < HttpStatusCode.CODE_300) {
-            this.organization = result.body.data;
-            console.log('result', result);
-        }
-    }
-
-    async getMyOrganization() {
+    async getAllOrganization() {
         const result = await organizationService.getAllOrganization(
             this.organizationPage,
             this.organizationLimit
         );
         if (result.status < HttpStatusCode.CODE_300) {
-            this.myOrganization = result.body.data;
+            this.organizationList = result.body.data;
             this.organizationMeta = result.body.meta;
+        }
+    }
+
+    async getAnOrganization(_id: any) {
+        const result = await organizationService.getAnOrganization(_id);
+        if (result.status < HttpStatusCode.CODE_300) {
+            this.organization = result.body.data;
+            // console.log('result', result);
+        }
+    }
+
+    async getMyOrganization(user_id: string) {
+        const result = await organizationService.getOrganizationOfUser(
+            user_id,
+            this.myOrganizationPage,
+            this.myOrganizationLimit
+        );
+        if (result.status < HttpStatusCode.CODE_300) {
+            this.myOrganization = result.body.data;
+            this.myOrganizationMeta = result.body.meta;
         }
     }
 
@@ -119,7 +133,7 @@ class OrganizationStore {
             this.inputOrganization
         );
         if (result.status < HttpStatusCode.CODE_300) {
-            console.log('result', result);
+            // console.log('result', result);
             data = {
                 name: this.inputOrganization.name,
                 description: this.inputOrganization.description,
@@ -128,7 +142,7 @@ class OrganizationStore {
                 company_size: this.inputOrganization.company_size,
                 founded: this.inputOrganization.founded
             };
-            console.log('request', data);
+            // console.log('request', data);
             return true;
         }
         this.isLoading = false;
@@ -152,7 +166,7 @@ class OrganizationStore {
                 data
             );
             if (result.status < HttpStatusCode.CODE_300) {
-                console.log(result);
+                // console.log(result);
                 this.modalOrganization.edit = false;
             }
         }
@@ -164,7 +178,7 @@ class OrganizationStore {
             organization_id
         );
         if (result.status < HttpStatusCode.CODE_300) {
-            console.log(result);
+            // console.log(result);
             this.modalOrganization.delete = false;
             return true;
         }
@@ -178,7 +192,7 @@ class OrganizationStore {
             organization_id
         );
         if (result.status < HttpStatusCode.CODE_300) {
-            console.log('result-----', result);
+            // console.log('result-----', result);
             this.listJobOfOrg = result.body.data;
         }
         this.isLoading = false;

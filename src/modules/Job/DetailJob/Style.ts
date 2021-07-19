@@ -84,42 +84,34 @@ export default makeStyles((theme) => ({
         WebkitBoxOrient: 'vertical',
         WebkitLineClamp: 2,
         fontSize: '30px',
-        fontWeight: 'bold'
+        fontWeight: 500
     },
     company: {
-        fontSize: '18px',
+        fontSize: 16,
+        lineHeight: '18px',
         paddingTop: '4px',
         width: '100%',
         overflow: 'hidden',
         textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap'
+        whiteSpace: 'nowrap',
+        display: 'flex',
+        alignItems: 'center',
+        marginBottom: 10
     },
-    location: {
-        fontSize: '18px',
-        width: '100%',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap'
-    },
-    time: {
-        fontSize: '18px'
-    },
-    employement_type: {
-        fontSize: '18px'
-    },
-
     icon: {
-        fontSize: '16px',
-        marginRight: 6
+        fontSize: '24px',
+        marginRight: 6,
+        color: '#6e6e6e'
     },
     btn: {
-        height: '30px',
-        border: '1.5px solid #0a66c2',
+        height: 40,
+        border: '1px solid #0a66c2',
         color: '#0a66c2',
-        fontWeight: 'bold',
-        borderRadius: '1.5rem',
+        fontSize: 18,
+        fontWeight: 500,
+        borderRadius: '2rem',
         textTransform: 'capitalize',
-        width: '12%'
+        padding: 16
     },
 
     btnSend: {
@@ -133,5 +125,11 @@ export default makeStyles((theme) => ({
         width: '100px',
         height: '35px',
         margin: 10
+    },
+    jobHeader: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: 12
     }
 }));

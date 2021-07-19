@@ -59,16 +59,19 @@ const Invitation = observer(() => {
                                             primary={
                                                 <Typography
                                                     className={classes.name}>
-                                                    {invitation.user_info.name}
+                                                    {invitation.user_info.name}{' '}
+                                                    &#183;{' '}
+                                                    <span>
+                                                        {
+                                                            invitation.user_info
+                                                                .headline
+                                                        }
+                                                    </span>
                                                 </Typography>
                                             }
                                             secondary={
                                                 <Typography
                                                     className={classes.major}>
-                                                    {
-                                                        invitation.user_info
-                                                            .headline
-                                                    }
                                                     <p
                                                         style={{
                                                             color: '#333'

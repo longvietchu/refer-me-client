@@ -38,8 +38,6 @@ const OrganizationCard = observer((props: any) => {
     const { enqueueSnackbar } = useSnackbar();
     let history = useHistory();
 
-    console.log('organization', organization);
-
     return (
         <Card
             className={classes.card}
@@ -57,13 +55,13 @@ const OrganizationCard = observer((props: any) => {
                             <img
                                 alt="Organizations"
                                 src={organization.avatar}
-                                style={{ height: 72, width: 72 }}
+                                style={{ width: 68 }}
                             />
                         ) : (
                             <img
                                 alt="Jobs"
                                 src="/images/no-avatar.png"
-                                style={{ height: 72, width: 72 }}
+                                style={{ width: 68 }}
                             />
                         )}
                     </Box>

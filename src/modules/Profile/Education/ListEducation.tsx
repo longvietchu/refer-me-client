@@ -44,7 +44,6 @@ const ListEducation = observer(() => {
                                     item.organization_info.avatar ? (
                                         <img
                                             style={{
-                                                height: '56px',
                                                 width: '56px'
                                             }}
                                             src={item.organization_info.avatar}
@@ -52,7 +51,6 @@ const ListEducation = observer(() => {
                                     ) : (
                                         <img
                                             style={{
-                                                height: '56px',
                                                 width: '56px'
                                             }}
                                             src="/images/no-avatar.png"

@@ -1,6 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import React from 'react';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import HomeScreen from './HomeScreen';
 import { homeStore } from './homeStore';
 

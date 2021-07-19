@@ -113,6 +113,8 @@ class ProfileStore {
 
     isLoading: boolean = false;
     isSearching: boolean = false;
+    isUploadAvatar: boolean = false;
+    isUploadCoverImage: boolean = false;
     modalEducation = {
         create: false,
         edit: false,
@@ -173,7 +175,7 @@ class ProfileStore {
         const result = await profileService.searchOrganization(keyword);
         if (result.status < HttpStatusCode.CODE_300) {
             this.searchResult = result.body.data;
-            console.log(result.body.data);
+            // console.log(result.body.data);
         }
         this.isSearching = false;
     }
@@ -182,7 +184,7 @@ class ProfileStore {
         this.isLoading = true;
         const result = await profileService.createProfile(this.inputProfile);
         if (result.status < HttpStatusCode.CODE_300) {
-            console.log(result);
+            // console.log(result);
             return true;
         }
         this.isLoading = false;
@@ -217,18 +219,17 @@ class ProfileStore {
             };
         }
         if (data.title === '') {
-            this.validateInput.title = 'Thông tin này là bắt buộc!';
+            this.validateInput.title = 'This infomation is required!';
             this.isLoading = false;
             return;
         }
         const result = await profileService.createEducation(data);
         if (result.status < HttpStatusCode.CODE_300 && this.educationList) {
-            console.log(result);
+            // console.log(result);
             this.educationList = [result.body.data, ...this.educationList];
             // await this.getEducation(result.body.data.user_id);
             this.modalEducation.create = false;
         }
-        // console.log(data);
         this.isLoading = false;
     }
 
@@ -262,17 +263,17 @@ class ProfileStore {
             };
         }
         if (data.job_title === '') {
-            this.validateInput.job_title = 'Thông tin này là bắt buộc!';
+            this.validateInput.job_title = 'This infomation is required!';
             this.isLoading = false;
             return;
         }
         if (data.company === '') {
-            this.validateInput.company = 'Thông tin này là bắt buộc!';
+            this.validateInput.company = 'This infomation is required!';
             this.isLoading = false;
             return;
         }
         if (data.location === '') {
-            this.validateInput.location = 'Thông tin này là bắt buộc!';
+            this.validateInput.location = 'This infomation is required!';
             this.isLoading = false;
             return;
         }
@@ -306,15 +307,17 @@ class ProfileStore {
     async updateProfile() {
         if (this.profile) {
             const data = {
-                dob: new Date(this.profile.dob).toISOString(),
+                dob: this.profile.dob,
                 about: this.profile.about.trim(),
                 gender: this.profile.gender,
                 background_image: this.profile.background_image
             };
             this.isLoading = true;
             const result = await profileService.updateProfile(data);
-            if (result.status < HttpStatusCode.CODE_300) {
-                // console.log(result.body);
+            if (result.status < HttpStatusCode.CODE_300 && this.profile) {
+                this.profile.dob = result.body.data.dob;
+                this.profile.about = result.body.data.about;
+                this.profile.gender = result.body.data.gender;
             }
             this.isLoading = false;
         }
@@ -329,7 +332,11 @@ class ProfileStore {
             };
             const result = await profileService.updateUserInfo(data);
             if (result.status < HttpStatusCode.CODE_300) {
-                // console.log(result.body);
+                loginStore.userInfo.name = result.body.data.name;
+                loginStore.userInfo.headline = result.body.data.headline;
+                if (this.profile && this.profile.user_info.headline) {
+                    this.profile.user_info.headline = result.body.data.headline;
+                }
                 this.modalProfileOpen = false;
             }
         }
@@ -339,9 +346,11 @@ class ProfileStore {
         if (this.profile) {
             var formData = new FormData();
             formData.append('image', file);
+            this.isUploadCoverImage = true;
             const result = await profileService.uploadSingleImage(formData);
             if (result.status < HttpStatusCode.CODE_300) {
                 this.profile.background_image = result.body.url;
+                this.isUploadCoverImage = false;
                 await this.updateProfile();
             }
             // console.log(result);
@@ -352,11 +361,12 @@ class ProfileStore {
         if (loginStore.userInfo) {
             var formData = new FormData();
             formData.append('image', file);
+            this.isUploadAvatar = true;
             const result = await profileService.uploadSingleImage(formData);
             if (result.status < HttpStatusCode.CODE_300 && this.profile) {
                 loginStore.userInfo.avatar = result.body.url;
                 this.profile.user_info.avatar = result.body.url;
-                // console.log(result);
+                this.isUploadAvatar = false;
                 await this.updateUserInfo();
             }
             // console.log(result);
@@ -366,34 +376,15 @@ class ProfileStore {
     async updateEducation() {
         if (this.selectedEducation) {
             this.isLoading = true;
-            let data: any = {};
-            if (this.selectedEducation.organization_id !== '') {
-                data = {
-                    title: this.selectedEducation.title.trim(),
-                    description: this.selectedEducation.description.trim(),
-                    joined_at: new Date(
-                        this.selectedEducation.joined_at
-                    ).toISOString(),
-                    graduated_at: new Date(
-                        this.selectedEducation.graduated_at
-                    ).toISOString(),
-                    organization_id: this.selectedEducation.organization_id
-                };
-            } else {
-                data = {
-                    title: this.selectedEducation.title.trim(),
-                    description: this.selectedEducation.description.trim(),
-                    joined_at: new Date(
-                        this.selectedEducation.joined_at
-                    ).toISOString(),
-                    graduated_at: new Date(
-                        this.selectedEducation.graduated_at
-                    ).toISOString(),
-                    organization_id: 'noorg'
-                };
-            }
+            let data = {
+                title: this.selectedEducation.title.trim(),
+                description: this.selectedEducation.description.trim(),
+                joined_at: this.selectedEducation.joined_at,
+                graduated_at: this.selectedEducation.graduated_at,
+                organization_id: this.selectedEducation.organization_id
+            };
             if (data.title === '') {
-                this.validateInput.title = 'Thông tin này là bắt buộc!';
+                this.validateInput.title = 'This infomation is required!';
                 this.isLoading = false;
                 return;
             }
@@ -402,12 +393,11 @@ class ProfileStore {
                 data
             );
             if (result.status < HttpStatusCode.CODE_300 && this.educationList) {
-                console.log(result);
+                // console.log(result);
                 this.educationList = this.educationList.map((item) =>
                     item._id !== result.body.data._id ? item : result.body.data
                 );
                 this.modalEducation.edit = false;
-                await this.getEducation(result.body.data.user_id);
             }
             this.isLoading = false;
         }
@@ -416,51 +406,28 @@ class ProfileStore {
     async updateExperience() {
         if (this.selectedExperience) {
             this.isLoading = true;
-            let data: any = {};
-            if (this.selectedExperience.organization_id !== '') {
-                data = {
-                    job_title: this.selectedExperience.job_title.trim(),
-                    job_description:
-                        this.selectedExperience.job_description.trim(),
-                    company: this.selectedExperience.company.trim(),
-                    location: this.selectedExperience.location.trim(),
-                    employment_type: this.selectedExperience.employment_type,
-                    joined_at: new Date(
-                        this.selectedExperience.joined_at
-                    ).toISOString(),
-                    left_at: new Date(
-                        this.selectedExperience.left_at
-                    ).toISOString(),
-                    organization_id: this.selectedExperience.organization_id
-                };
-            } else {
-                data = {
-                    job_title: this.selectedExperience.job_title.trim(),
-                    job_description:
-                        this.selectedExperience.job_description.trim(),
-                    company: this.selectedExperience.company.trim(),
-                    location: this.selectedExperience.location.trim(),
-                    employment_type: this.selectedExperience.employment_type,
-                    joined_at: new Date(
-                        this.selectedExperience.joined_at
-                    ).toISOString(),
-                    left_at: new Date(
-                        this.selectedExperience.left_at
-                    ).toISOString()
-                };
-            }
+            let data = {
+                job_title: this.selectedExperience.job_title.trim(),
+                job_description: this.selectedExperience.job_description.trim(),
+                company: this.selectedExperience.company.trim(),
+                location: this.selectedExperience.location.trim(),
+                employment_type: this.selectedExperience.employment_type,
+                joined_at: this.selectedExperience.joined_at,
+                left_at: this.selectedExperience.left_at,
+                organization_id: this.selectedExperience.organization_id
+            };
             if (data.job_title === '') {
-                this.validateInput.job_title = 'Thông tin này là bắt buộc!';
+                this.validateInput.job_title = 'This infomation is required!';
                 this.isLoading = false;
                 return;
             }
             if (data.company === '') {
-                this.validateInput.company = 'Thông tin này là bắt buộc!';
+                this.validateInput.company = 'This infomation is required!';
                 this.isLoading = false;
                 return;
             }
             if (data.location === '') {
-                this.validateInput.location = 'Thông tin này là bắt buộc!';
+                this.validateInput.location = 'This infomation is required!';
                 this.isLoading = false;
                 return;
             }
@@ -471,12 +438,16 @@ class ProfileStore {
                 this.selectedExperience._id,
                 data
             );
-            if (result.status < HttpStatusCode.CODE_300) {
-                console.log(result);
+            if (
+                result.status < HttpStatusCode.CODE_300 &&
+                this.experienceList
+            ) {
+                // console.log(result);
+                this.experienceList = this.experienceList.map((item) =>
+                    item._id !== result.body.data._id ? item : result.body.data
+                );
                 this.modalExperience.edit = false;
-                await this.getExperience(result.body.data.user_id);
             }
-            // console.log(data);
             this.isLoading = false;
         }
     }
@@ -484,11 +455,13 @@ class ProfileStore {
     async deleteEducation(education_id: string) {
         this.isLoading = true;
         const result = await profileService.deleteEducation(education_id);
-        if (result.status < HttpStatusCode.CODE_300) {
-            console.log(result);
+        if (result.status < HttpStatusCode.CODE_300 && this.educationList) {
+            // console.log(result);
+            this.educationList = this.educationList.filter(
+                (item) => item._id !== education_id
+            );
             this.modalEducation.delete = false;
             this.modalEducation.edit = false;
-            await this.getEducation(result.body.data.user_id);
         }
         this.isLoading = false;
     }
@@ -496,11 +469,13 @@ class ProfileStore {
     async deleteExperience(experience_id: string) {
         this.isLoading = true;
         const result = await profileService.deleteExperience(experience_id);
-        if (result.status < HttpStatusCode.CODE_300) {
-            console.log(result);
+        if (result.status < HttpStatusCode.CODE_300 && this.experienceList) {
+            // console.log(result);
+            this.experienceList = this.experienceList.filter(
+                (item) => item._id !== experience_id
+            );
             this.modalExperience.delete = false;
             this.modalExperience.edit = false;
-            await this.getExperience(result.body.data.user_id);
         }
         this.isLoading = false;
     }
@@ -509,12 +484,11 @@ class ProfileStore {
         this.isLoading = true;
         const result = await profileService.deleteSkill(skill_id);
         if (result.status < HttpStatusCode.CODE_300 && this.skillList) {
-            console.log(result);
+            // console.log(result);
             this.modalSkill.delete = false;
             this.skillList = this.skillList.filter(
                 (skill) => skill._id !== skill_id
             );
-            //await this.getSkill(result.body.data.user_id);
         }
         this.isLoading = false;
     }
@@ -530,7 +504,7 @@ class ProfileStore {
         }
         const result = await profileService.upvoteSkill(skill_id);
         if (result.status < HttpStatusCode.CODE_300) {
-            console.log(result);
+            // console.log(result);
         }
     }
 }

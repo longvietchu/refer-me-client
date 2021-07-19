@@ -1,19 +1,16 @@
 import { makeStyles } from '@material-ui/core/styles';
-import LoginCard from './LoginCard/LoginCard';
-import Animation from '../../common/components/animations/Animation';
-import LottieRelaxing from '../../common/assets/images/relaxing.json';
 import { Helmet } from 'react-helmet';
+import LoginCard from './LoginCard/LoginCard';
 
 const Style = makeStyles((theme: any) => ({
     login: {
-        width: '100vw',
         height: '100vh',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'
     },
     banner: {
-        flex: 1,
+        flex: 3,
         height: '100%',
         display: 'flex',
         justifyContent: 'center',
@@ -21,7 +18,7 @@ const Style = makeStyles((theme: any) => ({
         [theme.breakpoints.down('sm')]: {
             display: 'none'
         },
-        '& > *': {
+        '& > img': {
             height: '80%'
         }
     },
@@ -30,9 +27,11 @@ const Style = makeStyles((theme: any) => ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: '0 50px',
+        flex: 1,
+        marginRight: '4rem',
+        marginLeft: '2rem',
         [theme.breakpoints.down('sm')]: {
-            padding: 0
+            margin: 0
         },
         [theme.breakpoints.down('xs')]: {
             width: '90%'
@@ -48,7 +47,6 @@ const LoginScreen = () => {
                 <title>Refer Me | Sign in</title>
             </Helmet>
             <div className={classes.banner}>
-                {/* <Animation src={LottieRelaxing} /> */}
                 <img src="/images/recruitment.jpg" alt="Refer Me" />
             </div>
             <div className={classes.loginCard}>

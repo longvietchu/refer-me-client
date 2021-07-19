@@ -3,7 +3,7 @@ import {
     darkSecondary,
     LinkedInBlue,
     LinkedInLightBlue
-} from '../../../../assets/Colors';
+} from '../../../common/assets/Colors';
 
 export default makeStyles((theme) => ({
     upload__header: {
@@ -12,7 +12,6 @@ export default makeStyles((theme) => ({
         alignItems: 'center',
         padding: '10px 0'
     },
-
     header__form: {
         flex: 1,
         height: 40,
@@ -134,5 +133,53 @@ export default makeStyles((theme) => ({
             display: 'flex',
             alignItems: 'flex-start'
         }
+    },
+    textArea: {
+        border: 'none',
+        outline: 'none',
+        fontFamily: 'Roboto',
+        fontSize: 16,
+        lineHeight: '18px',
+        width: '100%',
+        '&::-webkit-resizer': {
+            display: 'none'
+        }
+    },
+    footer: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: 16,
+        '& > label': {
+            padding: '8px 16px'
+        }
+    },
+    preview_image: {
+        height: 250
+    },
+    closeIcon: {
+        width: 16,
+        height: 16,
+        backgroundColor: '#fff',
+        borderRadius: '50%',
+        position: 'absolute',
+        top: 8,
+        right: 8
+    },
+    btn_post: {
+        backgroundColor: '#0a66c2',
+        color: '#FFFFFF'
+    },
+    btnDelete: {
+        width: '100px',
+        height: '35px',
+        margin: 10
+    },
+    btnCancel: {
+        border: '2px solid #0a66c2',
+        color: '#0a66c2',
+        width: '100px',
+        height: '35px',
+        margin: 10
     }
 }));

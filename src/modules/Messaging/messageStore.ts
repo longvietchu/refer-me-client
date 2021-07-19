@@ -58,7 +58,7 @@ class MessageStore {
                 loginStore.userInfo.id
             );
             if (result.status < HttpStatusCode.CODE_300) {
-                console.log(result.body.data);
+                // console.log(result.body.data);
                 this.roomList = result.body.data;
                 this.selectedRoom = result.body.data[0];
                 await this.getMessages();

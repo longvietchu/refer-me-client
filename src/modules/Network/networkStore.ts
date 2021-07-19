@@ -63,7 +63,7 @@ class NetworkStore {
             this.recommendLimit
         );
         if (result.status < HttpStatusCode.CODE_300) {
-            console.log('result', result);
+            // console.log('result', result);
             this.recommendList = result.body.data;
             this.recommendMeta = result.body.meta;
         }
@@ -99,7 +99,7 @@ class NetworkStore {
         };
         const result = await networkService.createConnection(data);
         if (result.status < HttpStatusCode.CODE_300) {
-            console.log(result.body.data);
+            // console.log(result.body.data);
             this.createConnectionModal = false;
         }
         this.isLoading = false;
@@ -108,7 +108,7 @@ class NetworkStore {
     async acceptInvitation(invitation_id: string) {
         const result = await networkService.acceptInvitation(invitation_id);
         if (result.status < HttpStatusCode.CODE_300 && this.invitationList) {
-            console.log(result.body.data);
+            // console.log(result.body.data);
             this.invitationList = this.invitationList.filter(
                 (item) => item._id !== invitation_id
             );

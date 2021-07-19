@@ -61,7 +61,7 @@ export default makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         marginLeft: 10,
-        padding: '0 10px',
+        paddingLeft: 10,
         borderRadius: 3,
         backgroundColor:
             theme.palette.type === 'dark' ? darkSecondary : '#eef3f8',
@@ -172,5 +172,20 @@ export default makeStyles((theme) => ({
     organizationAvatar: {
         marginRight: 8,
         width: 25
+    },
+    optionContainer: {
+        display: 'flex',
+        justifyContent: 'center'
+    },
+    btnSignin: {
+        color: '#0a66c2',
+        width: 160,
+        border: '1px solid #0a66c2',
+        height: 30,
+        margin: '0 10px',
+        fontWeight: 'bold',
+        borderRadius: '1.5rem',
+        textTransform: 'capitalize',
+        textAlign: 'center'
     }
 }));

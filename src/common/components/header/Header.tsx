@@ -1,46 +1,39 @@
 import {
     Avatar,
     Button,
+    CircularProgress,
     Divider,
     Grid,
+    InputAdornment,
     List,
     ListItem,
     ListItemAvatar,
     ListItemText,
     Paper,
     Popover,
-    Typography,
-    InputAdornment,
-    CircularProgress,
-    TextField
+    TextField,
+    Typography
 } from '@material-ui/core';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import AppsIcon from '@material-ui/icons/Apps';
-
 import GroupIcon from '@material-ui/icons/Group';
 import HomeIcon from '@material-ui/icons/Home';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import SearchIcon from '@material-ui/icons/Search';
 import TelegramIcon from '@material-ui/icons/Telegram';
 import WorkIcon from '@material-ui/icons/Work';
-import BusinessIcon from '@material-ui/icons/Business';
-
-import { observer } from 'mobx-react-lite';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { toJS } from 'mobx';
-
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import { jobStore } from '../../../modules/Job/jobStore';
+import { loginStore } from '../../../modules/Login/loginStore';
+import { organizationStore } from '../../../modules/Organization/organizationStore';
+import { IOrganizationInfo } from '../../constants/CommonInterface';
 import StorageService from '../../service/StorageService';
 import MenuItems from './menuItem/MenuItem';
 import Style from './Style';
-
-import { profileStore } from '../../../modules/Profile/profileStore';
-import { loginStore } from '../../../modules/Login/loginStore';
-import { jobStore } from '../../../modules/Job/jobStore';
-import { organizationStore } from '../../../modules/Organization/organizationStore';
-import { IOrganizationInfo } from '../../constants/CommonInterface';
 
 const Header = observer(() => {
     const classes = Style();
@@ -58,6 +51,7 @@ const Header = observer(() => {
 
     const signOut = () => {
         StorageService.removeToken();
+        loginStore.userInfo = undefined;
         window.location.reload();
     };
 
@@ -173,14 +167,14 @@ const Header = observer(() => {
                                     // console.log('option: ', orgObject._id);
                                     // jobStore.inputJob.organization_id =
                                     //     orgObject._id;
-                                    if (orgObject._id) {
-                                        history.push(
-                                            `/organization/profile/${orgObject._id}`
-                                        );
-                                    } else
-                                        history.push(
-                                            '/organization/unavailable'
-                                        );
+                                    // if (orgObject._id) {
+                                    //     history.push(
+                                    //         `/organization/profile/${orgObject._id}`
+                                    //     );
+                                    // } else
+                                    //     history.push(
+                                    //         '/organization/unavailable'
+                                    //     );
                                 }
                             }}
                             options={
@@ -190,33 +184,37 @@ const Header = observer(() => {
                             getOptionLabel={(option) => option.name}
                             renderOption={(option) => (
                                 <React.Fragment>
-                                    <span>
-                                        {option.avatar ? (
-                                            <img
-                                                src={option.avatar}
-                                                className={
-                                                    classes.organizationAvatar
-                                                }
-                                            />
-                                        ) : (
-                                            <img
-                                                src="/images/no-avatar.png"
-                                                className={
-                                                    classes.organizationAvatar
-                                                }
-                                            />
-                                        )}
-                                    </span>
-                                    {option.name}
+                                    <Link
+                                        to={`/organization/profile/${option._id}`}
+                                        className={classes.optionContainer}>
+                                        <div>
+                                            {option.avatar ? (
+                                                <img
+                                                    src={option.avatar}
+                                                    className={
+                                                        classes.organizationAvatar
+                                                    }
+                                                />
+                                            ) : (
+                                                <img
+                                                    src="/images/no-avatar.png"
+                                                    className={
+                                                        classes.organizationAvatar
+                                                    }
+                                                />
+                                            )}
+                                        </div>
+                                        <p>{option.name}</p>
+                                    </Link>
                                 </React.Fragment>
                             )}
                             renderInput={(params) => (
                                 <TextField
                                     {...params}
                                     placeholder="Search organization"
-                                    required
                                     InputProps={{
                                         ...params.InputProps,
+                                        disableUnderline: true,
                                         startAdornment: (
                                             <InputAdornment position="start">
                                                 <SearchIcon />
@@ -233,12 +231,6 @@ const Header = observer(() => {
                                             </React.Fragment>
                                         )
                                     }}
-                                    error={
-                                        jobStore.validateInput.company !== ''
-                                            ? true
-                                            : false
-                                    }
-                                    helperText={jobStore.validateInput.company}
                                 />
                             )}
                         />
@@ -285,90 +277,130 @@ const Header = observer(() => {
                 className={classes.menu}
                 PaperProps={{
                     style: {
-                        width: '20%',
                         borderRadius: 10,
                         justifyContent: 'center',
                         alignItems: 'center'
                     }
                 }}>
-                <List style={{ padding: 0 }}>
-                    {loginStore.userInfo && (
-                        <ListItem
-                            alignItems="flex-start"
-                            button
-                            onClick={onClickProfile}>
-                            <ListItemAvatar style={{ minWidth: '50px' }}>
-                                <Avatar src={loginStore.userInfo.avatar} />
-                            </ListItemAvatar>
-                            <ListItemText
-                                primary={
-                                    <Typography className={classes.name}>
-                                        {loginStore.userInfo.name}
-                                    </Typography>
-                                }
-                                secondary={
-                                    <Typography className={classes.headline}>
-                                        {loginStore.userInfo.headline}
-                                    </Typography>
-                                }
-                            />
-                        </ListItem>
-                    )}
-                </List>
+                {loginStore.userInfo ? (
+                    <div>
+                        <List style={{ padding: 0 }}>
+                            <ListItem
+                                alignItems="flex-start"
+                                button
+                                onClick={onClickProfile}>
+                                <ListItemAvatar style={{ minWidth: '50px' }}>
+                                    <Avatar src={loginStore.userInfo.avatar} />
+                                </ListItemAvatar>
+                                <ListItemText
+                                    primary={
+                                        <Typography className={classes.name}>
+                                            {loginStore.userInfo.name}
+                                        </Typography>
+                                    }
+                                    secondary={
+                                        <Typography
+                                            className={classes.headline}>
+                                            {loginStore.userInfo.headline}
+                                        </Typography>
+                                    }
+                                />
+                            </ListItem>
+                        </List>
 
-                <Divider style={{ marginTop: '10px' }} />
+                        <Divider style={{ marginTop: '10px' }} />
 
-                <Grid container direction="column" style={{ padding: 12 }}>
-                    <Typography style={{ fontWeight: 'bold' }}>
-                        Account
-                    </Typography>
-                    <Link
-                        to="/change-password"
-                        style={{ color: '#808080', lineHeight: '20px' }}>
-                        Setting
-                    </Link>
-                    <Link
-                        to="/"
-                        style={{ color: '#808080', lineHeight: '20px' }}>
-                        Help
-                    </Link>
-                </Grid>
+                        <Grid
+                            container
+                            direction="column"
+                            style={{ padding: 12 }}>
+                            <Typography style={{ fontWeight: 'bold' }}>
+                                Account
+                            </Typography>
+                            <Link
+                                to="/change-password"
+                                style={{
+                                    color: '#808080',
+                                    lineHeight: '20px'
+                                }}>
+                                Security
+                            </Link>
+                            <Link
+                                to="/"
+                                style={{
+                                    color: '#808080',
+                                    lineHeight: '20px'
+                                }}>
+                                Help
+                            </Link>
+                        </Grid>
 
-                <Divider />
+                        <Divider />
 
-                <Grid container direction="column" style={{ padding: 12 }}>
-                    <Typography style={{ fontWeight: 'bold' }}>
-                        Manage
-                    </Typography>
-                    <Link
-                        to="#"
-                        style={{ color: '#808080', lineHeight: '20px' }}>
-                        Post & Activity
-                    </Link>
-                    <Link
-                        to="/myjob"
-                        style={{ color: '#808080', lineHeight: '20px' }}>
-                        Job Posting
-                    </Link>
-                    <Link
-                        to="/myorganization"
-                        style={{ color: '#808080', lineHeight: '20px' }}>
-                        My organization
-                    </Link>
-                    <Link
-                        to="/organization/new"
-                        style={{ color: '#808080', lineHeight: '20px' }}>
-                        Create an organization
-                    </Link>
-                </Grid>
+                        <Grid
+                            container
+                            direction="column"
+                            style={{ padding: 12 }}>
+                            <Typography style={{ fontWeight: 'bold' }}>
+                                Manage
+                            </Typography>
+                            <Link
+                                to="#"
+                                style={{
+                                    color: '#808080',
+                                    lineHeight: '20px'
+                                }}>
+                                Post & Activity
+                            </Link>
+                            <Link
+                                to="/myjob"
+                                style={{
+                                    color: '#808080',
+                                    lineHeight: '20px'
+                                }}>
+                                Job Posting
+                            </Link>
+                            <Link
+                                to="/myorganization"
+                                style={{
+                                    color: '#808080',
+                                    lineHeight: '20px'
+                                }}>
+                                My organization
+                            </Link>
+                            <Link
+                                to="/organization/new"
+                                style={{
+                                    color: '#808080',
+                                    lineHeight: '20px'
+                                }}>
+                                Create an organization
+                            </Link>
+                        </Grid>
 
-                <Divider style={{ marginBottom: '10px' }} />
+                        <Divider style={{ marginBottom: '10px' }} />
 
-                <Grid container justify="center" style={{ marginBottom: 10 }}>
-                    <Button className={classes.btn} onClick={() => signOut()}>
-                        sign out
-                    </Button>
-                </Grid>
+                        <Grid
+                            container
+                            justify="center"
+                            style={{ marginBottom: 10 }}>
+                            <Button
+                                className={classes.btn}
+                                onClick={() => signOut()}>
+                                sign out
+                            </Button>
+                        </Grid>
+                    </div>
+                ) : (
+                    <Grid
+                        container
+                        justify="center"
+                        style={{ padding: '10px 0' }}>
+                        <Link to="/" className={classes.btnSignin}>
+                            sign in
+                        </Link>
+                    </Grid>
+                )}
             </Popover>
         </div>
     );

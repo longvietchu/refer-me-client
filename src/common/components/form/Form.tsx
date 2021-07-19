@@ -36,7 +36,7 @@ const Form = observer(() => {
                     </Link>
                     <div
                         className={classes.header__form}
-                        onClick={() => (homeStore.createPostModal = true)}>
+                        onClick={() => (homeStore.modalPost.create = true)}>
                         <CreateIcon />
                         <p>Start a post</p>
                     </div>

@@ -50,7 +50,7 @@ const NetworkScreen = observer(() => {
                                                     <Grid
                                                         item
                                                         key={recommend._id}
-                                                        md={3}
+                                                        md={2}
                                                         xs={12}>
                                                         <ConnectCard
                                                             connect={recommend}

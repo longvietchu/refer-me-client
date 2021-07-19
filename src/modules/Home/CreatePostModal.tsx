@@ -6,7 +6,7 @@ import {
     TextareaAutosize,
     Typography
 } from '@material-ui/core';
-import { Close, PhotoSizeSelectActual } from '@material-ui/icons';
+import { Close, AddPhotoAlternate } from '@material-ui/icons';
 import { observer } from 'mobx-react-lite';
 import React, { useState } from 'react';
 import Modal from 'react-modal';
@@ -42,14 +42,14 @@ const CreatePostModal = observer(() => {
             images.push(URL.createObjectURL(e.target.files[i]));
         }
         setPreviewImages([...previewImages, ...images]);
-        homeStore.uploadPostImages(e.target.files);
+        // homeStore.uploadPostImages(previewImages);
     };
 
     return (
         <div>
             <Modal
-                isOpen={homeStore.createPostModal}
-                onRequestClose={() => (homeStore.createPostModal = false)}
+                isOpen={homeStore.modalPost.create}
+                onRequestClose={() => (homeStore.modalPost.create = false)}
                 style={customStyles}
                 onAfterClose={() => {
                     homeStore.inputPost = { description: '', post_image: [] };
@@ -64,7 +64,7 @@ const CreatePostModal = observer(() => {
                             <Typography variant="h6">Add skill</Typography>
                             <IconButton
                                 onClick={() =>
-                                    (homeStore.createPostModal = false)
+                                    (homeStore.modalPost.create = false)
                                 }>
                                 <Close />
                             </IconButton>
@@ -121,8 +121,10 @@ const CreatePostModal = observer(() => {
 
                     <Grid className={classes.footer}>
                         <label htmlFor="post-images">
-                            <PhotoSizeSelectActual
+                            <AddPhotoAlternate
                                 style={{
+                                    width: 36,
+                                    height: 36,
                                     color: '#666666'
                                 }}
                             />
@@ -136,7 +138,9 @@ const CreatePostModal = observer(() => {
                             }
                             variant="contained"
                             className={classes.btn_post}
-                            onClick={(e) => homeStore.createPost()}>
+                            onClick={(e) =>
+                                homeStore.createPost(previewImages)
+                            }>
                             {homeStore.isPosting ? 'Posting...' : 'Post'}
                         </Button>
                     </Grid>

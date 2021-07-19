@@ -50,10 +50,9 @@ const JobScreen = observer(() => {
     return (
         <Grid container className={classes.app}>
             <Helmet>
-                <title>Jobs | RefMe</title>
+                <title>Jobs | Refer Me</title>
             </Helmet>
             <Grid item container className={classes.app__header}>
-                {/* Header */}
                 <Header />
             </Grid>
 
@@ -72,7 +71,7 @@ const JobScreen = observer(() => {
                                     <Typography
                                         component="span"
                                         style={{
-                                            paddingLeft: 8,
+                                            marginLeft: 8,
                                             color: '#00000099',
                                             fontWeight: 'bold'
                                         }}>
@@ -84,7 +83,7 @@ const JobScreen = observer(() => {
                                     className={classes.btn_post}
                                     onClick={() => (jobStore.modalJob = true)}>
                                     <CreateIcon style={{ fontSize: '20px' }} />
-                                    <Typography>Post a free job</Typography>
+                                    <Typography>Post a job</Typography>
                                 </IconButton>
                             </Grid>
                         </Paper>
@@ -102,11 +101,11 @@ const JobScreen = observer(() => {
                                         }}>
                                         Recommended for you
                                     </Typography>
-                                    <Typography
+                                    {/* <Typography
                                         variant="caption"
                                         style={{ fontSize: '14px' }}>
                                         Based on your profile and search history
-                                    </Typography>
+                                    </Typography> */}
                                 </div>
                                 <TextField
                                     placeholder="Search job title"
@@ -132,7 +131,7 @@ const JobScreen = observer(() => {
                             <Box className={classes.box}>
                                 <Container maxWidth={false}>
                                     <Box pt={3}>
-                                        <Grid container spacing={5}>
+                                        <Grid container spacing={3}>
                                             {jobStore.jobList ? (
                                                 jobStore.jobList.map(
                                                     (job, index) => (

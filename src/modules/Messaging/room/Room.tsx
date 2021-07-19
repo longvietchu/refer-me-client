@@ -92,13 +92,11 @@ const Room = observer(() => {
                         <SearchIcon />
                     </IconButton>
                 </Grid>
-                {messageStore.roomList ? (
-                    messageStore.roomList.map((item, i) => (
-                        <List
-                            component="nav"
-                            className={classes.root}
-                            key={item._id}>
+                <List component="nav" className={classes.root}>
+                    {messageStore.roomList ? (
+                        messageStore.roomList.map((item, i) => (
                             <ListItem
+                                key={item._id}
                                 button
                                 selected={
                                     messageStore.selectedRoom &&
@@ -148,12 +146,11 @@ const Room = observer(() => {
                                     }}
                                 />
                             </ListItem>
-                        </List>
-                    ))
-                ) : (
-                    <LoadingCard />
-                )}
-                <Divider variant="inset" component="li" />
+                        ))
+                    ) : (
+                        <LoadingCard />
+                    )}
+                </List>
             </Paper>
         </div>
     );

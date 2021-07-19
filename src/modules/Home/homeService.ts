@@ -1,4 +1,5 @@
 import {
+    deleteRequest,
     getRequest,
     IApiResponse,
     postRequest,
@@ -30,6 +31,9 @@ class HomeService {
     }
     public uploadMultipleImages(files: any): Promise<IApiResponse> {
         return uploadFile('/v1/file/upload-multiple', files);
+    }
+    public deletePost(post_id: string): Promise<IApiResponse> {
+        return deleteRequest(`v1/post/${post_id}`, {});
     }
 }
 

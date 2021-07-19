@@ -16,10 +16,10 @@ import { observer } from 'mobx-react-lite';
 import Modal from 'react-modal';
 import { profileStore } from '../profileStore';
 import Styles from './Style';
-import { toJS } from 'mobx';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { IOrganizationInfo } from '../../../common/constants/CommonInterface';
 import DeleteEducation from './DeleteEducation';
+import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 
 Modal.setAppElement('#root');
 const customStyles = {
@@ -29,7 +29,6 @@ const customStyles = {
         right: 'auto',
         bottom: 'auto',
         transform: 'translate(-50%, -50%)',
-        height: '70%',
         width: '50%',
         paddingBottom: 5,
         paddingTop: 10,
@@ -78,12 +77,8 @@ const EditEducation = observer(() => {
                                     id="update-education"
                                     value={profileStore.selectedEducation.title}
                                     onChange={(event, newValue) => {
-                                        console.log(
-                                            typeof newValue === 'string'
-                                        );
                                         if (profileStore.selectedEducation) {
                                             if (typeof newValue === 'string') {
-                                                console.log('here');
                                                 profileStore.selectedEducation.title =
                                                     newValue;
                                                 profileStore.selectedEducation.organization_id =
@@ -213,15 +208,19 @@ const EditEducation = observer(() => {
                                             format="yyyy"
                                             views={['year']}
                                             value={
-                                                profileStore.selectedEducation
-                                                    .joined_at
+                                                new Date(
+                                                    profileStore.selectedEducation.joined_at
+                                                )
                                             }
-                                            onChange={(date: any) => {
+                                            onChange={(
+                                                date: MaterialUiPickersDate
+                                            ) => {
                                                 if (
-                                                    profileStore.selectedEducation
+                                                    profileStore.selectedEducation &&
+                                                    date
                                                 ) {
                                                     profileStore.selectedEducation.joined_at =
-                                                        date;
+                                                        date.toISOString();
                                                 }
                                             }}
                                             label="Joined year"
@@ -234,15 +233,19 @@ const EditEducation = observer(() => {
                                             format="yyyy"
                                             views={['year']}
                                             value={
-                                                profileStore.selectedEducation
-                                                    .graduated_at
+                                                new Date(
+                                                    profileStore.selectedEducation.graduated_at
+                                                )
                                             }
-                                            onChange={(date: any) => {
+                                            onChange={(
+                                                date: MaterialUiPickersDate
+                                            ) => {
                                                 if (
-                                                    profileStore.selectedEducation
+                                                    profileStore.selectedEducation &&
+                                                    date
                                                 ) {
                                                     profileStore.selectedEducation.graduated_at =
-                                                        date;
+                                                        date.toISOString();
                                                 }
                                             }}
                                             label="Graduated year (or expected)"

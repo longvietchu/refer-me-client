@@ -6,7 +6,8 @@ import {
     TextField,
     Typography,
     Button,
-    Divider
+    Divider,
+    TextareaAutosize
 } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
@@ -25,7 +26,6 @@ const customStyles = {
         right: 'auto',
         bottom: 'auto',
         transform: 'translate(-50%, -50%)',
-        height: '70%',
         width: '50%',
         borderRadius: 10
     }
@@ -79,6 +79,7 @@ const ModalEdit = observer(() => {
                             id="About"
                             label="About"
                             required
+                            multiline
                             value={profileStore.profile.about}
                             onChange={(e) => {
                                 if (profileStore.profile) {

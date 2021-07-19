@@ -86,6 +86,8 @@ export default makeStyles((theme) => ({
             justifyContent: 'space-evenly',
             alignItems: 'center',
             marginTop: 10,
+            color: '#0a66c2',
+            fontWeight: 500,
             '& > a': {
                 color: 'grey',
                 transition: 'all 0.4s ease',
@@ -96,10 +98,39 @@ export default makeStyles((theme) => ({
                             : darkPrimary
                 },
                 '& > i': {
-                    fontSize: 24,
+                    fontSize: 18,
                     color: '#0a66c2'
                 }
             }
+        }
+    },
+    box: {
+        marginRight: 8
+    },
+    company: {
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        width: '100%',
+        display: '-webkit-box',
+        WebkitBoxOrient: 'vertical',
+        WebkitLineClamp: 2,
+        fontSize: 16,
+        lineHeight: '18px'
+    },
+    industry: {
+        color: '#00000099',
+        fontSize: 12,
+        paddingTop: '4px',
+        width: '100%'
+    },
+    organizationContainer: {
+        display: 'flex',
+        padding: 16,
+        '&:hover': {
+            backgroundColor: '#00000014'
+        },
+        '& > .organization-info': {
+            flexGrow: 1
         }
     }
 }));

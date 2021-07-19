@@ -9,7 +9,12 @@ const ConnectCard = observer((props: any) => {
     const { connect } = props;
 
     return (
-        <Card className={classes.card}>
+        <Card
+            className={classes.card}
+            style={{
+                background:
+                    'url(/images/grey-network.jpg) 0px -100px / contain no-repeat'
+            }}>
             <Box pb={1} className={classes.box}>
                 <Avatar
                     src={connect.avatar}

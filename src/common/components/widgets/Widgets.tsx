@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Paper } from '@material-ui/core';
+import { Box, Paper, Typography } from '@material-ui/core';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import ErrorOutlineSharpIcon from '@material-ui/icons/ErrorOutlineSharp';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -9,8 +9,11 @@ import { LinkedInJobAdd } from '../../assets/images/images';
 import Footer from '../../components/footer/Footer';
 import Style from './Style';
 import { Link } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
+import { organizationStore } from '../../../modules/Organization/organizationStore';
+import LoadingCard from '../util/LoadingCard';
 
-const Widgets = () => {
+const Widgets = observer(() => {
     const classes = Style();
     const [expand, setExpand] = useState(false);
 
@@ -18,42 +21,44 @@ const Widgets = () => {
         <div className={classes.widgets}>
             <Paper className={classes.widgets__top}>
                 <div className={classes.heading}>
-                    <h4>Refer Me News</h4>
+                    <h4>Organizations you may know</h4>
                     <ErrorOutlineSharpIcon />
                 </div>
-                {top_1.map((title, i) => (
-                    <HeaderInfo
-                        key={`widgets-top_1_${i}`}
-                        Icon={
-                            <FiberManualRecordIcon
-                                style={{
-                                    color: LinkedInLightBlue,
-                                    fontSize: 12
-                                }}
-                            />
-                        }
-                        title={title}
-                        time={true}
-                        count={true}
-                    />
-                ))}
-                {expand &&
-                    top_2.map((title, i) => (
-                        <HeaderInfo
-                            key={`widgets-top_2_${i}`}
-                            Icon={
-                                <FiberManualRecordIcon
-                                    style={{
-                                        color: LinkedInLightBlue,
-                                        fontSize: 12
-                                    }}
-                                />
-                            }
-                            title={title}
-                            time={true}
-                            count={true}
-                        />
-                    ))}
+                {organizationStore.organizationList ? (
+                    organizationStore.organizationList.map((organization) => (
+                        <Link to={`/organization/profile/${organization._id}`}>
+                            <div className={classes.organizationContainer}>
+                                <Box className={classes.box}>
+                                    {organization.avatar ? (
+                                        <img
+                                            alt="Organizations"
+                                            src={organization.avatar}
+                                            style={{ width: 32 }}
+                                        />
+                                    ) : (
+                                        <img
+                                            alt="Jobs"
+                                            src="/images/no-avatar.png"
+                                            style={{ width: 32 }}
+                                        />
+                                    )}
+                                </Box>
+                                <div className="organization-info">
+                                    <Typography
+                                        color="textPrimary"
+                                        className={classes.company}>
+                                        {organization.name}
+                                    </Typography>
+                                    <Typography className={classes.industry}>
+                                        Industry: {organization.industry}
+                                    </Typography>
+                                </div>
+                            </div>
+                        </Link>
+                    ))
+                ) : (
+                    <LoadingCard />
+                )}
                 <div
                     className={classes.expand}
                     onClick={() => setExpand(!expand)}>
@@ -63,17 +68,30 @@ const Widgets = () => {
                     />
                 </div>
             </Paper>
-            <Paper className={classes.widgets__top}>
+            {/* <Paper className={classes.widgets__top}>
                 <div className={classes.heading}>
                     <h4>Expand your network</h4>
                     <Link to="/profile/60844ea42b7e5a0d40ff82a6">Long Chu</Link>
                 </div>
-            </Paper>
+            </Paper> */}
             <div className={classes.widgets__bottom}>
                 <div className={classes.about}>
                     <h4>Author Info</h4>
                     <div>
-                        {author.map(({ src, url }, i) => (
+                        Long Chu:
+                        {author1.map(({ src, url }, i) => (
+                            <a
+                                href={`${url}`}
+                                key={`author-link-${i}`}
+                                rel="noreferrer nofollow"
+                                target="_blank">
+                                {src}
+                            </a>
+                        ))}
+                    </div>
+                    <div>
+                        Tung Nguyen:
+                        {author2.map(({ src, url }, i) => (
                             <a
                                 href={`${url}`}
                                 key={`author-link-${i}`}
@@ -88,24 +106,9 @@ const Widgets = () => {
             </div>
         </div>
     );
-};
+});
 
-const top_1 = [
-    'Google cracks down on loan apps',
-    'Byju’s new acquisition',
-    "Lost password? That'll be $220M",
-    'Tesla gets an India address',
-    'India Inc returns gingerly to office'
-];
-
-const top_2 = [
-    'To Bitcoin or not to Bitcoin',
-    'Infosys, Wipro post robust numbers',
-    'Longer hours equal less productivity',
-    'Fake commute has real benefits'
-];
-
-const author = [
+const author1 = [
     {
         src: <i className="fab fa-github"></i>,
         url: 'https://github.com/longvietchu'
@@ -117,6 +120,20 @@ const author = [
     {
         src: <i className="fas fa-envelope"></i>,
         url: 'mailto:vietlong5200@gmail.com'
+    }
+];
+const author2 = [
+    {
+        src: <i className="fab fa-github"></i>,
+        url: 'https://github.com/haitung1999'
+    },
+    {
+        src: <i className="fab fa-linkedin"></i>,
+        url: 'https://www.linkedin.com/in/nhtung99/'
+    },
+    {
+        src: <i className="fas fa-envelope"></i>,
+        url: 'mailto:haitung1999@gmail.com'
     }
 ];
 

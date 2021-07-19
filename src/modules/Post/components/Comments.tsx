@@ -6,11 +6,10 @@ import {
     List,
     ListItem,
     ListItemAvatar,
-    Typography,
-    ListItemText,
-    ListItemSecondaryAction,
     ListItemIcon,
-    Menu
+    ListItemText,
+    Menu,
+    Typography
 } from '@material-ui/core';
 import { Delete, Edit, MoreHoriz } from '@material-ui/icons';
 import {
@@ -20,9 +19,10 @@ import {
 } from 'material-ui-popup-state/hooks';
 import { observer } from 'mobx-react-lite';
 import React, { useState } from 'react';
-import { homeStore, IComment } from '../../../../../modules/Home/homeStore';
-import { loginStore } from '../../../../../modules/Login/loginStore';
-import { numberUtil } from '../../../../utils/NumberUtil';
+import LoadingCard from '../../../common/components/util/LoadingCard';
+import { numberUtil } from '../../../common/utils/NumberUtil';
+import { homeStore, IComment } from '../../Home/homeStore';
+import { loginStore } from '../../Login/loginStore';
 import Styles from './Style';
 
 interface IProps {
@@ -58,21 +58,21 @@ const Comments = observer((props: IProps) => {
                     />
                 </div>
                 <Button
-                    type="submit"
                     variant="outlined"
                     className={classes.post_button}
                     onClick={() => {
                         homeStore.createComment(post_id, content);
                         setContent('');
-                    }}>
+                    }}
+                    disabled={content === '' ? true : false}>
                     Post
                 </Button>
             </div>
             <Divider />
-            <div className={classes.all_comment}>
-                <List dense={true} style={{ padding: 0 }}>
-                    {commentList &&
-                        commentList.map((item) => (
+            {commentList ? (
+                <div className={classes.all_comment}>
+                    <List dense={true} style={{ padding: 0 }}>
+                        {commentList.map((item) => (
                             <ListItem alignItems="flex-start" key={item._id}>
                                 <ListItemAvatar
                                     style={{ minWidth: 50, marginTop: 0 }}>
@@ -106,9 +106,9 @@ const Comments = observer((props: IProps) => {
                                                     item.updated_at
                                                 )}
                                             </p>
-                                            <ButtonBase
-                                                {...bindTrigger(popupState)}>
+                                            <ButtonBase>
                                                 <MoreHoriz
+                                                    {...bindTrigger(popupState)}
                                                     style={{ height: 17 }}
                                                 />
                                             </ButtonBase>
@@ -120,34 +120,37 @@ const Comments = observer((props: IProps) => {
                                 </ListItemText>
                             </ListItem>
                         ))}
-                </List>
-                <Menu
-                    {...bindMenu(popupState)}
-                    getContentAnchorEl={null}
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'right'
-                    }}
-                    transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right'
-                    }}
-                    // className={classes.menu}
-                >
-                    <ListItem button onClick={popupState.close}>
-                        <ListItemIcon>
-                            <Edit />
-                        </ListItemIcon>
-                        <ListItemText>Edit</ListItemText>
-                    </ListItem>
-                    <ListItem button onClick={popupState.close}>
-                        <ListItemIcon>
-                            <Delete />
-                        </ListItemIcon>
-                        <ListItemText>Delete</ListItemText>
-                    </ListItem>
-                </Menu>
-            </div>
+                    </List>
+                </div>
+            ) : (
+                <LoadingCard />
+            )}
+            {/* <Menu
+                {...bindMenu(popupState)}
+                getContentAnchorEl={null}
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right'
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right'
+                }}
+                // className={classes.menu}
+            >
+                <ListItem button onClick={popupState.close}>
+                    <ListItemIcon>
+                        <Edit />
+                    </ListItemIcon>
+                    <ListItemText>Edit</ListItemText>
+                </ListItem>
+                <ListItem button onClick={popupState.close}>
+                    <ListItemIcon>
+                        <Delete />
+                    </ListItemIcon>
+                    <ListItemText>Delete</ListItemText>
+                </ListItem>
+            </Menu> */}
         </>
     );
 });

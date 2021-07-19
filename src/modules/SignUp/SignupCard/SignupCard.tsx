@@ -35,7 +35,7 @@ const SignupCard = observer(() => {
     const onClickSignup = async () => {
         let isSignupSuccess = await signupStore.signup();
         if (isSignupSuccess) {
-            history.push('/');
+            history.push('/create/profile');
             enqueueSnackbar('Sign-up success!', { variant: 'success' });
         }
     };

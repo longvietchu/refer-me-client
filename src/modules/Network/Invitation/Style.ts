@@ -5,7 +5,11 @@ export default makeStyles((theme) => ({
     ava: { height: 56, width: 56 },
     name: {
         marginLeft: 10,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        '& > span': {
+            fontSize: 14,
+            color: '#00000099'
+        }
     },
     major: { marginLeft: 10, fontSize: 14, color: '#00000099' },
     btn_ignore: {
