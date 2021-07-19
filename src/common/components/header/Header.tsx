@@ -1,7 +1,9 @@
 import {
     Avatar,
+    Badge,
     Button,
     CircularProgress,
+    createStyles,
     Divider,
     Grid,
     InputAdornment,
@@ -12,7 +14,8 @@ import {
     Paper,
     Popover,
     TextField,
-    Typography
+    Typography,
+    withStyles
 } from '@material-ui/core';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import AppsIcon from '@material-ui/icons/Apps';
@@ -29,6 +32,7 @@ import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { jobStore } from '../../../modules/Job/jobStore';
 import { loginStore } from '../../../modules/Login/loginStore';
+import { networkStore } from '../../../modules/Network/networkStore';
 import { organizationStore } from '../../../modules/Organization/organizationStore';
 import { IOrganizationInfo } from '../../constants/CommonInterface';
 import StorageService from '../../service/StorageService';
@@ -65,7 +69,19 @@ const Header = observer(() => {
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
 
-    const items = [
+    const StyledBadge = withStyles(() =>
+        createStyles({
+            badge: {
+                right: 0,
+                top: 8,
+                padding: '0 6px',
+                backgroundColor: '#cc1016',
+                color: '#ffffff'
+            }
+        })
+    )(Badge);
+
+    const navbarItems = [
         {
             Icon: <HomeIcon />,
             title: 'Home',
@@ -73,7 +89,21 @@ const Header = observer(() => {
             onClick: () => history.push('/home')
         },
         {
-            Icon: <GroupIcon />,
+            Icon: (
+                <StyledBadge
+                    badgeContent={
+                        networkStore.invitationList &&
+                        networkStore.invitationList.length
+                    }
+                    invisible={
+                        networkStore.invitationList &&
+                        networkStore.invitationList.length > 0
+                            ? false
+                            : true
+                    }>
+                    <GroupIcon />
+                </StyledBadge>
+            ),
             title: 'My Network',
             arrow: false,
             onClick: () => history.push('/mynetwork')
@@ -85,7 +115,11 @@ const Header = observer(() => {
             onClick: () => history.push('/jobs')
         },
         {
-            Icon: <TelegramIcon />,
+            Icon: (
+                <StyledBadge badgeContent={0} invisible={true}>
+                    <TelegramIcon />
+                </StyledBadge>
+            ),
             title: 'Messaging',
             arrow: false,
             onClick: () => history.push('/messaging')
@@ -112,8 +146,8 @@ const Header = observer(() => {
             title: 'Me',
             arrow: true,
             onClick: handleClick
-        },
-        { Icon: <AppsIcon />, title: 'Works', arrow: true }
+        }
+        // { Icon: <AppsIcon />, title: 'Works', arrow: true }
     ];
 
     const bottomItems = [
@@ -236,21 +270,17 @@ const Header = observer(() => {
                         />
                     </div>
                     <div className={classes.header__nav}>
-                        {items.map(({ Icon, title, arrow, onClick }, i) => (
-                            <MenuItems
-                                key={i}
-                                Icon={Icon}
-                                title={title}
-                                arrow={arrow}
-                                onClick={onClick}
-                            />
-                        ))}
-                        {/* <MenuItems
-                            key={'mode'}
-                            Icon={<BrightnessHighIcon />}
-                            title={'Theme'}
-                            onClick={() => console.log('Change theme')}
-                        /> */}
+                        {navbarItems.map(
+                            ({ Icon, title, arrow, onClick }, i) => (
+                                <MenuItems
+                                    key={i}
+                                    Icon={Icon}
+                                    title={title}
+                                    arrow={arrow}
+                                    onClick={onClick}
+                                />
+                            )
+                        )}
                     </div>
                     <Paper className={classes.header__bottom__nav}>
                         {bottomItems.map(

@@ -179,6 +179,11 @@ class HomeStore {
             );
             if (result.status < HttpStatusCode.CODE_300) {
                 // console.log(result);
+<<<<<<< HEAD
+=======
+                this.modalPost.edit = false;
+                this.selectedPost = undefined;
+>>>>>>> develop
             }
         }
         this.isPosting = false;
@@ -198,16 +203,18 @@ class HomeStore {
     }
 
     async deletePost() {
-        this.isDeleting = true;
         if (this.selectedPost) {
+            this.isDeleting = true;
             const result = await homeService.deletePost(this.selectedPost._id);
             if (result.status < HttpStatusCode.CODE_300 && this.postList) {
                 this.postList = this.postList.filter(
                     (post) => post._id !== result.body.data._id
                 );
+                this.modalPost.delete = false;
+                this.selectedPost = undefined;
             }
+            this.isDeleting = false;
         }
-        this.isDeleting = false;
     }
 }
 

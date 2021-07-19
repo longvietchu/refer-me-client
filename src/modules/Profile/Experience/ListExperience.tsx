@@ -45,108 +45,126 @@ const ListExperience = observer(() => {
     };
 
     if (profileStore.experienceList) {
-        return (
-            <div style={{ padding: '0 18px' }}>
-                {profileStore.experienceList.map((item, index) => (
-                    <Grid
-                        container
-                        direction="row"
-                        justify="space-between"
-                        style={{
-                            borderBottom: '1px solid #ebebeb',
-                            padding: '12px 0'
-                        }}
-                        key={item._id}>
-                        <Link
-                            to={
-                                item.organization_info
-                                    ? `/organization/${item.organization_info._id}`
-                                    : '#'
-                            }
-                            color="inherit"
-                            className={classes.link}>
-                            <Grid
-                                container
-                                direction="row"
-                                justify="space-between"
-                                alignItems="flex-start"
-                                style={{ marginRight: '14px' }}>
-                                <div>
-                                    {item.organization_info &&
-                                    item.organization_info.avatar ? (
-                                        <img
+        if (profileStore.experienceList.length > 0) {
+            return (
+                <div style={{ padding: '0 18px' }}>
+                    {profileStore.experienceList.map((item, index) => (
+                        <Grid
+                            container
+                            direction="row"
+                            justify="space-between"
+                            style={{
+                                borderBottom: '1px solid #ebebeb',
+                                padding: '12px 0'
+                            }}
+                            key={item._id}>
+                            <Link
+                                to={
+                                    item.organization_info
+                                        ? `/organization/${item.organization_info._id}`
+                                        : '#'
+                                }
+                                color="inherit"
+                                className={classes.link}>
+                                <Grid
+                                    container
+                                    direction="row"
+                                    justify="space-between"
+                                    alignItems="flex-start"
+                                    style={{ marginRight: '14px' }}>
+                                    <div>
+                                        {item.organization_info &&
+                                        item.organization_info.avatar ? (
+                                            <img
+                                                style={{
+                                                    width: '56px'
+                                                }}
+                                                src={
+                                                    item.organization_info
+                                                        .avatar
+                                                }
+                                            />
+                                        ) : (
+                                            <img
+                                                style={{
+                                                    width: '56px'
+                                                }}
+                                                src="/images/no-avatar.png"
+                                            />
+                                        )}
+                                    </div>
+                                    <div>
+                                        <h4>{item.job_title}</h4>
+                                        <p
                                             style={{
-                                                width: '56px'
-                                            }}
-                                            src={item.organization_info.avatar}
-                                        />
-                                    ) : (
-                                        <img
+                                                fontSize: '14px',
+                                                margin: '2px 0px'
+                                            }}>
+                                            {item.company} &#183;{' '}
+                                            {item.employment_type}
+                                        </p>
+                                        <div
                                             style={{
-                                                width: '56px'
-                                            }}
-                                            src="/images/no-avatar.png"
-                                        />
-                                    )}
-                                </div>
-                                <div>
-                                    <h4>{item.job_title}</h4>
-                                    <p
-                                        style={{
-                                            fontSize: '14px',
-                                            margin: '2px 0px'
-                                        }}>
-                                        {item.company} &#183;{' '}
-                                        {item.employment_type}
-                                    </p>
-                                    <div
-                                        style={{
-                                            color: '#00000099',
-                                            fontSize: '14px',
-                                            margin: '2px 0px'
-                                        }}>
-                                        {renderDate(item)} &#183;{' '}
-                                        {renderPeriod(item)}
+                                                color: '#00000099',
+                                                fontSize: '14px',
+                                                margin: '2px 0px'
+                                            }}>
+                                            {renderDate(item)} &#183;{' '}
+                                            {renderPeriod(item)}
+                                        </div>
+                                        <div
+                                            style={{
+                                                color: '#00000099',
+                                                fontSize: '14px',
+                                                margin: '2px 0px'
+                                            }}>
+                                            <span>{item.location}</span>
+                                        </div>
+                                        <div
+                                            style={{
+                                                color: '#333',
+                                                fontSize: '14px',
+                                                margin: '2px 0px'
+                                            }}>
+                                            <span
+                                                style={{
+                                                    whiteSpace: 'pre-wrap'
+                                                }}>
+                                                {item.job_description}
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div
-                                        style={{
-                                            color: '#00000099',
-                                            fontSize: '14px',
-                                            margin: '2px 0px'
-                                        }}>
-                                        <span>{item.location}</span>
-                                    </div>
-                                    <div
-                                        style={{
-                                            color: '#333',
-                                            fontSize: '14px',
-                                            margin: '2px 0px'
-                                        }}>
-                                        <span>{item.job_description}</span>
-                                    </div>
-                                </div>
-                            </Grid>
-                        </Link>
-                        {loginStore.userInfo &&
-                            profileStore.profile &&
-                            loginStore.userInfo.id ===
-                                profileStore.profile.user_id && (
-                                <Grid item>
-                                    <Button
-                                        onClick={() => {
-                                            profileStore.selectedExperience =
-                                                item;
-                                            profileStore.modalExperience.edit =
-                                                true;
-                                        }}>
-                                        <Edit style={{ color: '#0000008a' }} />
-                                    </Button>
                                 </Grid>
-                            )}
-                    </Grid>
-                ))}
-            </div>
-        );
+                            </Link>
+                            {loginStore.userInfo &&
+                                profileStore.profile &&
+                                loginStore.userInfo.id ===
+                                    profileStore.profile.user_id && (
+                                    <Grid item>
+                                        <Button
+                                            onClick={() => {
+                                                profileStore.selectedExperience =
+                                                    item;
+                                                profileStore.modalExperience.edit =
+                                                    true;
+                                            }}>
+                                            <Edit
+                                                style={{ color: '#0000008a' }}
+                                            />
+                                        </Button>
+                                    </Grid>
+                                )}
+                        </Grid>
+                    ))}
+                </div>
+            );
+        } else
+            return (
+                <div className={classes.noItem}>
+                    Your experiences could impress employers. Please add them
+                    here.
+                </div>
+            );
     } else return <LoadingCard />;
 });
 

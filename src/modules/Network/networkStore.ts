@@ -98,8 +98,16 @@ class NetworkStore {
             greeting: this.greeting
         };
         const result = await networkService.createConnection(data);
+<<<<<<< HEAD
         if (result.status < HttpStatusCode.CODE_300) {
             // console.log(result.body.data);
+=======
+        if (result.status < HttpStatusCode.CODE_300 && this.recommendList) {
+            // console.log(result.body.data);
+            this.recommendList = this.recommendList.filter(
+                (user) => user._id !== receiver_id
+            );
+>>>>>>> develop
             this.createConnectionModal = false;
         }
         this.isLoading = false;

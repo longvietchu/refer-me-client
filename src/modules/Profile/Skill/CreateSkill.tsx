@@ -22,11 +22,15 @@ const customStyles = {
         right: 'auto',
         bottom: 'auto',
         transform: 'translate(-50%, -50%)',
-        height: '70%',
+        maxHeight: '80%',
         width: '50%',
         paddingBottom: 5,
         paddingTop: 10,
         borderRadius: 8
+    },
+    overlay: {
+        backgroundColor: 'rgba(0, 0, 0, 0.75)',
+        zIndex: 100
     }
 };
 

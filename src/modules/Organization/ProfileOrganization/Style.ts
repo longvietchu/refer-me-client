@@ -95,11 +95,11 @@ export default makeStyles((theme) => ({
 
     btn_details: {
         color: '#00000099',
-        fontWeight: 'bold',
-        fontSize: 18,
+        fontWeight: 500,
+        fontSize: 14,
         textTransform: 'capitalize',
         width: '100%',
-        height: 50
+        height: 40
     },
 
     avatarBox: {

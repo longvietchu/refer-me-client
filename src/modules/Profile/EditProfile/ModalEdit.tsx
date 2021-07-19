@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
 import DateFnsUtils from '@date-io/date-fns';
 import {
-    Grid,
-    IconButton,
-    TextField,
-    Typography,
     Button,
     Divider,
-    TextareaAutosize
+    Grid,
+    IconButton,
+    MenuItem,
+    TextField,
+    Typography
 } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import 'date-fns';
 import { observer } from 'mobx-react-lite';
+import React from 'react';
 import Modal from 'react-modal';
 import { loginStore } from '../../Login/loginStore';
 import { Gender, profileStore } from '../profileStore';
@@ -27,7 +27,12 @@ const customStyles = {
         bottom: 'auto',
         transform: 'translate(-50%, -50%)',
         width: '50%',
+        maxHeight: '80%',
         borderRadius: 10
+    },
+    overlay: {
+        backgroundColor: 'rgba(0, 0, 0, 0.75)',
+        zIndex: 100
     }
 };
 
@@ -130,7 +135,7 @@ const ModalEdit = observer(() => {
                                 id="outlined-select-currency-native"
                                 fullWidth
                                 select
-                                label="Select gender"
+                                label="Gender"
                                 value={profileStore.profile.gender}
                                 onChange={(e) => {
                                     if (profileStore.profile) {
@@ -143,11 +148,11 @@ const ModalEdit = observer(() => {
                                     width: '40%'
                                 }}>
                                 {genders.map((option: any) => (
-                                    <option
+                                    <MenuItem
                                         key={option.value}
                                         value={option.value}>
                                         {option.label}
-                                    </option>
+                                    </MenuItem>
                                 ))}
                             </TextField>
                         </Grid>

@@ -69,7 +69,6 @@ export default makeStyles((theme) => ({
         marginRight: '18px'
     },
     tick: {
-        marginRight: '10px',
         alignSelf: 'flex-end',
         marginLeft: 8,
         width: 16,
@@ -113,7 +112,8 @@ export default makeStyles((theme) => ({
         fontSize: '10px',
         lineHeight: '12px',
         color: '#666666',
-        marginBottom: 4
+        marginBottom: 4,
+        marginLeft: 8
     },
     senderMessage: {
         alignSelf: 'flex-end'
@@ -136,6 +136,7 @@ export default makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-end',
-        marginBottom: 4
+        marginBottom: 4,
+        marginRight: 8
     }
 }));

@@ -179,9 +179,9 @@ class JobStore {
             // console.log('result+++', result);
             // this.jobList = [result.body.data, ...this.jobList];
             await this.getJobs();
+            this.modalJob = false;
         }
         this.isLoading = false;
-        this.modalJob = false;
     }
 
     async deleteJob(job_id: string) {

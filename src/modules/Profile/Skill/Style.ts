@@ -110,5 +110,9 @@ export default makeStyles((theme: Theme) => ({
         color: '#999',
         marginTop: 4,
         fontStyle: 'italic'
+    },
+    noItem: {
+        padding: 16,
+        color: '#00000099'
     }
 }));

@@ -268,7 +268,7 @@ const ProfileScreen = observer(() => {
                             </Grid>
                         </Card>
 
-                        <Card style={{ marginTop: 16, padding: 24 }}>
+                        <Card style={{ marginTop: 8, padding: 24 }}>
                             <Grid item>
                                 <Typography
                                     id="status"
@@ -290,7 +290,7 @@ const ProfileScreen = observer(() => {
                             </Grid>
                         </Card>
 
-                        <Card style={{ marginTop: '16px' }}>
+                        <Card style={{ marginTop: 8 }}>
                             <Grid
                                 container
                                 direction="row"
@@ -328,7 +328,7 @@ const ProfileScreen = observer(() => {
                             <ListExperience />
                         </Card>
 
-                        <Card style={{ marginTop: '16px' }}>
+                        <Card style={{ marginTop: 8 }}>
                             <Grid
                                 container
                                 direction="row"
@@ -365,7 +365,7 @@ const ProfileScreen = observer(() => {
                             </Grid>
                             <ListEducation />
                         </Card>
-                        <Card style={{ marginTop: '16px' }}>
+                        <Card style={{ marginTop: 8 }}>
                             <Grid
                                 container
                                 direction="row"
