@@ -33,7 +33,7 @@ class HomeService {
         return uploadFile('/v1/file/upload-multiple', files);
     }
     public deletePost(post_id: string): Promise<IApiResponse> {
-        return deleteRequest(`v1/post/${post_id}`, {});
+        return deleteRequest(`/v1/post/${post_id}`, {});
     }
 }
 

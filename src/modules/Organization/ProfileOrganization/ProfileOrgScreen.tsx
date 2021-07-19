@@ -1,49 +1,39 @@
-import React, { useState } from 'react';
 import {
-    Button,
-    Paper,
     Avatar,
     Box,
-    Hidden,
-    Divider,
+    Button,
     Card,
-    Link,
+    Divider,
     Grid,
-    Typography,
-    ButtonBase,
-    Tabs,
+    Hidden,
+    Link,
+    Paper,
     Tab,
-    Container
+    Tabs,
+    Typography
 } from '@material-ui/core';
 import {
-    Edit,
-    FiberManualRecordOutlined,
-    Add,
-    DirectionsRounded,
     CameraAlt,
     Delete,
+    DirectionsRounded,
+    Edit,
     NavigateBefore,
     NavigateNext
 } from '@material-ui/icons';
-
-import Widgets from '../../../common/components/widgets/Widgets';
-import Header from '../../../common/components/header/Header';
-import Styles from './Style';
-
-import { useHistory } from 'react-router-dom';
-
-import { Helmet } from 'react-helmet';
-
-import { formatDateTimeDDMM } from '../../../common/config/Function';
-
 import { observer } from 'mobx-react-lite';
-import { organizationStore } from '../organizationStore';
-import { loginStore } from '../../Login/loginStore';
+import React, { useState } from 'react';
+import { Helmet } from 'react-helmet';
+import Header from '../../../common/components/header/Header';
+import LoadingCard from '../../../common/components/util/LoadingCard';
 import LoadingHeader from '../../../common/components/util/LoadingHeader';
+import Widgets from '../../../common/components/widgets/Widgets';
+import { formatDateTimeDDMM } from '../../../common/config/Function';
+import { loginStore } from '../../Login/loginStore';
 import ModalEdit from '../EditProfileOrganization/ModalEdit';
+import { organizationStore } from '../organizationStore';
 import DeleteEducation from './DeleteOrganization';
 import JobOrgCard from './JobOrgCard';
-import LoadingCard from '../../../common/components/util/LoadingCard';
+import Styles from './Style';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -490,23 +480,21 @@ const ProfileOrgScreen = observer(() => {
                                     style={{ margin: 10 }}
                                     spacing={3}>
                                     <Grid item>
-                                        <Link
-                                            onClick={() =>
-                                                window.open(
-                                                    'https://thietbivesinhonline.vn/',
-                                                    '_blank'
-                                                )
+                                        <a
+                                            href={
+                                                organizationStore.organization
+                                                    .website
                                             }
-                                            component="button"
                                             style={{
                                                 lineHeight: 1.5,
                                                 fontSize: 16
-                                            }}>
+                                            }}
+                                            target="_blank">
                                             {
                                                 organizationStore.organization
                                                     .website
                                             }
-                                        </Link>
+                                        </a>
                                     </Grid>
 
                                     <Grid

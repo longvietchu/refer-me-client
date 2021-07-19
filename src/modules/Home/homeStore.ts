@@ -120,7 +120,7 @@ class HomeStore {
             result.body.data.reactions = [];
             this.postList = [result.body.data, ...this.postList];
             this.modalPost.create = false;
-            console.log(result.body.data);
+            // console.log(result.body.data);
         }
         this.isPosting = false;
     }
@@ -137,7 +137,7 @@ class HomeStore {
                 }
                 return post;
             });
-            console.log(result.body.data);
+            // console.log(result.body.data);
         }
     }
 
@@ -162,7 +162,7 @@ class HomeStore {
                 }
                 return post;
             });
-            console.log(result.body.data);
+            // console.log(result.body.data);
         }
     }
 
@@ -178,7 +178,9 @@ class HomeStore {
                 data
             );
             if (result.status < HttpStatusCode.CODE_300) {
-                console.log(result);
+                // console.log(result);
+                this.modalPost.edit = false;
+                this.selectedPost = undefined;
             }
         }
         this.isPosting = false;
@@ -205,8 +207,10 @@ class HomeStore {
                 this.postList = this.postList.filter(
                     (post) => post._id !== result.body.data._id
                 );
-                this.isDeleting = false;
+                this.modalPost.delete = false;
+                this.selectedPost = undefined;
             }
+            this.isDeleting = false;
         }
     }
 }
