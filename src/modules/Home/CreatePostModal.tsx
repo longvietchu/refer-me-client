@@ -35,6 +35,7 @@ const customStyles = {
 const CreatePostModal = observer(() => {
     const classes = Styles();
     const [previewImages, setPreviewImages] = useState<string[]>([]);
+    const [uploadImages, setUploadImages] = useState<any>([]);
     const onChangePostImages = (e: any) => {
         e.preventDefault();
         let images = [];
@@ -42,6 +43,7 @@ const CreatePostModal = observer(() => {
             images.push(URL.createObjectURL(e.target.files[i]));
         }
         setPreviewImages([...previewImages, ...images]);
+        setUploadImages([...uploadImages, ...e.target.files]);
         // homeStore.uploadPostImages(previewImages);
     };
 
@@ -138,9 +140,7 @@ const CreatePostModal = observer(() => {
                             }
                             variant="contained"
                             className={classes.btn_post}
-                            onClick={(e) =>
-                                homeStore.createPost(previewImages)
-                            }>
+                            onClick={(e) => homeStore.createPost(uploadImages)}>
                             {homeStore.isPosting ? 'Posting...' : 'Post'}
                         </Button>
                     </Grid>

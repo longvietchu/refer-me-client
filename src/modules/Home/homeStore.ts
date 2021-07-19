@@ -194,7 +194,7 @@ class HomeStore {
         const result = await homeService.uploadMultipleImages(formData);
         if (result.status < HttpStatusCode.CODE_300) {
             this.inputPost.post_image = result.body.images;
-            // console.log(result);
+            console.log(result);
         }
         // console.log(formData);
     }
