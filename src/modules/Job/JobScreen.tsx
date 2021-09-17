@@ -99,7 +99,7 @@ const JobScreen = observer(() => {
                                             fontSize: '20px',
                                             fontWeight: 'bold'
                                         }}>
-                                        Recommended for you
+                                        Available jobs now
                                     </Typography>
                                     {/* <Typography
                                         variant="caption"
