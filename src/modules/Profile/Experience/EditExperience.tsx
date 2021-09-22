@@ -331,7 +331,7 @@ const EditExperience = observer(() => {
                                             color="primary"
                                         />
                                     }
-                                    label="Is this your present job?"
+                                    label="Is this your current job?"
                                 />
                             </Grid>
 

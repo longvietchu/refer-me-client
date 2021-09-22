@@ -1,19 +1,18 @@
+import { Grid, Hidden } from '@material-ui/core';
 import React from 'react';
-import { Grid, Card, Hidden } from '@material-ui/core';
-import Sidebar from './sidebar/Sidebar';
-import Content from './content/Content';
-import Styles from './Style';
-import Widgets from '../../common/components/widgets/Widgets';
-import Header from '../../common/components/header/Header';
-
 import { Helmet } from 'react-helmet';
+import Header from '../../common/components/header/Header';
+import Widgets from '../../common/components/widgets/Widgets';
+import Content from './content/Content';
+import Sidebar from './sidebar/Sidebar';
+import Styles from './Style';
 
 const NotificationsScreen = () => {
     const classes = Styles();
     return (
         <Grid container className={classes.app}>
             <Helmet>
-                <title>Notifications | RefMe</title>
+                <title>Notifications | Refer Me</title>
             </Helmet>
             <Grid
                 item

@@ -77,6 +77,32 @@ export default makeStyles((theme) => ({
         marginRight: '1rem',
         marginBottom: '1rem',
         textTransform: 'capitalize'
+    },
+    posts: {
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+    },
+    noFeedContainer: {
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        flexDirection: 'column',
+        padding: '10px 50px'
+    },
+    noFeedImage: {
+        borderRadius: 10,
+        marginBottom: 10,
+        width: '70%'
+    },
+    noFeedText: {
+        textTransform: 'capitalize',
+        color: '#00000099',
+        textAlign: 'center',
+        fontWeight: 'bold'
     }
     //   post__body: {
     //     width: "100%",
